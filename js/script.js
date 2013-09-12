@@ -1359,6 +1359,7 @@
 			 */
 			tool.mousedown = function (ev) {
 				var vcan = whBoard.vcan;
+				lastmousemovetime = null;
 				if(typeof(Storage)!=="undefined"){
 					//localStorage.repObjs = "";
 				}
@@ -1421,8 +1422,18 @@
 						   //  currObject.usrCurrAction = 'create'; //IMPORTANT changed during UNIT TESTING
 						  	rCurrObject.coreObj.usrCurrAction = 'create';
 
-						  	vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
-						  	vm_chat.send({'repObj': [rCurrObject.coreObj]});
+							if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
+								lastmousemovetime = new Date().getTime();
+								vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
+						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
+							}
+							presentmousemovetime = new Date().getTime();
+							
+							if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
+								vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
+						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
+								lastmousemovetime = new Date().getTime();
+							}
 						  	
 						  	if(vcan.main.replayObjs.length > 0){
 						  		//localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -1461,6 +1472,7 @@
 			 *  with last made object very specail
 			 */
 			tool.mouseup = function (ev) {
+				lastmousemovetime = null;
 				if (tool.started && objType != 'text') {
 					//this is used for free hand drawing
 					tool.mousemove(ev);
