@@ -22,9 +22,6 @@ if (!document.getElementById(cssId)){
     link.media = 'all';
     head.appendChild(link);
 }*/
-
-
-
 $.when(
 		//$.getScript( "js/whiteboard.js" )
 		/*$.getScript( "js/vcan.js" ),
@@ -57,7 +54,7 @@ $.when(
 				//alert('hello guys');
 				var allRepObjs = JSON.parse(localStorage.repObjs);
 				whBoard.vcan.main.replayObjs = allRepObjs;
-				whBoard.utility.clearAll(false);
+				whBoard.utility.clearAll(false, 'dontClear');
 				whBoard.toolInit('t_replay', 'fromBrowser');
 				
 				for(i=0; i<allRepObjs.length; i++){
@@ -85,12 +82,11 @@ $.when(
     	 
  		var oldData2 = whBoard.receivedPackets;
 		setInterval(function (){
-			oldData2 = whBoard.utility.calculateRecPacket(oldData2);
+			oldData2 = whBoard.utility.calcPsRecvdPackets(oldData2);
 			document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 		}, 1000);
     	
     	$(document).on("newmessage", function(e){
-    		//alert("brother");
     		if(e.fromUser.userid != id){
 	    		if(e.message.hasOwnProperty('createArrow')){
 	    			var imageElm = whBoard.arrImg;
@@ -130,6 +126,8 @@ $.when(
 					
 					//document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 				}
+				localStorage.receivedPackets = whBoard.receivedPackets; 
+				
 				
 				//whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
 				//document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
@@ -138,15 +136,8 @@ $.when(
     		
     		
     		if(e.fromUser.userid != id){
-    			
-//    			if(e.fromUser.userid != id){
-//					whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
-//					document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
-//				}
-    			
-    			
     			if(e.message.hasOwnProperty('repObj')){ 
-    				if(e.message.repObj > 0){
+    				if(e.message.repObj.length > 0){
     					window.whBoard.vcan.main.replayObjs =  e.message.repObj;
     					whBoard.toolInit('t_replay', 'fromBrowser');
             		}

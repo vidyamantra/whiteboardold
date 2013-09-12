@@ -56,21 +56,25 @@
 						}
 					}
 					
-					if(localStorage.sentPackets){
-						var totSentPackets = JSON.parse(localStorage.sentPackets);
-						//alert(totSentPackets);
-						whBoard.sentPackets = totSentPackets;
-						document.getElementById(whBoard.sentPackDiv).innerHTML = totSentPackets;
-					}
+//					if(localStorage.sentPackets){
+//						var totSentPackets = JSON.parse(localStorage.sentPackets);
+//						whBoard.sentPackets = totSentPackets;
+//						document.getElementById(whBoard.sentPackDiv).innerHTML = totSentPackets;
+//					}
+//					
+//					if(localStorage.receivedPackets){
+//						whBoard.receivedPackets = JSON.parse(localStorage.receivedPackets);
+//						document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+//	    			}
 					
-					
+					whBoard.utility.initStoredPacketsNumbers();
 				}
 				
 				this.arrowInit();
 				var oldData = whBoard.sentPackets;
 				setInterval(function (){
-					oldData = whBoard.utility.calculatePSPacket(oldData);
-					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+					oldData = whBoard.utility.calcPsSentPackets(oldData);
+					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;  //update total packets
 				}, 1000);
 				
 			},
@@ -501,7 +505,7 @@
 				 * which means the canvas would be cleared
 				 * @param delRpNode
 				 */
-				clearAll : function(delRpNode){
+				clearAll : function(delRpNode, pkMode){
 					var vcan = whBoard.vcan;
 					while(vcan.main.children.length > 0){
 						whBoard.canvas.removeObject(vcan.main.children[0]);
@@ -533,10 +537,11 @@
 					if(allDivs.length > 0){
 						allDivs[i].innerHTML = 0;
 					}
-					
-					whBoard.sentPackets = 0;
-					whBoard.receivedPackets = 0;
-					
+						
+					if(typeof pkMode == 'undefined'){
+						whBoard.sentPackets = 0;
+						whBoard.receivedPackets = 0;
+					}
 					
 					
 					
@@ -677,9 +682,8 @@
 		            ctx.restore();
 				},
 				
-				calculatePSPacket : function (oldData){
+				calcPsSentPackets : function (oldData){
 					var pacPerSec = whBoard.sentPackets - oldData;
-					console.log('send data ' + pacPerSec);
 					//var oldData = whBoard.sentPackets;
 					//this is handle when user click on clear button for clear
 					//if we disable this there woould be replay the negative value
@@ -690,16 +694,29 @@
 					return whBoard.sentPackets;
 				},
 				
-				calculateRecPacket : function (oldData2){
+				calcPsRecvdPackets : function (oldData2){
 					var pacPerSec = whBoard.receivedPackets - oldData2;
-					
 					if(pacPerSec < 0){
 						pacPerSec = 0;
 					}
 					document.getElementById(whBoard.receivedPackDivPS).innerHTML = pacPerSec;
 					return whBoard.receivedPackets;
-				}
+				},
 				
+				//initialize transfred packets from local storage when
+				// browser is reloaded
+				initStoredPacketsNumbers : function (){
+					if(localStorage.sentPackets){
+						var totSentPackets = JSON.parse(localStorage.sentPackets);
+						whBoard.sentPackets = totSentPackets;
+						document.getElementById(whBoard.sentPackDiv).innerHTML = totSentPackets;
+					}
+					
+					if(localStorage.receivedPackets){
+						whBoard.receivedPackets = JSON.parse(localStorage.receivedPackets);
+						document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+	    			}
+				}
 			},
 			
 			/**
@@ -717,6 +734,7 @@
 				 //whBoard.vcan.jc++;
 				 //whBoard.utility.clearAll(delRpNode);
 				//whBoard.utility.clearAll(false);
+				 
 				 
 				 
 				 // TODO this should be enable 
@@ -1421,8 +1439,7 @@
 
 						   //  currObject.usrCurrAction = 'create'; //IMPORTANT changed during UNIT TESTING
 						  	rCurrObject.coreObj.usrCurrAction = 'create';
-
-							if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
+						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
 								lastmousemovetime = new Date().getTime();
 								vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
 						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
@@ -1434,14 +1451,15 @@
 						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
 								lastmousemovetime = new Date().getTime();
 							}
-						  	
+							
 						  	if(vcan.main.replayObjs.length > 0){
 						  		//localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 
 						  		
 //						  		localStorage.repObjs.push(JSON.stringify(rCurrObject.coreObj));
 						  	}
-						     
+						  	
+						  	 
 						     /**** 
 					  		 *
 					  		 * This would I have disbaled can be critical
