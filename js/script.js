@@ -719,7 +719,6 @@
 				//whBoard.utility.clearAll(false);
 				 
 				 
-				 
 				 // TODO this should be enable 
 				 // renderObjText();
 				 whBoard.replay = whBoard._replay();
@@ -1423,6 +1422,7 @@
 						  	rCurrObject.coreObj.usrCurrAction = 'create';
 
 						  	vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
+						  	vm_chat.send({'repObj': [rCurrObject.coreObj]});
 						  	
 						  	if(vcan.main.replayObjs.length > 0){
 						  		//localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -1430,8 +1430,6 @@
 						  		
 //						  		localStorage.repObjs.push(JSON.stringify(rCurrObject.coreObj));
 						  	}
-						  	
-						  	chunkObj.push(rCurrObject.coreObj);
 						     
 						     /**** 
 					  		 *
@@ -1491,8 +1489,6 @@
 					 if(whBoard.prvObj.type == 'freeDrawing'){
 						 //alert('sss');
 						 vm_chat.send({'repObj': [whBoard.prvObj]});
-					 }else {
-						 vm_chat.send({'repObj': chunkObj});
 					 }
 					 
 					 if(whBoard.sentPackets > 0) {

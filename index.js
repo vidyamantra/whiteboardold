@@ -146,8 +146,8 @@ $.when(
     			
     			
     			if(e.message.hasOwnProperty('repObj')){ 
-    				window.whBoard.vcan.main.replayObjs =  e.message.repObj;
-    				if(window.whBoard.vcan.main.replayObjs.length > 0){
+    				if(e.message.repObj > 0){
+    					window.whBoard.vcan.main.replayObjs =  e.message.repObj;
     					whBoard.toolInit('t_replay', 'fromBrowser');
             		}
     			}else if(e.message.hasOwnProperty('clearAll')){
