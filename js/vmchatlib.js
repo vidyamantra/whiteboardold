@@ -196,7 +196,7 @@ var vm_chat = {
 			this.sock.send(jobj);
 		}
 		
-		localStorage.sentPackets = JSON.stringify(whBoard.sentPackets);
+		localStorage.sentPackets = whBoard.sentPackets;
 	},
 	disconnect:function(){ 
 		this.sock.onclose = function () {};
