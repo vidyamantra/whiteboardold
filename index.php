@@ -1,9 +1,8 @@
 <!-- The following line is essential for the "position: fixed" property to work correctly in IE -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-
+<!DOCTYPE html>
+<html>
   <head>
+  	<meta charset="UTF-8">
     <title>jquery.ui.chatbox</title>
 	<?php include('key.php') ?>
    <script type="text/javascript">
