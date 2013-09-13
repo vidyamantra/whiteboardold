@@ -86,6 +86,9 @@ $.when(
 			document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 		}, 1000);
     	
+
+		var prvPacket = "";
+		var currElement = "";
     	$(document).on("newmessage", function(e){
     		if(e.fromUser.userid != id){
 	    		if(e.message.hasOwnProperty('createArrow')){
@@ -128,23 +131,29 @@ $.when(
 				}
 				localStorage.receivedPackets = whBoard.receivedPackets; 
 				
-				
 				//whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
 				//document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 				
 			}
     		
     		
+    		
     		if(e.fromUser.userid != id){
-    			if(e.message.hasOwnProperty('repObj')){ 
+    			if(e.message.hasOwnProperty('repObj')){
+    				window.whBoard.vcan.main.replayObjs = [];
+    				
     				if(e.message.repObj.length > 0){
-    					window.whBoard.vcan.main.replayObjs =  e.message.repObj;
+    					if(typeof prvPacket == 'object'){
+    						if(typeof prvPacket.lastElement == 'undefined' && prvPacket.lastElement != true){
+    							whBoard.canvas.removeObject(prvPacket);
+    						}
+    					}
+    					
+    					currElement = e.message.repObj[e.message.repObj.length-1];
+    					window.whBoard.vcan.main.replayObjs.push(currElement); 
+    					prvPacket =   currElement;
     					whBoard.toolInit('t_replay', 'fromBrowser');
-            		}
-    			}else if(e.message.hasOwnProperty('clearAll')){
-    				//replayObjs = [];
-    				//whBoard.utility.t_clearallInit();
-    				//localStorage.clear();
+    				}
     			}
     			
     		}
@@ -155,36 +164,14 @@ $.when(
  				localStorage.clear();
  			}
     		
-    		//alert('hi brot');
+
     		if(e.message.hasOwnProperty('replayAll')){
 				window.whBoard.vcan.main.replayObjs =  replayObjs;
 				whBoard.utility.clearAll(false);
 				whBoard.toolInit('t_replay', 'fromFile');
 			}
     		
-    		//alert('aadsfadsf');
-//    		if(e.message.hasOwnProperty('replayAll')){
-//    			alert(replayObjs.length);
-//				window.whBoard.vcan.main.replayObjs =  replayObjs;
-//				whBoard.utility.clearAll(false);
-//				whBoard.toolInit('t_replay');
-//			}
     	});
-
-//    	var draw = false;
-//	    $(document).on("newmessage", function(e){
-//        	if(e.message.etype == 'mousedown'){
-//        		draw = true;
-//        		document.fd.drawStart(e.message.x, e.message.y);
-//        	}else if(e.message.etype == 'mousemove'){
-//        		document.fd.drawObject(e.message.x, e.message.y);	
-//        	}else if(e.message.etype == 'mouseup'){
-//        		draw = false;
-//        	}
-//        	
-//        });	
-           
-        
    });
 });
 

@@ -310,7 +310,7 @@
 				
 				
 				if(cmd == 't_replay'){
-					vcan.setValInMain('id', 0);
+					 vcan.setValInMain('id', 0);
 					 whBoard.t_replayInit(repMode);
 					 var repAllObjs = whBoard.vcan.getStates('replayObjs');
 					 if(repAllObjs.length > 1){
@@ -339,7 +339,6 @@
 				if(cmd == 't_clearall'){
 					vm_chat.send({'clearAll': true});
 				}
-				
 				if(cmd != 't_activeall' || cmd != 't_replay' || cmd != 't_clearallInit'){
 					whBoard.tool = new whBoard.tool_obj(cmd)
 					whBoard.utility.attachEventHandlers();
@@ -1441,13 +1440,13 @@
 						  	rCurrObject.coreObj.usrCurrAction = 'create';
 						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
 								lastmousemovetime = new Date().getTime();
-								vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
+								vcan.main.replayObjs.push(rCurrObject.coreObj); //have to show to pinky and jai
 						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
 							}
 							presentmousemovetime = new Date().getTime();
 							
 							if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
-								vcan.main.replayObjs.push(rCurrObject.coreObj); //IMPORTANT changed during UNIT TESTING
+								vcan.main.replayObjs.push(rCurrObject.coreObj); 
 						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
 								lastmousemovetime = new Date().getTime();
 							}
@@ -1517,9 +1516,10 @@
 					//debugger;
 					 
 					 if(whBoard.prvObj.type == 'freeDrawing'){
-						 //alert('sss');
 						 vm_chat.send({'repObj': [whBoard.prvObj]});
 					 }
+					 
+					 vm_chat.send({'repObj': [whBoard.prvObj]});
 					 
 					 if(whBoard.sentPackets > 0) {
 						 //document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
