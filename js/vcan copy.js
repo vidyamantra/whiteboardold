@@ -7,11 +7,6 @@
 
 (
 	function (window, document){
-		
-		
-		
-		
-		
 		var vm_chat = window.vm_chat;
 	
 		/**
@@ -94,7 +89,9 @@
 				//mouse().init();
 				var mouse = new vcan.mouse();
 				mouse.init();
-			},			
+			}, 
+			
+			
 			/**
 			 * The function merge the property of passed second object to passed first object 
 			 * and return the first object. 
@@ -265,7 +262,6 @@
 		    	     * @return {Object} Object with "left" and "top" properties
 		    	     */
 		    	    getElementOffset : function (element) {
-		    	    	
 		    			  // TODO (kangax): need to fix this method
 		    			  var valueT = 0, valueL = 0;
 		    			  do {
@@ -712,9 +708,6 @@
 			   }
 		};
 		
-		
-		
-		
 		//vcan.jc = 0;
 		
 		/**
@@ -780,7 +773,6 @@
 				if(replayObject  != true && obj.id == undefined){
 					//alert('khan');
 					vcan.main.id++;
-					//console.log('created Id ' + vcan.main.id++);
 					obj.id = vcan.main.id; 
 					//console.log('thi' + vcan.main.id);
 				}
@@ -2784,45 +2776,6 @@
 		        
 		        }
 		    }
-		 
-		 	var doOptiMize_backup = function(e){
-		 			var currTime= new Date().getTime();
-		 	 		if(!e.detail.hasOwnProperty('cevent')){
-						var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-						vcan.main.replayObjs.push(obj);
-						vm_chat.send({'repObj': [obj]});
-					}
-			 		
-			 		localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-		 	  }
-		 	
-		 	var doOptiMize = function(e){
-				 if (((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null))) {
-			        	lastmousemovetime = new Date().getTime();
-			           if(!e.detail.hasOwnProperty('cevent')){
-			        		var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-							vcan.main.replayObjs.push(obj);
-							vm_chat.send({'repObj': [obj]});  //after optimized
-			        	}
-			        	localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-					}
-			        
-					presentmousemovetime = new Date().getTime();
-					if((presentmousemovetime-lastmousemovetime)>=15) {		 // Optimized
-						var currTime= new Date().getTime();
-						if(!e.detail.hasOwnProperty('cevent')){
-							
-							var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-							
-							vcan.main.replayObjs.push(obj);
-							vm_chat.send({'repObj': [obj]});
-						}
-
-				  		lastmousemovetime = new Date().getTime();
-						localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-					}
-			  }
- 		
 		
 		//var starter_obj_id = ""; //TODO this should be contain at vcan.main
 		/**
@@ -2872,19 +2825,10 @@
 				 * setupCurrentTransform,  setActiveObject, setZindex kind of methods are called from this funciton
 				 * @param e is event object
 				 */
-				mousedown  : function (e, cobj){
-					if(e.detail.hasOwnProperty('cevent')){
-						e.clientX = e.detail.cevent.x;
-						e.clientY = e.detail.cevent.y;
-						e.x = e.detail.cevent.x;
-						e.y = e.detail.cevent.y;
-						e.pageX = e.detail.cevent.x;
-						e.pageY = e.detail.cevent.y;
-					}
+				mousedown  : function (e){
 					
 					lastmousemovetime = null;
 					this.moveChunk = [];
-				
 					// var foundTarget = events().findTarget(e, getPointer(e));
 					//if user clicked on created object than clicked for crate a new object for moving object
 					// we don't need to run these bunch of code when user is drawing particular object   
@@ -2918,14 +2862,6 @@
 					  		vcan.renderAll();
 					  	}
 					  	
-					  	//after optimization
-					  	if(!e.detail.hasOwnProperty('cevent')){
-					  		var currTime = new Date().getTime();
-							var obj = {'mdTime' :  currTime, 'action' : 'down', 'x' :  e.clientX, 'y' : e.clientY};
-							vcan.main.replayObjs.push(obj);
-							vm_chat.send({'repObj': [obj]});  //after optimized
-					  	}
-					  	
 					  //these code run when user is trying to create particular object	
 					}else if(vcan.main.action == 'create'){  
 
@@ -2946,15 +2882,6 @@
 				 */
 				
 				 mousemove : function (e) {
-					 if(e.detail.hasOwnProperty('cevent')){
-							e.clientX = e.detail.cevent.x;
-							e.clientY = e.detail.cevent.y;
-							e.x = e.detail.cevent.x;
-							e.y = e.detail.cevent.y;
-							e.pageX = e.detail.cevent.x;
-							e.pageY = e.detail.cevent.y;
-						}
-					 
 					// this condition is set because of performance reason
 					// we don't want to execute below code when user is 
 					// drawing the object
@@ -2976,45 +2903,22 @@
 							          // rotate object only if shift key is not pressed
 							          if (!e.shiftKey) {
 							        	  vcan.interact.rotateObject(x, y);
-							        	  if(!e.detail.hasOwnProperty('cevent')){
-								        	 // doOptiMize(e);
-								          }
-								          
 							          }
 							          
 							          if (!obj.currentTransform.target.hasRotatingPoint) {
 							        	  vcan.interact.scaleObject(x, y);
-							        	  if(!e.detail.hasOwnProperty('cevent')){
-								        	//  doOptiMize(e);
-								          }
-								          
 							          }
-							      	//doOptiMize(e);
-							          if(!e.detail.hasOwnProperty('cevent')){
-							        	  doOptiMize(e);
-							          }
-							          
 						        } else if (obj.currentTransform.action === 'scale') {
-						        	if(!e.detail.hasOwnProperty('cevent')){
-							        	  doOptiMize(e);
-							        }
 						        	vcan.interact.scaleObject(x, y);
 						        }
 						        else if (obj.currentTransform.action === 'scaleX') {
-						        	if(!e.detail.hasOwnProperty('cevent')){
-							        	  doOptiMize(e);
-							        }
 						        	vcan.interact.scaleObject(x, y, 'x');
 						        }
 						        else if (obj.currentTransform.action === 'scaleY') {
-						        	if(!e.detail.hasOwnProperty('cevent')){
-							        	  doOptiMize(e);
-							         }
 						        	vcan.interact.scaleObject(x, y, 'y');
 						        }
 						        else {
 						        	if(obj.currentTransform.target.draggable){
-						        		
 						        		 /*** 
 						        		  *  NOTE disabled during the unit testing
 						        		  * vcan.main.mode = 'drag'; 
@@ -3034,20 +2938,37 @@
 						        			  * below block of code is handle to delete the object for multi user
 						        			  */
 						        			 
-						        			 //this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);
+//						        			 var tempChunkTarget = obj.currentTransform.target;
+//						        			 tempChunkTarget = vcan.extend({}, tempChunkTarget);
+//						        			 var chunkTarget = 	vcan.extend(tempChunkTarget, {mdTime:currAdTime, 'multiuser' : true,  lastElement : false});
+//						        			 this.moveChunk.push(chunkTarget);
+//						        			 tempChunkTarget = vcan.extend({}, obj.currentTransform.target);
+//							        		 var chunkTarget = 	vcan.extend(tempChunkTarget, {mdTime:currAdTime});
+//						        			 this.moveChunk.push(chunkTarget);
+						        			 
+						        			 this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);
+						        			 
 						        			 vcan.main.starter_obj_id = obj.currentTransform.target.id;
 						        			 obj.currentTransform.target.downObj = false;
-						        			 
+					        			 	//Note:- Earlier this code is enable
+					        			 	//var tempObj = vcan.extend(tempTarget, { func:'remove', usrCurrAction : 'drag', id : vcan.main.starter_obj_id});
 						        		 }
 						        		 
-						        		 var tempTarget = vcan.interact.translateObject(x, y);
-						        		 if(!e.detail.hasOwnProperty('cevent')){
-								        	  doOptiMize(e);
-								         }
+						        		 // through disabling of this we can hide the flickering when we do replaying
+						        		 //tempObj.lastElement = false;
+						        		 // vcan.main.replayObjs.push(tempObj);
 						        		 
+						        		 var tempTarget = vcan.interact.translateObject(x, y);
 						        		 tempTarget.setActive(true);
 						        		 tempTarget.setCoords();
 						        		 
+//						        		 var ptr = vcan.utility.getReltivePoint(e);
+//						        		 var msPtr = vcan.extend({}, tempTarget.mp);
+//						        		 var updMsPtr = vcan.extend(msPtr, {x:ptr.x, y:ptr.y});
+//						        		 tempTarget = vcan.extend({}, tempTarget);
+//						        		 tempObj = vcan.extend(tempTarget, {mdTime:currAdTime, func:'add', usrCurrAction : 'drag', id : vcan.main.id++, mp : updMsPtr});
+									  	 
+						    		     //vcan.main.dragMode = true;
 						     		 }
 						        }
 						        
@@ -3056,65 +2977,88 @@
 						        		(obj.currentTransform.action === 'rotate' && !obj.currentTransform.target.hasRotatingPoint)){
 								    vcan.main.scaleMode = true;
 								    
+//						        	var tempTarget =   vcan.extend({}, vcan.main.currentTransform.target); 
+//						        	tempTarget.setCoords();
+//					        		tempTarget = vcan.extend({}, tempTarget);
+					        		
 							    	var  currAdTime = new Date().getTime();
 									 if(obj.currentTransform.target.downObj==true){
+										 
+										 //vcan.utility.setMoveChunk(currAdTime);
+										 
+//									 	 var tempChunkTarget = obj.currentTransform.target;
+//									 	 var chunkTarget = 	vcan.extend(tempChunkTarget, {mdTime:currAdTime, 'multiuser' : true,  lastElement : false});
+//
+//									 	 this.moveChunk.push(chunkTarget);
+//					        			 
+//					        			 tempChunkTarget = vcan.extend({}, obj.currentTransform.target);
+//						        		 var chunkTarget = 	vcan.extend(tempChunkTarget, {mdTime:currAdTime});
+//					        			 this.moveChunk.push(chunkTarget);
+//
 										 this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);	
 										 vcan.main.starter_obj_id = obj.currentTransform.target.id;
 										 obj.currentTransform.target.downObj = false;
+										
 									 }
+									 
+									 
 									 var tempTarget =   vcan.extend({}, vcan.main.currentTransform.target); 
 						        	 tempTarget.setCoords();
 						        	 
-						        }
+					        	 	 //tempTarget = vcan.extend({}, tempTarget);
+									 //tempObj = vcan.extend(tempTarget, {mdTime:currAdTime, func:'add', usrCurrAction : 'drag', id : vcan.main.id++});
+						        	
+//						        	 var ptr = vcan.utility.getReltivePoint(e);
+//						        	 var msPtr = vcan.extend({}, tempTarget.mp);
+//						        	 var updMsPtr = vcan.extend(msPtr, {x:ptr.x, y:ptr.y});
+//						        	 tempTarget = vcan.extend({}, tempTarget);
+//						        	 tempObj = vcan.extend(tempTarget, {mdTime:currAdTime, func:'add', usrCurrAction : 'drag', id : vcan.main.id++, mp : updMsPtr});
+							    }
 						        
-//						        var ptr = vcan.utility.getReltivePoint(e);
-//						        
-//					        	var msPtr = vcan.extend({}, tempTarget.mp);
-//					        	var updMsPtr = vcan.extend(msPtr, {x:ptr.x, y:ptr.y});
-//					        	tempTarget = vcan.extend({}, tempTarget);
-//					        	tempObj = vcan.extend(tempTarget, {mdTime:currAdTime, func:'add', usrCurrAction : 'drag', id : vcan.main.id++, mp : updMsPtr});
-//						        
-//						        
-//						        // TODO this line should be removed from here
-//						        if(typeof tempObj == 'object'){
-//						        	if(tempObj.type == 'line'){ 
-//							        	tempObj = vcan.utility.updateObj(tempObj);
-//									}
-//							        
-//							        tempObj.lastElement = false;
-//							        //this.moveChunk.push(tempObj);
-//							        
-////							        if (((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null))) {
-////							        	lastmousemovetime = new Date().getTime();
-////							          	
-////							        	if(!e.detail.hasOwnProperty('cevent')){
-////							        		var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-////											vcan.main.replayObjs.push(obj);
-////											vm_chat.send({'repObj': [obj]});  //after optimized
-////							        	}
-////							        	localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-////									}
-////							        
-////									presentmousemovetime = new Date().getTime();
-////									if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
-////										//	console.log('raj bogati');
-////										//alert('ssddsd');
-////										var currTime= new Date().getTime();
-////										if(!e.detail.hasOwnProperty('cevent')){
-////											var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-////											vcan.main.replayObjs.push(obj);
-////											vm_chat.send({'repObj': [obj]});
-////										}
-////
-//////										vm_chat.send({'repObj': [tempObj]});
-////								  		lastmousemovetime = new Date().getTime();
-////										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-////									}
-//									
-//							        
-//							      //  localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-//							        
+						        var ptr = vcan.utility.getReltivePoint(e);
+						        
+//						        if(typeof tempTarget.mp != 'object'){
+//						        	tempTarget.mp = {x: tempTarget.x, y:tempTarget.y};
 //						        }
+					        	var msPtr = vcan.extend({}, tempTarget.mp);
+					        	var updMsPtr = vcan.extend(msPtr, {x:ptr.x, y:ptr.y});
+					        	tempTarget = vcan.extend({}, tempTarget);
+					        	tempObj = vcan.extend(tempTarget, {mdTime:currAdTime, func:'add', usrCurrAction : 'drag', id : vcan.main.id++, mp : updMsPtr});
+						        
+						        
+						        // TODO this line should be removed from here
+						        if(typeof tempObj == 'object'){
+						        	if(tempObj.type == 'line'){ 
+							        	tempObj = vcan.utility.updateObj(tempObj);
+									}
+							        
+							        tempObj.lastElement = false;
+							        this.moveChunk.push(tempObj);
+							        
+							        /*
+							        if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
+										lastmousemovetime = new Date().getTime();
+										vcan.main.replayObjs.push(tempObj); //have to show to pinky and jai
+								  		vm_chat.send({'repObj': [tempObj]});
+								  		localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+									}
+									presentmousemovetime = new Date().getTime();
+									
+									if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
+										vcan.main.replayObjs.push(tempObj); 
+								  		vm_chat.send({'repObj': [tempObj]});
+										lastmousemovetime = new Date().getTime();
+										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+									} */
+									
+							       // vm_chat.send({'repObj': [tempObj]});
+							        
+							        
+							        vcan.main.replayObjs.push(tempObj);
+							        
+							        
+							        
+						        }
 						       vcan.renderAll();
 					      }
 					 }else{
@@ -3129,14 +3073,6 @@
 				 *  it occures when the mouse rellease over the canvas
 				 */
 			 mouseup :  function (e) {
-				 if(e.detail.hasOwnProperty('cevent')){
-						e.clientX = e.detail.cevent.x;
-						e.clientY = e.detail.cevent.y;
-						e.x = e.detail.cevent.x;
-						e.y = e.detail.cevent.y;
-						e.pageX = e.detail.cevent.x;
-						e.pageY = e.detail.cevent.y;
-					}
 				 lastmousemovetime = null;
 				 if(vcan.main.action == 'move'){
 					   var mainCan = vcan.main;
@@ -3155,10 +3091,10 @@
 						        }
 						    }
 						      	
-//							if(vcan.main.dragMode == true || vcan.main.scaleMode == true){
-//								vcan.main.replayObjs[vcan.main.replayObjs.length-1].lastElement = true;
-//								vcan.main.replayObjs[vcan.main.replayObjs.length-1].id = vcan.main.starter_obj_id;
-//							}
+							if(vcan.main.dragMode == true || vcan.main.scaleMode == true){
+								vcan.main.replayObjs[vcan.main.replayObjs.length-1].lastElement = true;
+								vcan.main.replayObjs[vcan.main.replayObjs.length-1].id = vcan.main.starter_obj_id;
+							}
 							
 							//TODO this object should not be but null but empty
 							
@@ -3168,85 +3104,55 @@
 						    // every time(either the action in scale or drag mode) there would be checked that if the object is existing
 						    //  which have to be deleted duplicate object 
 						      if(vcan.main.dragMode == true || vcan.main.scaleMode == true){
-						    	  	var pointer = vcan.utility.actualPointer(e);
-						    	  	var currTime = new Date().getTime();
-						    	  	if(!e.detail.hasOwnProperty('cevent')){
-						    	  		var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
-										vcan.main.replayObjs.push(obj);
-										vm_chat.send({'repObj': [obj]});
-										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-						    	  	}
-						    	  	
-						    	  	if(vcan.main.dragMode == true){
-						    	  		vcan.main.dragMode = false;
-						    	  	}	
-						    	  	
-						    	  	if(vcan.main.scaleMode == true){
-						    	  		vcan.main.scaleMode = false;
-						    	  	}
-						    	  	
-						    	  	
-									
-						    	  
-//						    	  	//TODO should think about total length of replay node
-//						    	    var tRLength = vcan.main.replayObjs.length-1;
-//						    	    //todo should re-think about this feature
-//									  for(var j=0; j<vcan.main.replayObjs.length; j++){
-//										  //removing the object either particular object is scaling or removing
-//										  
-//										  if(vcan.main.dragMode == true){
-//										  		if((vcan.main.replayObjs[j].x == vcan.main.replayObjs[tRLength].x && 
-//													  vcan.main.replayObjs[j].y == vcan.main.replayObjs[tRLength].y)
-//													  &&
-//													  (vcan.main.replayObjs[j].id == vcan.main.replayObjs[tRLength].id)) 
-//												{
-//										  	  	  if(j>0){ 
-//											  		var tempObj =  vcan.extend({}, vcan.main.replayObjs[j]);
-//											  		    tempObj =  vcan.extend(tempObj, {x: vcan.main.replayObjs[j-1].x, y: vcan.main.replayObjs[j-1].y});
-//												  	    vcan.main.replayObjs[j] = tempObj;
-//													    vcan.main.dragMode = false
-//													    console.log('ux ' + tempObj.x);
-//												//	    vm_chat.send({'repObj': [tempObj]});
-//													    break; //this is added druing the unit testing
-//													    
-//											  	  }
-//										  	  }
-//										  }
-//									  		
-//									  	  if(vcan.main.scaleMode == true){
-//										  		if(
-//										  				(vcan.main.replayObjs[j].scaleX == vcan.main.replayObjs[tRLength].scaleX  ||
-//										  				 vcan.main.replayObjs[j].scaleY == vcan.main.replayObjs[tRLength].scaleY )	
-//										  				 && 
-//										  				 vcan.main.replayObjs[j].id == vcan.main.replayObjs[tRLength].id 
-//										  		){
-//										  			if(j>0){ //NOTE for changed for freedrawing
-//										  				
-//										  				//alert("hello guys");
-//											  			 var tempObj =  vcan.extend({}, vcan.main.replayObjs[j]);
-//												    	  tempObj =  vcan.extend(tempObj, {
-//												    		  	scaleX: vcan.main.replayObjs[j-1].scaleX, scaleY: vcan.main.replayObjs[j-1].scaleY,
-//												    		  	theta : vcan.main.replayObjs[j-1].theta });
-//												    	  vcan.main.replayObjs[j] = tempObj;
-//												    	  vcan.main.scaleMode = false;
-//												    	  console.log('ux ' + tempObj.x);
-//												    	 // vm_chat.send({'repObj': [tempObj]});
-//												    	  break; //this is added during the unit testing
-//										  			} 
-//										  		}
-//										  }
-//									  	  
-//									 }
-									// important
-									  // vm_chat.send({'repObj': this.moveChunk});	   
-							  }else{
-								  if(!e.detail.hasOwnProperty('cevent')){
-						    	  		//e.x, e.y is not supported for firefox, need some good structure	
-						    	  		var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
-										vcan.main.replayObjs.push(obj);
-										vm_chat.send({'repObj': [obj]});
-										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-						    	  	}
+						    	  	//TODO should think about total length of replay node
+						    	    var tRLength = vcan.main.replayObjs.length-1;
+						    	    //todo should re-think about this feature
+									  for(var j=0; j<vcan.main.replayObjs.length; j++){
+										  //removing the object either particular object is scaling or removing
+										  
+										  if(vcan.main.dragMode == true){
+										  		if((vcan.main.replayObjs[j].x == vcan.main.replayObjs[tRLength].x && 
+													  vcan.main.replayObjs[j].y == vcan.main.replayObjs[tRLength].y)
+													  &&
+													  (vcan.main.replayObjs[j].id == vcan.main.replayObjs[tRLength].id)) 
+												{
+										  	  	  if(j>0){ //NOTE for changed for freedrawing
+										  	  		  //alert('hello boys');
+										  	  		  
+											  		var tempObj =  vcan.extend({}, vcan.main.replayObjs[j]);
+											  		    tempObj =  vcan.extend(tempObj, {x: vcan.main.replayObjs[j-1].x, y: vcan.main.replayObjs[j-1].y});
+												  	    vcan.main.replayObjs[j] = tempObj;
+												  	    vm_chat.send({'repObj': [tempObj]});
+													    vcan.main.dragMode = false
+													    break; //this is added druing the unit testing
+													    
+											  	  }
+										  	  }
+										  }
+									  		
+									  	  if(vcan.main.scaleMode == true){
+										  		if(
+										  				(vcan.main.replayObjs[j].scaleX == vcan.main.replayObjs[tRLength].scaleX  ||
+										  				 vcan.main.replayObjs[j].scaleY == vcan.main.replayObjs[tRLength].scaleY )	
+										  				 && 
+										  				 vcan.main.replayObjs[j].id == vcan.main.replayObjs[tRLength].id 
+										  		){
+										  			if(j>0){ //NOTE for changed for freedrawing
+										  				
+											  			 var tempObj =  vcan.extend({}, vcan.main.replayObjs[j]);
+												    	  tempObj =  vcan.extend(tempObj, {
+												    		  	scaleX: vcan.main.replayObjs[j-1].scaleX, scaleY: vcan.main.replayObjs[j-1].scaleY,
+												    		  	theta : vcan.main.replayObjs[j-1].theta });
+												    	  vcan.main.replayObjs[j] = tempObj;
+												    	  vm_chat.send({'repObj': [tempObj]});
+												    	  vcan.main.scaleMode = false;
+												    	  break; //this is added during the unit testing
+										  			} 
+										  		}
+										  }
+									 }
+									//vm_chat.send({'repObj': this.moveChunk});
+									  //vm_chat.send({'repObj' : [vcan.main.replayObjs[vcan.main.replayObjs.length-1]], 'dummyTest':true});
 							  }
 						     
 						      vcan.wb.sentPack  = true;
@@ -3254,10 +3160,8 @@
 						}
 				 }
 			}
-			
 	  }
-	
-	
+
 	window.vcan = vcan;
 	
 	}

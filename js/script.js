@@ -247,13 +247,31 @@
 					anchorNode = evt.target; //for chrome and safari
 				}
 				
+				/**important **/
+				
+//				if(anchorNode.parentNode.id == 't_replay'){
+//					whBoard.utility.clearAll(false);
+//					vm_chat.send({'replayAll' :  true});
+//				}else{
+//					whBoard.toolInit(anchorNode.parentNode.id);
+//				}
+				
 				if(anchorNode.parentNode.id == 't_replay'){
 					whBoard.utility.clearAll(false);
-					vm_chat.send({'replayAll' :  true});
-				}else{
-					whBoard.toolInit(anchorNode.parentNode.id);
-				}
+					
+				}	
+				//multiuser handle to id of created object
+				// this function expexted three paramters
+				//whBoard.toolInit(anchorNode.parentNode.id, 'multiuser');
+				whBoard.toolInit(anchorNode.parentNode.id);
 				
+				if(anchorNode.parentNode.id != 't_replay'){
+					var currTime = new Date().getTime();
+					var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
+					vcan.main.replayObjs.push(obj);
+					vm_chat.send({'repObj': [obj]}); //after optimized
+				}
+					
 			},
 			
 			
@@ -285,7 +303,9 @@
 			 * @param cmd expects the particular command from user
 			 * 
 			 */
-			toolInit : function (cmd, repMode){
+			toolInit : function (cmd, repMode, multiuser){
+				//vcan.main.replayObjs.push({'cmd':cmd});
+				
 				if(typeof whBoard.obj.drawTextObj == 'object' && whBoard.obj.drawTextObj.wmode == true){
 					var ctx = vcan.main.canvas.getContext('2d');
 					whBoard.obj.drawTextObj.renderText(whBoard.obj.drawTextObj.currObject, whBoard.obj.drawTextObj.prvModTextObj, ctx);
@@ -297,7 +317,11 @@
 				
 				//added after raised by bugs
 				if(allChilds.length > 0 && cmd != 't_clearall'){
-					whBoard.utility.deActiveFrmDragDrop();
+				//	if(typeof multiuser == 'undefined' || cmd != 't_replay'){
+					if(typeof multiuser == 'undefined' || cmd != 't_replay'){
+						whBoard.utility.deActiveFrmDragDrop(); //after optimization NOTE:- this should have to be enable
+					}
+					
 					whBoard.vcan.renderAll();
 				}
 				if(!whBoard.utility.IsObjEmpty(whBoard.obj.freeDrawObj)){ whBoard.obj.freeDrawObj.freesvg = false;}
@@ -310,7 +334,11 @@
 				
 				
 				if(cmd == 't_replay'){
-					 vcan.setValInMain('id', 0);
+					
+					if(typeof multiuser == 'undefined'){
+						vcan.setValInMain('id', 0);
+					}
+					 
 					 whBoard.t_replayInit(repMode);
 					 var repAllObjs = whBoard.vcan.getStates('replayObjs');
 					 if(repAllObjs.length > 1){
@@ -339,7 +367,9 @@
 				if(cmd == 't_clearall'){
 					vm_chat.send({'clearAll': true});
 				}
-				if(cmd != 't_activeall' || cmd != 't_replay' || cmd != 't_clearallInit'){
+				//if(cmd != 't_activeall' || cmd != 't_replay' || cmd != 't_clearallInit'){
+				
+				if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit'){
 					whBoard.tool = new whBoard.tool_obj(cmd)
 					whBoard.utility.attachEventHandlers();
 				}
@@ -739,12 +769,7 @@
 				 // TODO this should be enable 
 				 // renderObjText();
 				 whBoard.replay = whBoard._replay();
-				 
-				
-				 //alert(whBoard.replay);
-				 //alert(whBoard.replay.mtransform);
 				 whBoard.replay.init(repMode);
-				 //alert(whBoard.replay.objNo);
 				 whBoard.replay.renderObj();
 				 
 				 
@@ -755,6 +780,47 @@
 				 
 			},
 			
+			_replay : function (repMode){
+				return {
+					init : function (){
+						var vcan = whBoard.vcan;
+						this.objs = vcan.getStates('replayObjs');
+						this.objNo  = 0;
+					},
+					
+					renderObj : function (){
+						wbRep = whBoard.replay;
+						if(wbRep.objs[wbRep.objNo].hasOwnProperty('cmd')){
+							//whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
+							whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
+						}else{
+							if(whBoard.vcan.main.action == 'create'){
+								whBoard.tool['mouse' + wbRep.objs[wbRep.objNo].action].call(this, '', wbRep.objs[wbRep.objNo]);
+							}else{
+//								vcan.mouse['mouse' + wbRep.objs[wbRep.objNo].action].call(this, '', wbRep.objs[wbRep.objNo]);
+								
+								var currObj = wbRep.objs[wbRep.objNo];
+                                var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
+                                var event = new CustomEvent("mouse"+currObj.action, eventObj); //this is not supported for ie9 and older ie browsers
+                                vcan.main.canvas.dispatchEvent(event);
+
+							}
+						}
+						
+						if(typeof wbRep.objs[wbRep.objNo+1] == 'object'){
+							whBoard.replayTime = wbRep.objs[wbRep.objNo+1].mdTime - wbRep.objs[wbRep.objNo].mdTime;
+							wbRep.objNo++;
+							setTimeout(wbRep.renderObj, whBoard.replayTime);
+						}
+						
+						//if(whBoard.replayTime >= 0){
+							//setTimeout(wbRep.renderObj, whBoard.replayTime);
+						//}
+						return ;
+						
+					}
+				}
+			},
 			
 			/**
 			 * This object has methods through which  
@@ -762,15 +828,18 @@
 			 * happen over the canvas
 			 * 
 			 */
-			_replay : function (){
+			_replay_old : function (){
 				return {
+					
+					
+					
 					
 					/**
 					 * this function does initialize the default value
 					 * which are needs to replay the objects which are drawn by user
 					 * @returns
 					 */
-					init :function (repMode){
+					init_old :function (repMode){
 						var vcan = whBoard.vcan;
 						this.objs = vcan.getStates('replayObjs');
 						this.removeElements = [];
@@ -802,7 +871,7 @@
 					 *  This is the one of the most important function for do 
 					 *  replay the objects which were drawn by user 
 					 */
-					renderObj : function (){
+					renderObj_old : function (){
 							
 							//alert(vcan.main.freeHandDrawing.contextTop);
 							var vcan = whBoard.vcan;
@@ -1374,15 +1443,26 @@
 			 * This function called when user selected particular tool eg:- rectangle, line and clicked over the canvas
 			 * 
 			 */
-			tool.mousedown = function (ev) {
+			tool.mousedown = function (ev, cobj) {
+				if(typeof cobj == 'object'){
+					ev.x = cobj.x;
+					ev.y = cobj.y;
+				}
+				
 				var vcan = whBoard.vcan;
 				lastmousemovetime = null;
 				if(typeof(Storage)!=="undefined"){
 					//localStorage.repObjs = "";
 				}
 				
-				startPosX = ev.currX;
-				startPosY = ev.currY;
+				if(typeof cobj != 'object'){
+					tool.startPosX = ev.currX;
+					tool.startPosY = ev.currY;
+				}else{
+					tool.startPosX = cobj.x;
+					tool.startPosY = cobj.y;
+				}
+				
 				
 				var currState  = vcan.getStates('action');
 				if(currState == 'create'){
@@ -1392,6 +1472,13 @@
 					if(objType != 'text'){
 						var currTransformState = vcan.getStates('currentTransform');				
 						if(currTransformState == ""  || currTransformState == null){
+							if(typeof cobj != 'object'){
+								var currTime = new Date().getTime();
+								var obj = {'mdTime' :  currTime, 'action' : 'down', 'x' :  tool.startPosX, 'y' : tool.startPosY};
+								vcan.main.replayObjs.push(obj);
+								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+								vm_chat.send({'repObj': [obj]});  //after optimized
+							}
 							tool.started = true;
 						}
 					}
@@ -1412,8 +1499,8 @@
 			 * object and stored drawn object into replayObjs array   
 			 * @param expects mousemove event
 			 */
-			tool.mousemove = function (ev) {
-//			  var sumanbog = "suman";
+			tool.mousemove = function (ev, cobj) {
+			
 			  if (tool.started) {
 				  	if(whBoard.obj.freeDrawObj != undefined && whBoard.obj.freeDrawObj.freesvg == true){
 					  	  if (whBoard.obj.freeDrawObj.fdObj.isCurrentlyDrawing) {
@@ -1421,55 +1508,73 @@
 					            return;
 					      }
 					 }else{
-						    endPosX = ev.currX;
-						  	endPosY = ev.currY;
+						 	if(typeof cobj != 'object'){
+						 		endPosX = ev.currX;
+							  	endPosY = ev.currY;
+						 	}else{
+						 		endPosX = cobj.x;
+							  	endPosY = cobj.y;
+						 	}
+						    
 						  	 if(whBoard.prvObj != ''){
 						  		whBoard.canvas.removeObject(whBoard.prvObj);
 						  	 }
 						  	 
 						  	 //var  currObject = whBoard.makeobj(whBoard.prvObj, startPosX, startPosY, endPosX, endPosY, objType);
-						  	var  currObject = whBoard.makeobj(startPosX, startPosY, endPosX, endPosY, objType);
+						  	 var  currObject = whBoard.makeobj(tool.startPosX, tool.startPosY, endPosX, endPosY, objType);
 						  	 
 						  	 var  currTime= new Date().getTime();
-						  	 vcan.extend(currObject, {mdTime:currTime, func:'add'});
+						  	 //vcan.extend(currObject, {mdTime:currTime, func:'add'});
 						  	 
 						  	 var rCurrObject = whBoard.canvas.readyObject(currObject);
 						  	 whBoard.canvas.addObject(rCurrObject);
-
-						   //  currObject.usrCurrAction = 'create'; //IMPORTANT changed during UNIT TESTING
 						  	rCurrObject.coreObj.usrCurrAction = 'create';
 						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
-								lastmousemovetime = new Date().getTime();
-								vcan.main.replayObjs.push(rCurrObject.coreObj); //have to show to pinky and jai
-						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
+						  		lastmousemovetime = new Date().getTime();
+								if(typeof cobj != 'object'){
+									var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
+									
+									vcan.main.replayObjs.push(obj);
+								
+									vm_chat.send({'repObj': [obj]}); //after optimized
+									whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+									localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+									document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+								}
+								 
+								
+								//	vcan.main.replayObjs.push(rCurrObject.coreObj);
+								//vm_chat.send({'repObj': [rCurrObject.coreObj]});
 							}
 							presentmousemovetime = new Date().getTime();
 							
 							if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
-								vcan.main.replayObjs.push(rCurrObject.coreObj); 
-						  		vm_chat.send({'repObj': [rCurrObject.coreObj]});
+								
+								if(typeof cobj != 'object'){
+									var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
+									vcan.main.replayObjs.push(obj);
+									vm_chat.send({'repObj': [obj]}); //after optimized
+									whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+									localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+									document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+								}
+								 
+								
+//								vcan.main.replayObjs.push(rCurrObject.coreObj); 
+//								vm_chat.send({'repObj': [rCurrObject.coreObj]});
+						  		
 								lastmousemovetime = new Date().getTime();
 							}
 							
-						  	if(vcan.main.replayObjs.length > 0){
-						  		//localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-
-						  		
-//						  		localStorage.repObjs.push(JSON.stringify(rCurrObject.coreObj));
-						  	}
-						  	
-						  	 
 						     /**** 
 					  		 *
 					  		 * This would I have disbaled can be critical
 					  		 * whBoard.replay.replayObjs.push(currObject);
 					  		 *
 					  		 ****/
-						     //whBoard.repObj.replayObjs.push(currObject);
-						     
-						     //whBoard.prvObj = currObject; //IMPORTANT changed during UNIT TESTING
-						  	   whBoard.prvObj = rCurrObject.coreObj;
-						     
+						    
+						  	 whBoard.prvObj = rCurrObject.coreObj;
+						  	 //vcan.interact.translateObject(endPosX, endPosy);
 					 }
 			   }else{
 				   if(whBoard.vcan.main.action !=  'move' || ((vcan.main.currentTransform =="" || vcan.main.currentTransform ==null) && whBoard.vcan.main.action == "move")){
@@ -1488,12 +1593,28 @@
 			 *  This function does finalize the object 
 			 *  with last made object very specail
 			 */
-			tool.mouseup = function (ev) {
+			tool.mouseup = function (ev, cobj) {
+				//alert("hello brother");
+				var endPosX, endPosY;
+				if(typeof cobj != 'object'){
+					endPosX = ev.currX;
+					endPosY = ev.currY;
+				}else{
+					endPosX = cobj.x;
+					endPosY =  cobj.y;
+				}
+				
 				lastmousemovetime = null;
 				if (tool.started && objType != 'text') {
 					//this is used for free hand drawing
-					tool.mousemove(ev);
+					if(typeof cobj != 'object'){
+						tool.mousemove(ev);
+					}else{
+						tool.mousemove("", cobj);
+					}
+					
 					//if(vcan.main.freesvg == true ){
+					
 					if((whBoard.obj.freeDrawObj != undefined &&  whBoard.obj.freeDrawObj.freesvg == true )){
 						// if (freeDrawObj.isDrawingMode && vcan.main.freeDraw.isCurrentlyDrawing) {
 						 if (whBoard.obj.freeDrawObj.fdObj.isCurrentlyDrawing) {
@@ -1503,23 +1624,28 @@
 					
 					 if(whBoard.prvObj != ''){
 						 //TODO for set the value to property of object need to proper function from frame work 
-						 whBoard.prvObj.lastElement = true; 
+					//	 whBoard.prvObj.lastElement = true; 
 						// whBoard.prvObj = ""; //this should be into proper way
 					 }
 					 
-					var replayObjs = vcan.getStates('replayObjs');
+					//var replayObjs = vcan.getStates('replayObjs');
 					//todo this should be enable when white board used for multi user
-					// alert('suman bogati');
-					 //debugger;
 					
-					//alert(whBoard.prvObj);
-					//debugger;
 					 
 					 if(whBoard.prvObj.type == 'freeDrawing'){
-						 vm_chat.send({'repObj': [whBoard.prvObj]});
+						// vm_chat.send({'repObj': [whBoard.prvObj]});
 					 }
 					 
-					 vm_chat.send({'repObj': [whBoard.prvObj]});
+					 var currTime = new Date().getTime();
+					 if(typeof  cobj != 'object'){
+						 var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  endPosX, 'y' : endPosY};
+						 vcan.main.replayObjs.push(obj);
+						 vm_chat.send({'repObj': [obj]}); //after optimized
+						 localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+					 }
+					  
+					 
+				//	 vm_chat.send({'repObj': [whBoard.prvObj]});
 					 
 					 if(whBoard.sentPackets > 0) {
 						 //document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
@@ -1540,7 +1666,7 @@
 			  if(whBoard.vcan.wb.sentPack == true) {
 				  if(whBoard.sentPackets > 0) {
 						 document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
-				 }
+				  }
 				 whBoard.vcan.wb.sentPack = false;
 			  }
 		  };
@@ -1609,10 +1735,7 @@
 				},
 				
 				finalizeDraw : function (ev){
-					//alert('sumanbogati');
-					//debugger;
-					//alert('mukesh khanna');
-					//alert('suman bogati');
+
 					var vcan = whBoard.vcan;
 					//TODO this(finalizeDrawingPath) should be called over the object 
 					//prvObj =  vcan.main.freeDraw.finalizeDrawingPath();
@@ -1635,11 +1758,7 @@
 					var tempObj =  vcan.extend({}, whBoard.prvObj);
 					
 					whBoard.prvObj = vcan.extend(tempObj, {mdTime:currTime, func:'add', usrCurrAction : 'create'});
-					//alert("khanna");
-					//debugger;
-//					whBoard.prvObj.mp = {};
-//					whBoard.prvObj.mp.x = tempObj.x;
-//					whBoard.prvObj.mp.y = tempObj.y;
+
 					
 					var lastChild = vcan.main.children[vcan.main.children.length-1];
 					

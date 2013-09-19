@@ -63,23 +63,6 @@ $.when(
 			}
 		}
     	
-	//    	$(document).on("connectionopen", function (e){
-	//    		//alert('khan is not');
-	//    		//alert('sss');
-	//    	});
-    	
-    	 $(document).on("member_added", function(e){	  
-    		//alert('suman bogati');
-    		//debugger;
-    		
-//    		var allRepObjs = JSON.parse(e.repObjs);
-//			whBoard.vcan.main.replayObjs = allRepObjs;
-//			whBoard.utility.clearAll(false);
-//			whBoard.toolInit('t_replay', 'fromBrowser');
- 		    
- 		});
-    	 
-    	 
  		var oldData2 = whBoard.receivedPackets;
 		setInterval(function (){
 			oldData2 = whBoard.utility.calcPsRecvdPackets(oldData2);
@@ -96,26 +79,29 @@ $.when(
 	    			var obj = {};
 	    			obj.mp = { x: e.message.x, y: e.message.y};
 	    			whBoard.utility.drawArrowImg(imageElm, obj);
-	    			
 	    		}
-	    		
-    		}
+	    	}
     		
     		initLoop = 0;
     		if(!e.message.hasOwnProperty('clearAll') && !e.message.hasOwnProperty('replayAll')){
-    			
     			if(e.message.hasOwnProperty('repObj')){
-    				if(e.message.repObj[0].hasOwnProperty('multiuser') && e.message.repObj[1].hasOwnProperty('multiuser')){
-    					initLoop = 2; //we are skippging first and second element
-    				}else{
-    					initLoop = 0; // we can not skip the two elements for text object
-    				}
     				
-    				for(j=initLoop; j<e.message.repObj.length; j++){
-    					replayObjs.push(e.message.repObj[j]);
-    				}
-    				
-    				localStorage.repObjs = JSON.stringify(replayObjs);
+//    				if(e.message.repObj[0].hasOwnProperty('multiuser') && e.message.repObj[1].hasOwnProperty('multiuser')){
+//    					initLoop = 2; //we are skippging first and second element
+//    				}else{
+//    					initLoop = 0; // we can not skip the two elements for text object
+//    				}
+//    				
+//    				for(j=initLoop; j<e.message.repObj.length; j++){
+//    					if(e.fromUser.userid != id ){
+//    						if(e.message.repObj[j].usrCurrAction == 'drag'){
+//    							console.log('received.x ' + e.message.repObj[j].x);
+//		    				}
+//    					}
+//    					replayObjs.push(e.message.repObj[j]);
+//    				}
+//
+//    				localStorage.repObjs = JSON.stringify(replayObjs);
     			}
     			
 				
@@ -126,14 +112,8 @@ $.when(
 						whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
 					} 
 					document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
-					
-					//document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 				}
 				localStorage.receivedPackets = whBoard.receivedPackets; 
-				
-				//whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
-				//document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
-				
 			}
     		
     		
@@ -141,21 +121,18 @@ $.when(
     		if(e.fromUser.userid != id){
     			if(e.message.hasOwnProperty('repObj')){
     				window.whBoard.vcan.main.replayObjs = [];
-    				
-    				if(e.message.repObj.length > 0){
-    					if(typeof prvPacket == 'object'){
-    						if(typeof prvPacket.lastElement == 'undefined' && prvPacket.lastElement != true){
-    							whBoard.canvas.removeObject(prvPacket);
-    						}
-    					}
+    				if(e.message.repObj.length > 0){ 
+    					var currObj = e.message.repObj[e.message.repObj.length-1];
+    					window.whBoard.vcan.main.replayObjs.push(currObj);
+    					replayObjs.push(currObj);
+    					localStorage.repObjs = JSON.stringify(replayObjs);
     					
-    					currElement = e.message.repObj[e.message.repObj.length-1];
-    					window.whBoard.vcan.main.replayObjs.push(currElement); 
-    					prvPacket =   currElement;
-    					whBoard.toolInit('t_replay', 'fromBrowser');
+    					whBoard.toolInit('t_replay', 'fromBrowser', true);
+//    					whBoard.toolInit('t_replay', 'fromBrowser');
+    					
+    					//localStorage.repObjs = JSON.stringify(replayObjs);
     				}
     			}
-    			
     		}
     		
     		if(e.message.hasOwnProperty('clearAll')){
@@ -166,6 +143,7 @@ $.when(
     		
 
     		if(e.message.hasOwnProperty('replayAll')){
+    			
 				window.whBoard.vcan.main.replayObjs =  replayObjs;
 				whBoard.utility.clearAll(false);
 				whBoard.toolInit('t_replay', 'fromFile');
