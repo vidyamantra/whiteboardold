@@ -56,7 +56,6 @@ $.when(
 				whBoard.vcan.main.replayObjs = allRepObjs;
 				whBoard.utility.clearAll(false, 'dontClear');
 				whBoard.toolInit('t_replay', 'fromBrowser');
-				
 				for(i=0; i<allRepObjs.length; i++){
 					replayObjs.push(allRepObjs[i]);
 				}

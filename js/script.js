@@ -745,6 +745,11 @@
 						whBoard.receivedPackets = JSON.parse(localStorage.receivedPackets);
 						document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 	    			}
+				}, 
+				
+				updateSentPackets : function (obj){
+					whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets
 				}
 			},
 			
@@ -780,36 +785,52 @@
 				 
 			},
 			
-			_replay : function (repMode){
+			_replay : function (){
 				return {
-					init : function (){
+					init : function (repMode){
 						var vcan = whBoard.vcan;
 						this.objs = vcan.getStates('replayObjs');
 						this.objNo  = 0;
+						this.repMode = repMode;
 					},
 					
 					renderObj : function (){
+						
 						wbRep = whBoard.replay;
 						if(wbRep.objs[wbRep.objNo].hasOwnProperty('cmd')){
+							
 							//whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
 							whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
 						}else{
+							var event = "";
+							if(wbRep.objs[wbRep.objNo].ac == 'd'){
+								event = 'mousedown';
+							}else if((wbRep.objs[wbRep.objNo].ac == 'm')){
+								event = 'mousemove';
+							}else if(wbRep.objs[wbRep.objNo].ac == 'u'){
+								event = 'mouseup';
+							}
+							
 							if(whBoard.vcan.main.action == 'create'){
-								whBoard.tool['mouse' + wbRep.objs[wbRep.objNo].action].call(this, '', wbRep.objs[wbRep.objNo]);
+								whBoard.tool[event].call(this, '', wbRep.objs[wbRep.objNo]);
 							}else{
 //								vcan.mouse['mouse' + wbRep.objs[wbRep.objNo].action].call(this, '', wbRep.objs[wbRep.objNo]);
 								
 								var currObj = wbRep.objs[wbRep.objNo];
                                 var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
-                                var event = new CustomEvent("mouse"+currObj.action, eventObj); //this is not supported for ie9 and older ie browsers
-                                vcan.main.canvas.dispatchEvent(event);
+                                var eventConstruct = new CustomEvent(event, eventObj); //this is not supported for ie9 and older ie browsers
+                                vcan.main.canvas.dispatchEvent(eventConstruct);
 
 							}
 						}
 						
 						if(typeof wbRep.objs[wbRep.objNo+1] == 'object'){
-							whBoard.replayTime = wbRep.objs[wbRep.objNo+1].mdTime - wbRep.objs[wbRep.objNo].mdTime;
+							whBoard.replayTime = wbRep.objs[wbRep.objNo+1].mt - wbRep.objs[wbRep.objNo].mt;
 							wbRep.objNo++;
+							
+							if(typeof wbRep.repMode != 'undefined' && wbRep.repMode == 'fromBrowser'){
+								whBoard.replayTime = 0;
+							}
 							setTimeout(wbRep.renderObj, whBoard.replayTime);
 						}
 						
@@ -993,7 +1014,6 @@
 			        			
 				        		if(typeof whBoard.replayTime == 'number' && whBoard.replayTime >= 0){
 				        			if(wbRep.repMode == 'fromBrowser'){
-				        				
 				        				whBoard.replayTime = 0;
 				        			}
 			        				setTimeout(wbRep.renderObj, whBoard.replayTime);
@@ -1474,10 +1494,13 @@
 						if(currTransformState == ""  || currTransformState == null){
 							if(typeof cobj != 'object'){
 								var currTime = new Date().getTime();
-								var obj = {'mdTime' :  currTime, 'action' : 'down', 'x' :  tool.startPosX, 'y' : tool.startPosY};
+								//var obj = {'mdTime' :  currTime, 'action' : 'down', 'x' :  tool.startPosX, 'y' : tool.startPosY};
+								
+								var obj = vcan.makeStackObj(currTime, 'd', tool.startPosX, tool.startPosY);
 								vcan.main.replayObjs.push(obj);
 								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 								vm_chat.send({'repObj': [obj]});  //after optimized
+								whBoard.utility.updateSentPackets(obj);
 							}
 							tool.started = true;
 						}
@@ -1532,14 +1555,17 @@
 						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
 						  		lastmousemovetime = new Date().getTime();
 								if(typeof cobj != 'object'){
-									var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
-									
+									//var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
+									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
+									//	vcan.makeStackObj
 									vcan.main.replayObjs.push(obj);
-								
 									vm_chat.send({'repObj': [obj]}); //after optimized
-									whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
 									localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-									document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+									whBoard.utility.updateSentPackets(obj);
+								
+									
+//									whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+//									document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
 								}
 								 
 								
@@ -1551,12 +1577,15 @@
 							if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
 								
 								if(typeof cobj != 'object'){
-									var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
+									//var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
+									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
 									vcan.main.replayObjs.push(obj);
 									vm_chat.send({'repObj': [obj]}); //after optimized
-									whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
 									localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-									document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+									
+//									whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+//									document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+									whBoard.utility.updateSentPackets(obj);
 								}
 								 
 								
@@ -1625,7 +1654,7 @@
 					 if(whBoard.prvObj != ''){
 						 //TODO for set the value to property of object need to proper function from frame work 
 					//	 whBoard.prvObj.lastElement = true; 
-						// whBoard.prvObj = ""; //this should be into proper way
+						 whBoard.prvObj = ""; //this should be into proper way
 					 }
 					 
 					//var replayObjs = vcan.getStates('replayObjs');
@@ -1638,10 +1667,12 @@
 					 
 					 var currTime = new Date().getTime();
 					 if(typeof  cobj != 'object'){
-						 var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  endPosX, 'y' : endPosY};
+						 //var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  endPosX, 'y' : endPosY};
+						 var obj = vcan.makeStackObj(currTime, 'u', endPosX, endPosY);
 						 vcan.main.replayObjs.push(obj);
 						 vm_chat.send({'repObj': [obj]}); //after optimized
 						 localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+						 whBoard.utility.updateSentPackets(obj);
 					 }
 					  
 					 
@@ -1665,7 +1696,7 @@
 				
 			  if(whBoard.vcan.wb.sentPack == true) {
 				  if(whBoard.sentPackets > 0) {
-						 document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+						 //document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
 				  }
 				 whBoard.vcan.wb.sentPack = false;
 			  }

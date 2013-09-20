@@ -179,14 +179,15 @@ var vm_chat = {
 		// Case for createArrow LIMIT every 500ms
 		if (msg.hasOwnProperty('createArrow')) {
 			if (typeof  lastarrowtime == 'undefined') {
+				//alert('joi');
 				lastarrowtime = new Date().getTime();
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-				console.log("sendPacekts " + whBoard.sentPackets);
 				this.sock.send(jobj);
 			}
 			
 			presentarrowtime = new Date().getTime();
 			if ((presentarrowtime-lastarrowtime)>=100) { // Optimized
+				//alert('joi2');
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 				this.sock.send(jobj);
 				lastarrowtime = new Date().getTime();

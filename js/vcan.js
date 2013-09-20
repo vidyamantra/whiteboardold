@@ -1471,7 +1471,8 @@
 			  * multiuser is a flag used for removed the previous drawn data over the canvas 
 			  * this chunk of data would display for multi user only not for self user
 			 */
-			var rindex = vcan.ArrayIndexOf(vcan.main.children, function (pobj){return pobj.id == obj.id && (pobj.mdTime == obj.mdTime || obj.multiuser == true )});
+			//var rindex = vcan.ArrayIndexOf(vcan.main.children, function (pobj){return pobj.id == obj.id && (pobj.mdTime == obj.mdTime || obj.multiuser == true )});
+			var rindex = vcan.ArrayIndexOf(vcan.main.children, function (pobj){return pobj.id == obj.id && (pobj.mt == obj.mt || obj.multiuser == true )});
 			//var rindex = vcan.ArrayIndexOf(vcan.main.children, function (pobj){return pobj.id == obj.id});
 			
 			// if the object is  not found which have to be deleted 
@@ -2800,30 +2801,36 @@
 				 if (((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null))) {
 			        	lastmousemovetime = new Date().getTime();
 			           if(!e.detail.hasOwnProperty('cevent')){
-			        		var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
+			        		//var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
+			        	    var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
 							vcan.main.replayObjs.push(obj);
 							vm_chat.send({'repObj': [obj]});  //after optimized
+							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+							whBoard.utility.updateSentPackets(obj);
 			        	}
-			        	localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-					}
+			      	}
 			        
 					presentmousemovetime = new Date().getTime();
-					if((presentmousemovetime-lastmousemovetime)>=15) {		 // Optimized
+					if((presentmousemovetime-lastmousemovetime)>=15) {	 // Optimized
 						var currTime= new Date().getTime();
 						if(!e.detail.hasOwnProperty('cevent')){
 							
-							var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-							
+							//var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
+						var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
 							vcan.main.replayObjs.push(obj);
 							vm_chat.send({'repObj': [obj]});
+							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+							whBoard.utility.updateSentPackets(obj);
 						}
 
 				  		lastmousemovetime = new Date().getTime();
-						localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 					}
 			  }
  		
-		
+		vcan.makeStackObj = function (time, action, x, y){
+			var obj = {'mt' :  time, 'ac' : action, 'x' :  x, 'y' : y};
+			return obj; 
+		}
 		//var starter_obj_id = ""; //TODO this should be contain at vcan.main
 		/**
 		 *  @Class defined mouse
@@ -2921,9 +2928,12 @@
 					  	//after optimization
 					  	if(!e.detail.hasOwnProperty('cevent')){
 					  		var currTime = new Date().getTime();
-							var obj = {'mdTime' :  currTime, 'action' : 'down', 'x' :  e.clientX, 'y' : e.clientY};
+							//var obj = {'mdTime' :  currTime, 'action' : 'd', 'x' :  e.clientX, 'y' : e.clientY};
+					  		var obj = vcan.makeStackObj(currTime, 'd', e.clientX, e.clientY);
+					  		
 							vcan.main.replayObjs.push(obj);
 							vm_chat.send({'repObj': [obj]});  //after optimized
+							whBoard.utility.updateSentPackets(obj);
 					  	}
 					  	
 					  //these code run when user is trying to create particular object	
@@ -2976,20 +2986,12 @@
 							          // rotate object only if shift key is not pressed
 							          if (!e.shiftKey) {
 							        	  vcan.interact.rotateObject(x, y);
-							        	  if(!e.detail.hasOwnProperty('cevent')){
-								        	 // doOptiMize(e);
-								          }
-								          
 							          }
 							          
 							          if (!obj.currentTransform.target.hasRotatingPoint) {
 							        	  vcan.interact.scaleObject(x, y);
-							        	  if(!e.detail.hasOwnProperty('cevent')){
-								        	//  doOptiMize(e);
-								          }
-								          
 							          }
-							      	//doOptiMize(e);
+							      	
 							          if(!e.detail.hasOwnProperty('cevent')){
 							        	  doOptiMize(e);
 							          }
@@ -3042,7 +3044,7 @@
 						        		 
 						        		 var tempTarget = vcan.interact.translateObject(x, y);
 						        		 if(!e.detail.hasOwnProperty('cevent')){
-								        	  doOptiMize(e);
+						        			 doOptiMize(e);
 								         }
 						        		 
 						        		 tempTarget.setActive(true);
@@ -3171,7 +3173,8 @@
 						    	  	var pointer = vcan.utility.actualPointer(e);
 						    	  	var currTime = new Date().getTime();
 						    	  	if(!e.detail.hasOwnProperty('cevent')){
-						    	  		var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
+						    	  		//var obj = {'mdTime' :  currTime, 'action' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
+						    	  		var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
 										vcan.main.replayObjs.push(obj);
 										vm_chat.send({'repObj': [obj]});
 										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -3242,7 +3245,8 @@
 							  }else{
 								  if(!e.detail.hasOwnProperty('cevent')){
 						    	  		//e.x, e.y is not supported for firefox, need some good structure	
-						    	  		var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
+						    	  	//	var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
+									   var obj = {'mt' :  currTime, 'ac' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
 										vcan.main.replayObjs.push(obj);
 										vm_chat.send({'repObj': [obj]});
 										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
