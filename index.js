@@ -101,6 +101,7 @@ $.when(
 //    				}
 //
 //    				localStorage.repObjs = JSON.stringify(replayObjs);
+    				replayObjs.push(e.message.repObj[e.message.repObj.length-1]);
     			}
     			
 				
@@ -123,7 +124,8 @@ $.when(
     				if(e.message.repObj.length > 0){ 
     					var currObj = e.message.repObj[e.message.repObj.length-1];
     					window.whBoard.vcan.main.replayObjs.push(currObj);
-    					replayObjs.push(currObj);
+    					//replayObjs.push(currObj);
+    					
     					localStorage.repObjs = JSON.stringify(replayObjs);
     					
     					whBoard.toolInit('t_replay', 'fromBrowser', true);

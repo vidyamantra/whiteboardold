@@ -249,21 +249,21 @@
 				
 				/**important **/
 				
-//				if(anchorNode.parentNode.id == 't_replay'){
-//					whBoard.utility.clearAll(false);
-//					vm_chat.send({'replayAll' :  true});
-//				}else{
-//					whBoard.toolInit(anchorNode.parentNode.id);
-//				}
-				
 				if(anchorNode.parentNode.id == 't_replay'){
 					whBoard.utility.clearAll(false);
-					
-				}	
+					vm_chat.send({'replayAll' :  true});
+				}else{
+					whBoard.toolInit(anchorNode.parentNode.id);
+				}
+				
+//				if(anchorNode.parentNode.id == 't_replay'){
+//					whBoard.utility.clearAll(false);
+//					
+//				}	
 				//multiuser handle to id of created object
 				// this function expexted three paramters
 				//whBoard.toolInit(anchorNode.parentNode.id, 'multiuser');
-				whBoard.toolInit(anchorNode.parentNode.id);
+				//whBoard.toolInit(anchorNode.parentNode.id);
 				
 				if(anchorNode.parentNode.id != 't_replay'){
 					var currTime = new Date().getTime();
