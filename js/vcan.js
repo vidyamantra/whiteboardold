@@ -7,11 +7,6 @@
 
 (
 	function (window, document){
-		
-		
-		
-		
-		
 		var vm_chat = window.vm_chat;
 	
 		/**
@@ -115,7 +110,7 @@
 			},
 			
 			/**
-		     * transform the particular obejct by rotating and scaling
+		     * 	 the particular obejct by rotating and scaling
 		     * @param ctx specified context
 		     * @param obj particular object
 		     * TODO this function should contain into the object
@@ -1509,6 +1504,7 @@
 		 * @param noTransform is undefined value
 		 */
 		var render = function (ctx, obj, noTransform){
+			ctx.beginPath(); //this added just now 25/9/13
 			ctx.save();
 			if(ctx.lineWidth !==  undefined){
 				ctx.lineWidth = obj.lineWidth;
@@ -1533,7 +1529,9 @@
 				obj.drawBorders(ctx);
 		        obj.hideCorners || obj.drawCorners(ctx);
 		     }
+			ctx.closePath();
 			ctx.restore();
+			
 		}
 		
 		
@@ -1916,31 +1914,26 @@
 					 * @param ctx current context of canvas
 					 * @returns
 					 */
-					fhdStart : function(ctx, pointer, obj){
+					fhdStart : function(ctx, pointer, crtMuser){
+						
+						var  currTime = new Date().getTime();
 						var canvas = vcan.main.canvas;
-						//vcan.main.mctx = ctx;  //TODO this statement can be removed  
+						
 						this.contextTop = ctx;
 						this.isCurrentlyDrawing = true;
 						
-						
 						this.freeDrawingXPoints.push(pointer.x);
 						this.freeDrawingYPoints.push(pointer.y);
-						
 						this.contextTop.beginPath();
+						this.contextTop.save();
 						
-						if(typeof obj == 'object'){
-							this.contextTop.save();
-							vcan.transform(this.contextTop, obj);
-						}
 						this.contextTop.moveTo(pointer.x, pointer.y);
-						var  currTime = new Date().getTime();
+						
 						this.mdTime.push(currTime);
 						this.contextTop.strokeStyle = this.freeDrawingColor;
 						this.contextTop.lineWidth = this.freeDrawingLineWidth;
 						this.contextTop.lineCap = this.contextTop.lineJoin = 'round';
 						
-					//	alert(this.contextTop.strokeStyle);
-
 						
 					},
 					
@@ -1954,17 +1947,14 @@
 					
 					//captureDrawingPath: function(evt) {
 					//fhRendering: function(evt) {
-					  fhRendering: function(pointer) {
-						  
-						 // var pointer = vcan.utility.getReltivePoint(evt);
+					  fhRendering: function(pointer, crtMuser) {
+						  var  currTime = new Date().getTime();
 						  this.freeDrawingXPoints.push(pointer.x);
 						  this.freeDrawingYPoints.push(pointer.y);
 						  
 						  this.contextTop.lineTo(pointer.x, pointer.y);
 						  this.contextTop.stroke();
-						  var  currTime = new Date().getTime();
 						  this.mdTime.push(currTime);
-						  
 					 },
 					 
 					 
@@ -1977,11 +1967,11 @@
 					  * @returns nothing
 					  * 
 					  */
-					 finalizeDrawingPath : function (mcanvas, obj){
+					 finalizeDrawingPath : function (mcanvas, crtMuser, pointer){
+						     var currTime = new Date().getTime();
 						 	  this.contextTop.closePath();
 						      this.isCurrentlyDrawing = false;
-						      this.suman = 'bogatisss';
-
+						      
 						      var minX = this.utility.min(this.freeDrawingXPoints),
 						          minY = this.utility.min(this.freeDrawingYPoints),
 						          maxX = this.utility.max(this.freeDrawingXPoints),

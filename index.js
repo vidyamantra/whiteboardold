@@ -127,7 +127,6 @@ $.when(
     					//replayObjs.push(currObj);
     					
     					localStorage.repObjs = JSON.stringify(replayObjs);
-    					
     					whBoard.toolInit('t_replay', 'fromBrowser', true);
 //    					whBoard.toolInit('t_replay', 'fromBrowser');
     					
