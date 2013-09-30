@@ -98,3 +98,31 @@ body {
 #sendPackCont{
 	/*padding:10px; */
 }
+
+
+#informtionCont{
+	clear:both;
+	margin-left:550px;
+	margin-top:40px;
+}
+
+#informtionCont{
+	
+}
+
+
+#sentMsgInfo{
+	border:2px solid #ddd;
+	width:320px;
+	height : 80px;
+	margin-top:10px;
+	margin-bottom:10px;
+	
+}
+
+#rcvdMsgInfo{
+	margin-top:10px;
+	border:2px solid #ddd;
+	width:320px;
+	height : 80px;
+}

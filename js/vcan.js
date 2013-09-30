@@ -87,8 +87,8 @@
 					vcan.main.hoverCursor = 'move';
 				**/
 				//mouse().init();
-				var mouse = new vcan.mouse();
-				mouse.init();
+				vcan.activMouse = new vcan.mouse();
+				vcan.activMouse.init();
 			},			
 			/**
 			 * The function merge the property of passed second object to passed first object 
@@ -1398,7 +1398,7 @@
 					                ? 'scale'
 					                : 'rotate';
 					      }
-					      
+					      console.log('JAI' +  corner);
 					      obj.currentTransform = {
 					        target: this,
 					        action: action,
@@ -2792,7 +2792,7 @@
 			        	lastmousemovetime = new Date().getTime();
 			           if(!e.detail.hasOwnProperty('cevent')){
 			        		//var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-			        	    var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
+			        	    var obj = vcan.makeStackObj(lastmousemovetime, 'm', e.clientX, e.clientY);
 							vcan.main.replayObjs.push(obj);
 							vm_chat.send({'repObj': [obj]});  //after optimized
 							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -2801,7 +2801,7 @@
 			      	}
 			        
 					presentmousemovetime = new Date().getTime();
-					if((presentmousemovetime-lastmousemovetime)>=15) {	 // Optimized
+					if((presentmousemovetime-lastmousemovetime)>=2000) {	 // Optimized
 						var currTime= new Date().getTime();
 						if(!e.detail.hasOwnProperty('cevent')){
 							
@@ -2927,15 +2927,29 @@
 					  	}
 					  	
 					  //these code run when user is trying to create particular object	
-					}else if(vcan.main.action == 'create'){  
-
-						 var foundTarget = events().findTarget(e),
-					      pointer = vcan.utility.getReltivePoint(e);
+					}else if(vcan.main.action == 'create'){
+						if(e.detail.hasOwnProperty('cevent')){
+							e.clientX = e.detail.cevent.x + (whBoard.vcan.main.offset.x);
+							e.clientY = e.detail.cevent.y + (whBoard.vcan.main.offset.y);
+							
+							e.x = e.detail.cevent.x + (whBoard.vcan.main.offset.x);
+							e.y = e.detail.cevent.x + (whBoard.vcan.main.offset.y);
+							e.pageX = e.detail.cevent.x + (whBoard.vcan.main.offset.x);
+							e.pageY = e.detail.cevent.y + (whBoard.vcan.main.offset.y);
+							e.currX = e.detail.cevent.x;
+							e.currY = e.detail.cevent.y;
+						}
+						
+						var foundTarget = events().findTarget(e),
+					    pointer = vcan.utility.getReltivePoint(e);
 						
 						if(foundTarget && foundTarget.type == 'text'){
 							foundTarget.setupCurrentTransform(e);
 						}
 					}
+					
+					console.log('x' + e.clientX);
+					console.log('x' + e.clientY);
 				},
 				
 				
@@ -3131,6 +3145,15 @@
 					}
 				 lastmousemovetime = null;
 				 if(vcan.main.action == 'move'){
+					 //console.log('sss');
+					 
+//					 var currTime= new Date().getTime();
+//					 var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
+//					 vcan.main.replayObjs.push(obj);
+//					 vm_chat.send({'repObj': [obj]});
+//					 var ms = vcan.mouse();
+//					 ms.mousemove(e);
+					 vcan.activMouse.mousemove(e);
 					   var mainCan = vcan.main;
 						   if (mainCan.currentTransform) {
 						        var transform = mainCan.currentTransform,
@@ -3234,9 +3257,10 @@
 									  // vm_chat.send({'repObj': this.moveChunk});	   
 							  }else{
 								  if(!e.detail.hasOwnProperty('cevent')){
+									  
 						    	  		//e.x, e.y is not supported for firefox, need some good structure	
 						    	  	//	var obj = {'mdTime' :  currTime, 'action' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
-									   var obj = {'mt' :  currTime, 'ac' : 'up', 'x' :  e.clientX, 'y' : e.clientY};
+									   var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
 										vcan.main.replayObjs.push(obj);
 										vm_chat.send({'repObj': [obj]});
 										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);

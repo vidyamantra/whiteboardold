@@ -68,17 +68,35 @@ $.when(
 			document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 		}, 1000);
     	
-
+		
 		var prvPacket = "";
 		var currElement = "";
     	$(document).on("newmessage", function(e){
+    	var	updateRcvdInformation =  function (msg){
+    			var compMsg = "";
+    			for(var key in msg){
+    				compMsg += key +" : " + msg[key] + " <br />";
+    			}
+    			
+    			document.getElementById('rcvdMsgInfo').innerHTML = compMsg;
+    		}
+    	
     		if(e.fromUser.userid != id){
+    			
 	    		if(e.message.hasOwnProperty('createArrow')){
 	    			var imageElm = whBoard.arrImg;
 	    			var obj = {};
 	    			obj.mp = { x: e.message.x, y: e.message.y};
 	    			whBoard.utility.drawArrowImg(imageElm, obj);
+	    			updateRcvdInformation(e.message);
+	    		}else if(e.message.hasOwnProperty('clearAll')){
+	    			updateRcvdInformation(e.message);
+	    		}else{
+	    		 if(!e.message.hasOwnProperty('replayAll')){
+	    				updateRcvdInformation(e.message.repObj[0]);
+	    			}
 	    		}
+	    		
 	    	}
     		
     		initLoop = 0;
@@ -136,7 +154,7 @@ $.when(
     		}
     		
     		if(e.message.hasOwnProperty('clearAll')){
- 				replayObjs = [];
+    			replayObjs = [];
  				whBoard.utility.t_clearallInit();
  				localStorage.clear();
  			}

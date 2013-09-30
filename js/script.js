@@ -308,8 +308,9 @@
 			toolInit : function (cmd, repMode, multiuser){
 				if(typeof whBoard.obj.drawTextObj == 'object' && whBoard.obj.drawTextObj.wmode == true){
 					var ctx = vcan.main.canvas.getContext('2d');
-					whBoard.obj.drawTextObj.renderText(whBoard.obj.drawTextObj.currObject, whBoard.obj.drawTextObj.prvModTextObj, ctx);
-					whBoard.obj.drawTextObj.wmode = false;
+					//disable of this code can be crtical
+//					whBoard.obj.drawTextObj.renderText(whBoard.obj.drawTextObj.currObject, whBoard.obj.drawTextObj.prvModTextObj, ctx);
+//					whBoard.obj.drawTextObj.wmode = false;
 				}
 				
 
@@ -357,7 +358,7 @@
 				}
 				
 				if(cmd == 't_clearall'){
-					whBoard.utility.t_clearallInit();
+					//whBoard.utility.t_clearallInit();
 				}
 				if(cmd == 't_clearall'){
 					vm_chat.send({'clearAll': true});
@@ -566,6 +567,10 @@
 						whBoard.sentPackets = 0;
 						whBoard.receivedPackets = 0;
 					}
+					
+					//for clear sent and received msg information
+					document.getElementById('sentMsgInfo').innerHTML  = "";
+					document.getElementById('rcvdMsgInfo').innerHTML  = "";
 					
 					
 					
@@ -805,9 +810,15 @@
 								event = 'mouseup';
 							}
 							
-							
 							var currObj = wbRep.objs[wbRep.objNo];
-                            var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
+						
+							if(currObj.hasOwnProperty('mtext')){
+								var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y, mtext:currObj.mtext}}};
+							}else{
+								var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
+							}
+							
+                            
                             var eventConstruct = new CustomEvent(event, eventObj); //this is not supported for ie9 and older ie browsers
                             vcan.main.canvas.dispatchEvent(eventConstruct);
 
@@ -1454,6 +1465,8 @@
 			 * 
 			 */
 			tool.mousedown = function (ev, cobj) {
+				//alert('raj');
+				//debugger;
 				if(ev.detail.hasOwnProperty('cevent')){
 					
 					ev.clientX = ev.detail.cevent.x + (whBoard.vcan.main.offset.x);
@@ -1468,13 +1481,14 @@
 				}
 				
 				var vcan = whBoard.vcan;
-				if(!ev.detail.hasOwnProperty('cevent')){
-					var obj = vcan.makeStackObj(currTime, 'd', ev.currX, ev.currY);
-				  	vcan.main.replayObjs.push(obj);
-					vm_chat.send({'repObj': [obj]});  
-					localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-					whBoard.utility.updateSentPackets(obj);
-				}
+
+//				if(!ev.detail.hasOwnProperty('cevent')){
+//					var obj = vcan.makeStackObj(currTime, 'd', ev.currX, ev.currY);
+//				  	vcan.main.replayObjs.push(obj);
+//					vm_chat.send({'repObj': [obj]});  
+//					localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+//					whBoard.utility.updateSentPackets(obj);
+//				}
 				
 				
 				lastmousemovetime = null;
@@ -1484,36 +1498,70 @@
 				tool.startPosX = ev.currX;
 				tool.startPosY = ev.currY;
 				
-//				if(typeof cobj != 'object'){
-//					tool.startPosX = ev.currX;
-//					tool.startPosY = ev.currY;
-//				}else{
-//					tool.startPosX = cobj.x;
-//					tool.startPosY = cobj.y;
-//				}
+
 				
 				
 				var currState  = vcan.getStates('action');
 				if(currState == 'create'){
-					if(objType == 'text'){
-						whBoard.obj.drawTextObj.textUtility(startPosX, startPosY);
-					}
+//					if(objType == 'text'){
+////						if(ev.detail.hasOwnProperty('cevent')){
+////							whBoard.obj.drawTextObj.textUtility(ev.detail.cevent.x, ev.detail.cevent.y, ev.detail.cevent.mtext);
+////						}else{
+////							whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY);
+////						}
+//						whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY);
+//						
+//					}
+					var currTime = new Date().getTime();
+					
 					if(objType != 'text'){
 						var currTransformState = vcan.getStates('currentTransform');				
 						if(currTransformState == ""  || currTransformState == null){
-							//if(typeof cobj != 'object'){
-							if(!ev.detail.hasOwnProperty('cevent') && objType != 'freeDrawing'){
-								var currTime = new Date().getTime();
-								//var obj = {'mdTime' :  currTime, 'action' : 'down', 'x' :  tool.startPosX, 'y' : tool.startPosY};
-							
+						//	if(!ev.detail.hasOwnProperty('cevent') && objType != 'freeDrawing'){
+							if(!ev.detail.hasOwnProperty('cevent')){
+								//var currTime = new Date().getTime();
 								var obj = vcan.makeStackObj(currTime, 'd', tool.startPosX, tool.startPosY);
 								vcan.main.replayObjs.push(obj);
 								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-								vm_chat.send({'repObj': [obj]});  //after optimized
+								vm_chat.send({'repObj': [obj]}); 
 								whBoard.utility.updateSentPackets(obj);
 							}
 							tool.started = true;
 						}
+					}else{
+						whBoard.obj.drawTextObj.muser = false;
+						//textEvent = undefined;
+						//alert(this.textWriteMode);
+						//whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY);
+						if(!ev.detail.hasOwnProperty('cevent')){
+							//alert(whBoard.cText.textWriteMode);
+							//alert(whBoard.obj.drawTextObj.textWriteMode);
+							if(whBoard.utility.clickOutSidebox(whBoard.obj.drawTextObj.textWriteMode)){
+								//alert('sss');
+								//whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY);
+								var obj = vcan.makeStackObj(currTime, 'd', tool.startPosX, tool.startPosY);
+								vcan.main.replayObjs.push(obj);
+								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+								vm_chat.send({'repObj': [obj]}); 
+								whBoard.utility.updateSentPackets(obj);
+							}
+						}else{
+							//textEvent = true; //todo this should be done through the proper way
+//							whBoard.obj.drawTextObj = false;
+							whBoard.obj.drawTextObj.muser = true;
+						}
+						
+						
+						if(ev.detail.hasOwnProperty('cevent')){
+							if(ev.detail.cevent.hasOwnProperty('mtext')){
+								whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY, ev.detail.cevent.mtext);
+							}else{
+								whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY);
+							}
+						}else{
+							whBoard.obj.drawTextObj.textUtility(tool.startPosX, tool.startPosY);
+						}
+						
 					}
 				}
 				
@@ -1587,7 +1635,7 @@
 						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
 						  		lastmousemovetime = new Date().getTime();
 								//if(typeof cobj != 'object'){
-						  		if(!ev.detail.hasOwnProperty('cevent')){
+						  		if(!ev.detail.hasOwnProperty('cevent') && objType != 'text'){
 									//var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
 									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
 									//	vcan.makeStackObj
@@ -1607,8 +1655,8 @@
 							}
 							presentmousemovetime = new Date().getTime();
 							
-							if ((presentmousemovetime-lastmousemovetime)>=100) { // Optimized
-								if(!ev.detail.hasOwnProperty('cevent')){
+							if ((presentmousemovetime-lastmousemovetime)>=2000) { // Optimized
+								if(!ev.detail.hasOwnProperty('cevent') && objType != 'text'){
 								//if(typeof cobj != 'object'){
 									//var obj = {'mdTime' :  currTime, 'action' : 'move', 'x' :  endPosX, 'y' : endPosY};
 									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
@@ -1932,6 +1980,7 @@
 						this.textWriteMode = 0;
 						this.totalBox = 0;
 						this.boxContainer = boxCont;
+						this.muser = false;
 					},
 					
 					
@@ -1943,12 +1992,16 @@
 					 * @param startPosY points out the y co-ordination of canvas after clicked by user
 					 * @returns nothing
 					 */
-					textUtility : function (startPosX, startPosY){
+					textUtility : function (startPosX, startPosY, mtext){
+						this.startPosX = startPosX;
+						this.startPosY = startPosY;
+						//alert('is there anything for you');
 						var vcan = whBoard.vcan;
 						var ctx = vcan.main.canvas.getContext('2d');
 						var obj = {};
 						this.textWriteMode++;
 						this.wmode = true;
+						
 						
 						if(vcan.main.currentTransform != undefined && vcan.main.currentTransform != ''){
 								 this.currObject = vcan.main.currentTransform.target;
@@ -1960,8 +2013,8 @@
 										}
 										vcan.main.currentTransform = "";
 							     }
-							
-					     		if(whBoard.utility.clickOutSidebox(this.textWriteMode)){
+							     
+							    	if(whBoard.utility.clickOutSidebox(this.textWriteMode)){
 					     			whBoard.obj.drawTextObj.renderText(this.prvCurrTransform, this.prvModTextObj, ctx);
 								}
 									
@@ -1975,14 +2028,25 @@
 								this.prvCurrTransform = this.currObject;
 
 						}else{
+							
 							if (whBoard.utility.clickOutSidebox(this.textWriteMode)){
 									//alert('suman bogati khan');
-									whBoard.obj.drawTextObj.renderText(this.currObject, this.prvModTextObj, ctx);
+								    if(typeof mtext != 'undefined'){
+								    	whBoard.obj.drawTextObj.renderText(this.currObject, this.prvModTextObj, ctx, mtext);
+								    }else{
+								    	whBoard.obj.drawTextObj.renderText(this.currObject, this.prvModTextObj, ctx);
+								    }
+									
 								}else{
 									this.totalBox++;
 									var obj = {x:startPosX,  y:startPosY, width:300, height : 100};
 									//whBoard.obj.drawTextObj.drawTextBoxWrapper(ctx, obj,  this.totalBox);
-									whBoard.obj.drawTextObj.drawTextBoxWrapper(obj,  this.totalBox);
+									if(typeof mtext == 'undefined'){
+										whBoard.obj.drawTextObj.drawTextBoxWrapper(obj,  this.totalBox);
+									}else{
+										whBoard.obj.drawTextObj.drawTextBoxWrapper(obj,  this.totalBox, mtext);
+								}
+									
 							}
 		
 						}
@@ -2001,14 +2065,17 @@
 					 */
 					
 					//drawTextBoxWrapper : function (ctx, obj, boxNumber){
-					drawTextBoxWrapper : function (obj, boxNumber){
+					drawTextBoxWrapper : function (obj, boxNumber, mtext){
 						var vcan = whBoard.vcan;
 						var divNode  = document.createElement('div');
 						divNode.id = "box" + boxNumber;
 						
 						divNode.style.position = 'absolute';
-						divNode.style.left = (whBoard.vcan.main.offset.x+obj.x) + "px";
-						divNode.style.top =  (whBoard.vcan.main.offset.y+obj.y) + "px";
+
+						divNode.style.left = (vcan.main.offset.x+obj.x) + "px";
+						divNode.style.top =  (vcan.main.offset.y+obj.y) + "px";
+//						divNode.style.left = (whBoard.vcan.main.offset.x+obj.x) + "px";
+	//					divNode.style.top =  (whBoard.vcan.main.offset.y+obj.y) + "px";
 						
 						var textNode = document.createElement('textarea');
 						textNode.id = divNode.id+'textarea';
@@ -2019,10 +2086,12 @@
 						}
 						
 						divNode.appendChild(textNode);
-						
-						//document.body.appendChild(divNode);
-						//TODO canvas
 						document.getElementById(this.boxContainer).appendChild(divNode);
+						
+						if(typeof mtext != 'undefined'){
+						//	alert('suman bogati');
+							//divNode.style.display = 'none'
+						}
 						
 						this.prevTextObj = divNode;
 						this.currTextObjWrapper =  obj;
@@ -2040,7 +2109,7 @@
 					 * @param ctx is the current canvas context
 					 * @returns nothing
 					 */
-					renderText : function (currObject, prvModTextObj, ctx){
+					renderText : function (currObject, prvModTextObj, ctx, mtext){
 						var vcan = whBoard.vcan;
 						if(this.prevTextObj != '' ){
 							
@@ -2056,9 +2125,19 @@
 							}
 							
 							if(!whBoard.utility.IsObjEmpty(currObject)){
-								this.finalizeText(ctx, this.prevTextObj,  prvModTextObj);
+								if(typeof mtext != 'undefined'){
+									this.finalizeText(ctx, this.prevTextObj,  prvModTextObj, mtext);
+								}else{
+									this.finalizeText(ctx, this.prevTextObj,  prvModTextObj);
+								}
+								
+								
 							}else{
-								this.finalizeText(ctx, this.prevTextObj);
+								if(typeof mtext != 'undefined'){
+									this.finalizeText(ctx, this.prevTextObj, undefined, mtext);
+								}else{
+									this.finalizeText(ctx, this.prevTextObj);
+								}
 							}
 							
 							whBoard.obj.drawTextObj.wmode = false;
@@ -2074,17 +2153,24 @@
 					 * then prvModObj contains the vidya other info x, y 
 					 * @returns nothing
 					 */
-					finalizeText : function (ctx, txtWrapper, prvModObj){
+					finalizeText : function (ctx, txtWrapper, prvModObj, mtext){
+						    
 							var vcan = whBoard.vcan;
 							var prvNode = document.getElementById(txtWrapper.id); 
 							var userText = "";
-							var textarea = prvNode.getElementsByTagName('textarea');
-							for(var i =0; i< textarea.length; i++){
-								if(textarea[i].id == prvNode.id+'textarea'){
-									 userText =textarea[i].value;
-									break;
+							if(typeof mtext == 'undefined'){
+								var textarea = prvNode.getElementsByTagName('textarea');
+								for(var i =0; i< textarea.length; i++){
+									if(textarea[i].id == prvNode.id+'textarea'){
+										 userText =textarea[i].value;
+										break;
+									}
 								}
+							}else {
+								userText = mtext;
 							}
+							
+							
 							
 							var fontSize = 20;
 							ctx.font = fontSize +'px Times New Roman';
@@ -2104,6 +2190,8 @@
 							
 							//textObj.mp = {}; //this is used for contains mouse pointer
 							
+							var  currTime= new Date().getTime();
+							
 							var textObj = {
 									type : 'text',
 									text : userText, 
@@ -2115,14 +2203,25 @@
 									mp : {x : txtWrapper.measure.x, y:txtWrapper.measure.y}
 							};
 							
+						   //alert(textEvent);
+						   //if(typeof textEvent == 'undefined'){
+							if(whBoard.obj.drawTextObj.muser == false){
+								var obj = {'mt' :currTime, 'ac':'d', 'x' : this.startPosX, 'y' : this.startPosY,  'mtext' : textObj.text};
+								vcan.main.replayObjs.push(obj);
+								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+								vm_chat.send({'repObj': [obj]});
+								whBoard.utility.updateSentPackets(obj);
+//								textEvent = undefined;
+						   }
+						   
+						   
+							
 						   var text = whBoard.canvas.readyObject(textObj);
 						   var tempObj = text.coreObj;
 						  
 						   whBoard.canvas.addObject(text);
 						   tempObj = vcan.extend({}, tempObj);
 						   text = vcan.extend(tempObj, {textArr : this.keyTyped});
-						   
-						   	var  currTime= new Date().getTime();
 						   
 						   	text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true });
 						   	
@@ -2147,7 +2246,7 @@
 					  		
 					  		var lastTxtObj = vcan.main.children[vcan.main.children.length-1];
 					  		lastTxtObj.mdTime = currTime;
-						    vcan.main.replayObjs.push(text); //TODO this should be done with secure way
+						    //vcan.main.replayObjs.push(text); //TODO this should be done with secure way
 						    
 						    //localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 						  	
@@ -2155,10 +2254,29 @@
 							prvNode.parentNode.removeChild(txtWrapper);
 							
 							vcan.renderAll();
-							tarr.push(text);
+							//tarr.push(text);
 							
+//							if(typeof textEvent == 'undefined'){
+//								alert('mukesh');
+//								debugger;
+//								var obj = {'mt' :currTime, 'ac':'d', 'x' : this.startPosX, 'y' : this.startPosY,  'mtext' : text.text};
+//								vcan.main.replayObjs.push(obj);
+//								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+//								vm_chat.send({'repObj': [obj]});
+//								whBoard.utility.updateSentPackets(obj);
+//							}
+							
+							
+							
+							//var obj = {'mt' :currTime, 'ac':'down', 'x' : text.x, 'y' : text.y,  'mtext' : text.text};
+							//var obj = {x:text.x, y:text.y, mt : currTime, mtext : text.text};
+							//vm_chat.send({'repObj': [obj]});
+							
+							//alert('sss');
+							//debugger;
+							//var obj = {x: }
 							//vm_chat.send({'repObj': tarr});
-							vm_chat.send({'repObj': tarr});
+							//	vm_chat.send({'repObj': tarr});
 							
 							//TODO this statement is using at 3 place 
 							// this should be achieve thorugh one function

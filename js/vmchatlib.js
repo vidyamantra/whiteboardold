@@ -117,8 +117,8 @@ var vm_chat = {
 			}
 		}
 		this.sock.onerror = function(e) {
-			scope.error = e
-		}		
+			scope.error = e;
+		}	
 		this.sock.onclose = function(e) {
 			//alert('Connection Closed');
 
@@ -183,6 +183,8 @@ var vm_chat = {
 				lastarrowtime = new Date().getTime();
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 				this.sock.send(jobj);
+			//	document.getElementById('sendMsgInfo').innerHTML = "suman";
+				vm_chat.updateSentInformation(jobj, true);
 			}
 			
 			presentarrowtime = new Date().getTime();
@@ -190,11 +192,17 @@ var vm_chat = {
 				//alert('joi2');
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 				this.sock.send(jobj);
+				
+				//var sentObj = JSON.parse(jobj);
+				//document.getElementById('sentMsgInfo').innerHTML = "bogati";
+				vm_chat.updateSentInformation(jobj, true);
+				
 				lastarrowtime = new Date().getTime();
 			}
 		}else {
 			whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 			this.sock.send(jobj);
+			vm_chat.updateSentInformation(jobj);
 		}
 		
 		localStorage.sentPackets = whBoard.sentPackets;
@@ -202,6 +210,33 @@ var vm_chat = {
 	disconnect:function(){ 
 		this.sock.onclose = function () {};
 		this.sock.close();
-	}
+	},
 	
+	updateSentInformation :  function (jobj, createArrow){
+		var sentObj = JSON.parse(jobj);
+		if(typeof createArrow != 'undefined'){
+			var msg = sentObj.arg.msg;
+		}else{
+			var msg = sentObj.arg.msg.repObj[0];
+		}
+		
+		var compMsg = "";
+		for(var key in msg){
+			compMsg += key +" : " + msg[key] + " <br />";
+		}
+		
+		document.getElementById('sentMsgInfo').innerHTML = compMsg;
+	}
+
 };
+
+//var updateSentInformation  = function (jobj){
+//	var sentObj = JSON.parse(jobj);
+//	var msg = sentObj.arg.msg.repObj[0];
+//	var compMsg = "";
+//	for(var key in msg){
+//		compMsg += key " : " + msg[key] + " <br />";
+//	}
+//	
+//	document.getElementById('sentMsgInfo').innerHTML = compMsg;
+//}

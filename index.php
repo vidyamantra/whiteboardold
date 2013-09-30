@@ -38,6 +38,19 @@
     <div id="containerWb">
     	
     </div>
+    <div id="informtionCont">
+    	<label>Sent Msg information</label>
+	    <div id="sentMsgInfo">
+	    		
+	    </div>
+	    
+	    <label>Received Msg information</label>
+	    <div id="rcvdMsgInfo">
+	    	
+	    </div>
+    </div>
+    
+    
   </body>
 </html>
 
