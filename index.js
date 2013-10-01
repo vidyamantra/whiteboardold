@@ -119,7 +119,10 @@ $.when(
 //    				}
 //
 //    				localStorage.repObjs = JSON.stringify(replayObjs);
-    				replayObjs.push(e.message.repObj[e.message.repObj.length-1]);
+    				for (var i=0; i<e.message.repObj.length; i++){
+    					replayObjs.push(e.message.repObj[i]);
+    				}
+    				//replayObjs.push(e.message.repObj[e.message.repObj.length-1]);
     			}
     			
 				
@@ -140,10 +143,13 @@ $.when(
     			if(e.message.hasOwnProperty('repObj')){
     				window.whBoard.vcan.main.replayObjs = [];
     				if(e.message.repObj.length > 0){ 
-    					var currObj = e.message.repObj[e.message.repObj.length-1];
-    					window.whBoard.vcan.main.replayObjs.push(currObj);
-    					//replayObjs.push(currObj);
+//    					var currObj = e.message.repObj[e.message.repObj.length-1];
+//    					window.whBoard.vcan.main.replayObjs.push(currObj);
     					
+    					window.whBoard.vcan.main.replayObjs = e.message.repObj;
+    					
+    					//window.whBoard.vcan.main.replayObjs.push(currObj);
+
     					localStorage.repObjs = JSON.stringify(replayObjs);
     					whBoard.toolInit('t_replay', 'fromBrowser', true);
 //    					whBoard.toolInit('t_replay', 'fromBrowser');

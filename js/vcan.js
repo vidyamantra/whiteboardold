@@ -2880,7 +2880,8 @@
 					}
 					
 					lastmousemovetime = null;
-					this.moveChunk = [];
+					this.moveChunk = []; //todo this should be remove
+					
 				
 					// var foundTarget = events().findTarget(e, getPointer(e));
 					//if user clicked on created object than clicked for crate a new object for moving object
