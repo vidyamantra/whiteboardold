@@ -25,9 +25,8 @@
 	   <link rel="stylesheet" type="text/css" href="css/styles.css" />
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
-		
-	 <!-- 	 <script type="text/javascript" src="js/ui.tabs.paging.js"></script> -->
-    <script type="text/javascript" src="index.js"></script> 
+	   <script type="text/javascript" src="index.js"></script>
+       
 
  
   </head>
@@ -50,7 +49,7 @@
 	    </div>
     </div>
     
-    
+    <script type="text/javascript" src="js/keyboard.js"></script> 
   </body>
 </html>
 

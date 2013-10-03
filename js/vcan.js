@@ -2989,9 +2989,9 @@
 						    	 
 						        if (obj.currentTransform.action === 'rotate') {
 							          // rotate object only if shift key is not pressed
-							          if (!e.shiftKey) {
+							          //if (!e.shiftKey) {
 							        	  vcan.interact.rotateObject(x, y);
-							          }
+							          //}
 							          
 							          if (!obj.currentTransform.target.hasRotatingPoint) {
 							        	  vcan.interact.scaleObject(x, y);

@@ -43,12 +43,12 @@ $.when(
             'fastchatroom_name':'room1'});
         //ToDo:room name contain licencekey,couse id and activity id   
         
-           
-    $(document).ready(function(){
+	$(document).ready(function(){
+//    	window.whBoard.attachToolFunction('commandToolsWrapper');
+//    	window.whBoard.init();
+    	var replayObjs = [];
     	window.whBoard.attachToolFunction('commandToolsWrapper');
     	window.whBoard.init();
-    	var replayObjs = [];
-
     	if(typeof(Storage)!=="undefined"){
 			if(localStorage.repObjs){
 				//alert('hello guys');
@@ -82,7 +82,6 @@ $.when(
     		}
     	
     		if(e.fromUser.userid != id){
-    			
 	    		if(e.message.hasOwnProperty('createArrow')){
 	    			var imageElm = whBoard.arrImg;
 	    			var obj = {};

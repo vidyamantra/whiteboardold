@@ -68,6 +68,7 @@
 //	    			}
 					
 					whBoard.utility.initStoredPacketsNumbers();
+					window.whBoard = whBoard;
 				}
 				
 				this.arrowInit();
@@ -379,6 +380,7 @@
 			 * text and free draw are different case than other object
 			 */
 			tool_obj : function (cmd){
+				this.cmd = cmd;
 				//when other objecti 
 				if(cmd != 't_freeDrawing'){
 					whBoard.obj.freeDrawObj = "";
