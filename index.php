@@ -12,12 +12,12 @@
 	</script>
 	<!-- footer tab -->
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	
-<!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
+	<!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 		
 		
-	    <script type="text/javascript" src="js/vmchatlib.js"></script>
+	   <script type="text/javascript" src="js/vmchatlib.js"></script>
 	   
 	   <script type="text/javascript">
 	   	   window.vm_chat = vm_chat;		
@@ -25,10 +25,31 @@
 	   <link rel="stylesheet" type="text/css" href="css/styles.css" />
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
+	   <script type="text/javascript" src="js/wb_utility.js"></script>
+	   <script type="text/javascript" src="js/packetcontainer.js"></script>
+	   <script type="text/javascript" src="js/drawobject.js"></script>
+	   <script type="text/javascript" src="js/makeobj.js"></script>
+	   <script type="text/javascript" src="js/utility.js"></script>
+	   <script type="text/javascript" src="js/vcanmain.js"></script>
+	   <script type="text/javascript" src="js/events.js"></script>
+	   <script type="text/javascript" src="js/virtualbox.js"></script>
+	   <script type="text/javascript" src="js/interact.js"></script>
 	   <script type="text/javascript" src="index.js"></script>
+	   <script type="text/javascript" src="js/rectangle.js"></script>
+       <script type="text/javascript" src="js/oval.js"></script>
+       <script type="text/javascript" src="js/triangle.js"></script>
+       <script type="text/javascript" src="js/line.js"></script>
+       <script type="text/javascript" src="js/text.js"></script>
+       <script type="text/javascript" src="js/freedrawing.js"></script>
+       <script type="text/javascript" src="js/path.js"></script>
+       <script type="text/javascript" src="js/keyboard.js"></script>
+       <script type="text/javascript" src="js/mouse.js"></script>
+       <script type="text/javascript" src="js/readyfreehandobj.js"></script>
+       <script type="text/javascript" src="js/replay.js"></script>
+       <script type="text/javascript" src="js/readytextobj.js"></script>
        
-
- 
+       
+      
   </head>
   <body>
 
@@ -49,7 +70,7 @@
 	    </div>
     </div>
     
-    <script type="text/javascript" src="js/keyboard.js"></script> 
+     
   </body>
 </html>
 

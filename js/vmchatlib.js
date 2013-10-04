@@ -183,20 +183,15 @@ var vm_chat = {
 				lastarrowtime = new Date().getTime();
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 				this.sock.send(jobj);
-			//	document.getElementById('sendMsgInfo').innerHTML = "suman";
 				vm_chat.updateSentInformation(jobj, true);
 			}
 			
 			presentarrowtime = new Date().getTime();
 			if ((presentarrowtime-lastarrowtime)>=100) { // Optimized
-				//alert('joi2');
+
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 				this.sock.send(jobj);
-				
-				//var sentObj = JSON.parse(jobj);
-				//document.getElementById('sentMsgInfo').innerHTML = "bogati";
 				vm_chat.updateSentInformation(jobj, true);
-				
 				lastarrowtime = new Date().getTime();
 			}
 		}else {
