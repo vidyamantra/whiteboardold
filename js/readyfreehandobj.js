@@ -68,15 +68,16 @@
 					
 					whBoard.prvObj =  this.fdObj.finalizeDrawingPath(whBoard.canvas);
 					
-					var currTime = whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
-					var tempObj =  vcan.extend({}, whBoard.prvObj);
+					//var currTime = whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
+					//var tempObj =  vcan.extend({}, whBoard.prvObj);
 					
-					whBoard.prvObj = vcan.extend(tempObj, {mdTime:currTime, func:'add', usrCurrAction : 'create'});
-
+					//whBoard.prvObj = vcan.extend(tempObj, {mdTime:currTime, func:'add', usrCurrAction : 'create'});
+					//whBoard.prvObj = vcan.extend(tempObj, {mt:currTime, func:'add', usrCurrAction : 'create'});
 					
 					var lastChild = vcan.main.children[vcan.main.children.length-1];
 					
-					lastChild.mdTime =  whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
+				//	lastChild.mdTime =  whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
+					lastChild.mt =  whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
 					//vcan.main.replayObjs.push(whBoard.prvObj);
 					
 					//localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);

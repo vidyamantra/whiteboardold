@@ -7,7 +7,7 @@
 						//this.textId =  0;
 						this.prevTextObj = "";
 						this.currTextObjWrapper = "";
-						this.keyTyped = []; //the key typed by user this is used into finalizeText()
+//						this.keyTyped = []; //the key typed by user this is used into finalizeText()
 						this.currObject = {};
 						this.prvModTextObj = {};
 						this.prvCurrTransform = {};
@@ -230,7 +230,7 @@
 									y : txtWrapper.measure.y+extHeight,
 									fontSize:fontSize,
 									fontWidth : ctx.measureText(userText).width,
-									textArr : this.keyTyped, //this should add after called the function canvas.addObject(text)
+									//textArr : this.keyTyped, //this should add after called the function canvas.addObject(text)
 									mp : {x : txtWrapper.measure.x, y:txtWrapper.measure.y}
 							};
 							
@@ -246,28 +246,32 @@
 							
 						   var text = whBoard.canvas.readyObject(textObj);
 						   var tempObj = text.coreObj;
-						  
 						   whBoard.canvas.addObject(text);
-						   tempObj = vcan.extend({}, tempObj);
-						   text = vcan.extend(tempObj, {textArr : this.keyTyped});
 						   
-						   	text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true });
-						   	
-						   	//TODO prvModObj that should be check through hasOwnProperty method
-						   	
-					  		if(prvModObj != undefined){
-								if(prvModObj != ''){
-									text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true, 
-										prvObj : prvModObj, pt : whBoard.obj.drawTextObj.prvTextObj});
-									
-								}
-								
-							}
+//						   tempObj = vcan.extend({}, tempObj);
+//						   
+//						    text = vcan.extend(tempObj, {textArr : this.keyTyped});
+//						   
+//						 //  	text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true });
+//						   	text = vcan.extend(tempObj, {textArr : this.keyTyped, mt:currTime, func:'add', usrCurrAction : 'create', lastElement:true });
+//						   	
+//						   	//TODO prvModObj that should be check through hasOwnProperty method
+//						   	
+//					  		if(prvModObj != undefined){
+//								if(prvModObj != ''){
+//									//text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true,
+//									 text = vcan.extend(tempObj, {textArr : this.keyTyped, mt:currTime, func:'add', usrCurrAction : 'create', lastElement:true,
+//										prvObj : prvModObj, pt : whBoard.obj.drawTextObj.prvTextObj});
+//									
+//								}
+//								
+//							}
 					  		
-					  		var tarr = [];
+					  		//var tarr = [];
+					  		
 					  		var lastTxtObj = vcan.main.children[vcan.main.children.length-1];
-					  		lastTxtObj.mdTime = currTime;
-							this.keyTyped = [];  
+					  		lastTxtObj.mt = currTime;
+							//this.keyTyped = [];  
 							prvNode.parentNode.removeChild(txtWrapper);
 							vcan.renderAll();
 							if(whBoard.sentPackets > 0) {

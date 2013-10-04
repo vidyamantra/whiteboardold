@@ -76,7 +76,8 @@
 						whBoard.canvas.removeObject(vcan.main.currObj);
 						var obj = vcan.main.currObj;
 					    var tempObj =  vcan.extend({}, obj);
-					    tempObj = vcan.extend(tempObj, {mdTime:currTime, func:'remove', usrCurrAction : 'delete', lastElement :true});
+					    //tempObj = vcan.extend(tempObj, {mdTime:currTime, func:'remove', usrCurrAction : 'delete', lastElement :true});
+					    tempObj = vcan.extend(tempObj, {mt:currTime, func:'remove', usrCurrAction : 'delete', lastElement :true});
 					    vcan.main.replayObjs.push(tempObj);
 						vcan.main.currObj = "";
 					}

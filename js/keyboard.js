@@ -14,7 +14,8 @@
 					whBoard.toolInit('t_activeall');
 					var currTime = new Date().getTime(); 
 					
-					var obj = {'cmd':'t_activeall', mdTime : currTime};
+					//var obj = {'cmd':'t_activeall', mdTime : currTime};
+					var obj = {'cmd':'t_activeall', mt : currTime};
 					vcan.main.replayObjs.push(obj);
 					vm_chat.send({'repObj': [obj]}); //after optimized
 					whBoard.vcan.main.action = 'move';
@@ -29,7 +30,8 @@
 					var currTime = new Date().getTime(); 
 					whBoard.utility.deActiveFrmDragDrop();
 					whBoard.toolInit(whBoard.keyBoard.prvTool);
-					var obj = {'cmd': whBoard.keyBoard.prvTool,  mdTime : currTime};
+					//var obj = {'cmd': whBoard.keyBoard.prvTool,  mdTime : currTime};
+					var obj = {'cmd': whBoard.keyBoard.prvTool,  mt : currTime};
 					vcan.main.replayObjs.push(obj);
 					vm_chat.send({'repObj': [obj]}); //after optimized
 				}

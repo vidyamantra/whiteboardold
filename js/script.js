@@ -279,7 +279,8 @@
 				
 				if(anchorNode.parentNode.id != 't_replay'){
 					var currTime = new Date().getTime();
-					var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
+					//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
+					var obj = {'cmd':anchorNode.parentNode.id, mt : currTime};
 					vcan.main.replayObjs.push(obj);
 					vm_chat.send({'repObj': [obj]}); //after optimized
 				}

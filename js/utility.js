@@ -266,23 +266,7 @@
 		    		  */
 		    		 getChildren : function (){
 		    			 return vcan.main.children;
-		    		 },
-		    		 
-		    		 setMoveChunk : function (moveChunk, currAdTime){
-	        			 var tempChunkTarget = vcan.main.currentTransform.target;
-	        			 tempChunkTarget = vcan.extend({}, tempChunkTarget);
-	        			 var chunkTarget = 	vcan.extend(tempChunkTarget, {mdTime:currAdTime, 'multiuser' : true, func : 'add',  currUsrAction : 'create', lastElement : false});
-	        			 moveChunk.push(chunkTarget);
-	        			 
-	        			 tempChunkTarget = vcan.extend({}, vcan.main.currentTransform.target);
-		        		 var chunkTarget = 	vcan.extend(tempChunkTarget, {mdTime:currAdTime, lastElement : true, func : 'add', currUsrAction : 'create', 'multiuser' : true});
-	        			 moveChunk.push(chunkTarget);
-	        			 return moveChunk;
-					 },
-					 
-					 calcRecivedPacket : function (){
-						 //var = 
-					 }
+		    		 }
 		    	   
 		     //},
 		     

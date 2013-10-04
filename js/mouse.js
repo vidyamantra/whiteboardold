@@ -239,7 +239,7 @@
 								    
 							    	var  currAdTime = new Date().getTime();
 									 if(obj.currentTransform.target.downObj==true){
-										 this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);	
+										 //this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);	
 										 vcan.main.starter_obj_id = obj.currentTransform.target.id;
 										 obj.currentTransform.target.downObj = false;
 									 }
