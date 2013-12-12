@@ -76,6 +76,25 @@ $.when(
 		var myVideo = new window.whBoard.vcan.videoChat();
 		vcan.myvid = myVideo;
 		
+		function chkAlreadyConnected(){
+			if(typeof cthis != 'undefined'){
+				//0 should be inxex as user increased
+				if(cthis.pc[0].hasOwnProperty('iceConnectionState')){
+					return true;
+				}
+			}
+			return false
+		}
+		
+		
+		$(document).on("member_removed", function(e){
+			if(typeof myVideo != 'undefined'){
+				alert("suman bogati");
+				myVideo.hangup();
+			}
+		});
+		
+		
 		$(document).on("member_added", function(e){
 				
 			//vm_chat.send({'suman': '27'}, 23);
@@ -91,20 +110,23 @@ $.when(
 				
 				//browser B
 				}else if(clientNum == 2 && e.newuser == null){
-					vm_chat.send({'isChannelReady':true});
-					vcan.oneExecuted = false;
-  					vcan.vid = myVideo.init();
-  					
-  				//browser C and More	
+					if(!chkAlreadyConnected()){
+						vm_chat.send({'isChannelReady':true});
+						vcan.oneExecuted = false;
+	  					vcan.vid = myVideo.init();
+					}
+				//browser C and More	
 	  			}else if(clientNum > 2){
-	  				var currBrowser =  e.message[e.message.length-1].userid; 
-	  				var peerBrowser =  e.message[0].userid;
-	  				
-	  				/* in actual this statement would executed
-	  				for(var i=0; i<e.message.length; i++){
-	  					vm_chat.send({'createPeerObj': [currBrowser, e.message[i].userid]});
-	  				} */
-	  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
+	  				if(!chkAlreadyConnected()){
+		  				var currBrowser =  e.message[e.message.length-1].userid; 
+		  				var peerBrowser =  e.message[0].userid;
+		  				
+		  				/* in actual this statement would executed
+		  				for(var i=0; i<e.message.length; i++){
+		  					vm_chat.send({'createPeerObj': [currBrowser, e.message[i].userid]});
+		  				} */
+		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
+	  				}
 	  			}
 			});
 		

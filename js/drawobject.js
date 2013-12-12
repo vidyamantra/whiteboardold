@@ -45,9 +45,7 @@
 				}
 				tool.startPosX = ev.currX;
 				tool.startPosY = ev.currY;
-				
-
-				
+								
 				
 				var currState  = vcan.getStates('action');
 				if(currState == 'create'){

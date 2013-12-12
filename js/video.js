@@ -1,8 +1,5 @@
 (
 	function (window){
-		window.mysuman = function(){
-			console.log('suman bogati');
-		}
 		var vm_chat = window.vm_chat;
 		var vcan = window.vcan;
 		vcan.videoChat = function (){
@@ -307,10 +304,12 @@
 				},
 
 				handleRemoteStreamRemoved:function(event) {
+					alert("suman bgoati");
 					console.log('Remote stream removed. Event: ', event);
 				},
 
 				hangup : function() {
+				  
 				  console.log('Hanging up.');
 				  this.stop();
 				  this.sendMessage('bye');
@@ -326,8 +325,10 @@
 				  this.isStarted = false;
 				  // isAudioMuted = false;
 				  // isVideoMuted = false;
-				  this.pc.close();
-				  this.pc = null;
+				  //this.pc.close();
+				  //this.pc = null;
+				  this.pc[cthis.cn].close();
+				  this.pc[cthis.cn] = null;	
 				},
 
 				///////////////////////////////////////////
@@ -441,7 +442,9 @@
 				    if (!cthis.isInitiator && !cthis.isStarted) {
 				    	cthis.maybeStart();
 				    }
+				    
 				    cthis.pc[cthis.cn].setRemoteDescription(new RTCSessionDescription(message));
+				    
 				    cthis.doAnswer();
 				  } else if (message.type === 'answer' && cthis.isStarted) {
 					  cthis.pc[cthis.cn].setRemoteDescription(new RTCSessionDescription(message));

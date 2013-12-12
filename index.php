@@ -61,8 +61,8 @@
     </div>
    
     <div id='videos'>
-    		<video id='localVideo' autoplay muted></video>
-    		<video id='remoteVideo' class="remoteVideo" autoplay muted></video>
+    		<video id='localVideo' autoplay></video>
+    		<video id='remoteVideo' class="remoteVideo" autoplay></video>
     		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
     		
 	</div>
