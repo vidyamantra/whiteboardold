@@ -1,6 +1,0 @@
-Bug problem 
-q) That problem(Network problem)
-b) When do refresh earlier created object is not displaying
-c) When do connection off the video is streaming
-d) Scale of Text object 
-   

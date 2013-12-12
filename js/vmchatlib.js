@@ -197,7 +197,7 @@ var vm_chat = {
 		}else {
 			whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 			this.sock.send(jobj);
-			vm_chat.updateSentInformation(jobj);
+			//vm_chat.updateSentInformation(jobj);
 		}
 		
 		localStorage.sentPackets = whBoard.sentPackets;

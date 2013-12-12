@@ -290,17 +290,19 @@
 				  sessionDescription.sdp =cthis.preferOpus(sessionDescription.sdp);
 				  cthis.pc[cthis.cn].setLocalDescription(sessionDescription);
 				  
-				  if(typeof crtOffer != 'undefined'){
-					  cthis.sendMessage(sessionDescription, 15);
-					  crtAns = false;
-				  }
+//				  if(typeof crtOffer != 'undefined'){
+//					  cthis.sendMessage(sessionDescription, 15);
+//					  crtAns = false;
+//				  }
+//				  
+//				  if(typeof crtAns != 'undefined'){
+//					  if(crtAns == true){
+//						  cthis.sendMessage(sessionDescription, 45);  
+//					  }
+//					  
+//				  }
 				  
-				  if(typeof crtAns != 'undefined'){
-					  if(crtAns == true){
-						  cthis.sendMessage(sessionDescription, 45);  
-					  }
-					  
-				  }
+				  cthis.sendMessage(sessionDescription);
 				  
 				},
 
