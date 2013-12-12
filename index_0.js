@@ -45,6 +45,9 @@ $.when(
         
 	$(document).ready(function(){
 		myrepObj = [];
+		//suman BOGATI
+//    	window.whBoard.attachToolFunction('commandToolsWrapper');
+//    	window.whBoard.init();
     	replayObjs = []; // this should contain either into whiteboard or into van object
     	lastId = 0;
     	window.whBoard.attachToolFunction('commandToolsWrapper');
@@ -77,9 +80,6 @@ $.when(
 		vcan.myvid = myVideo;
 		
 		$(document).on("member_added", function(e){
-				
-			//vm_chat.send({'suman': '27'}, 23);
-			myVideo.id = id;
 			myVideo.browserLen = e.message.length;
 			
 			var clientNum = e.message.length;
@@ -110,18 +110,26 @@ $.when(
 		
 		
   		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('suman')){
-  				//debugger;
-  			}else if(e.message.hasOwnProperty('createPeerObj')){
+  			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
+  				myVideo.id = id;
+  				
+//  				if(id == peerBrowser){
+//  					//bug this function being called multiple times to be fixed it.
+//  					//vcan.oneExecuted = false;
+//  					if(typeof oneExecuted == 'undefined'){
+//  						oneExecuted = true;
+//  						vcan.myvid.init(true);
+//  					}
+//  				}
+  				
+  				//When browser C enter
   				if(myVideo.currBrowser == id){
   					if(typeof oneExecuted == 'undefined'){
   						oneExecuted = true;
   						vm_chat.send({'isChannelReady':true});
   						vcan.myvid.init(true);
-  						//toUse 
-  						myVideo.toUser = myVideo.peerBrowser;
   					}
   				}else{
   					cthis.isStarted = false;
@@ -129,10 +137,12 @@ $.when(
   				
   			}else if(e.message.hasOwnProperty('isChannelReady')){
   				e.message.isChannelReady = true; 
+    			//myVideo.videoOnMsg(e.message);
   				vcan.myvid.videoOnMsg(e.message);
     		}else if(e.message.hasOwnProperty('video')){
     			var video = vcan.myvid;
         		if(typeof video != 'undefined'){
+        			//myVideo.videoOnMsg(e.message.video);
         			vcan.myvid.videoOnMsg(e.message.video);
         		}
         	}else{

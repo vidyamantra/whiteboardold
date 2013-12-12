@@ -1,5 +1,6 @@
 (function (window){
 	window.onload = function (){
+		//suman bogati	
 		var whBoard  = window.whBoard;
 		whBoard.keyBoard = {
 			 prvTool : "",
@@ -9,6 +10,7 @@
 			 */
 			 triggerActiveAll : function (e){
 				if(e.shiftKey){
+					console.log('what happend mere bhai');
 					whBoard.keyBoard.skey = true;
 					whBoard.keyBoard.prvTool = whBoard.tool.cmd;
 					whBoard.toolInit('t_activeall');
@@ -27,6 +29,7 @@
 			 */
 			triggerdeActiveAll : function(e){
 				if(whBoard.keyBoard.skey){
+					console.log('what happend mere bhai ddd');
 					var currTime = new Date().getTime(); 
 					whBoard.utility.deActiveFrmDragDrop();
 					whBoard.toolInit(whBoard.keyBoard.prvTool);
@@ -40,6 +43,27 @@
 		
 		whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
 		whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+		
+		
+		// this is used for demo only 
+		// todo should be into seprate file
+		var vm_chat = window.vm_chat;
+		document.getElementById('onConnection').onclick = connectionOpen;
+		document.getElementById('offConnection').onclick = connectionOff;
+		
+		function connectionOpen(){
+			//alert('suman bogati');
+			//debugger;
+			vm_chat.wsconnect();
+			
+			//vm_chat.send({'repObj': true, 'conOn' : true});
+		} 
+		
+		function connectionOff(){
+			whBoard.sentReq = false;
+			vm_chat.send({'repObj': true, 'sentObj' : false});
+			vm_chat.disconnect();
+		}
 		
 	}
 })(window);

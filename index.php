@@ -42,12 +42,11 @@
        <script type="text/javascript" src="js/text.js"></script>
        <script type="text/javascript" src="js/freedrawing.js"></script>
        <script type="text/javascript" src="js/path.js"></script>
-       <script type="text/javascript" src="js/keyboard.js"></script>
        <script type="text/javascript" src="js/mouse.js"></script>
        <script type="text/javascript" src="js/readyfreehandobj.js"></script>
        <script type="text/javascript" src="js/replay.js"></script>
        <script type="text/javascript" src="js/readytextobj.js"></script>
-       
+       <script type="text/javascript" src="js/keyboard.js"></script>
        
       
   </head>
@@ -55,10 +54,22 @@
 
     <div id="stickycontainer"></div>  
     
+    
+		
     <div id="containerWb">
-    	
+    
     </div>
+   
+    <div id='videos'>
+    		<video id='localVideo' autoplay muted></video>
+    		<video id='remoteVideo' class="remoteVideo" autoplay muted></video>
+    		<video id='remoteVideo2'  autoplay muted></video>
+    		
+	</div>
     <div id="informtionCont">
+    	
+    	 	
+    	
     	<label>Sent Msg information</label>
 	    <div id="sentMsgInfo">
 	    		
@@ -70,7 +81,21 @@
 	    </div>
     </div>
     
-     
+    <div id="conControler">
+    	<a href="#" id="onConnection">Connection On</a> <br />
+    	<a href="#" id="offConnection">Connection Off</a>
+    </div>
+    <!--  
+    <script type="text/javascript" src="js/demo.js"> </script>
+    --> 
   </body>
+  
+  	<script type="text/javascript" src="js/lib/adapter.js"></script>
+  	<script type="text/javascript" src="js/video.js"></script>  
+  
+  <script>
+  	
+  	
+	</script>	
 </html>
 

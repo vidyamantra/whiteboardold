@@ -21,7 +21,8 @@
 			receivedPackets : 0,
 			receivedPackDiv : 'receivedNumber',
 			receivedPackDivPS : 'receivedNumberPS',
-			
+			uid : 0,
+			lt : '',
 			
 			
 			/**
@@ -70,7 +71,9 @@
 					whBoard.utility.initStoredPacketsNumbers();
 					window.whBoard = whBoard;
 				}
-				
+				//init the video
+//				var myVideo = new vcan.videoChat();
+//				myVideo.init();
 				this.arrowInit();
 				var oldData = whBoard.sentPackets;
 				setInterval(function (){
@@ -265,6 +268,7 @@
 					whBoard.utility.clearAll(false);
 					vm_chat.send({'replayAll' :  true});
 				}else{
+					
 					whBoard.toolInit(anchorNode.parentNode.id);
 				}
 				
@@ -280,7 +284,11 @@
 				if(anchorNode.parentNode.id != 't_replay'){
 					var currTime = new Date().getTime();
 					//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
+					whBoard.lt = anchorNode.parentNode.id;
 					var obj = {'cmd':anchorNode.parentNode.id, mt : currTime};
+					whBoard.uid++;
+					console.log('uid ' + ' ' + whBoard.uid);
+					obj.uid =whBoard.uid; 
 					vcan.main.replayObjs.push(obj);
 					vm_chat.send({'repObj': [obj]}); //after optimized
 				}

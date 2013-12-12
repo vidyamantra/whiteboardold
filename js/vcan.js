@@ -38,6 +38,8 @@
 			main : function (canvid){
 				vcan.main.children = []; //vcan.main should be converted into 'this' variable
 				vcan.main.id = 0;
+				vcan.main.uid = 0;
+				
 				vcan.main.canvas = document.querySelector(canvid);
 				vcan.main.canid =  canvid.substring(1, canvid.length);
 				vcan.main.currentTransform = "";

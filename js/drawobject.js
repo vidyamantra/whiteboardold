@@ -60,6 +60,8 @@
 							if(!ev.detail.hasOwnProperty('cevent')){
 								//var currTime = new Date().getTime();
 								var obj = vcan.makeStackObj(currTime, 'd', tool.startPosX, tool.startPosY);
+								whBoard.uid++;
+								obj.uid =whBoard.uid;
 								vcan.main.replayObjs.push(obj);
 								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 								vm_chat.send({'repObj': [obj]}); 
@@ -72,6 +74,9 @@
 						if(!ev.detail.hasOwnProperty('cevent')){
 							if(whBoard.utility.clickOutSidebox(whBoard.obj.drawTextObj.textWriteMode)){
 								var obj = vcan.makeStackObj(currTime, 'd', tool.startPosX, tool.startPosY);
+								whBoard.uid++;
+								obj.uid =whBoard.uid;
+								console.log('uid ' + obj.uid);
 								vcan.main.replayObjs.push(obj);
 								localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 								vm_chat.send({'repObj': [obj]}); 
@@ -131,6 +136,9 @@
 					  					if(((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null))) {
 								        	lastmousemovetime = new Date().getTime();
 								              var obj = vcan.makeStackObj(lastmousemovetime, 'm', ev.currX, ev.currY);
+								                whBoard.uid++;
+												obj.uid =whBoard.uid;
+												console.log('uid ' + obj.uid);
 												vcan.main.replayObjs.push(obj);
 												vm_chat.send({'repObj': [obj]});  //after optimized
 												localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -152,6 +160,9 @@
 												vm_chat.send({'repObj': dataChunk});
 												whBoard.utility.updateSentPackets(dataChunk);
 												for(var i=0; i<dataChunk.length; i++){
+													whBoard.uid++;
+												    console.log('uid ' + whBoard.uid);													
+													dataChunk[i].uid =whBoard.uid;
 													vcan.main.replayObjs.push(dataChunk[i]);
 												}
 												localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -178,11 +189,13 @@
 						  	 whBoard.canvas.addObject(rCurrObject);
 						  	 rCurrObject.coreObj.usrCurrAction = 'create';
 						  	 var  currTime= new Date().getTime();
-						  	 
+						  	
 						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
 						  		lastmousemovetime = new Date().getTime();
 						  		if(!ev.detail.hasOwnProperty('cevent') && objType != 'text'){
 									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
+									whBoard.uid++;
+									obj.uid =whBoard.uid;
 									vcan.main.replayObjs.push(obj);
 									vm_chat.send({'repObj': [obj]}); //after optimized
 									localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -195,6 +208,9 @@
 							if ((presentmousemovetime-lastmousemovetime)>=2000) { // Optimized
 								if(!ev.detail.hasOwnProperty('cevent') && objType != 'text'){
 									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
+									whBoard.uid++;
+									console.log('uid' + whBoard.uid);
+									obj.uid =whBoard.uid;
 									vcan.main.replayObjs.push(obj);
 									vm_chat.send({'repObj': [obj]}); //after optimized
 									localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -255,6 +271,8 @@
 					if(!ev.detail.hasOwnProperty('cevent') && objType != 'freeDrawing'){
 						 var currTime = new Date().getTime();
 						 var obj = vcan.makeStackObj(currTime, 'u', endPosX, endPosY);
+						 whBoard.uid++;
+						 obj.uid =whBoard.uid;
 						 vcan.main.replayObjs.push(obj);
 						 vm_chat.send({'repObj': [obj]}); //after optimized
 						 localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -273,8 +291,13 @@
 								  	 var currTime = new Date().getTime();
 									 var obj = vcan.makeStackObj(currTime, 'u', endPosX, endPosY);
 									 //vcan.main.replayObjs.push(obj);
+									 
+									 
 									 dataChunk.push(obj);
 									 for(var i=0; i<dataChunk.length; i++){
+											whBoard.uid++;
+											console.log('uid ' + whBoard.uid);
+											dataChunk[i].uid =whBoard.uid;
 										 vcan.main.replayObjs.push(dataChunk[i]);
 									 }
 								    

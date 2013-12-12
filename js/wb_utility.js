@@ -119,6 +119,8 @@
 			 * @param delRpNode
 			 */
 			clearAll : function(delRpNode, pkMode){
+				whBoard.uid  = 0; //this should be done with proper way
+				whBoard.lt = "";
 				var vcan = whBoard.vcan;
 				while(vcan.main.children.length > 0){
 					whBoard.canvas.removeObject(vcan.main.children[0]);

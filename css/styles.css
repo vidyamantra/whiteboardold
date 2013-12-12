@@ -104,7 +104,9 @@ body {
 	clear:both;
 	margin-left:550px;
 	margin-top:40px;
+	width:auto;
 }
+
 
 #informtionCont{
 	
@@ -125,4 +127,33 @@ body {
 	border:2px solid #ddd;
 	width:320px;
 	height : 80px;
+}
+
+
+#videos {
+	width:90%;
+	margin-top:20px;
+	padding:15px;
+	clear:both;
+}
+
+#videos{
+
+}
+
+#localVideo{
+	border:3px solid navy;
+	width:30%;
+	
+}
+
+#remoteVideo{
+	border:3px solid navy;
+	width:30%;
+}
+
+#remoteVideo2{
+	border:3px solid green;
+	width:30%;
+	
 }

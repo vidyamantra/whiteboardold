@@ -15,7 +15,6 @@
 				bindHandlers : function (){
 					canvasElement = vcan.main.canvas;
 					
-					
 					//TODO the types should be store into main/core funtion
 					// the place of this object should not be here
 					  var  types = {
@@ -95,9 +94,12 @@
 					  		var currTime = new Date().getTime();
 							//var obj = {'mdTime' :  currTime, 'action' : 'd', 'x' :  e.clientX, 'y' : e.clientY};
 					  		var obj = vcan.makeStackObj(currTime, 'd', e.clientX, e.clientY);
-					  		
+					  		whBoard.uid++;
+					  		console.log('uid ' + whBoard.uid);
+							obj.uid =whBoard.uid;
 							vcan.main.replayObjs.push(obj);
-							vm_chat.send({'repObj': [obj]});  //after optimized
+							vm_chat.send({'repObj': [obj]})
+//							vm_chat.send({'repObj': [obj]}, 41);  //after optimized
 							whBoard.utility.updateSentPackets(obj);
 					  	}
 					  	
@@ -122,9 +124,7 @@
 							foundTarget.setupCurrentTransform(e);
 						}
 					}
-					
-					console.log('x' + e.clientX);
-					console.log('x' + e.clientY);
+				
 				},
 				
 				
@@ -302,6 +302,9 @@
 						    	  	var currTime = new Date().getTime();
 						    	  	if(!e.detail.hasOwnProperty('cevent')){
 						    	  		var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
+						    	  		whBoard.uid++;
+						    	  		console.log('uid ' + whBoard.uid);
+										obj.uid =whBoard.uid;
 										vcan.main.replayObjs.push(obj);
 										vm_chat.send({'repObj': [obj]});
 										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
