@@ -88,10 +88,11 @@ $.when(
 		
 		
 		$(document).on("member_removed", function(e){
-			if(typeof myVideo != 'undefined'){
-				alert("suman bogati");
-				myVideo.hangup();
-			}
+//			if(typeof myVideo != 'undefined'){
+//				//alert("suman bogati");
+//				//debugger;
+//				myVideo.hangup();
+//			}
 		});
 		
 		
@@ -155,7 +156,14 @@ $.when(
     		}else if(e.message.hasOwnProperty('video')){
     			var video = vcan.myvid;
         		if(typeof video != 'undefined'){
-        			vcan.myvid.videoOnMsg(e.message.video);
+        			if(e.message.video == 'bye'){
+        				if(e.fromUser.userid != id){
+        					vcan.myvid.videoOnMsg(e.message.video);
+        				}
+        			}else{
+        				vcan.myvid.videoOnMsg(e.message.video);
+        			}
+        			
         		}
         	}else{
     			if(e.message.hasOwnProperty('repObj') && e.message.hasOwnProperty('sentObj')){

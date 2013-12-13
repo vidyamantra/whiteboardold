@@ -309,26 +309,46 @@
 				},
 
 				hangup : function() {
-				  
 				  console.log('Hanging up.');
 				  this.stop();
 				  this.sendMessage('bye');
 				}, 
 
 				handleRemoteHangup : function() {
+				  cthis.pc.splice(0, 1);
 				  console.log('Session terminated.');
+				  //alert('suman bogati is there');
+				  cthis.transitionToWaiting();
+				  cthis.isInitiator = true;
 				  cthis.stop();
-				  cthis.isInitiator = false;
+				 // alert('suman bogati');
+				  //debugger;
+				  
+				},
+				
+				transitionToWaiting : function() {
+						
+						vcan.videoChat.remoteVideo.src = '';
+					  //card.style.webkitTransform = 'rotateY(0deg)';
+//					  setTimeout(function() {
+//						  //  localVideo.src = miniVideo.src;
+//						  //  miniVideo.src = '';
+//						  
+//						//  vcan.videoChat.remoteVideo.src = '';
+//						  var tval = "";
+//					  }, 500);
+					  
 				},
 
 				stop : function() {
-				  this.isStarted = false;
-				  // isAudioMuted = false;
-				  // isVideoMuted = false;
-				  //this.pc.close();
-				  //this.pc = null;
-				  this.pc[cthis.cn].close();
-				  this.pc[cthis.cn] = null;	
+					  this.isStarted = false;
+					  // isAudioMuted = false;
+					  // isVideoMuted = false;
+					  //this.pc.close();
+					  //this.pc = null;
+					  this.pc[cthis.cn].close();
+					  this.pc[cthis.cn] = null;
+					  this.pc.splice(0, 1);
 				},
 
 				///////////////////////////////////////////
@@ -453,7 +473,8 @@
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
 				  } else if (message === 'bye' && cthis.isStarted) {
-				    cthis.handleRemoteHangup();
+					  
+					  cthis.handleRemoteHangup();
 				  }
 		    }
 		    
@@ -461,5 +482,12 @@
 		
 	
 		}
+		
+		window.onbeforeunload = function() {
+			//alert('suman bo');
+			cthis.sendMessage('bye');
+			
+		}
 	}		
+	
 )(window);
