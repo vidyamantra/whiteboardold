@@ -102,6 +102,7 @@ $.when(
 			myVideo.id = id;
 			myVideo.browserLen = e.message.length;
 			
+			//This one is video part
 			var clientNum = e.message.length;
 				//browser A
 				if(clientNum == 1){
@@ -133,9 +134,8 @@ $.when(
 		
 		
   		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('suman')){
-  				//debugger;
-  			}else if(e.message.hasOwnProperty('createPeerObj')){
+  			//video part
+  			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
   				if(myVideo.currBrowser == id){
@@ -163,7 +163,6 @@ $.when(
         			}else{
         				vcan.myvid.videoOnMsg(e.message.video);
         			}
-        			
         		}
         	}else{
     			if(e.message.hasOwnProperty('repObj') && e.message.hasOwnProperty('sentObj')){
@@ -175,18 +174,19 @@ $.when(
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
+	    				//if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
 	    					whBoard.uid = e.message.repObj[0].uid;
 	    				}
 	        		}
 	    			
 	    			if(e.message.hasOwnProperty('repObj')){
-	    				if(e.message.repObj[0].hasOwnProperty('uid')){
+	    				if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
 	    					console.log('uid ' + e.message.repObj[0].uid);
 	    				}
 	        		}
 	    			
 	    			if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
-	    				if(lastId != 0){
+	    				if(lastId != 0 || (whBoard.uid > 0 && lastId == 0)){
 	    					if((typeof e.message.repObj == 'object' || typeof e.message.repObj instanceof Array)){
 	    						 if(e.message.repObj[0].hasOwnProperty('uid')){
 	    							if(lastId+1 != e.message.repObj[0].uid){
@@ -205,12 +205,19 @@ $.when(
 	    		
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('getMsPckt')){
-	    				var fs = e.message.getMsPckt[0].uid;
-	    				for(var i=0; i<myrepObj.length; i++){
-	        				if(e.message.getMsPckt[0] == myrepObj[i].uid){
-	        					fs =  e.message.getMsPckt[0];
-	        					break;
-	        				}
+	    				 //if start at very first	
+	    				if(e.message.getMsPckt[0] == 0){
+	    					
+	    					var i = -1;
+	    				}else{
+	    					var fs = e.message.getMsPckt[0].uid;
+		    				
+		    				for(var i=0; i<myrepObj.length; i++){
+		        				if(e.message.getMsPckt[0] == myrepObj[i].uid){
+		        					fs =  e.message.getMsPckt[0];
+		        					break;
+		        				}
+		    				}
 	    				}
 	    				
 	    				//this loop should be improved
@@ -218,6 +225,8 @@ $.when(
 	    					chunk.push(myrepObj[j]);
 	    				}
 	    				
+//	    				alert('suman bogati');
+//	    				debugger;
 	    				vm_chat.send({'repObj' : chunk, 'chunk' : true});
 	    				return;
 	        		}
@@ -270,6 +279,7 @@ $.when(
 	        				}
 	    					if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
+	        						//alert('this has to be fixed');
 	            					lastId = e.message.repObj[e.message.repObj.length-1].uid;
 	            				}
 	        				}

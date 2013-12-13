@@ -182,7 +182,11 @@ var vm_chat = {
 				//alert('joi');
 				lastarrowtime = new Date().getTime();
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-				this.sock.send(jobj);
+				//this.sock.send(jobj);
+				if(this.sock.readyState == 1){
+					this.sock.send(jobj);
+				}
+
 				vm_chat.updateSentInformation(jobj, true);
 			}
 			
@@ -190,13 +194,19 @@ var vm_chat = {
 			if ((presentarrowtime-lastarrowtime)>=100) { // Optimized
 
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-				this.sock.send(jobj);
+				//this.sock.send(jobj);
+				if(this.sock.readyState == 1){
+					this.sock.send(jobj);
+				}
 				vm_chat.updateSentInformation(jobj, true);
 				lastarrowtime = new Date().getTime();
 			}
 		}else {
 			whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-			this.sock.send(jobj);
+			if(this.sock.readyState == 1){
+				this.sock.send(jobj);
+			}
+			//this.sock.send(jobj);
 			//vm_chat.updateSentInformation(jobj);
 		}
 		

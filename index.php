@@ -66,6 +66,13 @@
     		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
     		
 	</div>
+    
+    
+    <div id="conControler">
+    	<a href="#" id="onConnection">Connection On</a> <br />
+    	<a href="#" id="offConnection">Connection Off</a>
+    </div>
+    
     <div id="informtionCont">
     	
     	 	
@@ -79,11 +86,6 @@
 	    <div id="rcvdMsgInfo">
 	    	
 	    </div>
-    </div>
-    
-    <div id="conControler">
-    	<a href="#" id="onConnection">Connection On</a> <br />
-    	<a href="#" id="offConnection">Connection Off</a>
     </div>
     <!--  
     <script type="text/javascript" src="js/demo.js"> </script>
