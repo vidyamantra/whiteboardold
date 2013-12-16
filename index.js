@@ -46,7 +46,7 @@ $.when(
 	$(document).ready(function(){
 		myrepObj = [];
     	replayObjs = []; // this should contain either into whiteboard or into van object
-    	lastId = 0;
+    	vcan.lastId = 0;
     	window.whBoard.attachToolFunction('commandToolsWrapper');
     	window.whBoard.init();
     	if(typeof(Storage)!=="undefined"){
@@ -186,18 +186,25 @@ $.when(
 	        		}
 	    			
 	    			if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
-	    				if(lastId != 0 || (whBoard.uid > 0 && lastId == 0)){
+	    				if(vcan.lastId != 0 || (whBoard.uid > 0 && vcan.lastId == 0)){
+	    				//if(vcan.lastId != 0){
 	    					if((typeof e.message.repObj == 'object' || typeof e.message.repObj instanceof Array)){
 	    						 if(e.message.repObj[0].hasOwnProperty('uid')){
-	    							if(lastId+1 != e.message.repObj[0].uid){
+	    							if(vcan.lastId+1 != e.message.repObj[0].uid){
 	    								whBoard.sentReq = true;
-	    								var sp = lastId;
+	    								var sp = vcan.lastId;
 		        	    				var ep = e.message.repObj[0].uid;
 		        	    				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
 		        	    				return;
 	    							}
 	    				 		 }
 	    					}
+	    				}else{
+	    				//	whBoard.sentReq = true;
+//							var sp = vcan.lastId;
+//    	    				var ep = e.message.repObj[0].uid;
+//    	    				vm_chat.send({'getMsPckt' : [0, ep]}); //will have to request to teacher
+//    	    				return;
 	    				}
 	    	    	}
 	    		}
@@ -248,6 +255,7 @@ $.when(
 		    			whBoard.utility.drawArrowImg(imageElm, obj);
 		    			updateRcvdInformation(e.message);
 		    		}else if(e.message.hasOwnProperty('clearAll')){
+		    			vcan.lastId = 0;
 		    			updateRcvdInformation(e.message);
 		    		}else{
 		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt')){
@@ -266,7 +274,7 @@ $.when(
 	//    				
 	//    				if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	//    					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
-	//        					lastId = e.message.repObj[e.message.repObj.length-1].uid;
+	//        					vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
 	//        				}
 	//    				}
 	//    				localStorage.repObjs = JSON.stringify(replayObjs);
@@ -280,7 +288,7 @@ $.when(
 	    					if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
 	        						//alert('this has to be fixed');
-	            					lastId = e.message.repObj[e.message.repObj.length-1].uid;
+	            					vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
 	            				}
 	        				}
 	    					localStorage.repObjs = JSON.stringify(replayObjs);
@@ -322,6 +330,7 @@ $.when(
 	    			replayObjs = [];
 	 				whBoard.utility.t_clearallInit();
 	 				localStorage.clear();
+	 				vcan.lastId = 0;
 	 			}
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
@@ -346,9 +355,9 @@ $.when(
     	
     	function requestPacket(e){
     		if(e.message.repObj[0].hasOwnProperty('uid')){
-				if(lastId+1 != e.message.repObj[0].uid){
+				if(vcan.lastId+1 != e.message.repObj[0].uid){
 					whBoard.sentReq = true;
-    				var sp = lastId+1;
+    				var sp = vcan.lastId+1;
     				var ep = e.message.repObj[0].uid;
     				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
     			}
