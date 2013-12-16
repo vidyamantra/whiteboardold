@@ -28,6 +28,7 @@ $.when(
 		$.getScript( "js/script.js" ) */
 		
  ).done(function(){
+	 mysuman = false;
 	 $.uiBackCompat=false;
     //place your code here, the scripts are all loaded
     var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
@@ -174,7 +175,7 @@ $.when(
 	    		
 	    		myrepObj = whBoard.vcan.getStates('replayObjs');
 	    		var chunk = [];
-	    		if(e.fromUser.userid != id){
+	    		//if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
 	    				//if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
@@ -197,8 +198,13 @@ $.when(
 	    								whBoard.sentReq = true;
 	    								var sp = vcan.lastId;
 		        	    				var ep = e.message.repObj[0].uid;
-		        	    				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-		        	    				return;
+		        	    				if(e.fromUser.userid == id){
+		        	    					mysuman = true;
+		        	    				}else{
+		        	    					vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
+		        	    					return;
+		        	    				}
+		        	    				
 	    							}
 	    				 		 }
 	    					}
@@ -210,26 +216,34 @@ $.when(
 //    	    				return;
 	    				}
 	    	    	}
-	    		}
+	    	//	}
+	    		
 	    		
 	    		
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('getMsPckt')){
+	    				//alert('suman bogati');
 	    				 //if start at very first	
 	    				if(e.message.getMsPckt[0] == 0){
-	    					
+	    					//at very starging
 	    					var i = -1;
 	    				}else{
 	    					var fs = e.message.getMsPckt[0].uid;
 		    				
 		    				for(var i=0; i<myrepObj.length; i++){
 		        				if(e.message.getMsPckt[0] == myrepObj[i].uid){
+		        					
 		        					fs =  e.message.getMsPckt[0];
 		        					break;
 		        				}
 		    				}
 	    				}
-	    				
+	    				//alert("suamn");
+	    				if(myrepObj.length != replayObjs.length){
+	    					for(var k=0; k<myrepObj.length; k++){
+	    						replayObjs.push(myrepObj[k]);
+	    					}
+	    				}
 	    				//this loop should be improved
 	    				for(var j=i+1; j<myrepObj.length; j++){
 	    					chunk.push(myrepObj[j]);
@@ -241,6 +255,8 @@ $.when(
 	    				return;
 	        		}
 	    		}
+	    		
+	    		
 	    		
 	    		var	updateRcvdInformation =  function (msg){
 	    			var compMsg = "";
@@ -285,9 +301,19 @@ $.when(
 	    				if(e.message.repObj.length > 1 && e.message.hasOwnProperty('chunk') && e.fromUser.userid == id){
 	    					
 	    				}else{
-	    					for (var i=0; i<e.message.repObj.length; i++){
-	        					replayObjs.push(e.message.repObj[i]);
+//	    					if(vcan.lastId+1 == e.message.repObj[0].uid){
+//	    						for (var i=0; i<e.message.repObj.length; i++){
+//		        					replayObjs.push(e.message.repObj[i]);
+//		        				}
+//	    					}
+    						for (var i=0; i<e.message.repObj.length; i++){
+    							if(mysuman == false){
+    								replayObjs.push(e.message.repObj[i]);
+    							}else{
+    								mysuman  = false;
+    							}
 	        				}
+	    					
 	    					if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
 	        						//alert('this has to be fixed');
@@ -335,8 +361,6 @@ $.when(
 	 				localStorage.clear();
 	 				vcan.lastId = 0;
 	 				removeTextNode();
-	 				
-	 				
 	 			}
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){

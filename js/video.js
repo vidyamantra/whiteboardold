@@ -23,6 +23,7 @@
 		    	init : function (vbool){
 		    			cthis = this;
 		    			
+		    			
 //		    			if(typeof vbool != 'undefined'){
 //		    				cthis.cn++;
 //			    			console.log('cna ' + ' ' + cthis.cn);
