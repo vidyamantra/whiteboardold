@@ -79,7 +79,8 @@ $.when(
 		function chkAlreadyConnected(){
 			if(typeof cthis != 'undefined'){
 				//0 should be inxex as user increased
-				if(cthis.pc[0].hasOwnProperty('iceConnectionState')){
+				//the second condition is set for for firefox as the first is not applying in Chrome browser
+				if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
 					return true;
 				}
 			}
@@ -106,10 +107,12 @@ $.when(
 			var clientNum = e.message.length;
 				//browser A
 				if(clientNum == 1){
-					myVideo.isInitiator = true;
-					vcan.oneExecuted = false;
-					vcan.vid = myVideo.init();
-				
+					if(!chkAlreadyConnected()){
+						//alert("this is not performing");
+						myVideo.isInitiator = true;
+						vcan.oneExecuted = false;
+						vcan.vid = myVideo.init();
+					}
 				//browser B
 				}else if(clientNum == 2 && e.newuser == null){
 					if(!chkAlreadyConnected()){
@@ -255,7 +258,7 @@ $.when(
 		    			whBoard.utility.drawArrowImg(imageElm, obj);
 		    			updateRcvdInformation(e.message);
 		    		}else if(e.message.hasOwnProperty('clearAll')){
-		    			vcan.lastId = 0;
+		    			//vcan.lastId = 0;
 		    			updateRcvdInformation(e.message);
 		    		}else{
 		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt')){
@@ -331,6 +334,9 @@ $.when(
 	 				whBoard.utility.t_clearallInit();
 	 				localStorage.clear();
 	 				vcan.lastId = 0;
+	 				removeTextNode();
+	 				
+	 				
 	 			}
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
@@ -341,7 +347,13 @@ $.when(
     		}
     	});
     	
-    	
+    	//TODO  this should be contain into text file
+  		function removeTextNode(){
+  			var allTextContainer = document.getElementsByClassName('textBoxContainer');
+  			for(var i=0; i<allTextContainer.length; i++){
+  				allTextContainer[i].parentNode.removeChild(allTextContainer[i]);
+  			}
+  		}
     	/*
     	function deliverPackets(e){
     		if(e.message.hasOwnProperty('getMsPckt')){

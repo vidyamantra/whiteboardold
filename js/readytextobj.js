@@ -103,6 +103,7 @@
 						var vcan = whBoard.vcan;
 						var divNode  = document.createElement('div');
 						divNode.id = "box" + boxNumber;
+						divNode.className = "textBoxContainer";
 						
 						divNode.style.position = 'absolute';
 
