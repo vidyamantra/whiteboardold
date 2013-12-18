@@ -325,7 +325,7 @@
 			 * @param cmd expects the particular command from user
 			 * 
 			 */
-			toolInit : function (cmd, repMode, multiuser){
+			toolInit : function (cmd, repMode, multiuser, myfunc){
 				if(typeof whBoard.obj.drawTextObj == 'object' && whBoard.obj.drawTextObj.wmode == true){
 					var ctx = vcan.main.canvas.getContext('2d');
 					//disable of this code can be crtical
@@ -362,7 +362,12 @@
 					if(typeof multiuser == 'undefined'){
 						vcan.setValInMain('id', 0);
 					}
-					whBoard.t_replayInit(repMode);
+					if(typeof myfunc !=  'undefined'){
+						whBoard.t_replayInit(repMode, myfunc);
+					}else{
+						whBoard.t_replayInit(repMode);
+					}
+					
 					/* disable of this code can be critical
 					 var repAllObjs = whBoard.vcan.getStates('replayObjs');
  					 if(repAllObjs.length > 1){
@@ -778,7 +783,7 @@
 			 * This function does initiates replay function after click on replay button 
 			 * it replays all the object the user would drawn 
 			 */
-			t_replayInit : function(repMode) {
+			t_replayInit : function(repMode, myfunc) {
 				
 				//vcan.setValInMain('id', 0); 
 				//var vcan = whBoard.vcan;
@@ -797,8 +802,12 @@
 				 // renderObjText();
 				 whBoard.replay = whBoard._replay();
 				 whBoard.replay.init(repMode);
-				 whBoard.replay.renderObj();
 				 
+				 if(typeof myfunc != 'undefined'){
+					 whBoard.replay.renderObj(myfunc);
+				 }else{
+					 whBoard.replay.renderObj();
+				 }
 				 
 			
 				 //if(typeof whBoard.replay.rctx == 'object'){

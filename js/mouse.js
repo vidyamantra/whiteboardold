@@ -320,7 +320,8 @@
 	  						  }else{
 								  if(!e.detail.hasOwnProperty('cevent')){
 									    var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
-										vcan.main.replayObjs.push(obj);
+										//TOOD very urgent the uid is not created and pushed into stack
+									    vcan.main.replayObjs.push(obj);
 										vm_chat.send({'repObj': [obj]});
 										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 						    	  	}

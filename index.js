@@ -28,7 +28,8 @@ $.when(
 		$.getScript( "js/script.js" ) */
 		
  ).done(function(){
-	 mysuman = false;
+	  repObjQue = []
+	 //mysuman = false;
 	 $.uiBackCompat=false;
     //place your code here, the scripts are all loaded
     var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
@@ -47,7 +48,14 @@ $.when(
 	$(document).ready(function(){
 		myrepObj = [];
     	replayObjs = []; // this should contain either into whiteboard or into van object
-    	vcan.lastId = 0;
+    	
+    	if(localStorage.hasOwnProperty('lastId')){
+    		vcan.lastId = parseInt(localStorage.lastId);
+    	}else{
+    		vcan.lastId = 0;
+    	}
+    	
+    	
     	window.whBoard.attachToolFunction('commandToolsWrapper');
     	window.whBoard.init();
     	if(typeof(Storage)!=="undefined"){
@@ -77,6 +85,7 @@ $.when(
 		var myVideo = new window.whBoard.vcan.videoChat();
 		vcan.myvid = myVideo;
 		
+		vcan.renderedObjId = 0;
 		function chkAlreadyConnected(){
 			if(typeof cthis != 'undefined'){
 				//0 should be inxex as user increased
@@ -136,7 +145,7 @@ $.when(
 	  			}
 			});
 		
-		
+		tempArr = [];
   		$(document).on("newmessage", function(e){
   			//video part
   			if(e.message.hasOwnProperty('createPeerObj')){
@@ -169,18 +178,30 @@ $.when(
         			}
         		}
         	}else{
+        		
     			if(e.message.hasOwnProperty('repObj') && e.message.hasOwnProperty('sentObj')){
 					whBoard.sentReq = false;
 				}
 	    		
 	    		myrepObj = whBoard.vcan.getStates('replayObjs');
-	    		var chunk = [];
-	    		//if(e.fromUser.userid != id){
+	    		chunk = [];
+	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
 	    				//if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
 	    					whBoard.uid = e.message.repObj[0].uid;
 	    				}
+	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.lastId != 0){
+	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.lastId != 0){	    				
+    						if(vcan.lastId != vcan.renderedObjId){
+    							if(vcan.lastId != vcan.renderedObjId){
+        							//tempArr.push(e.message.repObj[0]);
+    								for(var i=0; i<e.message.repObj.length; i++){
+    									tempArr.push(e.message.repObj[i]);
+    								}
+        						}
+    						}
+    		    		}	
 	        		}
 	    			
 	    			if(e.message.hasOwnProperty('repObj')){
@@ -190,69 +211,52 @@ $.when(
 	        		}
 	    			
 	    			if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
-	    				if(vcan.lastId != 0 || (whBoard.uid > 0 && vcan.lastId == 0)){
-	    				//if(vcan.lastId != 0){
+	    				if(vcan.lastId != 0 || (whBoard.uid > 0 && vcan.lastId == 0)){ //for handle very starting stage
 	    					if((typeof e.message.repObj == 'object' || typeof e.message.repObj instanceof Array)){
 	    						 if(e.message.repObj[0].hasOwnProperty('uid')){
-	    							if(vcan.lastId+1 != e.message.repObj[0].uid){
-	    								whBoard.sentReq = true;
-	    								var sp = vcan.lastId;
-		        	    				var ep = e.message.repObj[0].uid;
-		        	    				if(e.fromUser.userid == id){
-		        	    					mysuman = true;
-		        	    				}else{
-		        	    					vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-		        	    					return;
-		        	    				}
-		        	    				
+	    							 //request missed packets
+	    							 if(vcan.lastId+1 != e.message.repObj[0].uid){
+	    								 requestPackets(e);
+//	    								whBoard.sentReq = true;
+//	    								var sp = vcan.lastId;
+//		        	    				var ep = e.message.repObj[0].uid;
+//		        	    				if(vcan.lastId == vcan.renderedObjId){
+//		        	    					vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
+//			        	    				return;
+//		        	    				}
+			
 	    							}
 	    				 		 }
 	    					}
-	    				}else{
-	    				//	whBoard.sentReq = true;
-//							var sp = vcan.lastId;
-//    	    				var ep = e.message.repObj[0].uid;
-//    	    				vm_chat.send({'getMsPckt' : [0, ep]}); //will have to request to teacher
-//    	    				return;
 	    				}
 	    	    	}
-	    	//	}
+	    		}
 	    		
 	    		
 	    		
 	    		if(e.fromUser.userid != id){
+	    			//alert('suman bgoa');
 	    			if(e.message.hasOwnProperty('getMsPckt')){
-	    				//alert('suman bogati');
-	    				 //if start at very first	
-	    				if(e.message.getMsPckt[0] == 0){
-	    					//at very starging
-	    					var i = -1;
-	    				}else{
-	    					var fs = e.message.getMsPckt[0].uid;
-		    				
-		    				for(var i=0; i<myrepObj.length; i++){
-		        				if(e.message.getMsPckt[0] == myrepObj[i].uid){
-		        					
-		        					fs =  e.message.getMsPckt[0];
-		        					break;
-		        				}
-		    				}
-	    				}
-	    				//alert("suamn");
-	    				if(myrepObj.length != replayObjs.length){
-	    					for(var k=0; k<myrepObj.length; k++){
-	    						replayObjs.push(myrepObj[k]);
-	    					}
-	    				}
-	    				//this loop should be improved
-	    				for(var j=i+1; j<myrepObj.length; j++){
-	    					chunk.push(myrepObj[j]);
-	    				}
+	    				//send requested packets
+	    				sendPackets(e);
 	    				
-//	    				alert('suman bogati');
-//	    				debugger;
-	    				vm_chat.send({'repObj' : chunk, 'chunk' : true});
-	    				return;
+//	    				if(e.message.getMsPckt[0] == 0){
+//	    					var i = -1;
+//	    				}else{
+//	    					var fs = e.message.getMsPckt[0].uid;
+//		    				for(var i=0; i<myrepObj.length; i++){
+//		        				if(e.message.getMsPckt[0] == myrepObj[i].uid){
+//		        					fs =  e.message.getMsPckt[0];
+//		        					break;
+//		        				}
+//		    				}
+//	    				}
+//	    	
+//	    				for(var j=i+1; j<myrepObj.length; j++){
+//	    					chunk.push(myrepObj[j]);
+//	    				}
+//	    				vm_chat.send({'repObj' : chunk, 'chunk' : true});
+//	    				return;
 	        		}
 	    		}
 	    		
@@ -286,44 +290,26 @@ $.when(
 	    		initLoop = 0;
 	    		if(!e.message.hasOwnProperty('clearAll') && !e.message.hasOwnProperty('replayAll')){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentReq')){
-	    				//console.log('repObj ' + e.message.repObj.length );
-	//    				for (var i=0; i<e.message.repObj.length; i++){
-	//    					replayObjs.push(e.message.repObj[i]);
-	//    				}
-	//    				
-	//    				if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
-	//    					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
-	//        					vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
-	//        				}
-	//    				}
-	//    				localStorage.repObjs = JSON.stringify(replayObjs);
-	    				
 	    				if(e.message.repObj.length > 1 && e.message.hasOwnProperty('chunk') && e.fromUser.userid == id){
 	    					
 	    				}else{
-//	    					if(vcan.lastId+1 == e.message.repObj[0].uid){
-//	    						for (var i=0; i<e.message.repObj.length; i++){
-//		        					replayObjs.push(e.message.repObj[i]);
-//		        				}
-//	    					}
     						for (var i=0; i<e.message.repObj.length; i++){
-    							if(mysuman == false){
+    							if(vcan.renderedObjId + 1 == e.message.repObj[0].uid) {
     								replayObjs.push(e.message.repObj[i]);
-    							}else{
-    								mysuman  = false;
     							}
-	        				}
-	    					
-	    					if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
+    						}
+
+    						if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
-	        						//alert('this has to be fixed');
-	            					vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
+	        						vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
+	        						localStorage.lastId = vcan.lastId; 
 	            				}
 	        				}
-	    					localStorage.repObjs = JSON.stringify(replayObjs);
+    						if(e.fromUser.userid != id){
+    							localStorage.repObjs = JSON.stringify(replayObjs);
+    						}
+	    					
 	        			}
-	    				
-	    				
 	    			}
 	    			
 	    			
@@ -338,28 +324,56 @@ $.when(
 					localStorage.receivedPackets = whBoard.receivedPackets; 
 				}
 	    		
-	    		
-	    		
+
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentReq')){
 	    				window.whBoard.vcan.main.replayObjs = [];
 	    				if(e.message.repObj.length > 0){ 
-	    					 window.whBoard.vcan.main.replayObjs = e.message.repObj;
-	       					 whBoard.toolInit('t_replay', 'fromBrowser', true);
-	       				}
+	    					 if(vcan.renderedObjId + 1 == e.message.repObj[0].uid){
+	    						 //alert('suman');
+	    						 window.whBoard.vcan.main.replayObjs = e.message.repObj;
+		       					 whBoard.toolInit('t_replay', 'fromBrowser', true, function (val){ 
+		       						 	if(tempArr.length > 0){
+//			       						 	if(e.fromUser.userid != id){
+//			        							replayObjs = replayObjs.join(replayObjs, tempArr);
+//			        							localStorage.repObjs = JSON.stringify(replayObjs);
+//			        						}
+											window.whBoard.vcan.main.replayObjs = tempArr;
+											tempArr = [];
+											whBoard.toolInit('t_replay', 'fromBrowser', true);
+											
+										}
+		       						 
+		       					 });
+	    					 }
+	    					
+//	    					 window.whBoard.vcan.main.replayObjs = e.message.repObj;
+//	       					 whBoard.toolInit('t_replay', 'fromBrowser', true);
+	    					 
+//	    					setTimeout(
+//	 								function (){
+//	 									if(e.message.repObj[e.message.repObj.length-1].uid == vcan.renderedObjId){
+//	 										if(tempArr.length > 0){
+//	 											window.whBoard.vcan.main.replayObjs = tempArr;
+//	 											whBoard.toolInit('t_replay', 'fromBrowser', true);
+//	 											tempArr = [];
+//	 										}
+//	 									}
+//	 								},
+//	 								1000
+//	 						);
+	    					 
+	  	    			}
 	    			}
 	    		}
-	    		
-	//    		if(e.fromUser.userid != id){
-	//    			 window.whBoard.vcan.main.replayObjs = replayObjs;
-	//    		}
-	    		
+
 	    		if(e.message.hasOwnProperty('clearAll')){
 	    			myrepObj = [];
 	    			replayObjs = [];
 	 				whBoard.utility.t_clearallInit();
 	 				localStorage.clear();
 	 				vcan.lastId = 0;
+	 				vcan.renderedObjId = 0;
 	 				removeTextNode();
 	 			}
 	    		
@@ -371,6 +385,38 @@ $.when(
     		}
     	});
     	
+  		
+  		function requestPackets (e){
+  			whBoard.sentReq = true;
+			var sp = vcan.lastId;
+			var ep = e.message.repObj[0].uid;
+			//if(vcan.lastId == vcan.renderedObjId){
+				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
+				return;
+			//}
+  		}
+  		
+  		function sendPackets(e){
+			if(e.message.getMsPckt[0] == 0){
+				var i = -1;
+			}else{
+				var fs = e.message.getMsPckt[0].uid;
+				for(var i=0; i<myrepObj.length; i++){
+    				if(e.message.getMsPckt[0] == myrepObj[i].uid){
+    					fs =  e.message.getMsPckt[0];
+    					break;
+    				}
+				}
+			}
+
+			for(var j=i+1; j<myrepObj.length; j++){
+				chunk.push(myrepObj[j]);
+			}
+			
+			vm_chat.send({'repObj' : chunk, 'chunk' : true});
+			return;
+
+  		}
     	//TODO  this should be contain into text file
   		function removeTextNode(){
   			var allTextContainer = document.getElementsByClassName('textBoxContainer');
@@ -378,27 +424,6 @@ $.when(
   				allTextContainer[i].parentNode.removeChild(allTextContainer[i]);
   			}
   		}
-    	/*
-    	function deliverPackets(e){
-    		if(e.message.hasOwnProperty('getMsPckt')){
-    			for(var i=e.message.getMsPckt[0]-1; i<e.message.getMsPckt[1]; i++){
-    				chunk.push(myrepObj[i]);
-    			}
-				vm_chat.send({'repObj' : chunk});
-    			return;
-    		}
-    	}
-    	
-    	function requestPacket(e){
-    		if(e.message.repObj[0].hasOwnProperty('uid')){
-				if(vcan.lastId+1 != e.message.repObj[0].uid){
-					whBoard.sentReq = true;
-    				var sp = vcan.lastId+1;
-    				var ep = e.message.repObj[0].uid;
-    				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-    			}
-			 }
-    	} */
    });
 });
 

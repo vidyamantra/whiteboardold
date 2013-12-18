@@ -8,14 +8,24 @@
 					this.objs = vcan.getStates('replayObjs');
 					this.objNo  = 0;
 					this.repMode = repMode;
+					this.callBkfunc = "";
 				},
 				
-				renderObj : function (){
+				renderObj : function (myfunc){
 					wbRep = whBoard.replay;
+					if(typeof wbRep.objs[wbRep.objNo] == 'undefined'){
+						return;
+					}
+					if(typeof myfunc != 'undefined'){
+						wbRep.callBkfunc = myfunc;
+					}
+					
 					if(wbRep.objs[wbRep.objNo].hasOwnProperty('cmd')){
 						
 						//whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
+						vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
 						whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
+						
 					}else{
 						var event = "";
 						if(wbRep.objs[wbRep.objNo].ac == 'd'){
@@ -37,17 +47,37 @@
                         
                         var eventConstruct = new CustomEvent(event, eventObj); //this is not supported for ie9 and older ie browsers
                         vcan.main.canvas.dispatchEvent(eventConstruct);
+                        
+                		vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
+						console.log('renderObj ' + vcan.renderedObjId);
+				
 
 					}
 					
+					if(typeof wbRep.callBkfunc == 'function'){
+						if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){
+							wbRep.callBkfunc(true);
+							//myfunc(true);
+						}
+					}
+					
 					if(typeof wbRep.objs[wbRep.objNo+1] == 'object'){
+//						vcan.renderedObj = wbRep.objs[wbRep.objNo].uid;
+//						console.log('renderObj ' + vcan.renderedObj);
 						
 						whBoard.replayTime = wbRep.objs[wbRep.objNo+1].mt - wbRep.objs[wbRep.objNo].mt;
+//						if(typeof myfunc != 'undefined'){
+//							if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){
+//								myfunc(true);
+//							}
+//						}
+						
 						wbRep.objNo++;
 						
 						if(typeof wbRep.repMode != 'undefined' && wbRep.repMode == 'fromBrowser'){
 							whBoard.replayTime = 0;
 						}
+						
 						setTimeout(wbRep.renderObj, whBoard.replayTime);
 					}
 					
