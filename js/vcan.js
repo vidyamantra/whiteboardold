@@ -2802,6 +2802,8 @@
 			           if(!e.detail.hasOwnProperty('cevent')){
 			        		//var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
 			        	    var obj = vcan.makeStackObj(lastmousemovetime, 'm', e.clientX, e.clientY);
+			        	    whBoard.uid++;
+			        	    obj.uid = whBoard.uid; 
 							vcan.main.replayObjs.push(obj);
 							vm_chat.send({'repObj': [obj]});  //after optimized
 							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
@@ -2814,6 +2816,8 @@
 						var currTime= new Date().getTime();
 						if(!e.detail.hasOwnProperty('cevent')){
 						var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
+							whBoard.uid++;
+		        	    	obj.uid = whBoard.uid; 
 							vcan.main.replayObjs.push(obj);
 							vm_chat.send({'repObj': [obj]});
 							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
