@@ -51,7 +51,7 @@
 				if(currState == 'create'){
 					var currTime = new Date().getTime();
 					
-					if(objType != 'text'){
+					if(objType != 'text' && whBoard.tool.cmd != 't_clearall'){
 						var currTransformState = vcan.getStates('currentTransform');				
 						if(currTransformState == ""  || currTransformState == null){
 						//	if(!ev.detail.hasOwnProperty('cevent') && objType != 'freeDrawing'){
@@ -69,7 +69,7 @@
 						}
 					}else{
 						whBoard.obj.drawTextObj.muser = false;
-						if(!ev.detail.hasOwnProperty('cevent')){
+						if(!ev.detail.hasOwnProperty('cevent') && whBoard.tool.cmd != 't_clearall'){ //creating for other browser
 							if(whBoard.utility.clickOutSidebox(whBoard.obj.drawTextObj.textWriteMode)){
 								var obj = vcan.makeStackObj(currTime, 'd', tool.startPosX, tool.startPosY);
 								whBoard.uid++;
@@ -115,6 +115,7 @@
 			 */
 			tool.mousemove = function (ev, mouseup) {
 				if(ev.detail.hasOwnProperty('cevent')){
+					
 					ev.clientX = ev.detail.cevent.x + (whBoard.vcan.main.offset.x);
 					ev.clientY = ev.detail.cevent.y + (whBoard.vcan.main.offset.y);
 					ev.x = ev.detail.cevent.x + (whBoard.vcan.main.offset.x);
@@ -124,7 +125,7 @@
 					ev.currX = ev.detail.cevent.x;
 					ev.currY = ev.detail.cevent.y;
 				}
-			  if (tool.started) {
+			  if (tool.started && whBoard.tool.cmd != 't_clearall') { //command code inserted after found the problem
 				  	if(whBoard.obj.freeDrawObj != undefined && whBoard.obj.freeDrawObj.freesvg == true){
 					  	  if (whBoard.obj.freeDrawObj.fdObj.isCurrentlyDrawing) {
 					  			whBoard.obj.freeDrawObj.wb_draw(ev);
@@ -190,7 +191,7 @@
 						  	
 						  	if ((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null)) {
 						  		lastmousemovetime = new Date().getTime();
-						  		if(!ev.detail.hasOwnProperty('cevent') && objType != 'text'){
+						  		if(!ev.detail.hasOwnProperty('cevent') && objType != 'text' && whBoard.tool.cmd != 't_clearall'){
 									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
 									whBoard.uid++;
 									obj.uid =whBoard.uid;
@@ -204,7 +205,7 @@
 							presentmousemovetime = new Date().getTime();
 							
 							if ((presentmousemovetime-lastmousemovetime)>=2000) { // Optimized
-								if(!ev.detail.hasOwnProperty('cevent') && objType != 'text'){
+								if(!ev.detail.hasOwnProperty('cevent') && objType != 'text' && whBoard.tool.cmd != 't_clearall'){
 									var obj = vcan.makeStackObj(currTime, 'm', endPosX, endPosY);
 									whBoard.uid++;
 									console.log('uid' + whBoard.uid);

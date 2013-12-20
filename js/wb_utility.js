@@ -105,6 +105,8 @@
 			t_clearallInit : function() {
 				var delRpNode = true;
 				whBoard.utility.clearAll(delRpNode);
+				
+				
 				if(localStorage.repObjs){
 					//localStorage.clear();
 					//alert('suman bogati');

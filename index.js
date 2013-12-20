@@ -145,7 +145,7 @@ $.when(
 	  			}
 			});
 		
-		tempArr = [];
+		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
   			//video part
   			if(e.message.hasOwnProperty('createPeerObj')){
@@ -197,7 +197,7 @@ $.when(
     							if(vcan.lastId != vcan.renderedObjId){
         							//tempArr.push(e.message.repObj[0]);
     								for(var i=0; i<e.message.repObj.length; i++){
-    									tempArr.push(e.message.repObj[i]);
+    									vcan.tempArr.push(e.message.repObj[i]);
     									//vcan.lastId = e.message.repObj[i].uid;
     								}
         						}
@@ -311,8 +311,8 @@ $.when(
 	        						vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
 	        						localStorage.lastId = vcan.lastId; 
 	            				}
-	        					if(tempArr.length > 0){
-	        						vcan.lastId = tempArr[tempArr.length-1].uid;
+	        					if(vcan.tempArr.length > 0){
+	        						vcan.lastId = vcan.tempArr[vcan.tempArr.length-1].uid;
 	        					}
 	        				}
     						
@@ -369,19 +369,24 @@ $.when(
 	    						 //alert('suman');
 	    						 window.whBoard.vcan.main.replayObjs = e.message.repObj;
 		       					 whBoard.toolInit('t_replay', 'fromBrowser', true, function (val){ 
-		       						 	if(tempArr.length > 0){
+		       						   //alert('suman');
+		       						 	if(vcan.tempArr.length > 0){
 //			       						 	if(e.fromUser.userid != id){
 //			        							replayObjs = replayObjs.join(replayObjs, tempArr);
 //			        							localStorage.repObjs = JSON.stringify(replayObjs);
 //			        						}
-											window.whBoard.vcan.main.replayObjs = tempArr;
-											tempArr = [];
+											window.whBoard.vcan.main.replayObjs = vcan.tempArr;
+											vcan.tempArr = [];
 											whBoard.toolInit('t_replay', 'fromBrowser', true);
 											
 										}
 		       						 
 		       					 });
+	    					 }else{
+//	    						 alert('suman bogati');
+//	    						 debugger;
 	    					 }
+	    					 
 	    					
 //	    					 window.whBoard.vcan.main.replayObjs = e.message.repObj;
 //	       					 whBoard.toolInit('t_replay', 'fromBrowser', true);
@@ -404,8 +409,14 @@ $.when(
 	    		}
 
 	    		if(e.message.hasOwnProperty('clearAll')){
+	    			//alert('suman bogait');
+	    			//debugger;
 	    			myrepObj = [];
 	    			replayObjs = [];
+	    			
+	    			whBoard.tool = new whBoard.tool_obj('t_clearall');
+	    			//whBoard.toolInit(anchorNode.parentNode.id);
+	    			
 	 				whBoard.utility.t_clearallInit();
 	 				localStorage.clear();
 	 				vcan.lastId = 0;
