@@ -198,10 +198,13 @@ $.when(
         							//tempArr.push(e.message.repObj[0]);
     								for(var i=0; i<e.message.repObj.length; i++){
     									tempArr.push(e.message.repObj[i]);
+    									//vcan.lastId = e.message.repObj[i].uid;
     								}
         						}
     						}
-    		    		}	
+    		    		}
+	    				
+	    				
 	        		}
 	    			
 	    			if(e.message.hasOwnProperty('repObj')){
@@ -291,25 +294,58 @@ $.when(
 	    		if(!e.message.hasOwnProperty('clearAll') && !e.message.hasOwnProperty('replayAll')){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentReq')){
 	    				if(e.message.repObj.length > 1 && e.message.hasOwnProperty('chunk') && e.fromUser.userid == id){
-	    					
+	    					//TODO this have to be simpliefied.
 	    				}else{
-    						for (var i=0; i<e.message.repObj.length; i++){
-    							if(vcan.renderedObjId + 1 == e.message.repObj[0].uid) {
-    								replayObjs.push(e.message.repObj[i]);
-    							}
-    						}
+	    					
+	    					if(vcan.lastId+ 1 == e.message.repObj[0].uid) {
+	    						for (var i=0; i<e.message.repObj.length; i++){
+	    							replayObjs.push(e.message.repObj[i]);
+	    						}
+	    					}else{
+	    						//alert("some problem");
+	    						//debugger;
+	    					}
 
     						if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
 	        						vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
 	        						localStorage.lastId = vcan.lastId; 
 	            				}
+	        					if(tempArr.length > 0){
+	        						vcan.lastId = tempArr[tempArr.length-1].uid;
+	        					}
 	        				}
+    						
     						if(e.fromUser.userid != id){
     							localStorage.repObjs = JSON.stringify(replayObjs);
     						}
 	    					
 	        			}
+	    				
+	    				if(e.message.hasOwnProperty('chunk') && e.fromUser.userid != id){
+	    					
+	    					for(var k=0; k<replayObjs.length; k++){
+	    						if(replayObjs[k].uid == e.message.repObj[0].uid-1){
+	    							findIndex = true
+	    							break;
+	    						}
+	    					}
+	    					
+	    					var fPart = replayObjs.slice(0, k+1);
+	    					var secPart = e.message.repObj;
+	    					var tPart = replayObjs.slice(k+1, replayObjs.length);
+	    					
+	    					replayObjs = fPart.concat(secPart, tPart);
+//	    					if(typeof findIndex != 'undefined'){
+//	    						replayObjs = replayObjs.splice(k, 0, e.message.repObj);
+//	    						replayObjs = replayObjs.split(",");
+//	    					}
+	    					
+//	    					for (var j=0; j<e.message.repObj.length; j++){
+//    							replayObjs.push(e.message.repObj[j]);
+//    						}
+	    					
+	    				}
 	    			}
 	    			
 	    			
@@ -374,7 +410,9 @@ $.when(
 	 				localStorage.clear();
 	 				vcan.lastId = 0;
 	 				vcan.renderedObjId = 0;
+	 				tempArr = [];
 	 				removeTextNode();
+	 				
 	 			}
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
@@ -391,6 +429,7 @@ $.when(
 			var sp = vcan.lastId;
 			var ep = e.message.repObj[0].uid;
 			//if(vcan.lastId == vcan.renderedObjId){
+				console.log('sp ' + sp + ' ' + ' ep ' + ep);
 				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
 				return;
 			//}
@@ -408,8 +447,12 @@ $.when(
     				}
 				}
 			}
-
-			for(var j=i+1; j<myrepObj.length; j++){
+			
+//			alert('suman bogati');
+//			debugger;
+			
+			//for(var j=i+1; j<myrepObj.length; j++){
+			for(var j=i+1; j<e.message.getMsPckt[1]; j++){
 				chunk.push(myrepObj[j]);
 			}
 			

@@ -319,6 +319,7 @@
 						    	  	}
 	  						  }else{
 								  if(!e.detail.hasOwnProperty('cevent')){
+									    alert('hello guys');
 									    var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
 										//TOOD very urgent the uid is not created and pushed into stack
 									    vcan.main.replayObjs.push(obj);

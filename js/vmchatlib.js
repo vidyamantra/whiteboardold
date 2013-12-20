@@ -203,7 +203,15 @@ var vm_chat = {
 			}
 		}else {
 			whBoard.sentPackets = whBoard.sentPackets + jobj.length;
+			
 			if(this.sock.readyState == 1){
+				//alert('hello g');
+//				if(typeof obj.arg.msg.repObj != 'undefined'){
+//					sentObj += obj.arg.msg.repObj.length;
+//					console.log('Send Packets  jobj' + ' ' + sentObj);
+//				}
+				
+				
 				this.sock.send(jobj);
 			}
 			//this.sock.send(jobj);
