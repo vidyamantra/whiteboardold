@@ -390,7 +390,14 @@
 				}
 				if(cmd == 't_clearall'){
 					whBoard.utility.t_clearallInit();
+						if(typeof localStorage.teacherId != 'undefined'){
+							var tempTeacherHolder = localStorage.teacherId;
+						}
 						localStorage.clear();
+						if(typeof tempTeacherHolder != 'undefined'){
+							localStorage.teacherId =  tempTeacherHolder;
+						}
+						//localStorage.clear();
 						vcan.lastId = 0;
 						vcan.renderedObjId = 0;
 						vcan.tempArr = [];

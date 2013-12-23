@@ -113,7 +113,7 @@ $.when(
 		
 		
 		$(document).on("member_added", function(e){
-				
+			
 			//vm_chat.send({'suman': '27'}, 23);
 			myVideo.id = id;
 			myVideo.browserLen = e.message.length;
@@ -140,7 +140,7 @@ $.when(
 					if(!chkAlreadyConnected()){
 						vm_chat.send({'isChannelReady':true});
 						vcan.oneExecuted = false;
-	  					vcan.vid = myVideo.init();
+	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
 					}
 				//browser C and More	
 	  			}else if(clientNum > 2){
@@ -163,14 +163,15 @@ $.when(
 	  					//removeAttachFunction ();
 				}
 	  			
-	  		
 				
-	  			/*if(typeof vcan.teacher == 'undefined'  && e.Form){
-					alert(clientNum); 
-					debugger;
-					alert("second char");
-					removeAttachFunction ();
-				}*/
+				//alert(typeof vcan.teacher);
+	  			if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
+	  			//	alert('sss');
+					/*alert(clientNum); 
+					debugger; 
+					alert("second char"); */
+					removeAttachFunction();
+				}
 	  		
 			});
 		
@@ -188,11 +189,20 @@ $.when(
 					allDivs[i].getElementsByTagName('a')[0].removeEventListener('click', whBoard.objInit);
 
 				}
-				/*
+				
+//				alert('suman bogati');
+//				debugger;
+				
+//				var canvasElement = vcan.main.canvas;
+//				canvasElement.removeEventListener('mousedown', vcan.activMouse.mousedown, false);
+//				canvasElement.removeEventListener('mousemove', vcan.activMouse.mousemove, false);
+//				canvasElement.removeEventListener('mouseup', vcan.activMouse.mouseup, false);
+//				/alert("this is performing");
+				
 				var canvasElement = vcan.main.canvas;
-				canvasElement.removeEventListener(mousedown, vcan.mouse.mousedown, false);
-				canvasElement.removeEventListener(mousemove, vcan.mouse.mousedown, false);
-				canvasElement.removeEventListener(mouseup, vcan.mouse.mousedown, false);*/
+				canvasElement.style.position = 'relative';
+				canvasElement.style.zIndex = "-1000"; //Todo this could be tricky 
+
 		}
 		
 		vcan.tempArr = [];
@@ -244,9 +254,15 @@ $.when(
 						
 						whBoard.tool = new whBoard.tool_obj('t_clearall');
 						//whBoard.toolInit(anchorNode.parentNode.id);
-						
+						//var tempTeacherHolder = "";
 						whBoard.utility.t_clearallInit();
+						if(typeof localStorage.teacherId != 'undefined'){
+							var tempTeacherHolder = localStorage.teacherId;
+						}
 						localStorage.clear();
+						if(typeof tempTeacherHolder != 'undefined'){
+							localStorage.teacherId =  tempTeacherHolder;
+						}
 						vcan.lastId = 0;
 						vcan.renderedObjId = 0;
 						vcan.tempArr = [];
