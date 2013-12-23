@@ -55,6 +55,7 @@ $.when(
     		vcan.lastId = 0;
     	}
     	
+    	
     	vcan.cmdWrapperDiv = 'commandToolsWrapper';
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
@@ -110,7 +111,10 @@ $.when(
 //				myVideo.hangup();
 //			}
 		});
-		
+		$(document).on("connectionclose", function(e){
+			alert("he guys");
+			whBoard.sentReq = false;
+		});
 		
 		$(document).on("member_added", function(e){
 			
@@ -121,8 +125,10 @@ $.when(
 			//This one is video part
 			var clientNum = e.message.length;
 				//browser A
+				
 				if(clientNum == 1){
 					if(!chkAlreadyConnected()){
+						
 						//alert("this is not performing");
 						myVideo.isInitiator = true;
 						vcan.oneExecuted = false;
@@ -306,7 +312,8 @@ $.when(
 	    				}
 	        		}
 	    			
-	    			if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
+	    			//if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
+	    			if(e.message.hasOwnProperty('repObj')){
 	    				if(vcan.lastId != 0 || (whBoard.uid > 0 && vcan.lastId == 0)){ //for handle very starting stage
 	    					if((typeof e.message.repObj == 'object' || typeof e.message.repObj instanceof Array)){
 	    						 if(e.message.repObj[0].hasOwnProperty('uid')){
@@ -322,6 +329,8 @@ $.when(
 //		        	    				}
 			
 	    							}
+	    				 		 }else{
+	    				 			//whBoard.sentReq = false;
 	    				 		 }
 	    					}
 	    				}

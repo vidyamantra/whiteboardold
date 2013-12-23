@@ -58,10 +58,10 @@
 			
 			//vm_chat.send({'repObj': true, 'conOn' : true});
 		} 
-		
+		//whBoard.sentReq = false;
 		function connectionOff(){
-			whBoard.sentReq = false;
-			vm_chat.send({'repObj': true, 'sentObj' : false});
+		//	whBoard.sentReq = false;
+	//		vm_chat.send({'repObj': true, 'sentObj' : false});
 			vm_chat.disconnect();
 		}
 		
