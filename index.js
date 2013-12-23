@@ -457,10 +457,13 @@ $.when(
 		       					 }); */
 		       					 
 		       					 whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
+		       					 
 	    					 }else{
-								 /*
-	    						 alert('suman bogati');
-	    						 debugger;
+								 
+//	    						 alert('suman bogati');
+//	    						 debugger;
+	    						 
+	    						 /*
 	    						 if(vcan.lastId == e.message.repObj[e.message.repObj.length-1].uid){
 										alert("this would be another case");
 								 }else{
@@ -511,7 +514,7 @@ $.when(
 	 				
 	 			}
 	 			
-	 			*/vcan.queue
+	 			*///vcan.queue
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
 					window.whBoard.vcan.main.replayObjs =  replayObjs;

@@ -156,14 +156,19 @@
 									if(typeof mouseup == 'undefined'){
 										presentmousemovetime = new Date().getTime();
 										if((presentmousemovetime-lastmousemovetime)>=2000) {	 // Optimized
-												vm_chat.send({'repObj': dataChunk});
-												whBoard.utility.updateSentPackets(dataChunk);
+//												vm_chat.send({'repObj': dataChunk});
+//												whBoard.utility.updateSentPackets(dataChunk);
+												
 												for(var i=0; i<dataChunk.length; i++){
 													whBoard.uid++;
 												    console.log('uid ' + whBoard.uid);													
 													dataChunk[i].uid =whBoard.uid;
 													vcan.main.replayObjs.push(dataChunk[i]);
 												}
+												
+												vm_chat.send({'repObj': dataChunk});
+												whBoard.utility.updateSentPackets(dataChunk);
+												
 												localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 												dataChunk = [];
 												lastmousemovetime = new Date().getTime();
