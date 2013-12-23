@@ -396,11 +396,12 @@
 						vcan.tempArr = [];
 						vcan.removeTextNode();
 						//vcan.updateRcvdInformation(e.message);
-						
-					vm_chat.send({'clearAll': true});
+						if(typeof vcan.main.currentTransform != 'undefined'){
+							vcan.main.currentTransform = "";
+						}
+						vm_chat.send({'clearAll': true});
 				}
 
-				
 				if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit'){
 					whBoard.tool = new whBoard.tool_obj(cmd)
 					whBoard.utility.attachEventHandlers();

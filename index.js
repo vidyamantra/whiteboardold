@@ -251,6 +251,9 @@ $.when(
 						vcan.renderedObjId = 0;
 						vcan.tempArr = [];
 						vcan.removeTextNode();
+						if(typeof vcan.main.currentTransform != 'undefined'){
+							vcan.main.currentTransform = "";
+						}
 						//	vcan.teacherId = 0;
 						vcan.updateRcvdInformation(e.message);
 						return;

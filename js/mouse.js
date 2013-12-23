@@ -120,7 +120,8 @@
 						var foundTarget = vcan.events().findTarget(e),
 					    pointer = vcan.utility.getReltivePoint(e);
 						
-						if(foundTarget && foundTarget.type == 'text'){
+						
+						if(foundTarget && foundTarget.type == 'text' && whBoard.tool.cmd == 't_text'){
 							foundTarget.setupCurrentTransform(e);
 						}
 					}
