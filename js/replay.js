@@ -44,12 +44,12 @@
 							var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
 						}
 						
-                        
+                        vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
                         var eventConstruct = new CustomEvent(event, eventObj); //this is not supported for ie9 and older ie browsers
                         vcan.main.canvas.dispatchEvent(eventConstruct);
                         
-                		vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
-						console.log('renderObj ' + vcan.renderedObjId);
+                		//vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
+						//console.log('renderObj ' + vcan.renderedObjId);
 				
 
 					}

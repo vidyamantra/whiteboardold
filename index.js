@@ -55,8 +55,8 @@ $.when(
     		vcan.lastId = 0;
     	}
     	
-    	
-    	window.whBoard.attachToolFunction('commandToolsWrapper');
+    	vcan.cmdWrapperDiv = 'commandToolsWrapper';
+    	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
     	if(typeof(Storage)!=="undefined"){
 			if(localStorage.repObjs){
@@ -65,8 +65,13 @@ $.when(
 				whBoard.vcan.main.replayObjs = allRepObjs;
 				whBoard.utility.clearAll(false, 'dontClear');
 				whBoard.toolInit('t_replay', 'fromBrowser');
+				//
+				// TODO this should not be run should do improvement
 				for(i=0; i<allRepObjs.length; i++){
 					replayObjs.push(allRepObjs[i]);
+				}
+				if(allRepObjs.length > 0){
+					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
 				}
 			}
 		}
@@ -122,6 +127,13 @@ $.when(
 						myVideo.isInitiator = true;
 						vcan.oneExecuted = false;
 						vcan.vid = myVideo.init();
+						vcan.teacher = true;
+						if(typeof localStorage.teacherId == 'undefined'){
+							localStorage.teacherId = e.message[0].userid;
+						}
+						
+					// alert("first char");
+					// debugger;
 					}
 				//browser B
 				}else if(clientNum == 2 && e.newuser == null){
@@ -136,14 +148,52 @@ $.when(
 		  				var currBrowser =  e.message[e.message.length-1].userid; 
 		  				var peerBrowser =  e.message[0].userid;
 		  				
-		  				/* in actual this statement would executed
+		  				/* in actual this statement would execuyted
 		  				for(var i=0; i<e.message.length; i++){
 		  					vm_chat.send({'createPeerObj': [currBrowser, e.message[i].userid]});
 		  				} */
 		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
 	  				}
 	  			}
+	  			
+	  			if(typeof localStorage.teacherId == 'undefined'){
+					//	alert("second char");
+						//alert(clientNum);
+						//TODO this should be enable
+	  					//removeAttachFunction ();
+				}
+	  			
+	  		
+				
+	  			/*if(typeof vcan.teacher == 'undefined'  && e.Form){
+					alert(clientNum); 
+					debugger;
+					alert("second char");
+					removeAttachFunction ();
+				}*/
+	  		
 			});
+		
+		function removeAttachFunction(){
+			//	alert("suman bogati");
+				var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
+				for(var i=0; i<allDivs.length; i++){
+					
+					//TODO this will have to be fixed as it always assigned t_clearall
+					//whBoard.currComId = allDivs[i].id; 
+					//allDivs[i].getElementsByTagName('a')[0].addEventListener('click', whBoard.objInit, true);
+					//IMPORTANT this is changed during the UNIT testing
+					
+					//allDivs[i].getElementsByTagName('a')[0].onclick = whBoard.objInit;
+					allDivs[i].getElementsByTagName('a')[0].removeEventListener('click', whBoard.objInit);
+
+				}
+				/*
+				var canvasElement = vcan.main.canvas;
+				canvasElement.removeEventListener(mousedown, vcan.mouse.mousedown, false);
+				canvasElement.removeEventListener(mousemove, vcan.mouse.mousedown, false);
+				canvasElement.removeEventListener(mouseup, vcan.mouse.mousedown, false);*/
+		}
 		
 		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
@@ -185,6 +235,27 @@ $.when(
 	    		
 	    		myrepObj = whBoard.vcan.getStates('replayObjs');
 	    		chunk = [];
+	    		
+	    		if(e.message.hasOwnProperty('clearAll')){
+						//alert('suman bogait');
+						//debugger;
+						myrepObj = [];
+						replayObjs = [];
+						
+						whBoard.tool = new whBoard.tool_obj('t_clearall');
+						//whBoard.toolInit(anchorNode.parentNode.id);
+						
+						whBoard.utility.t_clearallInit();
+						localStorage.clear();
+						vcan.lastId = 0;
+						vcan.renderedObjId = 0;
+						vcan.tempArr = [];
+						vcan.removeTextNode();
+						//	vcan.teacherId = 0;
+						vcan.updateRcvdInformation(e.message);
+						return;
+				
+					}
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
@@ -204,12 +275,15 @@ $.when(
     						}
     		    		}
 	    				
+	    			
 	    				
 	        		}
+	        		
+					
 	    			
 	    			if(e.message.hasOwnProperty('repObj')){
 	    				if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
-	    					console.log('uid ' + e.message.repObj[0].uid);
+	    					//console.log('uid ' + e.message.repObj[0].uid);
 	    				}
 	        		}
 	    			
@@ -265,7 +339,7 @@ $.when(
 	    		
 	    		
 	    		
-	    		var	updateRcvdInformation =  function (msg){
+	    			vcan.updateRcvdInformation =  function (msg){
 	    			var compMsg = "";
 	    			for(var key in msg){
 	    				compMsg += key +" : " + msg[key] + " <br />";
@@ -279,13 +353,13 @@ $.when(
 		    			var obj = {};
 		    			obj.mp = { x: e.message.x, y: e.message.y};
 		    			whBoard.utility.drawArrowImg(imageElm, obj);
-		    			updateRcvdInformation(e.message);
+		    			vcan.updateRcvdInformation(e.message);
 		    		}else if(e.message.hasOwnProperty('clearAll')){
 		    			//vcan.lastId = 0;
-		    			updateRcvdInformation(e.message);
+		    			//updateRcvdInformation(e.message);
 		    		}else{
 		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt')){
-		    				updateRcvdInformation(e.message.repObj[0]);
+		    				vcan.updateRcvdInformation(e.message.repObj[0]);
 		    			}
 		    		}
 		    	}
@@ -311,6 +385,7 @@ $.when(
 	        						vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
 	        						localStorage.lastId = vcan.lastId; 
 	            				}
+	            				//missing one id
 	        					if(vcan.tempArr.length > 0){
 	        						vcan.lastId = vcan.tempArr[vcan.tempArr.length-1].uid;
 	        					}
@@ -336,6 +411,9 @@ $.when(
 	    					var tPart = replayObjs.slice(k+1, replayObjs.length);
 	    					
 	    					replayObjs = fPart.concat(secPart, tPart);
+	    					if(e.fromUser.userid != id){
+    							localStorage.repObjs = JSON.stringify(replayObjs);
+    						}
 //	    					if(typeof findIndex != 'undefined'){
 //	    						replayObjs = replayObjs.splice(k, 0, e.message.repObj);
 //	    						replayObjs = replayObjs.split(",");
@@ -368,23 +446,29 @@ $.when(
 	    					 if(vcan.renderedObjId + 1 == e.message.repObj[0].uid){
 	    						 //alert('suman');
 	    						 window.whBoard.vcan.main.replayObjs = e.message.repObj;
-		       					 whBoard.toolInit('t_replay', 'fromBrowser', true, function (val){ 
-		       						   //alert('suman');
+		       					/* whBoard.toolInit('t_replay', 'fromBrowser', true, function (val){ 
 		       						 	if(vcan.tempArr.length > 0){
-//			       						 	if(e.fromUser.userid != id){
-//			        							replayObjs = replayObjs.join(replayObjs, tempArr);
-//			        							localStorage.repObjs = JSON.stringify(replayObjs);
-//			        						}
 											window.whBoard.vcan.main.replayObjs = vcan.tempArr;
 											vcan.tempArr = [];
 											whBoard.toolInit('t_replay', 'fromBrowser', true);
 											
 										}
 		       						 
-		       					 });
+		       					 }); */
+		       					 
+		       					 whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
 	    					 }else{
-//	    						 alert('suman bogati');
-//	    						 debugger;
+								 /*
+	    						 alert('suman bogati');
+	    						 debugger;
+	    						 if(vcan.lastId == e.message.repObj[e.message.repObj.length-1].uid){
+										alert("this would be another case");
+								 }else{
+										alert();
+									 }
+								 if(vcan.renderedObjId + 1 == vcan.lastId){
+										alert("I am robort ");
+									 }*/
 	    					 }
 	    					 
 	    					
@@ -408,6 +492,7 @@ $.when(
 	    			}
 	    		}
 
+/*
 	    		if(e.message.hasOwnProperty('clearAll')){
 	    			//alert('suman bogait');
 	    			//debugger;
@@ -425,6 +510,8 @@ $.when(
 	 				removeTextNode();
 	 				
 	 			}
+	 			
+	 			*/vcan.queue
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
 					window.whBoard.vcan.main.replayObjs =  replayObjs;
@@ -434,6 +521,15 @@ $.when(
     		}
     	});
     	
+    	vcan.queue = function (){
+				if(vcan.tempArr.length > 0){
+					window.whBoard.vcan.main.replayObjs = vcan.tempArr;
+					vcan.tempArr = [];
+					whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
+				}else{
+					return;
+				}
+			}
   		
   		function requestPackets (e){
   			whBoard.sentReq = true;
@@ -472,7 +568,7 @@ $.when(
 
   		}
     	//TODO  this should be contain into text file
-  		function removeTextNode(){
+  		vcan.removeTextNode = function(){
   			var allTextContainer = document.getElementsByClassName('textBoxContainer');
   			for(var i=0; i<allTextContainer.length; i++){
   				allTextContainer[i].parentNode.removeChild(allTextContainer[i]);

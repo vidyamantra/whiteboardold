@@ -281,7 +281,7 @@
 				//whBoard.toolInit(anchorNode.parentNode.id, 'multiuser');
 				//whBoard.toolInit(anchorNode.parentNode.id);
 				
-				if(anchorNode.parentNode.id != 't_replay'){
+				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall'){
 					var currTime = new Date().getTime();
 					//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
 					whBoard.lt = anchorNode.parentNode.id;
@@ -315,7 +315,9 @@
 					//allDivs[i].getElementsByTagName('a')[0].addEventListener('click', whBoard.objInit, true);
 					//IMPORTANT this is changed during the UNIT testing
 					
-					allDivs[i].getElementsByTagName('a')[0].onclick = whBoard.objInit;
+					//allDivs[i].getElementsByTagName('a')[0].onclick = whBoard.objInit;
+					allDivs[i].getElementsByTagName('a')[0].addEventListener('click', whBoard.objInit);
+
 				}
 			},
 			
@@ -384,8 +386,17 @@
 				
 				if(cmd == 't_clearall'){
 					//whBoard.utility.t_clearallInit();
+					
 				}
 				if(cmd == 't_clearall'){
+					whBoard.utility.t_clearallInit();
+						localStorage.clear();
+						vcan.lastId = 0;
+						vcan.renderedObjId = 0;
+						vcan.tempArr = [];
+						vcan.removeTextNode();
+						//vcan.updateRcvdInformation(e.message);
+						
 					vm_chat.send({'clearAll': true});
 				}
 
