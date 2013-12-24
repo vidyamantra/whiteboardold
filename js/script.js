@@ -401,6 +401,7 @@
 						vcan.lastId = 0;
 						vcan.renderedObjId = 0;
 						vcan.tempArr = [];
+						whBoard.uid = 0;
 						vcan.removeTextNode();
 						//vcan.updateRcvdInformation(e.message);
 						if(typeof vcan.main.currentTransform != 'undefined'){

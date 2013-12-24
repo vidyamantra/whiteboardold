@@ -21,7 +21,6 @@
 					}
 					
 					if(wbRep.objs[wbRep.objNo].hasOwnProperty('cmd')){
-						
 						//whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
 						vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
 						whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
@@ -56,7 +55,10 @@
 					
 					if(typeof wbRep.callBkfunc == 'function'){
 						if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){
-							wbRep.callBkfunc(true);
+							
+							//alert(wbRep.callBkfunc.hasOwnProeprty('myname')); 
+							wbRep.callBkfunc('callBkfunc');
+							
 							//myfunc(true);
 						}
 					}
