@@ -23,7 +23,8 @@
 			receivedPackDivPS : 'receivedNumberPS',
 			uid : 0,
 			lt : '',
-			
+			view : {}, // For display important message to user
+			lang : {},
 			
 			/**
 			 * This function basically does create the canvas on which 

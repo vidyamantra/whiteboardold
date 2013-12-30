@@ -62,9 +62,9 @@ $.when(
     	window.whBoard.init();
     	
 		vcan.queue = function (result){
-			
 			if(vcan.tempArr.length > 0){
-				
+				//alert("suman u there");
+				//debugger;
 				window.whBoard.vcan.main.replayObjs = vcan.tempArr;
 				vcan.tempArr = [];
 			//	console.log('suman');
@@ -217,7 +217,11 @@ $.when(
 	    					whBoard.uid = e.message.repObj[0].uid;
 	    				}
 	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
-	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	    				
+	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	  
+	    					if(vcan.tempArr.length < 1){
+	    						alert("suman bogati");
+	    						debugger;
+	    					}
 	    					makeQueue(e);
 //	    					if(vcan.reachedItemId != vcan.renderedObjId){
 //    							if(vcan.reachedItemId != vcan.renderedObjId){

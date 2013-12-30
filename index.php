@@ -15,17 +15,24 @@
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	
 	<!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
-		
-		
 	   <script type="text/javascript" src="js/vmchatlib.js"></script>
-	   
 	   <script type="text/javascript">
 	   	   window.vm_chat = vm_chat;		
 	   </script>
+	   
+	   
+	   
 	   <link rel="stylesheet" type="text/css" href="css/styles.css" />
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
 	   <script type="text/javascript" src="js/wb_utility.js"></script>
+	   <script type="text/javascript" src="lib.js"></script>
+
+	   <script type="text/javascript" src="lang/en.js"></script>
+
+	   <script type="text/javascript" src="lang.js"></script>
+	   <script type="text/javascript" src="view.js"></script>
+	   <script type="text/javascript" src="system.js"></script>
 	   <script type="text/javascript" src="js/packetcontainer.js"></script>
 	   <script type="text/javascript" src="js/drawobject.js"></script>
 	   <script type="text/javascript" src="js/makeobj.js"></script>
@@ -48,6 +55,8 @@
        <script type="text/javascript" src="js/readytextobj.js"></script>
        <script type="text/javascript" src="js/keyboard.js"></script>
        
+	
+	   
       <style type="text/css">
       	  #mainReplayLen, #replayLen{
       	  	border:4ppx solid gray;
