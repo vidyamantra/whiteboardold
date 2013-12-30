@@ -48,14 +48,19 @@
        <script type="text/javascript" src="js/readytextobj.js"></script>
        <script type="text/javascript" src="js/keyboard.js"></script>
        
-      
+      <style type="text/css">
+      	  #mainReplayLen, #replayLen{
+      	  	border:4ppx solid gray;
+      	  }
+      </style>
   </head>
   <body>
 
     <div id="stickycontainer"></div>  
     
     
-		
+	<div id="mainReplayLen"> </div>
+	<div id="replayLen"> </div>	
     <div id="containerWb">
     
     </div>

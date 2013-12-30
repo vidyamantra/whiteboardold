@@ -60,8 +60,10 @@
 		} 
 		//whBoard.sentReq = false;
 		function connectionOff(){
-			whBoard.sentReq = false;
-			vm_chat.send({'repObj': true, 'sentObj' : false});
+		//	alert("suman bogati");
+		//	debugger;
+		//	whBoard.sentReq = false;
+			//vm_chat.send({'repObj': true, 'sentObj' : false});
 			vm_chat.disconnect();
 		}
 		

@@ -14,13 +14,29 @@
 				renderObj : function (myfunc){
 					wbRep = whBoard.replay;
 					if(typeof wbRep.objs[wbRep.objNo] == 'undefined'){
+						console.log("is this happend");	
 						return;
 					}
+					
+					
+					/*
+					if(wbRep.objs.length > 0 && wbRep.objNo > 0){
+							if(wbRep.objs[wbRep.objNo-1].uid == wbRep.objs[wbRep.objNo].uid){
+								//alert("hello guys what is up");
+								//debugger;
+							}
+						}
+					*/
 					if(typeof myfunc != 'undefined'){
 						wbRep.callBkfunc = myfunc;
 					}
 					
 					if(wbRep.objs[wbRep.objNo].hasOwnProperty('cmd')){
+						console.log('cmd ' + wbRep.objs[wbRep.objNo].cmd)
+						if(wbRep.objs[wbRep.objNo].cmd == 't_freeDrawing'){
+							//alert("hello boys");
+//							debugger;
+						}
 						//whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
 						vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
 						whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
@@ -42,16 +58,16 @@
 						}else{
 							var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
 						}
-						
-                        vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
+					    vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
+					   // console.log('rendered id ' + vcan.renderedObjId);
                         var eventConstruct = new CustomEvent(event, eventObj); //this is not supported for ie9 and older ie browsers
                         vcan.main.canvas.dispatchEvent(eventConstruct);
                         
                 		//vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
 						//console.log('renderObj ' + vcan.renderedObjId);
-				
-
 					}
+					
+					console.log('rendered id ' + vcan.renderedObjId);
 					
 					if(typeof wbRep.callBkfunc == 'function'){
 						if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){

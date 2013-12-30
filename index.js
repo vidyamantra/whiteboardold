@@ -48,17 +48,32 @@ $.when(
 	$(document).ready(function(){
 		myrepObj = [];
     	replayObjs = []; // this should contain either into whiteboard or into van object
+    	myArr = [];
     	
-    	if(localStorage.hasOwnProperty('lastId')){
-    		vcan.lastId = parseInt(localStorage.lastId);
+    	if(localStorage.hasOwnProperty('reachedItemId')){
+    		vcan.reachedItemId = parseInt(localStorage.reachedItemId);
     	}else{
-    		vcan.lastId = 0;
+    		vcan.reachedItemId = 0;
     	}
     	
     	
     	vcan.cmdWrapperDiv = 'commandToolsWrapper';
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
+    	
+		vcan.queue = function (result){
+			
+			if(vcan.tempArr.length > 0){
+				
+				window.whBoard.vcan.main.replayObjs = vcan.tempArr;
+				vcan.tempArr = [];
+			//	console.log('suman');
+				whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
+			}else{
+				return;
+			}
+		}
+    		
     	if(typeof(Storage)!=="undefined"){
 			if(localStorage.repObjs){
 				var allRepObjs = JSON.parse(localStorage.repObjs);
@@ -66,12 +81,13 @@ $.when(
 				whBoard.utility.clearAll(false, 'dontClear');
 				
 				// TODO this should not be run should do improvement
-				for(i=0; i<allRepObjs.length; i++){
-					replayObjs.push(allRepObjs[i]);
-				}
+//				for(i=0; i<allRepObjs.length; i++){
+//					replayObjs.push(allRepObjs[i]);
+//				}
+				replayObjs = replayObjs.concat(allRepObjs);
 				if(allRepObjs.length > 0){
 					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
-					vcan.lastId = whBoard.uid;
+					vcan.reachedItemId = whBoard.uid;
 					whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
 				}
 			}
@@ -86,52 +102,27 @@ $.when(
 		
 		var prvPacket = "";
 		var currElement = "";
-		whBoard.sentReq = false;
+		//whBoard.sentReq = false;
 		bcount = 0;
 		var myVideo = new window.whBoard.vcan.videoChat();
 		vcan.myvid = myVideo;
 		
 		vcan.renderedObjId = 0;
-		function chkAlreadyConnected(){
+		vcan.chkAlreadyConnected = function(){
 			if(typeof cthis != 'undefined'){
-				//0 should be inxex as user increased
-				//the second condition is set for for firefox as the first is not applying in Chrome browser
 				if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
 					return true;
 				}
 			}
-			return false
+			return false;
 		}
 		
-		
-		$(document).on("member_removed", function(e){
-//			if(typeof myVideo != 'undefined'){
-//				//alert("suman bogati");
-//				//debugger;
-//				myVideo.hangup();
-//			}
-		});
-		$(document).on("connectionclose", function(e){
-			//alert("he guys");
-			//whBoard.sentReq = false;
-		});
-		
-		$(document).on("member_added", function(e){
-			
-			//vm_chat.send({'suman': '27'}, 23);
-			myVideo.id = id;
-			myVideo.browserLen = e.message.length;
-			
-			//This one is video part
+		vcan.videoInit = function (e){
+//			alert('i am there for you');
+//  			debugger;
 			var clientNum = e.message.length;
-				//alert(clientNum);
-
-				//browser A
-				
 				if(clientNum == 1){
-					if(!chkAlreadyConnected()){
-						
-						//alert("this is not performing");
+					if(!vcan.chkAlreadyConnected()){
 						myVideo.isInitiator = true;
 						vcan.oneExecuted = false;
 						vcan.vid = myVideo.init();
@@ -139,73 +130,42 @@ $.when(
 						if(typeof localStorage.teacherId == 'undefined'){
 							localStorage.teacherId = e.message[0].userid;
 						}
-						
-					// alert("first char");
-					// debugger;
 					}
 				//browser B
 				}else if(clientNum == 2 && e.newuser == null){
 					//localStorage.teacherId = e.message[0].userid;
-					if(!chkAlreadyConnected()){
+					if(!vcan.chkAlreadyConnected()){
+						if(typeof localStorage.teacherId == 'undefined'){
+							localStorage.teacherId = e.message[0].userid;
+						}
 						vm_chat.send({'isChannelReady':true});
 						vcan.oneExecuted = false;
 	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
 					}
 				//browser C and More	
 	  			}else if(clientNum > 2){
-	  				if(!chkAlreadyConnected()){
+	  				if(!vcan.chkAlreadyConnected()){
 		  				var currBrowser =  e.message[e.message.length-1].userid; 
 		  				var peerBrowser =  e.message[0].userid;
-		  				
-		  				/* in actual this statement would execuyted
-		  				for(var i=0; i<e.message.length; i++){
-		  					vm_chat.send({'createPeerObj': [currBrowser, e.message[i].userid]});
-		  				} */
 		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
 	  				}
 	  			}
-	  			
-	  			if(typeof localStorage.teacherId == 'undefined'){
-					//	alert("second char");
-						//alert(clientNum);
-						//TODO this should be enable
-	  					//removeAttachFunction ();
-				}
-	  			
-				
-				//alert(typeof vcan.teacher);
-	  			if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
-	  			//	alert('sss');
-					/*alert(clientNum); 
-					debugger; 
-					alert("second char"); */
-					removeAttachFunction();
-				}
-	  		
-			});
-		
-		function removeAttachFunction(){
-			//	alert("suman bogati");
-				var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
-				for(var i=0; i<allDivs.length; i++){
-					
-					//TODO this will have to be fixed as it always assigned t_clearall
-					//whBoard.currComId = allDivs[i].id; 
-					//allDivs[i].getElementsByTagName('a')[0].addEventListener('click', whBoard.objInit, true);
-					//IMPORTANT this is changed during the UNIT testing
-					
-					//allDivs[i].getElementsByTagName('a')[0].onclick = whBoard.objInit;
-					allDivs[i].getElementsByTagName('a')[0].removeEventListener('click', whBoard.objInit);
-
-				}
-				var canvasElement = vcan.main.canvas;
-				canvasElement.style.position = 'relative';
-				canvasElement.style.zIndex = "-1000"; //Todo this could be tricky 
-
 		}
+		
+		$(document).on("member_added", function(e){
+				myVideo.id = id;
+				myVideo.browserLen = e.message.length;
+				vcan.videoInit(e);
+	  			if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
+	  				removeAttachFunction();
+				}
+	  		});
+		
+		
 		
 		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
+  			
   			//video part
   			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
@@ -237,117 +197,72 @@ $.when(
         			}
         		}
         	}else{
-        		
-    			if(e.message.hasOwnProperty('repObj') && e.message.hasOwnProperty('sentObj')){
-					whBoard.sentReq = false;
-				}
-	    		
-	    		myrepObj = whBoard.vcan.getStates('replayObjs');
+        	
+        		myrepObj = whBoard.vcan.getStates('replayObjs');
 	    		chunk = [];
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
-						//alert('suman bogait');
-						//debugger;
-						myrepObj = [];
-						replayObjs = [];
-						
 						whBoard.tool = new whBoard.tool_obj('t_clearall');
-						//whBoard.toolInit(anchorNode.parentNode.id);
-						//var tempTeacherHolder = "";
+				
 						whBoard.utility.t_clearallInit();
-						if(typeof localStorage.teacherId != 'undefined'){
-							var tempTeacherHolder = localStorage.teacherId;
-						}
-						localStorage.clear();
-						if(typeof tempTeacherHolder != 'undefined'){
-							localStorage.teacherId =  tempTeacherHolder;
-						}
-						vcan.lastId = 0;
-						vcan.renderedObjId = 0;
-						vcan.tempArr = [];
-						vcan.removeTextNode();
-						whBoard.uid  = 0;
-						if(typeof vcan.main.currentTransform != 'undefined'){
-							vcan.main.currentTransform = "";
-						}
-						//	vcan.teacherId = 0;
+
+						vcan.makeDefaultValue();
 						vcan.updateRcvdInformation(e.message);
 						return;
 				
 					}
 	    		if(e.fromUser.userid != id){
-	    			if(e.message.hasOwnProperty('repObj')){
+	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
 	    					whBoard.uid = e.message.repObj[0].uid;
 	    				}
-	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.lastId != 0){
-	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.lastId != 0){	    				
-    						if(vcan.lastId != vcan.renderedObjId){
-    							if(vcan.lastId != vcan.renderedObjId){
-        							//tempArr.push(e.message.repObj[0]);
-    								for(var i=0; i<e.message.repObj.length; i++){
-    									vcan.tempArr.push(e.message.repObj[i]);
-    									//vcan.lastId = e.message.repObj[i].uid;
-    								}
-        						}
-    						}
+	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
+	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	    				
+	    					makeQueue(e);
+//	    					if(vcan.reachedItemId != vcan.renderedObjId){
+//    							if(vcan.reachedItemId != vcan.renderedObjId){
+//        							for(var i=0; i<e.message.repObj.length; i++){
+//    									vcan.tempArr.push(e.message.repObj[i]);
+//    								}
+//        						}
+//    						}
     		    		}
-	    				
-	    			
-	    				
 	        		}
 	        		
 					
+//	    			
+//	    			if(e.message.hasOwnProperty('repObj') &&  !e.message.hasOwnProperty('sentObj')){
+//	    				if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
+//	    					//console.log('uid ' + e.message.repObj[0].uid);
+//	    				}
+//	        		}
 	    			
-	    			if(e.message.hasOwnProperty('repObj')){
-	    				if(e.message.repObj.length > 0 && e.message.repObj[0].hasOwnProperty('uid')){
-	    					//console.log('uid ' + e.message.repObj[0].uid);
-	    				}
-	        		}
-	    			
-	    			if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
-	    			//if(e.message.hasOwnProperty('repObj')){
-	    				if(vcan.lastId != 0 || (whBoard.uid > 0 && vcan.lastId == 0)){ //for handle very starting stage
-	    					if((typeof e.message.repObj == 'object' || typeof e.message.repObj instanceof Array)){
+	    		//	if(e.message.hasOwnProperty('repObj') && whBoard.sentReq == false){
+	    		if(e.message.hasOwnProperty('repObj')){
+	    	//		if(e.message.hasOwnProperty('repObj') && e.fromUser.userid != id){
+	    				if(vcan.reachedItemId != 0 || (whBoard.uid > 0 && vcan.reachedItemId == 0)){ //for handle very starting stage
+	    					if((typeof e.message.repObj == 'object' ||  e.message.repObj instanceof Array)){
 	    						 if(e.message.repObj[0].hasOwnProperty('uid')){
 	    							 //request missed packets
-	    							 if(vcan.lastId+1 != e.message.repObj[0].uid){
-	    								 requestPackets(e);
-//	    								whBoard.sentReq = true;
-//	    								var sp = vcan.lastId;
-//		        	    				var ep = e.message.repObj[0].uid;
-//		        	    				if(vcan.lastId == vcan.renderedObjId){
-//		        	    					vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-//			        	    				return;
-//		        	    				}
-			
-	    							}
-	    				 		 }else{
-	    				 			//whBoard.sentReq = false;
-	    				 		 }
+	    							 
+	    							 if((vcan.reachedItemId+1 != e.message.repObj[0].uid ) && (!e.message.hasOwnProperty('chunk')) ){
+	    								 if(Number(vcan.reachedItemId) < Number(e.message.repObj[0].uid)){
+	    									 console.log('Lid ' + vcan.reachedItemId + ' uid ' + e.message.repObj[0].uid);
+	    									 endPoint = e.message.repObj[0].uid;
+	    									 requestPackets(e);
+	    									 
+	    								 }  
+									}
+	    						 }
 	    					}
 	    				}
 	    	    	}
 	    		}
 	    		
-	    		
-	    		
 	    		if(e.fromUser.userid != id){
-	    			//alert('suman bgoa');
 	    			if(e.message.hasOwnProperty('getMsPckt')){
-	    				//send requested packets
 	    				sendPackets(e);
 	        		}
-	    		}
-	    		
-	    		
-	    		
-	    			vcan.updateRcvdInformation =  function (msg){
-	    			var compMsg = "";
-	    			for(var key in msg){
-	    				compMsg += key +" : " + msg[key] + " <br />";
-	    			}
-	    			document.getElementById('rcvdMsgInfo').innerHTML = compMsg;
 	    		}
 	    	
 	    		if(e.fromUser.userid != id){
@@ -358,7 +273,7 @@ $.when(
 		    			whBoard.utility.drawArrowImg(imageElm, obj);
 		    			vcan.updateRcvdInformation(e.message);
 		    		}else if(e.message.hasOwnProperty('clearAll')){
-		    			//vcan.lastId = 0;
+		    			//vcan.reachedItemId = 0;
 		    			//updateRcvdInformation(e.message);
 		    		}else{
 		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt')){
@@ -367,30 +282,65 @@ $.when(
 		    		}
 		    	}
 	    		
-	    		initLoop = 0;
+	    		//initLoop = 0;
 	    		if(!e.message.hasOwnProperty('clearAll') && !e.message.hasOwnProperty('replayAll')){
-	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentReq')){
+	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
+						if(typeof endPoint != 'undefined'){
+							if(endPoint == e.message.repObj[e.message.repObj.length-1].uid){
+							//	 alert('what is up babes');
+								// debugger;
+							}
+						}
+	    				//console.log('passedObjId ' + e.message.repObj[e.message.repObj.length-1].uid);
+	    			
 	    				if(e.message.repObj.length > 1 && e.message.hasOwnProperty('chunk') && e.fromUser.userid == id){
 	    					//TODO this have to be simpliefied.
 	    				}else{
+							
+							if(e.fromUser.userid != id && replayObjs.length > 1){
+								if(e.message.repObj[0].uid > replayObjs[replayObjs.length-1].uid){
+									if(e.message.repObj[0].uid - replayObjs[replayObjs.length-1].uid > 0){
+										if(vcan.renderedObjId > replayObjs.length){
+											//alert("hello guys");
+											//debugger;
+										}
+										
+									}
+								}
+							}
+							
 	    					
-	    					if(vcan.lastId+ 1 == e.message.repObj[0].uid) {
+	    					if(vcan.reachedItemId+ 1 == e.message.repObj[0].uid) {
+								if(replayObjs.length > 0 && e.message.repObj[0].uid - replayObjs[replayObjs.length-1].uid > 1){
+									//alert("captured");
+									//debugger;
+								}
+								
+								
+								if(replayObjs.length > 0){
+									if(replayObjs[replayObjs.length-1].uid == e.message.repObj[0].uid){
+										alert("hi guys ggg");
+									}
+								}
 	    						for (var i=0; i<e.message.repObj.length; i++){
-	    							replayObjs.push(e.message.repObj[i]);
+	    							 replayObjs.push(e.message.repObj[i]);
 	    						}
 	    					}else{
-	    						//alert("some problem");
-	    						//debugger;
-	    					}
+								if(vcan.tempArr.length > 0 && !e.message.hasOwnProperty('chunk')){
+									//	alert('suman bogati');
+										//debugger;
+								}
+							//	console.log()
+							}
 
     						if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
-	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid')){
-	        						vcan.lastId = e.message.repObj[e.message.repObj.length-1].uid;
-	        						localStorage.lastId = vcan.lastId; 
+	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid') && !e.message.hasOwnProperty('chunk')){
+	        						vcan.reachedItemId = e.message.repObj[e.message.repObj.length-1].uid;
+	        						localStorage.reachedItemId = vcan.reachedItemId; 
 	            				}
 	            				//missing one id
-	        					if(vcan.tempArr.length > 0){
-	        						vcan.lastId = vcan.tempArr[vcan.tempArr.length-1].uid;
+	        					if(vcan.tempArr.length > 0 && !e.message.hasOwnProperty('chunk')){
+	        						vcan.reachedItemId = vcan.tempArr[vcan.tempArr.length-1].uid;
 	        					}
 	        				}
     						
@@ -401,21 +351,101 @@ $.when(
 	        			}
 	    				
 	    				if(e.message.hasOwnProperty('chunk') && e.fromUser.userid != id){
-	    					for(var k=0; k<replayObjs.length; k++){
-	    						if(replayObjs[k].uid == e.message.repObj[0].uid-1){
-	    							findIndex = true
-	    							break;
-	    						}
-	    					}
 	    					
-	    					var fPart = replayObjs.slice(0, k+1);
-	    					var secPart = e.message.repObj;
-	    					var tPart = replayObjs.slice(k+1, replayObjs.length);
+
+////// below sorting is achvieved by these commented out code	    					
+//	    					for(var k=0; k<replayObjs.length; k++){
+//	    						if(replayObjs[k].uid == e.message.repObj[0].uid-1){
+//	    							findIndex = true
+//	    							break;
+//	    						}
+//	    					}
+//	    					
+//	    					
+//	    					var fPart = replayObjs.slice(0, k+1);
+//	    					var secPart = e.message.repObj;
+//	    					var tPart = replayObjs.slice(k+1, replayObjs.length);
+//	    					
+//	    					if(fPart[fPart.length-1].uid+1 != secPart[0].uid){
+//	    						alert('break');
+//	    						debugger;
+//	    					}
+//	    					
+//	    					if(secPart[secPart.length-1].uid+1 != tPart[0].uid){
+//	    						alert('break');
+//	    						debugger;
+//	    					}
+//	    					
+//	    					replayObjs = fPart.concat(secPart, tPart);
+//////////////////////////////////////////////////////////////////////
 	    					
-	    					replayObjs = fPart.concat(secPart, tPart);
+//	    					for(var i=0; i< e.message.repObj.length; i++){
+//	    						replayObjs.push(e.message.repObj[i]);
+//	    					}
+	    					
+	    					if(e.message.repObj.length > 0){
+								if(e.message.repObj[e.message.repObj.length-1].uid - e.message.repObj[e.message.repObj.length-2].uid > 1){
+									alert("good going");
+								}
+							}
+							if(myArr.length > 0){
+								if(e.message.repObj[e.message.repObj.length-1].uid == myArr[0].uid){
+									for(var i=0; i< myArr.length; i++){
+										console.log('mArr ' + myArr[i].uid);
+									}
+									if(!myArr[0].hasOwnProperty('cmd')){
+										myArr.shift();
+									}
+								//	myArr.shift(); //remove object if double id found
+								//	alert("hi how are you");
+								}
+								e.message.repObj = e.message.repObj.concat(myArr);
+								myArr = [];
+							}
+	    					//replayObjs = replayObjs.concat(e.message.repObj);
+	    					
+//								if(replayObjs.length > 0){
+//									if(replayObjs[replayObjs.length-1].uid == e.message.repObj[0].uid){
+//										alert("hi guys");
+//									}
+//								}
+	    					
+							
+							replayObjs = replayObjs.concat(e.message.repObj);
+	    					/*for(var i=0; i<e.message.repObj.length; i++){
+									if(){
+										
+									}
+									replayObjs.push(e.message.repObj[i]);
+										
+							}*/
+	    					
+	    					//TODO this should be removed later and above code should be enabled
+							// right now its doing sorting but above code should be enabled and object 
+							// should be stotred in sorted format
+	    					replayObjs = replayObjs.sort(function(a, b){
+	    					    return a.uid - b.uid;
+	    					});
+	    					
 	    					if(e.fromUser.userid != id){
     							localStorage.repObjs = JSON.stringify(replayObjs);
     						}
+	    					
+	    					if(e.fromUser.userid != id && (vcan.renderedObjId + 1 != e.message.repObj[0].uid)){
+								if(vcan.tempArr.length > 0){
+									if(e.message.repObj[e.message.repObj.length-1].uid == vcan.tempArr[0].uid){
+	    							//e.message.repObj.pop();
+	    							var fArr = e.message.repObj;
+	    							//vcan.tempArr.unshift();
+	    							vcan.tempArr = fArr.concat(vcan.tempArr);
+									}else if(e.message.repObj[e.message.repObj.length-1].uid == vcan.tempArr[0].uid){
+										alert('suman bogati');
+									}
+								}
+	    					}else{
+//	    						alert('khandan');
+//	    						debugger;
+	    					}
 	    				}
 	    			}
 	    			
@@ -433,76 +463,17 @@ $.when(
 	    		
 
 	    		if(e.fromUser.userid != id){
-	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentReq')){
+	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				window.whBoard.vcan.main.replayObjs = [];
 	    				if(e.message.repObj.length > 0){ 
 	    					 if(vcan.renderedObjId + 1 == e.message.repObj[0].uid){
-	    						 window.whBoard.vcan.main.replayObjs = e.message.repObj;
+								 window.whBoard.vcan.main.replayObjs = e.message.repObj;
 		       					 whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
-		       					 
-	    					 }else{
-	    						 
-	    						 if(e.message.repObj[0].hasOwnProperty('cmd')){
-//	    							 alert("suman bgoati");
-//	    							 debugger;
-	    						 }
-	    						 
-								
-//	    						 alert('suman bogati');
-//	    						 debugger;
-	    						 
-	    						 /*
-	    						 if(vcan.lastId == e.message.repObj[e.message.repObj.length-1].uid){
-										alert("this would be another case");
-								 }else{
-										alert();
-									 }
-								 if(vcan.renderedObjId + 1 == vcan.lastId){
-										alert("I am robort ");
-									 }*/
 	    					 }
-	    					 
-	    					
-//	    					 window.whBoard.vcan.main.replayObjs = e.message.repObj;
-//	       					 whBoard.toolInit('t_replay', 'fromBrowser', true);
-	    					 
-//	    					setTimeout(
-//	 								function (){
-//	 									if(e.message.repObj[e.message.repObj.length-1].uid == vcan.renderedObjId){
-//	 										if(tempArr.length > 0){
-//	 											window.whBoard.vcan.main.replayObjs = tempArr;
-//	 											whBoard.toolInit('t_replay', 'fromBrowser', true);
-//	 											tempArr = [];
-//	 										}
-//	 									}
-//	 								},
-//	 								1000
-//	 						);
-	    					 
-	  	    			}
+	        			}
 	    			}
 	    		}
 
-/*
-	    		if(e.message.hasOwnProperty('clearAll')){
-	    			//alert('suman bogait');
-	    			//debugger;
-	    			myrepObj = [];
-	    			replayObjs = [];
-	    			
-	    			whBoard.tool = new whBoard.tool_obj('t_clearall');
-	    			//whBoard.toolInit(anchorNode.parentNode.id);
-	    			
-	 				whBoard.utility.t_clearallInit();
-	 				localStorage.clear();
-	 				vcan.lastId = 0;
-	 				vcan.renderedObjId = 0;
-	 				tempArr = [];
-	 				removeTextNode();
-	 				
-	 			}
-	 			
-	 			*///vcan.queue
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
 					window.whBoard.vcan.main.replayObjs =  replayObjs;
@@ -511,30 +482,80 @@ $.when(
 				}
     		}
     	});
-    	
-    	vcan.queue = function (result){
-    			if(vcan.tempArr.length > 0){
-    				//alert(result);
-	//				alert("this is not happend");
-//					debugger;
-					window.whBoard.vcan.main.replayObjs = vcan.tempArr;
-					vcan.tempArr = [];
-					whBoard.toolInit('t_replay', 'fromBrowser', true, vcan.queue);
-				}else{
-					return;
-				}
+  		
+  		vcan.updateRcvdInformation =  function (msg){
+			var compMsg = "";
+			for(var key in msg){
+				compMsg += key +" : " + msg[key] + " <br />";
 			}
+			document.getElementById('rcvdMsgInfo').innerHTML = compMsg;
+		}
+	
+  		
+  		vcan.makeDefaultValue = function (){
+  			myrepObj = [];
+			replayObjs = [];
+  			if(typeof localStorage.teacherId != 'undefined'){
+				var tempTeacherHolder = localStorage.teacherId;
+			}
+			localStorage.clear();
+			if(typeof tempTeacherHolder != 'undefined'){
+				localStorage.teacherId =  tempTeacherHolder;
+			}
+			vcan.reachedItemId = 0;
+			vcan.renderedObjId = 0;
+			vcan.tempArr = [];
+			vcan.removeTextNode();
+			whBoard.uid  = 0;
+			if(typeof vcan.main.currentTransform != 'undefined'){
+				vcan.main.currentTransform = "";
+			}
+  		}
+  		
+  		function removeAttachFunction(){
+			//	alert("suman bogati");
+				var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
+				for(var i=0; i<allDivs.length; i++){
+					
+					//TODO this will have to be fixed as it always assigned t_clearall
+					//whBoard.currComId = allDivs[i].id; 
+					//allDivs[i].getElementsByTagName('a')[0].addEventListener('click', whBoard.objInit, true);
+					//IMPORTANT this is changed during the UNIT testing
+					
+					//allDivs[i].getElementsByTagName('a')[0].onclick = whBoard.objInit;
+					allDivs[i].getElementsByTagName('a')[0].removeEventListener('click', whBoard.objInit);
+
+				}
+				
+				// TODO this could be tricky as it's best way to do
+				// is remove the attached handler
+				var canvasElement = vcan.main.canvas;
+				canvasElement.style.position = 'relative';
+				canvasElement.style.zIndex = "-1000";  
+
+		}
   		
   		function requestPackets (e){
+			//more than one packets comes after connection on
+			if(e.message.repObj.length > 1){
+					//alert("suman bogati ggg");
+					myArr = e.message.repObj;
+			}
   			whBoard.sentReq = true;
-			var sp = vcan.lastId;
+			var sp = vcan.reachedItemId;
 			var ep = e.message.repObj[0].uid;
-			//if(vcan.lastId == vcan.renderedObjId){
 				console.log('sp ' + sp + ' ' + ' ep ' + ep);
 				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
 				return;
-			//}
   		}
+  		
+  		function makeQueue(e){
+			if(vcan.reachedItemId != vcan.renderedObjId){
+				for(var i=0; i<e.message.repObj.length; i++){
+					vcan.tempArr.push(e.message.repObj[i]);
+				}
+			}
+		}
   		
   		function sendPackets(e){
 			if(e.message.getMsPckt[0] == 0){
@@ -549,18 +570,16 @@ $.when(
 				}
 			}
 			
-//			alert('suman bogati');
-//			debugger;
-			
-			//for(var j=i+1; j<myrepObj.length; j++){
 			for(var j=i+1; j<e.message.getMsPckt[1]; j++){
 				chunk.push(myrepObj[j]);
 			}
 			
+			console.log('fid' + chunk[0].uid + ' eid' + chunk[chunk.length-1].uid);
+			
 			vm_chat.send({'repObj' : chunk, 'chunk' : true});
 			return;
-
   		}
+  		
     	//TODO  this should be contain into text file
   		vcan.removeTextNode = function(){
   			var allTextContainer = document.getElementsByClassName('textBoxContainer');
@@ -568,6 +587,7 @@ $.when(
   				allTextContainer[i].parentNode.removeChild(allTextContainer[i]);
   			}
   		}
+  		
    });
 });
 
