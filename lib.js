@@ -1,7 +1,7 @@
 (
 	function (window){
 		window.mybrowser = {};	
-		window.mybrowser.detection = (function(){
+		window.mybrowser.detection = function(){
 		    var ua= navigator.userAgent, tem, 
 		    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
 		    if(/trident/i.test(M[1])){
@@ -12,6 +12,6 @@
 		    if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
 		   // return M.join(' ');
 		    return M;
-		})();
+		}
 	}	
 )(window);

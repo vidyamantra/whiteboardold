@@ -219,8 +219,8 @@ $.when(
 	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
 	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	  
 	    					if(vcan.tempArr.length < 1){
-	    						alert("suman bogati");
-	    						debugger;
+//	    						alert("suman bogati");
+//	    						debugger;
 	    					}
 	    					makeQueue(e);
 //	    					if(vcan.reachedItemId != vcan.renderedObjId){

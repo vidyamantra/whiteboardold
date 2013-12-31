@@ -26,13 +26,16 @@
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
 	   <script type="text/javascript" src="js/wb_utility.js"></script>
+
+ 
 	   <script type="text/javascript" src="lib.js"></script>
-
 	   <script type="text/javascript" src="lang/en.js"></script>
-
 	   <script type="text/javascript" src="lang.js"></script>
 	   <script type="text/javascript" src="view.js"></script>
 	   <script type="text/javascript" src="system.js"></script>
+	   
+	    
+	   
 	   <script type="text/javascript" src="js/packetcontainer.js"></script>
 	   <script type="text/javascript" src="js/drawobject.js"></script>
 	   <script type="text/javascript" src="js/makeobj.js"></script>

@@ -23,8 +23,10 @@
 			receivedPackDivPS : 'receivedNumberPS',
 			uid : 0,
 			lt : '',
+			//these are top level object
 			view : {}, // For display important message to user
 			lang : {},
+			system: {},
 			
 			/**
 			 * This function basically does create the canvas on which 
