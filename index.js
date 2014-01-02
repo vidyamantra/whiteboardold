@@ -31,21 +31,23 @@ $.when(
 	  repObjQue = []
 	 //mysuman = false;
 	 $.uiBackCompat=false;
+	//alert('suman bogati');
     //place your code here, the scripts are all loaded
-    var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
-    	vm_chat.init({
-            'userid':id,
-            'sid':'212',
-            'rid': path,
-            'authuser':auth_user,
-            'authpass':auth_pass,
-            'userobj': userobj,
-            'fastchat_lasttime':'0',
-            'fastchatroom_title':'fastchat',
-            'fastchatroom_name':'room1'});
+//    var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
+//    	vm_chat.init({
+//            'userid':id,
+//            'sid':'212',
+//            'rid': path,
+//            'authuser':auth_user,
+//            'authpass':auth_pass,
+//            'userobj': userobj,
+//            'fastchat_lasttime':'0',
+//            'fastchatroom_title':'fastchat',
+//            'fastchatroom_name':'room1'});
         //ToDo:room name contain licencekey,couse id and activity id   
         
 	$(document).ready(function(){
+		//alert('brother');
 		myrepObj = [];
     	replayObjs = []; // this should contain either into whiteboard or into van object
     	myArr = [];
@@ -60,6 +62,21 @@ $.when(
     	vcan.cmdWrapperDiv = 'commandToolsWrapper';
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
+    	
+        var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
+        if(whBoard.system.webSocket){
+         	vm_chat.init({
+                'userid':id,
+                'sid':'212',
+                'rid': path,
+                'authuser':auth_user,
+                'authpass':auth_pass,
+                'userobj': userobj,
+                'fastchat_lasttime':'0',
+                'fastchatroom_title':'fastchat',
+                'fastchatroom_name':'room1'});
+        }
+       	
     	
 		vcan.queue = function (result){
 			if(vcan.tempArr.length > 0){
@@ -152,6 +169,19 @@ $.when(
 	  			}
 		}
 		
+		$(document).on("connectionclose", function(e){
+			//vm_chat.send()
+			//vm_chat.send({'connecClose':true});
+			alert('suman bogati raj');
+		});
+		
+		$(document).on("member_removed", function(e){
+			alert('member_removed');
+		});
+		
+		
+		
+		
 		$(document).on("member_added", function(e){
 				myVideo.id = id;
 				myVideo.browserLen = e.message.length;
@@ -165,7 +195,9 @@ $.when(
 		
 		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
-  			
+//  			if(e.message.hasOwnProperty('connecClose')){
+//  				//alert('raju brother');
+//  			}
   			//video part
   			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];

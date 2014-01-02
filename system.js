@@ -6,17 +6,25 @@
 		var browserVersion = browser[1];
 		whBoard.system.wbRtc = {};
 		
-		whBoard.system.isCanvasSupport = function (browserName, version){
+		whBoard.system.isCanvasSupport = function (navigator, browserName, version){
+			//alert('khandan');
 			//http://stackoverflow.com/questions/2745432/best-way-to-detect-that-html5-canvas-is-not-supported
-			var canvasSupported = !!window.HTMLCanvasElement; //suggested by ie9 team, 
-			if(!canvasSupported){
-				whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+		//	var canvasSupported = !!window.HTMLCanvasElement || !!window.CanvasRenderingContext2D; //suggested by ie9 team,
+			if(browserName == 'MSIE'){
+				if(version != 9){
+					//TODO there should be some good method to check exisitence of canvas element in IE browsers
+					whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+				}
 			}else{
-			//	alert('supported');
+				var canvasSupported = !!window.CanvasRenderingContext2D;
+				if(!canvasSupported){
+					whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+				}
 			}
+			
 		}
 		
-	   whBoard.system.isWebRtcSupport = function (navigator, browser, version){
+	    whBoard.system.isWebRtcSupport = function (navigator, browser, version){
 			if(browser == 'Firefox'){
 				if(navigator.mozGetUserMedia){
 					whBoard.system.wbRtc.userMedia  = true;
@@ -28,7 +36,7 @@
 				}else{
 					whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), browser, version);
 				}
-			}else if(browser == 'Chrome'){
+			}else if(browser == 'Chrome' || browser == 'Safari'){
 				if(navigator.webkitGetUserMedia){
 					whBoard.system.wbRtc.userMedia  = true;
 					if(!window.webkitRTCPeerConnection){
@@ -39,21 +47,23 @@
 				}else{
 					whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), browser, version);
 				}
+			}else if(browser == 'MSIE' && version <= 9){
+				whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebRtc'), browser, version);
 			}
-		}
+	   }
 	   
 	   whBoard.system.isWebSocketSupport = function (navigator, browser, version){
-		   if(window.WebSocket == 'undefined' || typeof window.WebSocket != 'function' || !window.WebSocket.hasOwnProperty('OPEN')){
+		   whBoard.system.webSocket  = {};
+		   if(typeof window.WebSocket == 'undefined' || typeof window.WebSocket != 'function' || !window.WebSocket.hasOwnProperty('OPEN')){
 			   whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
 		   }else{
-			   alert("your browser does support web socket");
+			   whBoard.system.webSocket = true;
 		   }
-		}
+	   }
 		
-		whBoard.system.isWebRtcSupport(navigator, browserName, browserVersion);
-		whBoard.system.isCanvasSupport(navigator, browserName, browserVersion);
-		whBoard.system.isWebSocketSupport(navigator, browserName, browserVersion);
-		
+	 whBoard.system.isCanvasSupport(navigator, browserName, browserVersion); 
+	 whBoard.system.isWebRtcSupport(navigator, browserName, browserVersion);
+	 whBoard.system.isWebSocketSupport(navigator, browserName, browserVersion);
 		
 	}	
 )(window);

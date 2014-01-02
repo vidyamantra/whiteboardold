@@ -15,6 +15,7 @@ var vm_chat = {
 		
 	wsconnect : function(){ 
 		vm_chat.wsuri = "wss://"+this.cfg.rid;
+		console.log(vm_chat.wsuri);
 		if ("WebSocket" in window) {
 			this.sock = new WebSocket(vm_chat.wsuri);
 		} else if ("MozWebSocket" in window) {
@@ -28,7 +29,7 @@ var vm_chat = {
 		this.sock.onopen = function(e) { 
 			
 			//alert(localStorage.repObjs);
-			//console.log("Connected to " + gui_ajax.wsuri);
+			console.log("OPN : Connected to " + vm_chat.wsuri);
 			$.event.trigger({
 				type: "connectionopen"
 				//repObjs : localStorage.repObjs
@@ -43,12 +44,13 @@ var vm_chat = {
 		
 		this.sock.onmessage = function(e) {  
 			
-			//console.log("Connected to " + gui_ajax.wsuri);
+			console.log("MSG : Connected to " + vm_chat.wsuri);
 			try{
 				
 				//var r1 = JSON.parse(e.data, vm_chat.functionReviver);
 				var r1 = JSON.parse(e.data);
 					//r1.
+				console.log(r1);
 
 				if (r1.type =="joinroom"){	
 				
@@ -108,7 +110,7 @@ var vm_chat = {
 					});
 				}
 				if (r1.type =="Unauthenticated"){
-					this.display_error("Unauthenticated user");
+					console.log("Unauthenticated user");
 					//alert('Unauthenticated user');		
 				}	
 			}catch(e){
@@ -120,8 +122,8 @@ var vm_chat = {
 			scope.error = e;
 		}	
 		this.sock.onclose = function(e) {
-			//alert('Connection Closed');
-
+			alert('Connection Closed');
+		//	alert('hi subhams');
 			$.event.trigger({
 				type: "connectionclose",
 				message: e.reason
@@ -132,6 +134,7 @@ var vm_chat = {
 	},
 
 	userauthenticat : function (){ //alert('auth');
+		console.log('Start Auth');
 		var obj = {
 			cfun  : 'authenticate',
 			arg : {'authuser':this.cfg.authuser,'authpass':this.cfg.authpass}
