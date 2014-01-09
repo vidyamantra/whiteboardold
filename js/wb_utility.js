@@ -347,65 +347,63 @@
 				document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets
 			},
 			 
-			assignRole : function (){
-				if(typeof localStorage.orginalTeacherId != 'undefined'){
+			assignRole : function (studentId){
+				if(typeof studentId != 'undefined'){
+					if(localStorage.hasOwnProperty('reclaim')){
+						var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+						cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper);
+						localStorage.removeItem('reclaim');
+					}	
 					
-					//var rmNode = document.getElementById(vcan.cmdWrapperDiv);
-					//rmNode.parentNode.removeChild(rmNode);
+					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+					localStorage.teacherId = studentId;
+					vcan.makeCanvasEnable();
 					
-//					var paragraphs = document.getElementsByTagName('p');
-//					for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
-//					  doSomething(paragraph);
-//					}
-					
-					//var paragraphs = document.getElementsByTagName('p');
-					
-					
-				//	var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
-					//for (var i = 0, cdiv; cdiv = allDivs[i]; i++) {
-					//alert('s');
-					//debugger;
-					console.log('sss');
-//					var totalDiv = allDivs.length;
-//					for (var i = 0;  i<totalDiv; i++) {
-//						document.getElementById(vcan.cmdWrapperDiv).parentNode.removeChild(allDivs[i]);
-//					}
-					
+				}else{
 					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-					
 					while(cmdToolsWrapper.hasChildNodes()){
 						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
 					}
+			
+					
+//					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);
+//					cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper);
 					vcan.makeCanvasDisable();
-					whBoard.createReclaimButton(cmdToolsWrapper);
 					
-//					whBoard.createDiv('t_reclaim', 'Reclaim', cmdToolsWrapper);
-//					var aTags = document.getElementById('t_reclaim').getElementsByTagName('a');
-//					aTags[0].addEventListener('click', whBoard.objInit);
+					if(typeof localStorage.orginalTeacherId != 'undefined'){
+						whBoard.createReclaimButton(cmdToolsWrapper);
+						localStorage.reclaim = true;
+					}else{
+						if(cmdToolsWrapper != null){
+							//This is for student to assign the role for teacher
+							// in teacher case the reclaim button would be available
+							cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper); 
+						}
+					}
 					
-					
-					
-					
-					localStorage.reclaim = true;
 					localStorage.removeItem('teacherId');
-					
-				}else{
-					//alert('second browser');
-					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-					localStorage.teacherId = vcan.studentId;
-					
-//					var canvasElement = vcan.main.canvas;
-//					canvasElement.style.position = 'relative';
-//					canvasElement.style.zIndex = "10";  
-					vcan.makeCanvasEnable();
 				}
+				
+				
+//				if(typeof localStorage.orginalTeacherId != 'undefined'){
+//					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+//					while(cmdToolsWrapper.hasChildNodes()){
+//						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+//					}
+//					vcan.makeCanvasDisable();
+//					
+//					whBoard.createReclaimButton(cmdToolsWrapper);
+//					localStorage.reclaim = true;
+//					localStorage.removeItem('teacherId');
+//				}else{
+//					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+//					localStorage.teacherId = vcan.studentId;
+//					vcan.makeCanvasEnable();
+//				}
 
 			}, 
 			
 			reclaimRole : function (){
-				//vcan.cmdWrapperDiv =
-				//var cmdWrapper = document.getElementById(vcan.cmdWrapperDiv);
-				//cmdWrapper.parentNode.removeChild(cmdWrapper); 
 				whBoard.removeToolBox();
 				window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 				localStorage.teacherId = localStorage.orginalTeacherId;

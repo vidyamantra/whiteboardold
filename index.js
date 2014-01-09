@@ -199,6 +199,7 @@ $.when(
 //							child.parentNode.removeChild(child);
 //						}
 						vcan.studentId = id;
+						localStorage.studentId = id;
 						vm_chat.send({'isChannelReady':true});
 						vcan.oneExecuted = false;
 	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
@@ -222,6 +223,24 @@ $.when(
 //					}
 				}
 				
+		}
+		
+		whBoard.uniqueArrOfObjsToOther = function (){
+			var tempRepObjs = "";
+			replayObjs = [];
+			for(var i=0; i<vcan.main.replayObjs.length; i++){
+				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+				replayObjs.push(tempRepObjs);
+			}
+		}
+		
+		whBoard.uniqueArrOfObjsToSelf = function (){
+			vcan.main.replayObjs = [];
+			var tempRepObjs = "";
+			for(var i=0; i<replayObjs.length; i++){
+				tempRepObjs = vcan.extend({}, replayObjs[i]);
+				vcan.main.replayObjs.push(tempRepObjs);
+			}
 		}
 		
 		$(document).on("connectionclose", function(e){
@@ -290,59 +309,98 @@ $.when(
         			}
         		}
         	}else{
-        		if(e.fromUser.userid != id){
-        			if(e.message.hasOwnProperty('reclaimRole')){
+//        		if(e.message.hasOwnProperty('assignRole')){
+//        			if(id == typeof localStorage.studentId){
+//        				whBoard.uniqueArrOfObjsToOther();
+//            		}
+//        		}
+        		
+        		
+        		if(e.message.hasOwnProperty('reclaimRole')){
+        			if(e.fromUser.userid != id){
         				whBoard.removeToolBox();
         				vcan.makeCanvasDisable();
             			if(typeof localStorage.teacherId != 'undefined'){
             				localStorage.removeItem('teacherId');
             			}
-            			
-            			var tempRepObjs = "";
-        				replayObjs = [];
-        				for(var i=0; i<vcan.main.replayObjs.length; i++){
-            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-            				replayObjs.push(tempRepObjs);
-            			}
+            			whBoard.uniqueArrOfObjsToOther();
             			return;
-            		} 
-        			
-        			if(e.message.hasOwnProperty('assignRole')){
-            			whBoard.utility.assignRole();
-            			vcan.main.replayObjs = [];
-            			var tempRepObjs = "";
-
-            			for(var i=0; i<replayObjs.length; i++){
-            				tempRepObjs = vcan.extend({}, replayObjs[i]);
-            				vcan.main.replayObjs.push(tempRepObjs);
-            			}
-            			return;
-            		}
-        		}else{
-        			
-        			if(e.message.hasOwnProperty('reclaimRole')){
-        				vcan.main.replayObjs = [];
-            			var tempRepObjs = "";
-
-            			for(var i=0; i<replayObjs.length; i++){
-            				tempRepObjs = vcan.extend({}, replayObjs[i]);
-            				vcan.main.replayObjs.push(tempRepObjs);
-            			}
-            			return;
+        			}else{
+        				whBoard.uniqueArrOfObjsToSelf();
+        				return;
         			}
-        			
-        			if(e.message.hasOwnProperty('assignRole')){
-        				var tempRepObjs = "";
-        				replayObjs = [];
-        				for(var i=0; i<vcan.main.replayObjs.length; i++){
-            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-            				replayObjs.push(tempRepObjs);
-            			}
-        				
- 
-        				 return;
-            		}
         		}
+        		
+        		if(e.message.hasOwnProperty('assignRole')){
+        			if(e.fromUser.userid != id){
+        				whBoard.utility.assignRole(id);
+            			whBoard.uniqueArrOfObjsToSelf();
+            			return;
+        			}else{
+        				whBoard.uniqueArrOfObjsToOther();
+        				return;
+        			}
+        		}
+        		
+//        		if(e.fromUser.userid != id){
+//        			if(e.message.hasOwnProperty('reclaimRole')){
+//        				whBoard.removeToolBox();
+//        				vcan.makeCanvasDisable();
+//            			if(typeof localStorage.teacherId != 'undefined'){
+//            				localStorage.removeItem('teacherId');
+//            			}
+//            			
+//            			whBoard.uniqueArrOfObjsToOther();
+//            			
+////            			var tempRepObjs = "";
+////        				replayObjs = [];
+////        				for(var i=0; i<vcan.main.replayObjs.length; i++){
+////            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+////            				replayObjs.push(tempRepObjs);
+////            			}
+//            			return;
+//            		} 
+//        			
+//        			if(e.message.hasOwnProperty('assignRole')){
+//            			whBoard.utility.assignRole(id);
+//            			
+//            			
+//            			whBoard.uniqueArrOfObjsToSelf();
+//            			
+//            			
+//            		
+//
+////            			vcan.main.replayObjs = [];
+////            			var tempRepObjs = "";
+////            			for(var i=0; i<replayObjs.length; i++){
+////            				tempRepObjs = vcan.extend({}, replayObjs[i]);
+////            				vcan.main.replayObjs.push(tempRepObjs);
+////            			}
+//            			return;
+//            		}
+//        		}else{
+//        			if(e.message.hasOwnProperty('reclaimRole')){
+//        				whBoard.uniqueArrOfObjsToSelf();
+////        				vcan.main.replayObjs = [];
+////            			var tempRepObjs = "";
+////            			for(var i=0; i<replayObjs.length; i++){
+////            				tempRepObjs = vcan.extend({}, replayObjs[i]);
+////            				vcan.main.replayObjs.push(tempRepObjs);
+////            			}
+//            			return;
+//        			}
+//        			
+//        			if(e.message.hasOwnProperty('assignRole')){
+////        				var tempRepObjs = "";
+////        				replayObjs = [];
+////        				for(var i=0; i<vcan.main.replayObjs.length; i++){
+////            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+////            				replayObjs.push(tempRepObjs);
+////            			}
+//        				whBoard.uniqueArrOfObjsToOther();
+//	       			    return;
+//            		}
+//        		}
         		
         		
         		
