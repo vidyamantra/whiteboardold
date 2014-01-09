@@ -345,6 +345,75 @@
 			updateSentPackets : function (obj){
 				whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
 				document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets
+			},
+			 
+			assignRole : function (){
+				if(typeof localStorage.orginalTeacherId != 'undefined'){
+					
+					//var rmNode = document.getElementById(vcan.cmdWrapperDiv);
+					//rmNode.parentNode.removeChild(rmNode);
+					
+//					var paragraphs = document.getElementsByTagName('p');
+//					for (var i = 0, paragraph; paragraph = paragraphs[i]; i++) {
+//					  doSomething(paragraph);
+//					}
+					
+					//var paragraphs = document.getElementsByTagName('p');
+					
+					
+				//	var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
+					//for (var i = 0, cdiv; cdiv = allDivs[i]; i++) {
+					//alert('s');
+					//debugger;
+					console.log('sss');
+//					var totalDiv = allDivs.length;
+//					for (var i = 0;  i<totalDiv; i++) {
+//						document.getElementById(vcan.cmdWrapperDiv).parentNode.removeChild(allDivs[i]);
+//					}
+					
+					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+					
+					while(cmdToolsWrapper.hasChildNodes()){
+						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+					}
+					vcan.makeCanvasDisable();
+					whBoard.createReclaimButton(cmdToolsWrapper);
+					
+//					whBoard.createDiv('t_reclaim', 'Reclaim', cmdToolsWrapper);
+//					var aTags = document.getElementById('t_reclaim').getElementsByTagName('a');
+//					aTags[0].addEventListener('click', whBoard.objInit);
+					
+					
+					
+					
+					localStorage.reclaim = true;
+					localStorage.removeItem('teacherId');
+					
+				}else{
+					//alert('second browser');
+					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+					localStorage.teacherId = vcan.studentId;
+					
+//					var canvasElement = vcan.main.canvas;
+//					canvasElement.style.position = 'relative';
+//					canvasElement.style.zIndex = "10";  
+					vcan.makeCanvasEnable();
+				}
+
+			}, 
+			
+			reclaimRole : function (){
+				//vcan.cmdWrapperDiv =
+				//var cmdWrapper = document.getElementById(vcan.cmdWrapperDiv);
+				//cmdWrapper.parentNode.removeChild(cmdWrapper); 
+				whBoard.removeToolBox();
+				window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+				localStorage.teacherId = localStorage.orginalTeacherId;
+				if(typeof localStorage.reclaim != 'undefined'){
+					localStorage.removeItem('reclaim');
+				}
+				vcan.makeCanvasEnable();
+				vm_chat.send({'reclaimRole': true});
 			}
 		};
 	}

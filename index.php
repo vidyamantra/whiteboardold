@@ -64,12 +64,6 @@
        <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 	  
 	
-	   
-      <style type="text/css">
-      	  #mainReplayLen, #replayLen{
-      	  	border:4ppx solid gray;
-      	  }
-      </style>
   </head>
   <body>
 
@@ -80,7 +74,7 @@
 	<div id="replayLen"> </div>	
     <div id="containerWb">
     
-    </div>
+    </div>	
    
     <div id='videos'>
     		<video id='localVideo' autoplay></video>

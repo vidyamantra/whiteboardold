@@ -54,10 +54,17 @@
 	   
 	   whBoard.system.isWebSocketSupport = function (navigator, browser, version){
 		   whBoard.system.webSocket  = {};
-		   if(typeof window.WebSocket == 'undefined' || typeof window.WebSocket != 'function' || !window.WebSocket.hasOwnProperty('OPEN')){
-			   whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
-		   }else{
+		   
+//		   if(typeof window.WebSocket == 'undefined' || typeof window.WebSocket != 'function' || !window.WebSocket.hasOwnProperty('OPEN')){
+//			   whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
+//		   }else{
+//			   whBoard.system.webSocket = true;
+//		   }
+		   
+		   if(typeof window.WebSocket != 'undefined' && (typeof window.WebSocket == 'function' || typeof window.WebSocket == 'object')  && window.WebSocket.hasOwnProperty('OPEN')){
 			   whBoard.system.webSocket = true;
+		   }else{
+			   whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
 		   }
 	   }
 		

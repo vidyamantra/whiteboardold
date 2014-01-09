@@ -59,9 +59,39 @@ $.when(
     	}
     	
     	
-    	vcan.cmdWrapperDiv = 'commandToolsWrapper';
+    	//vcan.cmdWrapperDiv = 'commandToolsWrapper';
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
+    	
+    	whBoard.removeToolBox = function(){
+  			var cmdWrapper =  document.getElementById(vcan.cmdWrapperDiv);
+			cmdWrapper.parentNode.removeChild(cmdWrapper);
+  		}
+    	
+    	whBoard.createReclaimButton = function (cmdToolsWrapper){
+			whBoard.createDiv('t_reclaim', 'Reclaim', cmdToolsWrapper);
+			var aTags = document.getElementById('t_reclaim').getElementsByTagName('a');
+			aTags[0].addEventListener('click', whBoard.objInit);
+		}
+    	
+    	//alert(typeof localStorage.teacherId);
+    	if(typeof localStorage.teacherId == 'undefined' && typeof localStorage.reclaim == 'undefined'){
+    		//alert('suman bogati');
+    		whBoard.removeToolBox();
+//    		var child = document.getElementById(vcan.cmdWrapperDiv);
+//			child.parentNode.removeChild(child);
+		}
+    	
+    	if(typeof localStorage.reclaim != 'undefined'){
+    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+			
+			while(cmdToolsWrapper.hasChildNodes()){
+				cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+			}
+    		
+    		whBoard.createReclaimButton(cmdToolsWrapper);
+    	}
+    	
     	
         var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
         if(whBoard.system.webSocket){
@@ -135,29 +165,45 @@ $.when(
 		}
 		
 		vcan.videoInit = function (e){
+			
 //			alert('i am there for you');
 //  			debugger;
 			var clientNum = e.message.length;
-				if(clientNum == 1){
+			//alert(clientNum);
+			  if(clientNum == 1){
 					if(!vcan.chkAlreadyConnected()){
-						myVideo.isInitiator = true;
-						vcan.oneExecuted = false;
 						vcan.vid = myVideo.init();
 						vcan.teacher = true;
 						if(typeof localStorage.teacherId == 'undefined'){
+							window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 							localStorage.teacherId = e.message[0].userid;
+							//vcan.teacherId = localStorage.teacherId;
+							localStorage.orginalTeacherId = e.message[0].userid;
 						}
+						
+						myVideo.isInitiator = true;
+						vcan.oneExecuted = false;
+						
 					}
 				//browser B
 				}else if(clientNum == 2 && e.newuser == null){
 					//localStorage.teacherId = e.message[0].userid;
 					if(!vcan.chkAlreadyConnected()){
-						if(typeof localStorage.teacherId == 'undefined'){
-							localStorage.teacherId = e.message[0].userid;
-						}
+						//localStorage.orginalTeacherId
+//						if(typeof localStorage.teacherId == 'undefined'){
+//							localStorage.teacherId = e.message[0].userid;
+//						}
+						
+//						if(typeof localStorage.teacherId == 'undefined'){
+//							var child = document.getElementById(vcan.cmdWrapperDiv);
+//							child.parentNode.removeChild(child);
+//						}
+						vcan.studentId = id;
 						vm_chat.send({'isChannelReady':true});
 						vcan.oneExecuted = false;
 	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
+	  					
+	  					
 					}
 				//browser C and More	
 	  			}else if(clientNum > 2){
@@ -167,16 +213,27 @@ $.when(
 		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
 	  				}
 	  			}
+				
+				if(clientNum >= 2){
+//					if(typeof localStorage.teacherId == 'undefined'){
+//						alert("this is not pe");
+//						var parNode = document.getElementById(vcan.cmdWrapperDiv).parentNode;
+//						pareNode.removeChild(parNode);
+//					}
+				}
+				
 		}
 		
 		$(document).on("connectionclose", function(e){
 			//vm_chat.send()
 			//vm_chat.send({'connecClose':true});
-			alert('suman bogati raj');
+			//alert('suman bogati raj');
+			//alert('connection closed');
+			console.log('connection closed');
 		});
 		
 		$(document).on("member_removed", function(e){
-			alert('member_removed');
+//			/alert('member_removed');
 		});
 		
 		
@@ -187,7 +244,8 @@ $.when(
 				myVideo.browserLen = e.message.length;
 				vcan.videoInit(e);
 	  			if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
-	  				removeAttachFunction();
+	  				//removeAttachFunction();
+	  				vcan.makeCanvasDisable();
 				}
 	  		});
 		
@@ -199,6 +257,9 @@ $.when(
 //  				//alert('raju brother');
 //  			}
   			//video part
+  			
+  			
+  			
   			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
@@ -229,7 +290,62 @@ $.when(
         			}
         		}
         	}else{
-        	
+        		if(e.fromUser.userid != id){
+        			if(e.message.hasOwnProperty('reclaimRole')){
+        				whBoard.removeToolBox();
+        				vcan.makeCanvasDisable();
+            			if(typeof localStorage.teacherId != 'undefined'){
+            				localStorage.removeItem('teacherId');
+            			}
+            			
+            			var tempRepObjs = "";
+        				replayObjs = [];
+        				for(var i=0; i<vcan.main.replayObjs.length; i++){
+            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+            				replayObjs.push(tempRepObjs);
+            			}
+            			return;
+            		} 
+        			
+        			if(e.message.hasOwnProperty('assignRole')){
+            			whBoard.utility.assignRole();
+            			vcan.main.replayObjs = [];
+            			var tempRepObjs = "";
+
+            			for(var i=0; i<replayObjs.length; i++){
+            				tempRepObjs = vcan.extend({}, replayObjs[i]);
+            				vcan.main.replayObjs.push(tempRepObjs);
+            			}
+            			return;
+            		}
+        		}else{
+        			
+        			if(e.message.hasOwnProperty('reclaimRole')){
+        				vcan.main.replayObjs = [];
+            			var tempRepObjs = "";
+
+            			for(var i=0; i<replayObjs.length; i++){
+            				tempRepObjs = vcan.extend({}, replayObjs[i]);
+            				vcan.main.replayObjs.push(tempRepObjs);
+            			}
+            			return;
+        			}
+        			
+        			if(e.message.hasOwnProperty('assignRole')){
+        				var tempRepObjs = "";
+        				replayObjs = [];
+        				for(var i=0; i<vcan.main.replayObjs.length; i++){
+            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+            				replayObjs.push(tempRepObjs);
+            			}
+        				
+ 
+        				 return;
+            		}
+        		}
+        		
+        		
+        		
         		myrepObj = whBoard.vcan.getStates('replayObjs');
 	    		chunk = [];
 	    		
@@ -246,7 +362,9 @@ $.when(
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
-	    					whBoard.uid = e.message.repObj[0].uid;
+	    					//whBoard.uid = e.message.repObj[0].uid;
+	    					//WARNING:- can be crtical 
+	    					whBoard.uid = e.message.repObj[e.message.repObj.length-1].uid;
 	    				}
 	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
 	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	  
@@ -353,11 +471,11 @@ $.when(
 								}
 								
 								
-								if(replayObjs.length > 0){
-									if(replayObjs[replayObjs.length-1].uid == e.message.repObj[0].uid){
-										alert("hi guys ggg");
-									}
-								}
+//								if(replayObjs.length > 0){
+//									if(replayObjs[replayObjs.length-1].uid == e.message.repObj[0].uid){
+//										//alert("hi guys ggg");
+//									}
+//								}
 	    						for (var i=0; i<e.message.repObj.length; i++){
 	    							 replayObjs.push(e.message.repObj[i]);
 	    						}
@@ -382,6 +500,10 @@ $.when(
     						
     						if(e.fromUser.userid != id){
     							localStorage.repObjs = JSON.stringify(replayObjs);
+    						}else{
+    							if(typeof vcan.reachedItemId != 'undefined'){
+    								vcan.renderedObjId = vcan.reachedItemId 
+    						    }
     						}
 	    					
 	        			}
@@ -534,10 +656,20 @@ $.when(
   			if(typeof localStorage.teacherId != 'undefined'){
 				var tempTeacherHolder = localStorage.teacherId;
 			}
+  			
+  			if(typeof localStorage.orginalTeacherId != 'undefined'){
+				var temporginalTeacherHolder = localStorage.orginalTeacherId;
+			}
+  			
 			localStorage.clear();
 			if(typeof tempTeacherHolder != 'undefined'){
 				localStorage.teacherId =  tempTeacherHolder;
 			}
+			
+			if(typeof temporginalTeacherHolder != 'undefined'){
+				localStorage.orginalTeacherId = temporginalTeacherHolder;
+			}
+			
 			vcan.reachedItemId = 0;
 			vcan.renderedObjId = 0;
 			vcan.tempArr = [];
@@ -548,9 +680,12 @@ $.when(
 			}
   		}
   		
-  		function removeAttachFunction(){
-			//	alert("suman bogati");
-				var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
+  		//name of this function should be  change
+  		vcan.makeCanvasDisable = function(){
+  			//	alert("suman bogati");
+  			// this would not need if we remove the commands div completely
+/*
+  			var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
 				for(var i=0; i<allDivs.length; i++){
 					
 					//TODO this will have to be fixed as it always assigned t_clearall
@@ -562,14 +697,22 @@ $.when(
 					allDivs[i].getElementsByTagName('a')[0].removeEventListener('click', whBoard.objInit);
 
 				}
-				
+*/				
 				// TODO this could be tricky as it's best way to do
 				// is remove the attached handler
 				var canvasElement = vcan.main.canvas;
 				canvasElement.style.position = 'relative';
 				canvasElement.style.zIndex = "-1000";  
-
 		}
+  		
+  		vcan.makeCanvasEnable = function(){
+  			var canvasElement = vcan.main.canvas;
+			//canvasElement.style.position = 'relative';
+  			canvasElement.style.position = 'none';
+			canvasElement.style.zIndex = "0";
+  		}
+  		
+  		
   		
   		function requestPackets (e){
 			//more than one packets comes after connection on

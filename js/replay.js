@@ -67,7 +67,7 @@
 						//console.log('renderObj ' + vcan.renderedObjId);
 					}
 					
-					console.log('rendered id ' + vcan.renderedObjId);
+					//console.log('rendered id ' + vcan.renderedObjId);
 					
 					if(typeof wbRep.callBkfunc == 'function'){
 						if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){

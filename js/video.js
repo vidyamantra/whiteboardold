@@ -202,6 +202,10 @@
 					 var tpc = new RTCPeerConnection(this.pc_config, this.pc_constraints)
 					 cthis.pc.push(tpc);
 					 cthis.pc[cthis.cn].onicecandidate = cthis.handleIceCandidate;
+					 				  //onclosedconnection
+					 cthis.pc[cthis.cn].onclosedconnection = function (){
+						 alert("hello brother closeed");
+					 }
 					 console.log('Created RTCPeerConnnection with:\n' +
 				      '  config: \'' + JSON.stringify(this.pc_config) + '\';\n' +
 				      '  constraints: \'' + JSON.stringify(this.pc_constraints) + '\'.');

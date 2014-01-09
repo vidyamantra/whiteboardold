@@ -23,6 +23,7 @@
 			receivedPackDivPS : 'receivedNumberPS',
 			uid : 0,
 			lt : '',
+			commandToolsWrapperId : 'commandToolsWrapper',
 			//these are top level object
 			view : {}, // For display important message to user
 			lang : {},
@@ -105,7 +106,18 @@
 			 */
 			createCommand : function (){
 				var cmdToolsWrapper  = document.createElement('div');
-					cmdToolsWrapper.id = 'commandToolsWrapper';
+					//cmdToolsWrapper.id = 'commandToolsWrapper';
+					cmdToolsWrapper.id	=  whBoard.commandToolsWrapperId;
+					
+					var canvasElem = document.getElementById(vcan.canvasWrapperId);
+				
+					if (canvasElem != null) {
+						document.getElementById('containerWb').insertBefore(cmdToolsWrapper, canvasElem);
+					}else{
+						document.getElementById('containerWb').appendChild(cmdToolsWrapper);
+					}
+				//	document.getElementById('containerWb').appendChild(cmdToolsWrapper);
+					
 					whBoard.createDiv('t_line', 'Line', cmdToolsWrapper);
 					whBoard.createDiv('t_rectangle', 'Rectangle', cmdToolsWrapper);
 					whBoard.createDiv('t_freeDrawing', 'Free Drawing', cmdToolsWrapper);
@@ -116,6 +128,14 @@
 					whBoard.createDiv('t_activeall', 'Active All', cmdToolsWrapper);
 					whBoard.createDiv('t_clearall', 'Clear All', cmdToolsWrapper);
 					
+					
+					//var	cmdToolsWrapper2  = document.createElement('div');
+					//cmdToolsWrapper.id = 'commandToolsWrapper2';
+					whBoard.createDiv('t_assign', 'Assign', cmdToolsWrapper, 'controlCmd');
+					
+//					var parentWrapper = document.createElement('div');
+//					vcan.wrapperPar.id = 'cmdParent';
+//					parentWrapper.appendChild(cmdToolsWrapper);
 			},
 			
 			/**
@@ -123,17 +143,30 @@
 			 * toolId expect id for command
 			 * text expects the text used for particular command
 			 */
-			createDiv : function (toolId, text, cmdToolsWrapper){
+			createDiv : function (toolId, text, cmdToolsWrapper, cmdClass){
 					var ancTag = document.createElement('a');
 					ancTag.href = '#';
 				
 					var lDiv = document.createElement('div');
 					lDiv.id = toolId;
+					if(typeof cmdClass != 'undefined'){
+						lDiv.className = cmdClass;
+					}
 					ancTag.innerHTML = text;
 					lDiv.appendChild(ancTag);
 					
 					cmdToolsWrapper.appendChild(lDiv);
-					document.getElementById('containerWb').appendChild(cmdToolsWrapper);
+					//debugger;
+					var canvasElem = document.getElementById(vcan.canvasWrapperId);
+					//canvasElem = null;
+//					if (canvasElem != null) {
+//						document.getElementById('containerWb').inerstBefore(cmdToolsWrapper, canvasElem);
+//					}else{
+//						document.getElementById('containerWb').appendChild(cmdToolsWrapper);
+//					}
+					
+				
+					
 			},
 			
 			/**
@@ -141,8 +174,9 @@
 			 */
 			createCanvas : function (){
 				var cmdToolsWrapper  = document.createElement('div');
-				cmdToolsWrapper.id = 'canvasWrapper';
-				
+				//cmdToolsWrapper.id = 'canvasWrapper';
+				cmdToolsWrapper.id =  vcan.canvasWrapperId;
+				vcan.canvasWrapperId = cmdToolsWrapper.id; 
 				var canvas = document.createElement('canvas');
 					canvas.id = 'canvas';
 					canvas.innerHTML = 'Canvas is missing in your browsers. Please update the latest version of your browser';
@@ -271,7 +305,6 @@
 					whBoard.utility.clearAll(false);
 					vm_chat.send({'replayAll' :  true});
 				}else{
-					
 					whBoard.toolInit(anchorNode.parentNode.id);
 				}
 				
@@ -284,7 +317,12 @@
 				//whBoard.toolInit(anchorNode.parentNode.id, 'multiuser');
 				//whBoard.toolInit(anchorNode.parentNode.id);
 				
-				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall'){
+//				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
+//					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign'){
+			
+				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
+					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign'){
+			
 					var currTime = new Date().getTime();
 					//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
 					whBoard.lt = anchorNode.parentNode.id;
@@ -306,10 +344,16 @@
 			 * object would triggered for create the rectangle object
 			 * @param id expects the  id of container which contains all the commands of div
 			 */
-			attachToolFunction : function(id){
-				whBoard.createCommand();
-				whBoard.createCanvas();
-				whBoard.crtPakCont();
+			attachToolFunction : function(id, alreadyCreated){
+				//console.log('suman bogati my name');
+				vcan.canvasWrapperId = 'canvasWrapper';
+				whBoard.createCommand(alreadyCreated);
+				if(typeof alreadyCreated == 'undefined'){
+					whBoard.createCanvas();
+					whBoard.crtPakCont();
+				}
+				
+				
 				var allDivs = document.getElementById(id).getElementsByTagName('div');
 				for(var i=0; i<allDivs.length; i++){
 					
@@ -387,19 +431,31 @@
  					 }*/
 				}
 				
+				
 				if(cmd == 't_clearall'){
 					//whBoard.utility.t_clearallInit();
 					
 				}
 				if(cmd == 't_clearall'){
-					whBoard.utility.t_clearallInit();
+						whBoard.utility.t_clearallInit();
 						if(typeof localStorage.teacherId != 'undefined'){
 							var tempTeacherHolder = localStorage.teacherId;
 						}
+			  			
+			  			if(typeof localStorage.orginalTeacherId != 'undefined'){
+							var temporginalTeacherHolder = localStorage.orginalTeacherId;
+						}
+			  			
 						localStorage.clear();
 						if(typeof tempTeacherHolder != 'undefined'){
 							localStorage.teacherId =  tempTeacherHolder;
 						}
+						
+						if(typeof temporginalTeacherHolder != 'undefined'){
+							localStorage.orginalTeacherId = temporginalTeacherHolder;
+						}
+						
+						
 						//localStorage.clear();
 						vcan.lastId = 0;
 						vcan.renderedObjId = 0;
@@ -412,8 +468,20 @@
 						}
 						vm_chat.send({'clearAll': true});
 				}
-
-				if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit'){
+				
+				if(cmd == 't_assign'){
+					whBoard.utility.assignRole();
+					vm_chat.send({'assignRole': true});
+				}
+				
+				if(cmd == 't_reclaim'){
+					//alert('ss');
+					whBoard.utility.reclaimRole();
+				}
+				
+				//alert(cmd);
+				//if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit'){
+				if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit' && cmd != 't_assign' && cmd != 't_reclaim'){
 					whBoard.tool = new whBoard.tool_obj(cmd)
 					whBoard.utility.attachEventHandlers();
 				}

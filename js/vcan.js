@@ -15,6 +15,9 @@
 		 * eg:- vcan.extend(), eg:- vcan.main.currentTransform
 		 */
 		var vcan = {
+			//TODO these are constant value should be at proper place
+			cmdWrapperDiv : 'commandToolsWrapper',
+				
 			/** extracts the canvas id 
 			 * @param canvasId is canvas id
 			 * @returns {vcan.main}
