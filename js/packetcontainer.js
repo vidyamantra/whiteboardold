@@ -1,7 +1,7 @@
 (
 	function (window){
 		var whBoard = window.whBoard;
-		whBoard.crtPakCont = function (){
+		whBoard.createPacketContainer = function (){
 			var packCont  = document.createElement('div');
 				packCont.id = 'sendPackCont';
 			
@@ -14,7 +14,9 @@
 			    packCont.appendChild(sendPacketPS);
 				
 				label = document.createElement('label'); 
-				label.innerHTML = "Per second sent packets";
+				
+				//label.innerHTML = "Per second sent packets";
+				label.innerHTML =  whBoard.lang.getString('perSecSentPacket');
 				sendPacketPS.appendChild(label);
 				
 				counterDiv = document.createElement('div');
@@ -31,7 +33,8 @@
 			    
 				
 				var label = document.createElement('label'); 
-					label.innerHTML = "Total Sent Packets";
+					//label.innerHTML = "Total Sent Packets";
+					label.innerHTML =  whBoard.lang.getString('totSentPackets');
 					totSendPacket.appendChild(label);
 					
 					var counterDiv = document.createElement('div');
@@ -67,7 +70,8 @@
 			    packCont.appendChild(receivePacketPS);
 				
 				label = document.createElement('label'); 
-				label.innerHTML = "Per second received packets";
+				label.innerHTML =  whBoard.lang.getString('perSecRcvdData');
+				//label.innerHTML = "Per second received packets";
 				receivePacketPS.appendChild(label);
 				
 				counterDiv = document.createElement('div');
@@ -84,7 +88,8 @@
 			    
 				
 				var label = document.createElement('label'); 
-					label.innerHTML = "Total Received Packets";
+					//label.innerHTML = "Total Received Packets";
+					label.innerHTML =  whBoard.lang.getString('totRcvdPackets');
 					totReceivedPack.appendChild(label);
 					
 					counterDiv = document.createElement('div');
@@ -93,6 +98,31 @@
 					counterDiv.innerHTML = 0;
 					totReceivedPack.appendChild(counterDiv);
 				
+		}
+		
+		whBoard.createPacketInfoContainer = function (){
+			///creating sent message information
+			var informationCont = document.getElementById('informationCont');
+			label = document.createElement('label'); 
+			label.innerHTML =  "Sent Msg information";
+			informationCont.appendChild(label);
+			
+			
+			var sentMsgInfo  = document.createElement('div');
+				sentMsgInfo.id = 'sentMsgInfo';
+				informationCont.appendChild(sentMsgInfo);
+				
+			
+			///creating received message information	
+			label = document.createElement('label'); 
+			label.innerHTML =  "Received Msg information";
+			informationCont.appendChild(label);
+			var rcvdMsgInfo  = document.createElement('div');
+				rcvdMsgInfo.id = 'rcvdMsgInfo';
+				informationCont.appendChild(rcvdMsgInfo);	
+				
+				
+			
 		}
 		
 	}

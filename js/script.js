@@ -371,7 +371,8 @@
 				whBoard.createCommand(alreadyCreated);
 				if(typeof alreadyCreated == 'undefined'){
 					whBoard.createCanvas();
-					whBoard.crtPakCont();
+					whBoard.createPacketContainer();
+					whBoard.createPacketInfoContainer();
 				}
 				
 				

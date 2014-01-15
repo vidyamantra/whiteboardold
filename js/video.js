@@ -40,9 +40,8 @@
 			    		vcan.videoChat.remoteVideo = document.querySelector('#remoteVideo');
 			    		vcan.videoChat.remoteVideo2 = document.querySelector('#remoteVideo2');
 			    		
-			    		
 			    		//vcan.videoChat.localVideo = document.querySelector('#localVideo');
-			    		this.pc_config = webrtcDetectedBrowser === 'firefox' ?
+			    		this.pc_config = window.webrtcDetectedBrowser === 'firefox' ?
 								  {'iceServers':[{'url':'stun:23.21.150.121'}]} : // number IP
 								  {'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]};
 						this.pc_constraints = {
@@ -109,7 +108,7 @@
 					  //whBoard.view.disappearBox();
 					  whBoard.view.disappearBox('WebRtc');
 					  cthis.localStream = stream;
-					  attachMediaStream(vcan.videoChat.localVideo, stream);
+					  whBoard.attachMediaStream(vcan.videoChat.localVideo, stream);
 					  console.log('Adding local stream.');
 					  cthis.sendMessage('got user media');
 					  if(cthis.isInitiator) {
@@ -211,7 +210,7 @@
 				  try {
 					  
 					  //last key/index of array
-					 var tpc = new RTCPeerConnection(this.pc_config, this.pc_constraints)
+					 var tpc = new whBoard.RTCPeerConnection(this.pc_config, this.pc_constraints)
 					 cthis.pc.push(tpc);
 					 cthis.pc[cthis.cn].onicecandidate = cthis.handleIceCandidate;
 					 				  //onclosedconnection
@@ -251,12 +250,12 @@
 					//debugger;
 					//for remote 1
 					if(cthis.cn == 0){
-						attachMediaStream(vcan.videoChat.remoteVideo, event.stream);
+						whBoard.attachMediaStream(vcan.videoChat.remoteVideo, event.stream);
 						cthis.remoteStream = event.stream;
 					//}else if(cthis.cn > 1 ){
 					}else if(cthis.pc.length > 1 ){
 						// for remote 2	
-						attachMediaStream(vcan.videoChat.remoteVideo2, event.stream);
+						whBoard.attachMediaStream(vcan.videoChat.remoteVideo2, event.stream);
 						cthis.remoteStream = event.stream;
 					}
 					
@@ -268,7 +267,7 @@
 				  ////alert('hi hello');
 				  var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
 				  // temporary measure to remove Moz* constraints in Chrome
-				  if (webrtcDetectedBrowser === 'chrome') {
+				  if (window.webrtcDetectedBrowser === 'chrome') {
 				    for (var prop in constraints.mandatory) {
 				      if (prop.indexOf('Moz') !== -1) {
 				        delete constraints.mandatory[prop];
@@ -481,13 +480,15 @@
 				    	cthis.maybeStart();
 				    }
 				    
-				    cthis.pc[cthis.cn].setRemoteDescription(new RTCSessionDescription(message));
+				    
+				    
+				    cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
 				    
 				    cthis.doAnswer();
 				  } else if (message.type === 'answer' && cthis.isStarted) {
-					  cthis.pc[cthis.cn].setRemoteDescription(new RTCSessionDescription(message));
+					  cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
 				  } else if (message.type === 'candidate' && cthis.isStarted) {
-				    var candidate = new RTCIceCandidate({sdpMLineIndex:message.label,
+				    var candidate = new whBoard.RTCIceCandidate({sdpMLineIndex:message.label,
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
 				  } else if (message === 'bye' && cthis.isStarted) {

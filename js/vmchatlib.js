@@ -226,7 +226,6 @@ var vm_chat = {
 		localStorage.sentPackets = whBoard.sentPackets;
 	},
 	disconnect:function(){ 
-//		/alert('suman');
 		this.sock.onclose = function () {};
 		this.sock.close();
 	},

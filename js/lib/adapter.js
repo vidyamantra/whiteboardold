@@ -1,29 +1,24 @@
 (
 	function (window){
 		var whBoard = window.whBoard;
-		var RTCPeerConnection = null;
+//		var RTCPeerConnection = null;
+		whBoard.RTCPeerConnection = null;
 		var attachMediaStream = null;
 		var reattachMediaStream = null;
-		var webrtcDetectedBrowser = null;
+		window.webrtcDetectedBrowser = null;
 		
-		function trace(text) {
-		  console.log((performance.now() / 1000).toFixed(3) + ": " + text);
-		} 
-		
-		//console.log('pc ' + whBoard.system.wbRtc.peerCon);
-		//console.log('pc ' + whBoard.system.wbRtc.userMedia);
-		//As this flag is checked into system.js 
 		if(whBoard.system.wbRtc.peerCon == true && whBoard.system.wbRtc.userMedia == true){
 			if (navigator.mozGetUserMedia) {
 				console.log("This appears to be Firefox");
-				webrtcDetectedBrowser = "firefox";
+				window.webrtcDetectedBrowser = "firefox";
 				
-				RTCPeerConnection = mozRTCPeerConnection;
-				RTCSessionDescription = mozRTCSessionDescription;
-				RTCIceCandidate = mozRTCIceCandidate;
+				whBoard.RTCPeerConnection = mozRTCPeerConnection;
+				
+				whBoard.RTCSessionDescription = mozRTCSessionDescription;
+				whBoard.RTCIceCandidate = mozRTCIceCandidate;
 				navigator.getUserMedia = navigator.mozGetUserMedia;
 				
-				attachMediaStream = function(element, stream) {
+				whBoard.attachMediaStream = function(element, stream) {
 				  console.log("Attaching media stream");
 				  element.mozSrcObject = stream;
 				  element.play();
@@ -45,12 +40,12 @@
 				};
 			}else if (navigator.webkitGetUserMedia) {	
 				console.log("This appears to be Chrome");
-				webrtcDetectedBrowser = "chrome";
-				
-				RTCPeerConnection = webkitRTCPeerConnection;
+				window.webrtcDetectedBrowser = "chrome";
+				whBoard.RTCPeerConnection = webkitRTCPeerConnection;
+				whBoard.RTCSessionDescription = RTCSessionDescription;
 				navigator.getUserMedia = navigator.webkitGetUserMedia;
 				
-				attachMediaStream = function(element, stream) {
+				whBoard.attachMediaStream = function(element, stream) {
 				  element.src = window.URL.createObjectURL(stream);
 				  
 				};

@@ -26,6 +26,10 @@
 			'connectionOff' : 'Connection Off',
 			'connectionOn' : 'Connection On',
 			'drawArea' : 'Draw Area',
+			'totRcvdPackets' : 'Total Received Packets',
+			'perSecRcvdData' : 'Per Second Recevied Packet',
+			'totSentPackets' : 'Total Sent Packets',
+			'perSecSentPacket' : 'Per Second Sent Packets',
 			'wbrtcMsgFireFox' : 'You can click on  Share Selected Devices' + 
 			'your microphone and camera would be share with other person',
 			'wbrtcMsgChrome' : 'You can click on deny button to not share your microphone and camera.'+ 

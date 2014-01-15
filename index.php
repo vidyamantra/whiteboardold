@@ -57,7 +57,8 @@
        <script type="text/javascript" src="js/readytextobj.js"></script>
        <script type="text/javascript" src="js/keyboard.js"></script>
        
-       <script type="text/javascript" src="js/lib/adapter.js"></script>
+       <script type="text/javascript" src="js/lib/adapter.js"></script> 
+       
   	   <script type="text/javascript" src="js/video.js"></script>  
       
        <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
@@ -92,7 +93,8 @@
 	    	<a href="#" id="offConnection">Connection Off</a>
 	    </div>
 	     -->
-	    <div id="informtionCont">
+	    <div id="informationCont">
+	    	<!-- 
 	    	<label>Sent Msg information</label>
 		    <div id="sentMsgInfo">
 		    		
@@ -102,12 +104,13 @@
 		    <div id="rcvdMsgInfo">
 		    	
 		    </div>
+		     -->
 	    </div>
   	</div>   
   </body>
-  
+  <!-- 
   <script type="text/javascript" src="js/dispmsg.js"> </script>  
-  	<!-- 
+  	
   	   <script type="text/javascript" src="js/lib/adapter.js"></script>
 	   <script type="text/javascript" src="js/video.js"></script>
   	 -->
