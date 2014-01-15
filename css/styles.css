@@ -8,11 +8,12 @@ body {
 #commandToolsWrapper{
 	float:left;
 	width:200px;
-	margin-top:50px;
+	/* margin-top:50px; */
 	margin-left: 17px;
 	
 	/* width: 12%; */
 	width: 140px;
+	height:40px;
 	
 }
 
@@ -164,4 +165,126 @@ body {
 }
 #commandToolsWrapper{
 		width:100%;
+}
+
+#conControler{
+	clear:both;
+}
+
+#vcanvas {
+	position : absolute;
+}
+
+#containerWb{
+	/*
+	position:relative;
+	bottom:140px;*/
+	/*margin-top : -170px; */
+}
+
+.msgBoxWebRtc{
+	width : 350px;
+}
+
+.msgBoxWebRtc p, .msgBoxCanvas p {
+	border:2px solid #ddd;
+	padding:5px;
+}
+
+
+#chormeWebrtcCont{
+	position : absolute;
+	right: 3%;
+	top : 0%;
+}
+
+#chormeWebrtcContimg {
+	background-image:url('../arrow-up.png');
+	background-repeat : no-repeat;
+	background-position : right top;
+	height: 100px;	
+}
+
+#chormeWebrtcCont p{
+	/*margin-top:5px;*/
+	padding:10px;	
+}
+
+
+#fireFoxWebrtcCont{
+	position : absolute;
+	left: 14%;
+	top : 13%;
+}
+
+#fireFoxWebrtcContimg{
+	background-image:url('../arrow-up.png');
+	background-repeat : no-repeat;
+	background-position : left top;
+	height: 100px;	
+}
+
+.msgBoxCanvas{
+	width : 350px;
+}
+
+
+.msgBoxCanvasimg{
+	background-image:url('../arrow-up.png');
+	background-repeat : no-repeat;
+	background-position : left top;
+	height: 80px;
+	clear:both;
+	
+}
+
+#canvasDrawMsgContFirefox{
+	position : relative;
+	bottom:750px;
+	left : 460px;
+}
+
+
+
+#canvasDrawMsgContChrome{
+	position : relative;
+	bottom:750px;
+	left : 100px;
+}
+
+#containerWb{
+	margin-top:20px;
+}
+
+#canvasDrawArea{
+	clear:both;
+	position:relative;
+	left : 400px;
+	bottom :500px;
+	font-size:50px;
+	color:#ddd;
+}
+
+a[title]:hover:after {
+  content: attr(title);
+  padding: 4px 8px;
+  color: rgba(0,0,0,0.5);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  white-space: nowrap;
+  z-index: 2;
+  border-radius: 5px ;
+  background: rgba(0,0,0,0.5);
+}
+
+
+
+#errorWebRtc {
+	border:2px solid #ddd;
+	width: 50%;
+	padding:10px;
+	margin-left:10%;
+	margin-top:2%;
+	height:100px;
 }

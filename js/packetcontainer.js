@@ -5,7 +5,8 @@
 			var packCont  = document.createElement('div');
 				packCont.id = 'sendPackCont';
 			
-				document.getElementById('canvasWrapper').appendChild(packCont);
+				//document.getElementById('canvasWrapper').appendChild(packCont);
+				document.getElementById('packetContainer').appendChild(packCont);
 				
 				//creating div for sending packet per second
 				var sendPacketPS =  document.createElement('div');
@@ -56,8 +57,9 @@
 				//hello
 				 packCont  = document.createElement('div');
 				packCont.id = 'receivePackCont';
-			
-				document.getElementById('canvasWrapper').appendChild(packCont);
+				
+				//document.getElementById('canvasWrapper').appendChild(packCont);
+				document.getElementById('packetContainer').appendChild(packCont);
 				
 				//creating div for sending packet per second
 				var receivePacketPS =  document.createElement('div');

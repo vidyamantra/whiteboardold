@@ -18,9 +18,6 @@
 	   	   window.vm_chat = vm_chat;		
 	   </script>
 	
-	   
-	   
-	   
 	   <link rel="stylesheet" type="text/css" href="css/styles.css" />
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
@@ -30,7 +27,7 @@
 	   <script type="text/javascript" src="js/wb_utility.js"></script>
 
  
-	   <script type="text/javascript" src="lib.js"></script>
+	   <!--  <script type="text/javascript" src="lib.js"></script> -->
 	   <script type="text/javascript" src="lang/en.js"></script>
 	   <script type="text/javascript" src="lang.js"></script>
 	   <script type="text/javascript" src="view.js"></script>
@@ -60,60 +57,60 @@
        <script type="text/javascript" src="js/readytextobj.js"></script>
        <script type="text/javascript" src="js/keyboard.js"></script>
        
-       
+       <script type="text/javascript" src="js/lib/adapter.js"></script>
+  	   <script type="text/javascript" src="js/video.js"></script>  
+      
        <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 	  
-	
+		   
   </head>
+  
   <body>
-
-    <div id="stickycontainer"></div>  
-    
-    
-	<div id="mainReplayLen"> </div>
-	<div id="replayLen"> </div>	
-    <div id="containerWb">
-    
-    </div>	
-   
-    <div id='videos'>
-    		<video id='localVideo' autoplay></video>
-    		<video id='remoteVideo' class="remoteVideo" autoplay></video>
-    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
-    		
-	</div>
-    
-    
-    <div id="conControler">
-    	<a href="#" id="onConnection">Connection On</a> <br />
-    	<a href="#" id="offConnection">Connection Off</a>
-    </div>
-    
-    <div id="informtionCont">
-    	
-    	 	
-    	
-    	<label>Sent Msg information</label>
-	    <div id="sentMsgInfo">
-	    		
+ 	<div id="vcanvas">
+	<!--   	
+ 	<div id="myExample">
+ 		suman bogati
+ 	</div>
+	-->
+	    <div id="containerWb">
+	  
+	    </div>	
+	    
+	    <div id='videos'>
+	    		<video id='localVideo' autoplay></video>
+	    		<video id='remoteVideo' class="remoteVideo" autoplay></video>
+	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    </div>
 	    
-	    <label>Received Msg information</label>
-	    <div id="rcvdMsgInfo">
+	    <div id="packetContainer">
 	    	
 	    </div>
-    </div>
-    <!--  
-    <script type="text/javascript" src="js/demo.js"> </script>
-    --> 
+	    
+	    <!-- 
+	    <div id="conControler">
+	    	<a href="#" id="onConnection">Connection On</a> <br />
+	    	<a href="#" id="offConnection">Connection Off</a>
+	    </div>
+	     -->
+	    <div id="informtionCont">
+	    	<label>Sent Msg information</label>
+		    <div id="sentMsgInfo">
+		    		
+		    </div>
+		    
+		    <label>Received Msg information</label>
+		    <div id="rcvdMsgInfo">
+		    	
+		    </div>
+	    </div>
+  	</div>   
   </body>
   
-  	<script type="text/javascript" src="js/lib/adapter.js"></script>
-  	<script type="text/javascript" src="js/video.js"></script>  
-  
-  <script>
-  	
-  	
-	</script>	
+  <script type="text/javascript" src="js/dispmsg.js"> </script>  
+  	<!-- 
+  	   <script type="text/javascript" src="js/lib/adapter.js"></script>
+	   <script type="text/javascript" src="js/video.js"></script>
+  	 -->
+		
 </html>
 

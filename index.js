@@ -31,7 +31,7 @@ $.when(
 	  repObjQue = []
 	 //mysuman = false;
 	 $.uiBackCompat=false;
-	//alert('suman bogati');
+	////alert('suman bogati');
     //place your code here, the scripts are all loaded
 //    var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
 //    	vm_chat.init({
@@ -47,10 +47,26 @@ $.when(
         //ToDo:room name contain licencekey,couse id and activity id   
         
 	$(document).ready(function(){
-		//alert('brother');
+		/////alert(window);
+		////alert(window.whBoard.error.length);
+		//var error = window.whBoard.error;
+		if(window.whBoard.error.length > 0){
+			
+			for(var i=0; i<window.whBoard.error.length; i++){
+				var error = window.whBoard.error[i];
+				if(error.hasOwnProperty('msg')){
+					
+					whBoard.view.displayMessage(error.msg, error.id, error.className);
+				}
+			}
+			window.whBoard.error = [];
+		}
+		
+		////alert('brother');
 		myrepObj = [];
     	replayObjs = []; // this should contain either into whiteboard or into van object
     	myArr = [];
+    	
     	
     	if(localStorage.hasOwnProperty('reachedItemId')){
     		vcan.reachedItemId = parseInt(localStorage.reachedItemId);
@@ -63,23 +79,38 @@ $.when(
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
     	
+//    	if(typeof localStorage.teacherId != 'undefined'){
+//    		window.whBoard.view.canvasDrawMsg();
+//    	}
+    	
+    	
+    	//window.addEventListener('click', function (){whBoard.view.disappearBox('WebRtc')}); //assinging the handler for all student
+    	
+    	window.addEventListener('click', function (){
+    		//var node = document.getElementById('containerWb');
+    	//	document.getElementById('containerWb').style.bottom = '0'; //bottom set 140px when page is being load
+    		//WARNING this could be tricky
+    		/*
+    		document.getElementById('containerWb').style.marginTop = '-18px'; */
+    		whBoard.view.disappearBox('WebRtc')
+    		whBoard.view.disappearBox('Canvas');
+    		whBoard.view.disappearBox('drawArea');
+    		
+    		}); //assinging the handler for all student
     	whBoard.removeToolBox = function(){
   			var cmdWrapper =  document.getElementById(vcan.cmdWrapperDiv);
 			cmdWrapper.parentNode.removeChild(cmdWrapper);
   		}
     	
     	whBoard.createReclaimButton = function (cmdToolsWrapper){
-			whBoard.createDiv('t_reclaim', 'Reclaim', cmdToolsWrapper);
+			whBoard.createDiv('t_reclaim', 'reclaim', cmdToolsWrapper);
 			var aTags = document.getElementById('t_reclaim').getElementsByTagName('a');
 			aTags[0].addEventListener('click', whBoard.objInit);
 		}
     	
-    	//alert(typeof localStorage.teacherId);
+    	////alert(typeof localStorage.teacherId);
     	if(typeof localStorage.teacherId == 'undefined' && typeof localStorage.reclaim == 'undefined'){
-    		//alert('suman bogati');
-    		whBoard.removeToolBox();
-//    		var child = document.getElementById(vcan.cmdWrapperDiv);
-//			child.parentNode.removeChild(child);
+    		whBoard.removeToolBox(); 
 		}
     	
     	if(typeof localStorage.reclaim != 'undefined'){
@@ -110,7 +141,7 @@ $.when(
     	
 		vcan.queue = function (result){
 			if(vcan.tempArr.length > 0){
-				//alert("suman u there");
+				////alert("suman u there");
 				//debugger;
 				window.whBoard.vcan.main.replayObjs = vcan.tempArr;
 				vcan.tempArr = [];
@@ -166,10 +197,10 @@ $.when(
 		
 		vcan.videoInit = function (e){
 			
-//			alert('i am there for you');
+//			//alert('i am there for you');
 //  			debugger;
 			var clientNum = e.message.length;
-			//alert(clientNum);
+			////alert(clientNum);
 			  if(clientNum == 1){
 					if(!vcan.chkAlreadyConnected()){
 						vcan.vid = myVideo.init();
@@ -177,7 +208,8 @@ $.when(
 						if(typeof localStorage.teacherId == 'undefined'){
 							window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 							localStorage.teacherId = e.message[0].userid;
-							//vcan.teacherId = localStorage.teacherId;
+							window.whBoard.view.canvasDrawMsg('Canvas');
+							localStorage.canvasDrwMsg = true;
 							localStorage.orginalTeacherId = e.message[0].userid;
 						}
 						
@@ -217,7 +249,7 @@ $.when(
 				
 				if(clientNum >= 2){
 //					if(typeof localStorage.teacherId == 'undefined'){
-//						alert("this is not pe");
+//						//alert("this is not pe");
 //						var parNode = document.getElementById(vcan.cmdWrapperDiv).parentNode;
 //						pareNode.removeChild(parNode);
 //					}
@@ -246,13 +278,13 @@ $.when(
 		$(document).on("connectionclose", function(e){
 			//vm_chat.send()
 			//vm_chat.send({'connecClose':true});
-			//alert('suman bogati raj');
-			//alert('connection closed');
+			////alert('suman bogati raj');
+			////alert('connection closed');
 			console.log('connection closed');
 		});
 		
 		$(document).on("member_removed", function(e){
-//			/alert('member_removed');
+//			///alert('member_removed');
 		});
 		
 		
@@ -262,18 +294,36 @@ $.when(
 				myVideo.id = id;
 				myVideo.browserLen = e.message.length;
 				vcan.videoInit(e);
-	  			if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
+				
+				
+				//whBoard.system.multiMediaMsg();
+				//document.getElementById('videoOff');
+				
+				if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
 	  				//removeAttachFunction();
 	  				vcan.makeCanvasDisable();
 				}
+	  			
 	  		});
 		
 		
+		//if(typeof localStorage.teacherId != 'undefined'){
+			////alert("this is performing");
+			
+		//}
 		
+		if(typeof localStorage.teacherId != 'undefined'){
+			if(typeof localStorage.canvasDrwMsg == 'undefined'){
+				window.whBoard.view.canvasDrawMsg('Canvas');
+				window.whBoard.view.drawLabel('drawArea');
+				localStorage.canvasDrwMsg = true;
+			}
+			
+    	}
 		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
 //  			if(e.message.hasOwnProperty('connecClose')){
-//  				//alert('raju brother');
+//  				////alert('raju brother');
 //  			}
   			//video part
   			
@@ -335,6 +385,14 @@ $.when(
         			if(e.fromUser.userid != id){
         				whBoard.utility.assignRole(id);
             			whBoard.uniqueArrOfObjsToSelf();
+            			////alert('sumanbogat');
+            			
+						if(typeof localStorage.canvasDrwMsg == 'undefined'){
+							window.whBoard.view.canvasDrawMsg('Canvas');
+							window.whBoard.view.drawLabel('drawArea');
+							localStorage.canvasDrwMsg = true;
+						}		
+            		
             			return;
         			}else{
         				whBoard.uniqueArrOfObjsToOther();
@@ -342,76 +400,12 @@ $.when(
         			}
         		}
         		
-//        		if(e.fromUser.userid != id){
-//        			if(e.message.hasOwnProperty('reclaimRole')){
-//        				whBoard.removeToolBox();
-//        				vcan.makeCanvasDisable();
-//            			if(typeof localStorage.teacherId != 'undefined'){
-//            				localStorage.removeItem('teacherId');
-//            			}
-//            			
-//            			whBoard.uniqueArrOfObjsToOther();
-//            			
-////            			var tempRepObjs = "";
-////        				replayObjs = [];
-////        				for(var i=0; i<vcan.main.replayObjs.length; i++){
-////            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-////            				replayObjs.push(tempRepObjs);
-////            			}
-//            			return;
-//            		} 
-//        			
-//        			if(e.message.hasOwnProperty('assignRole')){
-//            			whBoard.utility.assignRole(id);
-//            			
-//            			
-//            			whBoard.uniqueArrOfObjsToSelf();
-//            			
-//            			
-//            		
-//
-////            			vcan.main.replayObjs = [];
-////            			var tempRepObjs = "";
-////            			for(var i=0; i<replayObjs.length; i++){
-////            				tempRepObjs = vcan.extend({}, replayObjs[i]);
-////            				vcan.main.replayObjs.push(tempRepObjs);
-////            			}
-//            			return;
-//            		}
-//        		}else{
-//        			if(e.message.hasOwnProperty('reclaimRole')){
-//        				whBoard.uniqueArrOfObjsToSelf();
-////        				vcan.main.replayObjs = [];
-////            			var tempRepObjs = "";
-////            			for(var i=0; i<replayObjs.length; i++){
-////            				tempRepObjs = vcan.extend({}, replayObjs[i]);
-////            				vcan.main.replayObjs.push(tempRepObjs);
-////            			}
-//            			return;
-//        			}
-//        			
-//        			if(e.message.hasOwnProperty('assignRole')){
-////        				var tempRepObjs = "";
-////        				replayObjs = [];
-////        				for(var i=0; i<vcan.main.replayObjs.length; i++){
-////            				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-////            				replayObjs.push(tempRepObjs);
-////            			}
-//        				whBoard.uniqueArrOfObjsToOther();
-//	       			    return;
-//            		}
-//        		}
-        		
-        		
-        		
         		myrepObj = whBoard.vcan.getStates('replayObjs');
 	    		chunk = [];
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
 						whBoard.tool = new whBoard.tool_obj('t_clearall');
-				
 						whBoard.utility.t_clearallInit();
-
 						vcan.makeDefaultValue();
 						vcan.updateRcvdInformation(e.message);
 						return;
@@ -427,7 +421,7 @@ $.when(
 	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
 	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	  
 	    					if(vcan.tempArr.length < 1){
-//	    						alert("suman bogati");
+//	    						//alert("suman bogati");
 //	    						debugger;
 	    					}
 	    					makeQueue(e);
@@ -499,7 +493,7 @@ $.when(
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 						if(typeof endPoint != 'undefined'){
 							if(endPoint == e.message.repObj[e.message.repObj.length-1].uid){
-							//	 alert('what is up babes');
+							//	 //alert('what is up babes');
 								// debugger;
 							}
 						}
@@ -513,7 +507,7 @@ $.when(
 								if(e.message.repObj[0].uid > replayObjs[replayObjs.length-1].uid){
 									if(e.message.repObj[0].uid - replayObjs[replayObjs.length-1].uid > 0){
 										if(vcan.renderedObjId > replayObjs.length){
-											//alert("hello guys");
+											////alert("hello guys");
 											//debugger;
 										}
 										
@@ -524,14 +518,14 @@ $.when(
 	    					
 	    					if(vcan.reachedItemId+ 1 == e.message.repObj[0].uid) {
 								if(replayObjs.length > 0 && e.message.repObj[0].uid - replayObjs[replayObjs.length-1].uid > 1){
-									//alert("captured");
+									////alert("captured");
 									//debugger;
 								}
 								
 								
 //								if(replayObjs.length > 0){
 //									if(replayObjs[replayObjs.length-1].uid == e.message.repObj[0].uid){
-//										//alert("hi guys ggg");
+//										////alert("hi guys ggg");
 //									}
 //								}
 	    						for (var i=0; i<e.message.repObj.length; i++){
@@ -539,7 +533,7 @@ $.when(
 	    						}
 	    					}else{
 								if(vcan.tempArr.length > 0 && !e.message.hasOwnProperty('chunk')){
-									//	alert('suman bogati');
+									//	//alert('suman bogati');
 										//debugger;
 								}
 							//	console.log()
@@ -583,12 +577,12 @@ $.when(
 //	    					var tPart = replayObjs.slice(k+1, replayObjs.length);
 //	    					
 //	    					if(fPart[fPart.length-1].uid+1 != secPart[0].uid){
-//	    						alert('break');
+//	    						//alert('break');
 //	    						debugger;
 //	    					}
 //	    					
 //	    					if(secPart[secPart.length-1].uid+1 != tPart[0].uid){
-//	    						alert('break');
+//	    						//alert('break');
 //	    						debugger;
 //	    					}
 //	    					
@@ -601,7 +595,7 @@ $.when(
 	    					
 	    					if(e.message.repObj.length > 0){
 								if(e.message.repObj[e.message.repObj.length-1].uid - e.message.repObj[e.message.repObj.length-2].uid > 1){
-									alert("good going");
+									//alert("good going");
 								}
 							}
 							if(myArr.length > 0){
@@ -613,7 +607,7 @@ $.when(
 										myArr.shift();
 									}
 								//	myArr.shift(); //remove object if double id found
-								//	alert("hi how are you");
+								//	//alert("hi how are you");
 								}
 								e.message.repObj = e.message.repObj.concat(myArr);
 								myArr = [];
@@ -622,7 +616,7 @@ $.when(
 	    					
 //								if(replayObjs.length > 0){
 //									if(replayObjs[replayObjs.length-1].uid == e.message.repObj[0].uid){
-//										alert("hi guys");
+//										//alert("hi guys");
 //									}
 //								}
 	    					
@@ -655,11 +649,11 @@ $.when(
 	    							//vcan.tempArr.unshift();
 	    							vcan.tempArr = fArr.concat(vcan.tempArr);
 									}else if(e.message.repObj[e.message.repObj.length-1].uid == vcan.tempArr[0].uid){
-										alert('suman bogati');
+										//alert('suman bogati');
 									}
 								}
 	    					}else{
-//	    						alert('khandan');
+//	    						//alert('khandan');
 //	    						debugger;
 	    					}
 	    				}
@@ -708,12 +702,24 @@ $.when(
 		}
 	
   		
+  		vcan.chkValueInLocalStorage = function (property){
+			if(typeof localStorage[property] != 'undefined'){
+				return localStorage[property]; 
+			}else{
+				return false;
+			}
+		}
+  		
   		vcan.makeDefaultValue = function (){
   			myrepObj = [];
 			replayObjs = [];
+			
+			/*
   			if(typeof localStorage.teacherId != 'undefined'){
 				var tempTeacherHolder = localStorage.teacherId;
 			}
+			
+			
   			
   			if(typeof localStorage.orginalTeacherId != 'undefined'){
 				var temporginalTeacherHolder = localStorage.orginalTeacherId;
@@ -726,7 +732,33 @@ $.when(
 			
 			if(typeof temporginalTeacherHolder != 'undefined'){
 				localStorage.orginalTeacherId = temporginalTeacherHolder;
+			} */
+			
+			
+			
+			var teacherId = vcan.chkValueInLocalStorage('teacherId');
+			var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+			var wbrtcMsg = vcan.chkValueInLocalStorage('wbrtcMsg');
+			var canvasDrwMsg = vcan.chkValueInLocalStorage('canvasDrwMsg');
+
+  			
+  			localStorage.clear();
+			if(teacherId){
+				localStorage.teacherId =  teacherId;
 			}
+			
+			if(orginalTeacherId){
+				localStorage.orginalTeacherId = orginalTeacherId;
+			}
+			
+			if(wbrtcMsg){
+				localStorage.wbrtcMsg = wbrtcMsg;
+			}
+			
+			if(canvasDrwMsg){
+				localStorage.canvasDrwMsg = canvasDrwMsg;
+			}
+		
 			
 			vcan.reachedItemId = 0;
 			vcan.renderedObjId = 0;
@@ -740,7 +772,7 @@ $.when(
   		
   		//name of this function should be  change
   		vcan.makeCanvasDisable = function(){
-  			//	alert("suman bogati");
+  			//	//alert("suman bogati");
   			// this would not need if we remove the commands div completely
 /*
   			var allDivs = document.getElementById(vcan.cmdWrapperDiv).getElementsByTagName('div');
@@ -775,7 +807,7 @@ $.when(
   		function requestPackets (e){
 			//more than one packets comes after connection on
 			if(e.message.repObj.length > 1){
-					//alert("suman bogati ggg");
+					////alert("suman bogati ggg");
 					myArr = e.message.repObj;
 			}
   			whBoard.sentReq = true;

@@ -25,6 +25,7 @@
 			lt : '',
 			commandToolsWrapperId : 'commandToolsWrapper',
 			//these are top level object
+			error : [],
 			view : {}, // For display important message to user
 			lang : {},
 			system: {},
@@ -118,21 +119,24 @@
 					}
 				//	document.getElementById('containerWb').appendChild(cmdToolsWrapper);
 					
-					whBoard.createDiv('t_line', 'Line', cmdToolsWrapper);
-					whBoard.createDiv('t_rectangle', 'Rectangle', cmdToolsWrapper);
-					whBoard.createDiv('t_freeDrawing', 'Free Drawing', cmdToolsWrapper);
-					whBoard.createDiv('t_oval', 'Oval', cmdToolsWrapper);
-					whBoard.createDiv('t_triangle', 'Triangle', cmdToolsWrapper);
-					whBoard.createDiv('t_text', 'Text', cmdToolsWrapper);
-					whBoard.createDiv('t_replay', 'Replay', cmdToolsWrapper);
-					whBoard.createDiv('t_activeall', 'Active All', cmdToolsWrapper);
-					whBoard.createDiv('t_clearall', 'Clear All', cmdToolsWrapper);
+					whBoard.createDiv('t_line', 'line', cmdToolsWrapper);
+					whBoard.createDiv('t_rectangle', 'rectangle', cmdToolsWrapper);
+					whBoard.createDiv('t_freeDrawing', 'freeDrawing', cmdToolsWrapper);
+					whBoard.createDiv('t_oval', 'oval', cmdToolsWrapper);
+					whBoard.createDiv('t_triangle', 'triangle', cmdToolsWrapper);
+					whBoard.createDiv('t_text', 'text', cmdToolsWrapper);
+					whBoard.createDiv('t_replay', 'replay', cmdToolsWrapper);
+					whBoard.createDiv('t_activeall', 'activeAll', cmdToolsWrapper);
+					whBoard.createDiv('t_clearall', 'clearAll', cmdToolsWrapper);
 					
 					
 					//var	cmdToolsWrapper2  = document.createElement('div');
 					//cmdToolsWrapper.id = 'commandToolsWrapper2';
-					whBoard.createDiv('t_assign', 'Assign', cmdToolsWrapper, 'controlCmd');
 					
+					whBoard.createDiv('t_assign', 'assign', cmdToolsWrapper, 'controlCmd');
+					
+					whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
+					whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
 //					var parentWrapper = document.createElement('div');
 //					vcan.wrapperPar.id = 'cmdParent';
 //					parentWrapper.appendChild(cmdToolsWrapper);
@@ -152,7 +156,18 @@
 					if(typeof cmdClass != 'undefined'){
 						lDiv.className = cmdClass;
 					}
-					ancTag.innerHTML = text;
+					
+					
+					var imgTag = document.createElement('img');
+					imgTag.alt = whBoard.lang.getString(text);
+					imgTag.title = whBoard.lang.getString(text);
+					imgTag.src = 'images/'+text+".png";
+					
+					ancTag.appendChild(imgTag); 
+					//ancTag.innerHTML = text;
+//					ancTag.title = text;
+//					ancTag.innerHTML = text;
+					
 					lDiv.appendChild(ancTag);
 					
 					cmdToolsWrapper.appendChild(lDiv);
@@ -294,10 +309,15 @@
 			 */
 			objInit : function (evt){
 				
+				/*
 				var anchorNode = evt.originalTarget;
 				if(evt.originalTarget == undefined){
 					anchorNode = evt.target; //for chrome and safari
-				}
+				} 
+				* after input the image tag
+				* */
+				
+				var anchorNode = this;
 				
 				/**important **/
 				
@@ -321,7 +341,8 @@
 //					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign'){
 			
 				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
-					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign'){
+					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign' 
+						  && anchorNode.parentNode.id != 't_connectionoff' && anchorNode.parentNode.id != 't_connectionon'){
 			
 					var currTime = new Date().getTime();
 					//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
@@ -364,6 +385,7 @@
 					
 					//allDivs[i].getElementsByTagName('a')[0].onclick = whBoard.objInit;
 					allDivs[i].getElementsByTagName('a')[0].addEventListener('click', whBoard.objInit);
+					//allDivs[i].getElementsByTagName('a')[0].addEventListener('mouseover', whBoard.view.dispToolTip);
 
 				}
 			},
@@ -438,6 +460,7 @@
 				}
 				if(cmd == 't_clearall'){
 						whBoard.utility.t_clearallInit();
+						/*
 						if(typeof localStorage.teacherId != 'undefined'){
 							var tempTeacherHolder = localStorage.teacherId;
 						}
@@ -454,7 +477,30 @@
 						if(typeof temporginalTeacherHolder != 'undefined'){
 							localStorage.orginalTeacherId = temporginalTeacherHolder;
 						}
+						*/
 						
+						var teacherId = vcan.chkValueInLocalStorage('teacherId');
+						var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+						var wbrtcMsg = vcan.chkValueInLocalStorage('wbrtcMsg');
+						var canvasDrwMsg = vcan.chkValueInLocalStorage('canvasDrwMsg');
+
+						
+						localStorage.clear();
+						if(teacherId){
+							localStorage.teacherId =  teacherId;
+						}
+						
+						if(orginalTeacherId){
+							localStorage.orginalTeacherId = orginalTeacherId;
+						}
+						
+						if(wbrtcMsg){
+							localStorage.wbrtcMsg = wbrtcMsg;
+						}
+						
+						if(canvasDrwMsg){
+							localStorage.canvasDrwMsg = canvasDrwMsg;
+						}
 						
 						//localStorage.clear();
 						vcan.lastId = 0;
@@ -479,9 +525,18 @@
 					whBoard.utility.reclaimRole();
 				}
 				
+				if(cmd == 't_connectionoff'){
+					whBoard.utility.connectionOff();
+				}
+				
+				if(cmd == 't_connectionon'){
+					whBoard.utility.connectionOn();
+				}
+				
 				//alert(cmd);
 				//if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit'){
-				if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit' && cmd != 't_assign' && cmd != 't_reclaim'){
+				if(cmd != 't_activeall' && cmd != 't_replay' && cmd != 't_clearallInit' && cmd != 't_assign' 
+					&& cmd != 't_reclaim' && cmd != 't_connectionoff' && cmd != 't_connectionon'){
 					whBoard.tool = new whBoard.tool_obj(cmd)
 					whBoard.utility.attachEventHandlers();
 				}

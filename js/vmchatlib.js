@@ -14,6 +14,8 @@ var vm_chat = {
 	},
 		
 	wsconnect : function(){ 
+		//alert('smran');
+		console.log('simran');
 		vm_chat.wsuri = "wss://"+this.cfg.rid;
 		console.log(vm_chat.wsuri);
 		if ("WebSocket" in window) {
@@ -122,7 +124,7 @@ var vm_chat = {
 			scope.error = e;
 		}	
 		this.sock.onclose = function(e) {
-			alert('Connection Closed');
+			//alert('Connection Closed');
 		//	alert('hi subhams');
 			$.event.trigger({
 				type: "connectionclose",

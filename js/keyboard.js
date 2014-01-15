@@ -48,8 +48,8 @@
 		// this is used for demo only 
 		// todo should be into seprate file
 		var vm_chat = window.vm_chat;
-		document.getElementById('onConnection').onclick = connectionOpen;
-		document.getElementById('offConnection').onclick = connectionOff;
+//		document.getElementById('onConnection').onclick = connectionOpen;
+//		document.getElementById('offConnection').onclick = connectionOff;
 		
 		function connectionOpen(){
 			//alert('suman bogati');

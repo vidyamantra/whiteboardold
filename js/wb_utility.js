@@ -412,7 +412,17 @@
 				}
 				vcan.makeCanvasEnable();
 				vm_chat.send({'reclaimRole': true});
+			},
+			
+			connectionOff : function (){
+				vm_chat.disconnect();
+			},
+			
+			connectionOn : function (){
+				//alert("suman bogati");
+				vm_chat.wsconnect();
 			}
+			
 		};
 	}
 )(window);

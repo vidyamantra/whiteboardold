@@ -2,6 +2,7 @@
 	function (window){
 		var vm_chat = window.vm_chat;
 		var vcan = window.vcan;
+		var whBoard = window.whBoard;
 		vcan.videoChat = function (){
 			return {
 		    	isChannelReady : '',
@@ -21,8 +22,12 @@
 		    	oneExecuted : false,
 		    	
 		    	init : function (vbool){
+		    		    //attach event handler
+		    		    //		    		    
 		    			cthis = this;
+		    		//	document.getElementById('videoOff').addEventListener('click', cthis.hangup);
 		    			
+		    			//document.getElementById('videoOn').addEventListener('click', cthis);
 		    			
 //		    			if(typeof vbool != 'undefined'){
 //		    				cthis.cn++;
@@ -67,6 +72,19 @@
 						
 						this.constraints = {video: true, audio : true, cthis : this};
 						navigator.getUserMedia(this.constraints, this.handleUserMedia, this.handleUserMediaError);
+//						if(typeof localStorage.teacherId != 'undefined'){
+//							//alert("this is performing");
+//							whBoard.view.multiMediaMsg();
+//						}
+						//alert(whBoard.system.wbRtc.peerCon);
+						if(whBoard.system.wbRtc.peerCon){
+							if(typeof localStorage.wbrtcMsg == 'undefined'){
+								whBoard.view.multiMediaMsg('WebRtc');
+								localStorage.wbrtcMsg = true;
+							}
+							
+						}
+						
 						console.log('Getting user media with constraints', this.constraints);
 	    			
 				}, 
@@ -88,32 +106,26 @@
 //				var remoteVideo = document.querySelector('#remoteVideo');
 
 				handleUserMedia : function (stream) {
-					  //debugger;
-					  //cthis = vcan.vid;
+					  //whBoard.view.disappearBox();
+					  whBoard.view.disappearBox('WebRtc');
 					  cthis.localStream = stream;
-					  //alert('fine i am there for you');
-					  //debugger;
 					  attachMediaStream(vcan.videoChat.localVideo, stream);
 					  console.log('Adding local stream.');
-					 // alert('ssuman bogati');
-					  //debugger;
-					  
 					  cthis.sendMessage('got user media');
-					  
 					  if(cthis.isInitiator) {
-						  //alert('this should happend');
-						  //debugger;
 						  cthis.maybeStart();
 					  }
 				}, 
 
 				handleUserMediaError : function (error){
+					//whBoard.view.disappearBox();
+					whBoard.view.disappearBox('WebRtc');					
 					console.log('navigator.getUserMedia error: ', error);
 				}, 
 
 				maybeStart : function() {
 					if (!cthis.isStarted && cthis.localStream && cthis.isChannelReady) {
-						//alert(myVideo);
+						////alert(myVideo);
 						if(cthis.pc.length > 0){
 							 cthis.cn++;
 						}
@@ -204,14 +216,14 @@
 					 cthis.pc[cthis.cn].onicecandidate = cthis.handleIceCandidate;
 					 				  //onclosedconnection
 					 cthis.pc[cthis.cn].onclosedconnection = function (){
-						 alert("hello brother closeed");
+						 //alert("hello brother closeed");
 					 }
 					 console.log('Created RTCPeerConnnection with:\n' +
 				      '  config: \'' + JSON.stringify(this.pc_config) + '\';\n' +
 				      '  constraints: \'' + JSON.stringify(this.pc_constraints) + '\'.');
 				  } catch (e) {
 				    console.log('Failed to create PeerConnection, exception: ' + e.message);
-				    alert('Cannot create RTCPeerConnection object.');
+				    //alert('Cannot create RTCPeerConnection object.');
 				      return;
 				  }
 				  
@@ -235,7 +247,7 @@
 				handleRemoteStreamAdded : function(event) {
 					console.log('Remote stream added.');
 				//  reattachMediaStream(miniVideo, localVideo);
-					//alert('sumanbrother');
+					////alert('sumanbrother');
 					//debugger;
 					//for remote 1
 					if(cthis.cn == 0){
@@ -252,8 +264,8 @@
 				}, 
 
 				doCall : function() {
-				  //alert(cthis.id);
-				  //alert('hi hello');
+				  ////alert(cthis.id);
+				  ////alert('hi hello');
 				  var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
 				  // temporary measure to remove Moz* constraints in Chrome
 				  if (webrtcDetectedBrowser === 'chrome') {
@@ -309,24 +321,25 @@
 				},
 
 				handleRemoteStreamRemoved:function(event) {
-					alert("suman bgoati");
+					//alert("suman bgoati");
 					console.log('Remote stream removed. Event: ', event);
 				},
 
 				hangup : function() {
-				  console.log('Hanging up.');
-				  this.stop();
-				  this.sendMessage('bye');
+				  ////alert('raju brother');
+				  //console.log('Hanging up.');
+				  cthis.stop();
+				  cthis.sendMessage('bye');
 				}, 
 
 				handleRemoteHangup : function() {
 				  cthis.pc.splice(0, 1);
 				  console.log('Session terminated.');
-				  //alert('suman bogati is there');
+				  ////alert('suman bogati is there');
 				  cthis.transitionToWaiting();
 				  cthis.isInitiator = true;
 				  cthis.stop();
-				 // alert('suman bogati');
+				 // //alert('suman bogati');
 				  //debugger;
 				  
 				},
@@ -481,6 +494,10 @@
 					  
 					  cthis.handleRemoteHangup();
 				  }
+		    },
+		    
+		    hangUp : function (){
+		    	
 		    }
 		    
 		}
@@ -488,8 +505,13 @@
 	
 		}
 		
+		vcan.videoChat.hangup2 = function (){
+			//alert("this is performing");
+		}
+		
+		
 		window.onbeforeunload = function() {
-			//alert('suman bo');
+			////alert('suman bo');
 			cthis.sendMessage('bye');
 			
 		}
