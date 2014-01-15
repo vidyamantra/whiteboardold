@@ -279,8 +279,10 @@ a[title]:hover:after {
 }
 
 
+/*
+#errorWebRtc { */
 
-#errorWebRtc {
+.error{
 	border:2px solid #ddd;
 	width: 50%;
 	padding:10px;

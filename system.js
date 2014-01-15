@@ -28,12 +28,15 @@
 			if(browserName == 'MSIE'){
 				if(version != 9){
 					//TODO there should be some good method to check exisitence of canvas element in IE browsers
-					whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+					whBoard.error.push({'msg' : whBoard.lang.getString('notSupportCanvas'), 'id':'errorCanvas', 'className' : 'error'});	
 				}
 			}else{
 				var canvasSupported = !!window.CanvasRenderingContext2D;
 				if(!canvasSupported){
-					whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportCanvas'), browserName, version);
+					 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportCanvas'), 'id':'errorCanvas', 'className' : 'error'});
+
 				}
 			}
 			
@@ -44,42 +47,40 @@
 				if(navigator.mozGetUserMedia){
 					whBoard.system.wbRtc.userMedia  = true;
 					if(!window.mozRTCPeerConnection){
-						//alert('raju');
-						//debugger;
-						//alert('this should be true');
-						//whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), browser, version);
-						//alert(whBoard.error.length);
-						//debugger;
+						
 						//whBoard.error.push({'msg' : whBoard.lang.getString('notSupportPeerConnect'), 'id':'errorWebRtc', 'className' : 'error'});
-						
-						//whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), 'errorWebRtc', 'error');
-						
-						whBoard.error.push({'msg' : whBoard.lang.getString('notSupportPeerConnect'), 'id':'errorWebRtc', 'className' : 'error'});
+						 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportPeerConnect'), 'id':'errorPeerConnect', 'className' : 'error'});
+
 						console.log('suman bogati hero');
 					}else{
 						whBoard.system.wbRtc.peerCon = true;
 					}
 				}else{
 					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), browser, version);
-					whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), 'errorWebRtc', 'error');
+					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), 'errorWebRtc', 'error');
+					 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportGetUserMedia'), 'id':'errorGetUserMedia', 'className' : 'error'});
+
 				}
 			}else if(browser == 'Chrome' || browser == 'Safari'){
 				if(navigator.webkitGetUserMedia){
 					whBoard.system.wbRtc.userMedia  = true;
 					if(!window.webkitRTCPeerConnection){
 						//whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), browser, version);
-						whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), 'errorWebRtc', 'error');
+						//whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), 'errorWebRtc', 'error');
+						 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportPeerConnect'), 'id':'errorPeerConnect', 'className' : 'error'});
 					}else{
 						whBoard.system.wbRtc.peerCon = true;
 					}
 				}else{
 					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), browser, version);
-					whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), 'errorWebRtc', 'error');
+					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), 'errorWebRtc', 'error');
+					 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportGetUserMedia'), 'id':'errorGetUserMedia', 'className' : 'error'});
+
 				}
 			}else if(browser == 'MSIE' && version <= 9){
+				//alert('suman bogati');
+				//alert(whBoard.error.length);
 				//whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebRtc'), browser, version);
-				//whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebRtc'), 'errorWebRtc', 'error');
-				//alert('raj');
 				whBoard.error.push({'msg' : whBoard.lang.getString('notSupportWebRtc'), 'id':'errorWebRtc', 'className' : 'error'});
 			}
 	   }
@@ -89,34 +90,10 @@
 		   if(typeof window.WebSocket != 'undefined' && (typeof window.WebSocket == 'function' || typeof window.WebSocket == 'object')  && window.WebSocket.hasOwnProperty('OPEN')){
 			   whBoard.system.webSocket = true;
 		   }else{
-				
-
-			   whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
+				//whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
+			   whBoard.error.push({'msg' : whBoard.lang.getString('notSupportWebSocket'), 'id':'errorWebSocket', 'className' : 'error'});
 		   }
 	   }
-	   
-//	   whBoard.system.multiMediaMsg = function (){
-//		   if(whBoard.system.mybrowser.name == 'Firefox'){
-//	   			var msg =  whBoard.lang.getString('wbrtcMsgFireFox');
-//	   			whBoard.view.displayMessage(msg, "fireFoxWebrtcCont", whBoard.system.wbRtc.className);
-//			 	
-//		   }else if(whBoard.system.mybrowser.name == 'Chrome'){
-//			   var msg =  whBoard.lang.getString('wbrtcMsgChrome');
-//			   whBoard.view.displayMessage(msg, "chormeWebrtcCont", whBoard.system.wbRtc.className);
-//		   }
-//	   }
-	   
-//	   whBoard.system.canvasDrawMsg = function (){
-//		   if(whBoard.system.mybrowser.name == 'Firefox'){
-//	   			var msg =  whBoard.lang.getString('canvasDrawMsg');
-//	   			whBoard.view.displayMessage(msg, "canvasDrawMsgContFirefox");
-//			 	
-//		   }else if(whBoard.system.mybrowser.name == 'Chrome'){
-//			   var msg =  whBoard.lang.getString('canvasDrawMsg');
-//			   whBoard.view.displayMessage(msg, "canvasDrawMsgContChrome");
-//		   }
-//	   }
-//	   
 	   
 	 var browser = whBoard.system.mybrowser.detection();
 	 var browserName = browser[0];

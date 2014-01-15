@@ -50,8 +50,10 @@ $.when(
 		/////alert(window);
 		////alert(window.whBoard.error.length);
 		//var error = window.whBoard.error;
+		
 		if(window.whBoard.error.length > 0){
 			
+			//debugger;
 			for(var i=0; i<window.whBoard.error.length; i++){
 				var error = window.whBoard.error[i];
 				if(error.hasOwnProperty('msg')){

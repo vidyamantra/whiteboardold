@@ -1,6 +1,7 @@
 (
 	function (window){
 		var whBoard = window.whBoard;
+		
 		/**
 		 * this class has methods by which the user can draw the particular object at different mouse event
 		 * @param objType is the particular object type which has to be drawn
