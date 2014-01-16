@@ -1,135 +1,105 @@
 (
 	function (window){
 		var whBoard = window.whBoard;
-		whBoard.createPacketContainer = function (){
-				
-			var labelDiv = document.createElement('div');
-				labelDiv.id = "dataInformation";
-				
-				document.getElementById('packetContainer').appendChild(labelDiv);
-				
-				var blankDiv = document.createElement('div');
-					blankDiv.id = "blankDiv";
-					
-					labelDiv.appendChild(blankDiv);
-				
-				var perSecLabel = document.createElement('div');
-					perSecLabel.id = "perSecData";
-					perSecLabel.innerHTML = "Per Second Data";
-					
-					labelDiv.appendChild(perSecLabel);
-					
-				var totalDataLabel = document.createElement('div');
-					totalDataLabel.id = "totalDataLabel";
-					totalDataLabel.innerHTML = "Total";
-					labelDiv.appendChild(totalDataLabel);	
-					
-			
-			var packCont  = document.createElement('div');
-				packCont.id = 'sendPackCont';
-				document.getElementById('packetContainer').appendChild(packCont);
-				
-				//
-				var sendPacketPSLabel = document.createElement('div');
-					sendPacketPSLabel.id = 'sentPacketsLabel';
-					sendPacketPSLabel.innerHTML = "Sent Packets";
-					
-					packCont.appendChild(sendPacketPSLabel);
-					
-				var sendPacketPS =  document.createElement('div');
-				sendPacketPS.id = 'sendPackPsCont'; 
-			    packCont.appendChild(sendPacketPS);
-				
-				counterDiv = document.createElement('div');
-				counterDiv.id = whBoard.sentPackDivPS;
-				counterDiv.className = 'numbers';
-				counterDiv.innerHTML = 0;
-				sendPacketPS.appendChild(counterDiv);
-				
-				
-				//creating div for send total packet per second
-				var totSendPacket =  document.createElement('div');
-			    totSendPacket.id = 'totSendPackCont'; 
-			    packCont.appendChild(totSendPacket);
-			    
-				
-					
-					var counterDiv = document.createElement('div');
-					counterDiv.id = whBoard.sentPackDiv;
-					counterDiv.className = 'numbers';
-					counterDiv.innerHTML = 0;
-					totSendPacket.appendChild(counterDiv);
-					
-				
-
-				packCont  = document.createElement('div');
-				packCont.id = 'receivePackCont';
-				document.getElementById('packetContainer').appendChild(packCont);
-				
-				var receivedPacketPSLabel = document.createElement('div');
-				receivedPacketPSLabel.id = 'receivedPacketsLabel';
-				receivedPacketPSLabel.innerHTML = "Recevied Packets";
-				
-				packCont.appendChild(receivedPacketPSLabel);
-				
-				var receivePacketPS =  document.createElement('div');
-				receivePacketPS.id = 'receivePackPsCont'; 
-			    packCont.appendChild(receivePacketPS);
-				
-			    /*
-				label = document.createElement('label'); 
-				label.innerHTML =  whBoard.lang.getString('perSecRcvdData');
-				receivePacketPS.appendChild(label); */
-				
-				counterDiv = document.createElement('div');
-				counterDiv.id = whBoard.receivedPackDivPS;
-				counterDiv.className = 'numbers';
-				counterDiv.innerHTML = 0;
-				receivePacketPS.appendChild(counterDiv);
-				
-				
-				//creating div for send total packet per second
-				var totReceivedPack =  document.createElement('div');
-					totReceivedPack.id = 'totReceivedPackCont'; 
-					packCont.appendChild(totReceivedPack);
-			    
-				/*
-				var label = document.createElement('label'); 
-					//label.innerHTML = "Total Received Packets";
-					label.innerHTML =  whBoard.lang.getString('totRcvdPackets');
-					totReceivedPack.appendChild(label); */
-					
-					counterDiv = document.createElement('div');
-					counterDiv.id = whBoard.receivedPackDiv;
-					counterDiv.className = 'numbers';
-					counterDiv.innerHTML = 0;
-					totReceivedPack.appendChild(counterDiv);
-				
+		
+		whBoard.createPacketContDiv = function (id, clasName){
+			var tag = document.createElement('div');
+			if(typeof id != 'undefined'){
+				tag.id = id;
+			}
+			if(typeof clasName != 'undefined'){
+				tag.clasName = clasName;
+			}
+			return tag;
 		}
 		
+		//creating divs about sending data per seconds and total
+		whBoard.createPacketContainer = function (){
+			//Creating Column Two	
+			var packetContainer =  document.getElementById('packetContainer');
+			var labelDiv = whBoard.createPacketContDiv("dataInformation");
+				packetContainer.appendChild(labelDiv);
+			
+			var blankDiv = whBoard.createPacketContDiv("blankDiv");
+				labelDiv.appendChild(blankDiv);
+				
+			var perSecLabel = whBoard.createPacketContDiv("perSecData");
+				perSecLabel.innerHTML = whBoard.lang.getString('perSecond');
+				labelDiv.appendChild(perSecLabel);
+				
+			var totalDataLabel = whBoard.createPacketContDiv('totalDataLabel');
+				totalDataLabel.innerHTML = whBoard.lang.getString('total');
+				labelDiv.appendChild(totalDataLabel);	
+
+					
+			//Creating Column Two			
+			var sentPackCont  = whBoard.createPacketContDiv('sendPackCont');
+				packetContainer.appendChild(sentPackCont);
+			
+			var sendPacketPSLabel = whBoard.createPacketContDiv('sentPacketsLabel');
+				sendPacketPSLabel.innerHTML = whBoard.lang.getString('sentPackets');
+				sentPackCont.appendChild(sendPacketPSLabel);
+			
+			var sendPacketPS =  whBoard.createPacketContDiv('sendPackPsCont');
+				sentPackCont.appendChild(sendPacketPS);
+			
+			var counterDiv = whBoard.createPacketContDiv(whBoard.sentPackDivPS, 'numbers');
+				//counterDiv.className = 'numbers';
+				counterDiv.innerHTML = 0;
+				sendPacketPS.appendChild(counterDiv);
+			
+			var totSendPacket =  whBoard.createPacketContDiv('totSendPackCont');
+				sentPackCont.appendChild(totSendPacket);
+			
+				counterDiv =  whBoard.createPacketContDiv(whBoard.sentPackDiv, 'numbers');
+				//counterDiv.className = 'numbers';
+				counterDiv.innerHTML = 0;
+				totSendPacket.appendChild(counterDiv);
+
+			//Creating Column Three	
+			var receviedPackCont  = whBoard.createPacketContDiv('receivePackCont');
+				packetContainer.appendChild(receviedPackCont);
+				
+			var receivedPacketPSLabel = whBoard.createPacketContDiv('receivedPacketsLabel');
+				receivedPacketPSLabel.innerHTML = whBoard.lang.getString('receviedPackets');
+				receviedPackCont.appendChild(receivedPacketPSLabel);
+				
+			var receivePacketPS =  whBoard.createPacketContDiv('receivePackPsCont');
+				receviedPackCont.appendChild(receivePacketPS);
+				
+				counterDiv = whBoard.createPacketContDiv(whBoard.receivedPackDivPS, 'numbers');
+			//	counterDiv.className = 'numbers';
+				counterDiv.innerHTML = 0;
+				receivePacketPS.appendChild(counterDiv);
+		
+			var totReceivedPack =  whBoard.createPacketContDiv('totReceivedPackCont');
+				receviedPackCont.appendChild(totReceivedPack);
+				
+				counterDiv =  whBoard.createPacketContDiv(whBoard.receivedPackDiv, 'numbers');
+				//counterDiv.className = 'numbers';
+				counterDiv.innerHTML = 0;
+				totReceivedPack.appendChild(counterDiv);
+				
+		}
+
+		//creating divs about sending data information in detail
 		whBoard.createPacketInfoContainer = function (){
 			///creating sent message information
 			var informationCont = document.getElementById('informationCont');
-			label = document.createElement('label'); 
-			label.innerHTML =  "Sent Msg information";
-			informationCont.appendChild(label);
-			
-			
-			var sentMsgInfo  = document.createElement('div');
-				sentMsgInfo.id = 'sentMsgInfo';
+				label = document.createElement('label'); 
+				label.innerHTML =  whBoard.lang.getString("sentMessageInfo");
+				informationCont.appendChild(label);
+		
+				var sentMsgInfo  = whBoard.createPacketContDiv('sentMsgInfo');
 				informationCont.appendChild(sentMsgInfo);
 				
-			
-			///creating received message information	
-			label = document.createElement('label'); 
-			label.innerHTML =  "Received Msg information";
-			informationCont.appendChild(label);
-			var rcvdMsgInfo  = document.createElement('div');
-				rcvdMsgInfo.id = 'rcvdMsgInfo';
+				///creating received message information	
+				label = document.createElement('label'); 
+				label.innerHTML =  whBoard.lang.getString("receivedMessageInfo");;
+				informationCont.appendChild(label);
+				
+			var rcvdMsgInfo  = whBoard.createPacketContDiv('rcvdMsgInfo');
 				informationCont.appendChild(rcvdMsgInfo);	
-				
-				
-			
 		}
 		
 	}

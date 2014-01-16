@@ -219,9 +219,18 @@ var vm_chat = {
 				
 				this.sock.send(jobj);
 			}
+			
+			//TODO this should be enable
+			var tempObj = JSON.parse(jobj);
+//			alert('hi debugger');
+//			debugger;
+			if(tempObj.arg.msg.hasOwnProperty('repObj')){
+				vm_chat.updateSentInformation(jobj);
+			}
+			
 			//this.sock.send(jobj);
-		//	vm_chat.updateSentInformation(jobj);
-		}
+			//	vm_chat.updateSentInformation(jobj);
+		}	
 		
 		localStorage.sentPackets = whBoard.sentPackets;
 	},

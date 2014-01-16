@@ -30,6 +30,12 @@
 			'perSecRcvdData' : 'Per Second Recevied Packet',
 			'totSentPackets' : 'Total Sent Packets',
 			'perSecSentPacket' : 'Per Second Sent Packets',
+			'perSecond' : 'Per Second',
+			'sentPackets' : 'Sent Packets',
+			'receviedPackets' : 'Received Pacekts',
+			'total' : 'Total',
+			'sentMessageInfo' : 'Sent Message Information',
+			'receivedMessageInfo' : 'Received Message information', 
 			'wbrtcMsgFireFox' : 'You can click on  Share Selected Devices' + 
 			'your microphone and camera would be share with other person',
 			'wbrtcMsgChrome' : 'You can click on deny button to not share your microphone and camera.'+ 
