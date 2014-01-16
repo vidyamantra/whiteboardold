@@ -73,7 +73,7 @@
 //						document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 //	    			}
 					
-					whBoard.utility.initStoredPacketsNumbers();
+					//whBoard.utility.initStoredPacketsNumbers();
 					window.whBoard = whBoard;
 				}
 				//init the video
@@ -82,8 +82,12 @@
 				this.arrowInit();
 				var oldData = whBoard.sentPackets;
 				setInterval(function (){
-					oldData = whBoard.utility.calcPsSentPackets(oldData);
-					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;  //update total packets
+					if(document.getElementById(whBoard.sentPackDivPS) != null){
+						oldData = whBoard.utility.calcPsSentPackets(oldData);
+						document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;  //update total packets
+					}
+					
+					
 				}, 1000);
 				
 			},
@@ -371,8 +375,14 @@
 				whBoard.createCommand(alreadyCreated);
 				if(typeof alreadyCreated == 'undefined'){
 					whBoard.createCanvas();
-					whBoard.createPacketContainer();
-					whBoard.createPacketInfoContainer();
+					//	whBoard.createPacketContainer();
+					// whBoard.createPacketInfoContainer();
+					var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+			    	if(orginalTeacherId){
+			    		whBoard.createPacketContainer();
+						whBoard.createPacketInfoContainer();
+						whBoard.utility.initStoredPacketsNumbers();
+			    	}
 				}
 				
 				

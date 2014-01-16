@@ -51,6 +51,30 @@ $.when(
 		////alert(window.whBoard.error.length);
 		//var error = window.whBoard.error;
 		
+		vcan.updateRcvdInformation =  function (msg){
+			var receivedMsg = document.getElementById('rcvdMsgInfo');
+			if(receivedMsg != null){
+				var compMsg = "";
+				for(var key in msg){
+					compMsg += key +" : " + msg[key] + " <br />";
+				}
+				receivedMsg.innerHTML = compMsg;
+			}
+//			var compMsg = "";
+//			for(var key in msg){
+//				compMsg += key +" : " + msg[key] + " <br />";
+//			}
+//			document.getElementById('rcvdMsgInfo').innerHTML = compMsg;
+		}
+	
+  		
+  		vcan.chkValueInLocalStorage = function (property){
+			if(typeof localStorage[property] != 'undefined'){
+				return localStorage[property]; 
+			}else{
+				return false;
+			}
+		}
 		if(window.whBoard.error.length > 0){
 			
 			//debugger;
@@ -64,6 +88,8 @@ $.when(
 			window.whBoard.error = [];
 		}
 		
+		
+		
 		////alert('brother');
 		myrepObj = [];
     	replayObjs = []; // this should contain either into whiteboard or into van object
@@ -76,10 +102,16 @@ $.when(
     		vcan.reachedItemId = 0;
     	}
     	
-    	
+    	var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
     	//vcan.cmdWrapperDiv = 'commandToolsWrapper';
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
+    	
+//    	var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+//    	if(orginalTeacherId){
+//    		whBoard.createPacketContainer();
+//			whBoard.createPacketInfoContainer();
+//    	}
     	
 //    	if(typeof localStorage.teacherId != 'undefined'){
 //    		window.whBoard.view.canvasDrawMsg();
@@ -175,8 +207,11 @@ $.when(
     	
  		var oldData2 = whBoard.receivedPackets;
 		setInterval(function (){
-			oldData2 = whBoard.utility.calcPsRecvdPackets(oldData2);
-			document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+			if(document.getElementById(whBoard.receivedPackDivPS) != null){
+				oldData2 = whBoard.utility.calcPsRecvdPackets(oldData2);
+				document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+			}
+			
 		}, 1000);
     	
 		
@@ -212,7 +247,11 @@ $.when(
 							localStorage.teacherId = e.message[0].userid;
 							window.whBoard.view.canvasDrawMsg('Canvas');
 							localStorage.canvasDrwMsg = true;
+							whBoard.createPacketContainer();
+							whBoard.createPacketInfoContainer();
+							whBoard.utility.initStoredPacketsNumbers();
 							localStorage.orginalTeacherId = e.message[0].userid;
+							
 						}
 						
 						myVideo.isInitiator = true;
@@ -411,7 +450,11 @@ $.when(
 						whBoard.tool = new whBoard.tool_obj('t_clearall');
 						whBoard.utility.t_clearallInit();
 						vcan.makeDefaultValue();
-						vcan.updateRcvdInformation(e.message);
+						//var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+						if(orginalTeacherId){
+							vcan.updateRcvdInformation(e.message);
+						}
+						
 						return;
 				
 					}
@@ -481,7 +524,11 @@ $.when(
 		    			var obj = {};
 		    			obj.mp = { x: e.message.x, y: e.message.y};
 		    			whBoard.utility.drawArrowImg(imageElm, obj);
-		    			vcan.updateRcvdInformation(e.message);
+		    			
+		    			if(orginalTeacherId){
+							vcan.updateRcvdInformation(e.message);
+						}
+		    			//vcan.updateRcvdInformation(e.message);
 		    		}else if(e.message.hasOwnProperty('clearAll')){
 		    			//vcan.reachedItemId = 0;
 		    			//updateRcvdInformation(e.message);
@@ -663,16 +710,20 @@ $.when(
 	    				}
 	    			}
 	    			
-	    			
-					if(e.fromUser.userid != id ){
-						if(e.message.hasOwnProperty('createArrow')){
-							whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message).length);
-						}else if(!e.message.hasOwnProperty('getMsPckt')){
-							whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
-						} 
-						document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+	    			if(orginalTeacherId){
+	    				if(e.fromUser.userid != id ){
+							if(e.message.hasOwnProperty('createArrow')){
+								whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message).length);
+							}else if(!e.message.hasOwnProperty('getMsPckt')){
+								whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message.repObj).length);
+							} 
+							document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+						}
+						localStorage.receivedPackets = whBoard.receivedPackets;
 					}
-					localStorage.receivedPackets = whBoard.receivedPackets; 
+	    			
+					
+					
 				}
 	    		
 
@@ -697,22 +748,22 @@ $.when(
     		}
     	});
   		
-  		vcan.updateRcvdInformation =  function (msg){
-			var compMsg = "";
-			for(var key in msg){
-				compMsg += key +" : " + msg[key] + " <br />";
-			}
-			document.getElementById('rcvdMsgInfo').innerHTML = compMsg;
-		}
-	
-  		
-  		vcan.chkValueInLocalStorage = function (property){
-			if(typeof localStorage[property] != 'undefined'){
-				return localStorage[property]; 
-			}else{
-				return false;
-			}
-		}
+//  		vcan.updateRcvdInformation =  function (msg){
+//			var compMsg = "";
+//			for(var key in msg){
+//				compMsg += key +" : " + msg[key] + " <br />";
+//			}
+//			document.getElementById('rcvdMsgInfo').innerHTML = compMsg;
+//		}
+//	
+//  		
+//  		vcan.chkValueInLocalStorage = function (property){
+//			if(typeof localStorage[property] != 'undefined'){
+//				return localStorage[property]; 
+//			}else{
+//				return false;
+//			}
+//		}
   		
   		vcan.makeDefaultValue = function (){
   			myrepObj = [];

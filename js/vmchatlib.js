@@ -191,7 +191,7 @@ var vm_chat = {
 				if(this.sock.readyState == 1){
 					this.sock.send(jobj);
 				}
-
+				
 				vm_chat.updateSentInformation(jobj, true);
 			}
 			
@@ -220,7 +220,7 @@ var vm_chat = {
 				this.sock.send(jobj);
 			}
 			//this.sock.send(jobj);
-			//vm_chat.updateSentInformation(jobj);
+		//	vm_chat.updateSentInformation(jobj);
 		}
 		
 		localStorage.sentPackets = whBoard.sentPackets;
@@ -231,21 +231,23 @@ var vm_chat = {
 	},
 	
 	updateSentInformation :  function (jobj, createArrow){
-		var sentObj = JSON.parse(jobj);
-		if(typeof createArrow != 'undefined'){
-			var msg = sentObj.arg.msg;
-		}else{
-			var msg = sentObj.arg.msg.repObj[0];
+		if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+			var sentObj = JSON.parse(jobj);
+			if(typeof createArrow != 'undefined'){
+				var msg = sentObj.arg.msg;
+			}else{
+				var msg = sentObj.arg.msg.repObj[0];
+			}
+			
+			var compMsg = "";
+			for(var key in msg){
+				compMsg += key +" : " + msg[key] + " <br />";
+				
+			}
+			
+			document.getElementById('sentMsgInfo').innerHTML = compMsg;
 		}
-		
-		var compMsg = "";
-		for(var key in msg){
-			compMsg += key +" : " + msg[key] + " <br />";
-		}
-		
-		document.getElementById('sentMsgInfo').innerHTML = compMsg;
 	}
-
 };
 
 //var updateSentInformation  = function (jobj){

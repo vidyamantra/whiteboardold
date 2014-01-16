@@ -149,14 +149,24 @@
 					vcan.setValInMain('action', 'create');
 				}
 				
-				var allDivs = document.getElementById('sendPackCont').getElementsByClassName('numbers');
-				
-				if(allDivs.length > 0){
-					//allDivs[i].innerHTML = 0;
-					for(var i=0; i<allDivs.length; i++){
-						allDivs[i].innerHTML = 0; 
+				var sentPacketCont = document.getElementById('sendPackCont');
+				if(sentPacketCont != null){
+					var allDivs = sentPacketCont.getElementsByClassName('numbers')
+					if(allDivs.length > 0){
+						//allDivs[i].innerHTML = 0;
+						for(var i=0; i<allDivs.length; i++){
+							allDivs[i].innerHTML = 0; 
+						}
 					}
 				}
+				//var allDivs = document.getElementById('sendPackCont').getElementsByClassName('numbers');
+				
+//				if(allDivs.length > 0){
+//					//allDivs[i].innerHTML = 0;
+//					for(var i=0; i<allDivs.length; i++){
+//						allDivs[i].innerHTML = 0; 
+//					}
+//				}
 					
 				if(typeof pkMode == 'undefined'){
 					whBoard.sentPackets = 0;
@@ -164,8 +174,17 @@
 				}
 				
 				//for clear sent and received msg information
-				document.getElementById('sentMsgInfo').innerHTML  = "";
-				document.getElementById('rcvdMsgInfo').innerHTML  = "";
+				var sentMsgInfo = document.getElementById('sentMsgInfo');
+				if(sentMsgInfo != null){
+					//document.getElementById('sentMsgInfo').innerHTML  = "";
+					sentMsgInfo.innerHTML  = "";
+				}
+				
+				var receivedMsgInfo = document.getElementById('rcvdMsgInfo');
+				if(receivedMsgInfo != null){
+					//document.getElementById('rcvdMsgInfo').innerHTML  = "";
+					receivedMsgInfo.innerHTML  = "";
+				}
 				
 				
 				
@@ -307,15 +326,18 @@
 			},
 			
 			calcPsSentPackets : function (oldData){
-				var pacPerSec = whBoard.sentPackets - oldData;
-				//var oldData = whBoard.sentPackets;
-				//this is handle when user click on clear button for clear
-				//if we disable this there woould be replay the negative value
-				if(pacPerSec < 0){
-					pacPerSec = 0;
+				if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+					var pacPerSec = whBoard.sentPackets - oldData;
+					//var oldData = whBoard.sentPackets;
+					//this is handle when user click on clear button for clear
+					//if we disable this there woould be replay the negative value
+					if(pacPerSec < 0){
+						pacPerSec = 0;
+					}
+					document.getElementById(whBoard.sentPackDivPS).innerHTML = pacPerSec;
+					return whBoard.sentPackets;
 				}
-				document.getElementById(whBoard.sentPackDivPS).innerHTML = pacPerSec;
-				return whBoard.sentPackets;
+				
 			},
 			
 			calcPsRecvdPackets : function (oldData2){
@@ -330,21 +352,27 @@
 			//initialize transfred packets from local storage when
 			// browser is reloaded
 			initStoredPacketsNumbers : function (){
-				if(localStorage.sentPackets){
-					var totSentPackets = JSON.parse(localStorage.sentPackets);
-					whBoard.sentPackets = totSentPackets;
-					document.getElementById(whBoard.sentPackDiv).innerHTML = totSentPackets;
+				if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+					if(localStorage.sentPackets){
+						var totSentPackets = JSON.parse(localStorage.sentPackets);
+						whBoard.sentPackets = totSentPackets;
+						document.getElementById(whBoard.sentPackDiv).innerHTML = totSentPackets;
+					}
+					
+					if(localStorage.receivedPackets){
+						whBoard.receivedPackets = JSON.parse(localStorage.receivedPackets);
+						document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
+	    			}
 				}
 				
-				if(localStorage.receivedPackets){
-					whBoard.receivedPackets = JSON.parse(localStorage.receivedPackets);
-					document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
-    			}
 			}, 
 			
 			updateSentPackets : function (obj){
-				whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
-				document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets
+				if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+					whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+				}
+				
 			},
 			 
 			assignRole : function (studentId){
