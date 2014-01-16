@@ -376,6 +376,8 @@ $.when(
             				localStorage.removeItem('teacherId');
             			}
             			whBoard.uniqueArrOfObjsToOther();
+            			whBoard.view.disappearBox('Canvas');
+                		whBoard.view.disappearBox('drawArea');
             			return;
         			}else{
         				whBoard.uniqueArrOfObjsToSelf();

@@ -131,12 +131,17 @@ body {
 }
 
 
+
 #videos {
 	width:90%;
 	margin-top:20px;
 	padding:15px;
 	clear:both;
 }
+
+.canvasMsgBoxParent #videos{
+	margin-top : -200px;
+} 
 
 #videos{
 

@@ -81,6 +81,8 @@
 		}
 		
 		 whBoard.view.canvasDrawMsg = function (className){
+			 var mainContainer = document.getElementById('vcanvas');
+			 	mainContainer.className = 'canvasMsgBoxParent';
 			   if(whBoard.system.mybrowser.name == 'Firefox'){
 		   			var msg =  whBoard.lang.getString('canvasDrawMsg');
 		   			whBoard.view.displayMessage(msg, "canvasDrawMsgContFirefox",  whBoard.view.msgBoxClass +className,  'containerWb');
