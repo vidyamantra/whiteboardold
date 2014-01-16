@@ -46,7 +46,7 @@
 			}
 			
 			if (objType == 'line'){	
-				obj.lineColor = "navy";
+				//obj.lineColor = "navy";
 				obj.lineWidth = 3;
 				obj.start = {x:startPosX, y:startPosY};
 				obj.end = {x:endPosX, y:endPosY};
@@ -55,13 +55,13 @@
 				obj.width = endPosX-startPosX;
 				obj.height =  endPosY-startPosY;
 				
-				obj.borderColor = 'green';
-				obj.fillColor = "#ddd";
+				//obj.borderColor = 'green';
+				//	obj.fillColor = "#ddd";
 				obj.lineWidth = 3;
 				
 			}else if(objType == 'oval'){
 				obj.lineWidth = 3;
-				obj.borderColor = 'red';
+			//	obj.borderColor = 'red';
 				
 				obj.width =   endPosX-startPosX;
 				obj.height =  endPosY-startPosY;
@@ -74,7 +74,7 @@
 			   
 			}else if(objType == 'triangle'){
 				obj.lineWidth = 3;
-				obj.borderColor = 'blue';
+				//obj.borderColor = 'blue';
 			}else if(objType == 'text'){
 				return;
 			}
