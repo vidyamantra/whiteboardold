@@ -29,6 +29,7 @@
 			view : {}, // For display important message to user
 			lang : {},
 			system: {},
+			globalObj : {}, // For store the global oject
 			
 			/**
 			 * This function basically does create the canvas on which 
@@ -377,7 +378,7 @@
 					whBoard.createCanvas();
 					//	whBoard.createPacketContainer();
 					// whBoard.createPacketInfoContainer();
-					var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+					var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
 			    	if(orginalTeacherId){
 			    		whBoard.createPacketContainer();
 						whBoard.createPacketInfoContainer();
@@ -490,10 +491,10 @@
 						}
 						*/
 						
-						var teacherId = vcan.chkValueInLocalStorage('teacherId');
-						var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
-						var wbrtcMsg = vcan.chkValueInLocalStorage('wbrtcMsg');
-						var canvasDrwMsg = vcan.chkValueInLocalStorage('canvasDrwMsg');
+						var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
+						var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
+						var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
+						var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
 
 						
 						localStorage.clear();
@@ -518,7 +519,10 @@
 						vcan.renderedObjId = 0;
 						vcan.tempArr = [];
 						whBoard.uid = 0;
-						vcan.removeTextNode();
+						//vcan.objTxt.removeTextNode();
+						if(typeof vcan.objTxt != 'undefined'  ){
+							vcan.objTxt.removeTextNode();
+						}
 						//vcan.updateRcvdInformation(e.message);
 						if(typeof vcan.main.currentTransform != 'undefined'){
 							vcan.main.currentTransform = "";

@@ -326,7 +326,7 @@
 			},
 			
 			calcPsSentPackets : function (oldData){
-				if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+				if(whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
 					var pacPerSec = whBoard.sentPackets - oldData;
 					//var oldData = whBoard.sentPackets;
 					//this is handle when user click on clear button for clear
@@ -352,7 +352,7 @@
 			//initialize transfred packets from local storage when
 			// browser is reloaded
 			initStoredPacketsNumbers : function (){
-				if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+				if(whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
 					if(localStorage.sentPackets){
 						var totSentPackets = JSON.parse(localStorage.sentPackets);
 						whBoard.sentPackets = totSentPackets;
@@ -368,7 +368,7 @@
 			}, 
 			
 			updateSentPackets : function (obj){
-				if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+				if(whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
 					whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
 					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
 				}
@@ -385,7 +385,7 @@
 					
 					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 					localStorage.teacherId = studentId;
-					vcan.makeCanvasEnable();
+					whBoard.utility.makeCanvasEnable();
 					
 				}else{
 					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
@@ -396,10 +396,10 @@
 					
 //					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);
 //					cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper);
-					vcan.makeCanvasDisable();
+					whBoard.utility.makeCanvasDisable();
 					
 					if(typeof localStorage.orginalTeacherId != 'undefined'){
-						whBoard.createReclaimButton(cmdToolsWrapper);
+						whBoard.utility.createReclaimButton(cmdToolsWrapper);
 						localStorage.reclaim = true;
 					}else{
 						if(cmdToolsWrapper != null){
@@ -418,27 +418,27 @@
 //					while(cmdToolsWrapper.hasChildNodes()){
 //						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
 //					}
-//					vcan.makeCanvasDisable();
+//					whBoard.utility.makeCanvasDisable();
 //					
-//					whBoard.createReclaimButton(cmdToolsWrapper);
+//					whBoard.utility.createReclaimButton(cmdToolsWrapper);
 //					localStorage.reclaim = true;
 //					localStorage.removeItem('teacherId');
 //				}else{
 //					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 //					localStorage.teacherId = vcan.studentId;
-//					vcan.makeCanvasEnable();
+//					whBoard.utility.makeCanvasEnable();
 //				}
 
 			}, 
 			
 			reclaimRole : function (){
-				whBoard.removeToolBox();
+				whBoard.utility.removeToolBox();
 				window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 				localStorage.teacherId = localStorage.orginalTeacherId;
 				if(typeof localStorage.reclaim != 'undefined'){
 					localStorage.removeItem('reclaim');
 				}
-				vcan.makeCanvasEnable();
+				whBoard.utility.makeCanvasEnable();
 				vm_chat.send({'reclaimRole': true});
 			},
 			
@@ -447,10 +447,62 @@
 			},
 			
 			connectionOn : function (){
-				//alert("suman bogati");
 				vm_chat.wsconnect();
-			}
+			},
 			
+			packetQueue : function (result){
+				if(vcan.tempArr.length > 0){
+					window.whBoard.vcan.main.replayObjs = vcan.tempArr;
+					vcan.tempArr = [];
+					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+				}else{
+					return;
+				}
+			},
+			
+			 updateRcvdInformation : function (msg){
+				var receivedMsg = document.getElementById('rcvdMsgInfo');
+				if(receivedMsg != null){
+					var compMsg = "";
+					for(var key in msg){
+						compMsg += key +" : " + msg[key] + " <br />";
+					}
+					receivedMsg.innerHTML = compMsg;
+				}
+			},
+			
+			makeCanvasDisable : function(){
+  				// TODO this could be tricky as it's best way to do
+				// is remove the attached handler
+				var canvasElement = vcan.main.canvas;
+				canvasElement.style.position = 'relative';
+				canvasElement.style.zIndex = "-1000";  
+			},
+			
+			makeCanvasEnable : function(){
+	  			var canvasElement = vcan.main.canvas;
+	  			canvasElement.style.position = 'none';
+				canvasElement.style.zIndex = "0";
+	  		},
+	  		
+	  		removeToolBox : function(){
+	  			var cmdWrapper =  document.getElementById(vcan.cmdWrapperDiv);
+				cmdWrapper.parentNode.removeChild(cmdWrapper);
+	  		},
+	  		
+	  		createReclaimButton : function (cmdToolsWrapper){
+				whBoard.createDiv('t_reclaim', 'reclaim', cmdToolsWrapper);
+				var aTags = document.getElementById('t_reclaim').getElementsByTagName('a');
+				aTags[0].addEventListener('click', whBoard.objInit);
+			},
+			
+			chkValueInLocalStorage : function(property){
+				if(typeof localStorage[property] != 'undefined'){
+					return localStorage[property]; 
+				}else{
+					return false;
+				}
+			}
 		};
 	}
 )(window);

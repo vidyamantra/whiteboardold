@@ -240,7 +240,7 @@ var vm_chat = {
 	},
 	
 	updateSentInformation :  function (jobj, createArrow){
-		if(vcan.chkValueInLocalStorage('orginalTeacherId')){
+		if(whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
 			var sentObj = JSON.parse(jobj);
 			if(typeof createArrow != 'undefined'){
 				var msg = sentObj.arg.msg;

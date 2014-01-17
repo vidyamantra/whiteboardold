@@ -91,6 +91,13 @@
 					 */
 				 getTextHeight: function(ctx, textLines, obj) {
 					  return obj.fontSize * textLines.length * obj.lineHeight;
+				 },
+				 
+				 removeTextNode  : function (){
+					var allTextContainer = document.getElementsByClassName('textBoxContainer');
+					for(var i=0; i<allTextContainer.length; i++){
+						allTextContainer[i].parentNode.removeChild(allTextContainer[i]);
+					}
 				 }
 			};
 		}
