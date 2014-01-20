@@ -8,7 +8,7 @@
 		    	isChannelReady : '',
 		    	isInitiator : false,
 		    	isStarted : '',
-		    	browserLen : 0,
+		    	//browserLen : 0,
 		    	localStream : '',
 		    	//pc : '',
 		    	pc : [],

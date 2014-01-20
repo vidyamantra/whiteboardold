@@ -37,12 +37,11 @@
 			'sentMessageInfo' : 'Sent Message Information',
 			'receivedMessageInfo' : 'Received Message information', 
 			'wbrtcMsgFireFox' : 'You can click on  Share Selected Devices' + 
-			'your microphone and camera would be share with other person',
-			'wbrtcMsgChrome' : 'You can click on deny button to not share your microphone and camera.'+ 
-				'When you click on Allow button your microphone and camera '+
-				'would be share with other person',
+			'to share your microphone and camera with other person',
+			'wbrtcMsgChrome' : 'You can click on deny button for not sharing your microphone and camera.'+ 
+				'while click on allow button to share your microphone and camera with Others.',
 			'canvasDrawMsg' : 'You can click on any tool for draw antyhing ' + 
-			'with mouse down, mouse move, mouse up action in draw area'
+			'with mouse click, mouse move and mouse up into Draw Area'
 			
 		}; 
 	}

@@ -3,6 +3,13 @@
 		//window.whBoard.lang.getString
 		whBoard = window.whBoard;
 		whBoard.view.msgBoxClass = 'msgBox';
+		
+		window.addEventListener('click', function (){
+    		whBoard.view.disappearBox('WebRtc')
+    		whBoard.view.disappearBox('Canvas');
+    		whBoard.view.disappearBox('drawArea');
+    	}); 
+		
 		whBoard.view.displayMessage = function (msg, id, className, intoAppend, imageTag){
 			//TODO this message have to be displayed
 			//var msg = whBoard.lang.getString(msg);

@@ -58,64 +58,60 @@ $.when(
 //			}
 //		}
 	
+		/*
   		whBoard.utility.chkValueInLocalStorage = function (property){
 			if(typeof localStorage[property] != 'undefined'){
 				return localStorage[property]; 
 			}else{
 				return false;
 			}
-		}
+		}*/
   		
-		if(window.whBoard.error.length > 0){
-			for(var i=0; i<window.whBoard.error.length; i++){
-				var error = window.whBoard.error[i];
-				if(error.hasOwnProperty('msg')){
-					whBoard.view.displayMessage(error.msg, error.id, error.className);
-				}
-			}
-			window.whBoard.error = [];
-		}
+		
+//		if(window.whBoard.error.length > 0){
+//			for(var i=0; i<window.whBoard.error.length; i++){
+//				var error = window.whBoard.error[i];
+//				if(error.hasOwnProperty('msg')){
+//					whBoard.view.displayMessage(error.msg, error.id, error.className);
+//				}
+//			}
+//			window.whBoard.error = [];
+//		}
+		
+		whBoard.utility.isSystemCompatible();
 		
 		whBoard.globalObj.myrepObj = [];
-    	replayObjs = []; // this should contain either into whiteboard or into van object
+    	whBoard.globalObj.replayObjs = []; // this should contain either into whiteboard or into van object
     	whBoard.globalObj.myArr = [];
     	
+    	var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
     	
-    	if(localStorage.hasOwnProperty('reachedItemId')){
+    	//this could be converted into ternary operator
+    	if(whBoard.utility.chkValueInLocalStorage('reachedItemId')){
     		vcan.reachedItemId = parseInt(localStorage.reachedItemId);
     	}else{
     		vcan.reachedItemId = 0;
     	}
     	
-    	var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-
+    	
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
     	
-    	window.addEventListener('click', function (){
-    		whBoard.view.disappearBox('WebRtc')
-    		whBoard.view.disappearBox('Canvas');
-    		whBoard.view.disappearBox('drawArea');
-    	}); //assinging the handler for all student
+//    	window.addEventListener('click', function (){
+//    		whBoard.view.disappearBox('WebRtc')
+//    		whBoard.view.disappearBox('Canvas');
+//    		whBoard.view.disappearBox('drawArea');
+//    	}); 
     	
-//    	whBoard.utility.removeToolBox = function(){
-//  			var cmdWrapper =  document.getElementById(vcan.cmdWrapperDiv);
-//			cmdWrapper.parentNode.removeChild(cmdWrapper);
-//  		}
+    	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
+    	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
     	
-//    	whBoard.utility.createReclaimButton = function (cmdToolsWrapper){
-//			whBoard.createDiv('t_reclaim', 'reclaim', cmdToolsWrapper);
-//			var aTags = document.getElementById('t_reclaim').getElementsByTagName('a');
-//			aTags[0].addEventListener('click', whBoard.objInit);
-//		}
-    	
-    	if(typeof localStorage.teacherId == 'undefined' && typeof localStorage.reclaim == 'undefined'){
+    	if(!storageHasTeacher && !storageHasReclaim){
     		whBoard.utility.removeToolBox(); 
 		}
     	
-    	if(typeof localStorage.reclaim != 'undefined'){
+    	if(storageHasReclaim){
     		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-			
 			while(cmdToolsWrapper.hasChildNodes()){
 				cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
 			}
@@ -158,7 +154,7 @@ $.when(
 //				for(i=0; i<allRepObjs.length; i++){
 //					replayObjs.push(allRepObjs[i]);
 //				}
-				replayObjs = replayObjs.concat(allRepObjs);
+				whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
 				if(allRepObjs.length > 0){
 					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
 					vcan.reachedItemId = whBoard.uid;
@@ -184,86 +180,88 @@ $.when(
 		var myVideo = new window.whBoard.vcan.videoChat();
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
-		vcan.chkAlreadyConnected = function(){
-			if(typeof cthis != 'undefined'){
-				if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
-					return true;
-				}
-			}
-			return false;
-		}
 		
-		vcan.videoInit = function (e){
-			var clientNum = e.message.length;
-			  if(clientNum == 1){
-					if(!vcan.chkAlreadyConnected()){
-						vcan.vid = myVideo.init();
-						vcan.teacher = true;
-						if(typeof localStorage.teacherId == 'undefined'){
-							window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-							localStorage.teacherId = e.message[0].userid;
-							window.whBoard.view.canvasDrawMsg('Canvas');
-							localStorage.canvasDrwMsg = true;
-							whBoard.createPacketContainer();
-							whBoard.createPacketInfoContainer();
-							whBoard.utility.initStoredPacketsNumbers();
-							localStorage.orginalTeacherId = e.message[0].userid;
-							
-						}
-						
-						myVideo.isInitiator = true;
-						vcan.oneExecuted = false;
-						
-					}
-				//browser B
-				}else if(clientNum == 2 && e.newuser == null){
-					if(!vcan.chkAlreadyConnected()){
-						vcan.studentId = id;
-						localStorage.studentId = id;
-						vm_chat.send({'isChannelReady':true});
-						vcan.oneExecuted = false;
-	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
-	  					
-	  					
-					}
-				//browser C and More	
-	  			}else if(clientNum > 2){
-	  				if(!vcan.chkAlreadyConnected()){
-		  				var currBrowser =  e.message[e.message.length-1].userid; 
-		  				var peerBrowser =  e.message[0].userid;
-		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
-	  				}
-	  			}
-				
-		}
+		//checkWebRtcConnected();
+//		vcan.chkAlreadyConnected = function(){
+//			if(typeof cthis != 'undefined'){
+//				if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
+//					return true;
+//				}
+//			}
+//			return false;
+//		}
 		
-		//this function works when teacher assign the  teacher role to student
-		whBoard.uniqueArrOfObjsToOther = function (){
-			var tempRepObjs = "";
-			replayObjs = [];
-			for(var i=0; i<vcan.main.replayObjs.length; i++){
-				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-				replayObjs.push(tempRepObjs);
-			}
-		}
+//		vcan.initDefaultInfo = function (e){
+//			var clientNum = e.message.length;
+//			  if(clientNum == 1){
+//					if(!vcan.chkAlreadyConnected()){
+//						vcan.vid = myVideo.init();
+//						vcan.teacher = true;
+//						if(typeof localStorage.teacherId == 'undefined'){
+//							whBoard.utility.setOrginalTeacherContent(e);
+//							
+////							window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+////							localStorage.teacherId = e.message[0].userid;
+////							window.whBoard.view.canvasDrawMsg('Canvas');
+////							localStorage.canvasDrwMsg = true;
+////							whBoard.createPacketContainer();
+////							whBoard.createPacketInfoContainer();
+////							whBoard.utility.initStoredPacketsNumbers();
+////							localStorage.orginalTeacherId = e.message[0].userid;
+//						}
+//						
+//						myVideo.isInitiator = true;
+//						vcan.oneExecuted = false;
+//						
+//					}
+//				//browser B
+//				}else if(clientNum == 2 && e.newuser == null){
+//					if(!vcan.chkAlreadyConnected()){
+//						vcan.studentId = id;
+//						localStorage.studentId = id;
+//						vm_chat.send({'isChannelReady':true});
+//						vcan.oneExecuted = false;
+//	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
+//	  					
+//	  					
+//					}
+//	  			}
+////				else if(clientNum > 2){
+////	  				if(!vcan.chkAlreadyConnected()){
+////		  				var currBrowser =  e.message[e.message.length-1].userid; 
+////		  				var peerBrowser =  e.message[0].userid;
+////		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
+////	  				}
+////	  			}
+//		}
 		
 		//this function works when teacher assign the  teacher role to student
-		whBoard.uniqueArrOfObjsToSelf = function (){
-			vcan.main.replayObjs = [];
-			var tempRepObjs = "";
-			for(var i=0; i<replayObjs.length; i++){
-				tempRepObjs = vcan.extend({}, replayObjs[i]);
-				vcan.main.replayObjs.push(tempRepObjs);
-			}
-		}
+//		whBoard.uniqueArrOfObjsToOther = function (){
+//			var tempRepObjs = "";
+//			whBoard.globalObj.replayObjs = [];
+//			for(var i=0; i<vcan.main.replayObjs.length; i++){
+//				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+//				whBoard.globalObj.replayObjs.push(tempRepObjs);
+//			}
+//		}
 		
-	
+		//this function works when teacher assign the  teacher role to student
+//		whBoard.uniqueArrOfObjsToSelf = function (){
+//			vcan.main.replayObjs = [];
+//			var tempRepObjs = "";
+//			for(var i=0; i<whBoard.globalObj.replayObjs.length; i++){
+//				tempRepObjs = vcan.extend({}, whBoard.globalObj.replayObjs[i]);
+//				vcan.main.replayObjs.push(tempRepObjs);
+//			}
+//		}
+		
 		$(document).on("member_added", function(e){
-				myVideo.id = id;
-				myVideo.browserLen = e.message.length;
-				vcan.videoInit(e);
-			
-				if(typeof vcan.teacher == 'undefined' && typeof localStorage.teacherId == 'undefined'){
+				//myVideo.id = id;
+				//myVideo.browserLen = e.message.length;
+				//vcan.videoInit(e);
+				//vcan.initDefaultInfo();
+				whBoard.utility.initDefaultInfo(e,  myVideo);
+				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
 				}
 	  		});
@@ -275,7 +273,6 @@ $.when(
 				window.whBoard.view.drawLabel('drawArea');
 				localStorage.canvasDrwMsg = true;
 			}
-			
     	}
 		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
@@ -293,7 +290,6 @@ $.when(
   				}else{
   					cthis.isStarted = false;
   				}
-  				
   			}else if(e.message.hasOwnProperty('isChannelReady')){
   				e.message.isChannelReady = true; 
   				vcan.myvid.videoOnMsg(e.message);
@@ -316,12 +312,12 @@ $.when(
             			if(typeof localStorage.teacherId != 'undefined'){
             				localStorage.removeItem('teacherId');
             			}
-            			whBoard.uniqueArrOfObjsToOther();
+            			whBoard.utility.uniqueArrOfObjsToOther();
             			whBoard.view.disappearBox('Canvas');
                 		whBoard.view.disappearBox('drawArea');
             			return;
         			}else{
-        				whBoard.uniqueArrOfObjsToSelf();
+        				whBoard.utility.uniqueArrOfObjsToSelf();
         				return;
         			}
         		}
@@ -329,7 +325,7 @@ $.when(
         		if(e.message.hasOwnProperty('assignRole')){
         			if(e.fromUser.userid != id){
         				whBoard.utility.assignRole(id);
-            			whBoard.uniqueArrOfObjsToSelf();
+            			whBoard.utility.uniqueArrOfObjsToSelf();
 						if(typeof localStorage.canvasDrwMsg == 'undefined'){
 							window.whBoard.view.canvasDrawMsg('Canvas');
 							window.whBoard.view.drawLabel('drawArea');
@@ -338,19 +334,25 @@ $.when(
             		
             			return;
         			}else{
-        				whBoard.uniqueArrOfObjsToOther();
+        				whBoard.utility.uniqueArrOfObjsToOther();
         				return;
         			}
         		}
         		
         		whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
-	    		chunk = [];
+        		whBoard.globalObj.chunk = [];
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
-						whBoard.tool = new whBoard.tool_obj('t_clearall');
-						whBoard.utility.t_clearallInit();
-						vcan.makeDefaultValue();
-						//var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+	    				if(e.fromUser.userid != id){
+					  		   whBoard.tool = new whBoard.tool_obj('t_clearall');
+							   whBoard.utility.t_clearallInit();
+							   whBoard.utility.makeDefaultValue();
+	    				}
+  		
+//						whBoard.tool = new whBoard.tool_obj('t_clearall');
+//						whBoard.utility.t_clearallInit();
+//						whBoard.utility.makeDefaultValue();
+//						//var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
 						if(orginalTeacherId){
 							whBoard.utility.updateRcvdInformation(e.message);
 						}
@@ -367,7 +369,7 @@ $.when(
 	    				}
 	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
 	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	  
-	    					makeQueue(e);
+	    					whBoard.bridge.makeQueue(e);
     		    		}
 	        		}
 	        		
@@ -382,7 +384,7 @@ $.when(
 	    								 if(Number(vcan.reachedItemId) < Number(e.message.repObj[0].uid)){
 	    									 console.log('Lid ' + vcan.reachedItemId + ' uid ' + e.message.repObj[0].uid);
 	    									 endPoint = e.message.repObj[0].uid;
-	    									 requestPackets(e);
+	    									 whBoard.bridge.requestPackets(e);
 	    									 
 	    								 }  
 									}
@@ -394,7 +396,7 @@ $.when(
 	    		
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('getMsPckt')){
-	    				sendPackets(e);
+	    				whBoard.bridge.sendPackets(e, whBoard.globalObj.chunk);
 	        		}
 	    		}
 	    	
@@ -424,7 +426,7 @@ $.when(
 	    				}else{
 							if(vcan.reachedItemId+ 1 == e.message.repObj[0].uid) {
 								for (var i=0; i<e.message.repObj.length; i++){
-	    							 replayObjs.push(e.message.repObj[i]);
+	    							 whBoard.globalObj.replayObjs.push(e.message.repObj[i]);
 	    						}
 	    					}
 
@@ -440,7 +442,7 @@ $.when(
 	        				}
     						
     						if(e.fromUser.userid != id){
-    							localStorage.repObjs = JSON.stringify(replayObjs);
+    							localStorage.repObjs = JSON.stringify(whBoard.globalObj.replayObjs);
     						}else{
     							if(typeof vcan.reachedItemId != 'undefined'){
     								vcan.renderedObjId = vcan.reachedItemId 
@@ -498,17 +500,17 @@ $.when(
 								whBoard.globalObj.myArr = [];
 							}
 	    					
-							replayObjs = replayObjs.concat(e.message.repObj);
+							whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(e.message.repObj);
 	    				
 	    					//TODO this should be removed later and above code should be enabled
 							// right now its doing sorting but above code should be enabled and object 
 							// should be stotred in sorted format
-	    					replayObjs = replayObjs.sort(function(a, b){
+	    					whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.sort(function(a, b){
 	    					    return a.uid - b.uid;
 	    					});
 	    					
 	    					if(e.fromUser.userid != id){
-    							localStorage.repObjs = JSON.stringify(replayObjs);
+    							localStorage.repObjs = JSON.stringify(whBoard.globalObj.replayObjs);
     						}
 	    					
 	    					if(e.fromUser.userid != id && (vcan.renderedObjId + 1 != e.message.repObj[0].uid)){
@@ -537,10 +539,7 @@ $.when(
 						}
 						localStorage.receivedPackets = whBoard.receivedPackets;
 					}
-	    			
-					
-					
-				}
+	    		}
 	    		
 
 	    		if(e.fromUser.userid != id){
@@ -557,53 +556,93 @@ $.when(
 
 	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
-					window.whBoard.vcan.main.replayObjs =  replayObjs;
+					window.whBoard.vcan.main.replayObjs =  whBoard.globalObj.replayObjs;
 					whBoard.utility.clearAll(false);
 					whBoard.toolInit('t_replay', 'fromFile');
 				}
     		}
     	});
   		
-  		vcan.makeDefaultValue = function (){
-  			whBoard.globalObj.myrepObj = [];
-			replayObjs = [];
-			
-			var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
-			var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-			var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
-			var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
-
-  			
-  			localStorage.clear();
-			if(teacherId){
-				localStorage.teacherId =  teacherId;
-			}
-			
-			if(orginalTeacherId){
-				localStorage.orginalTeacherId = orginalTeacherId;
-			}
-			
-			if(wbrtcMsg){
-				localStorage.wbrtcMsg = wbrtcMsg;
-			}
-			
-			if(canvasDrwMsg){
-				localStorage.canvasDrwMsg = canvasDrwMsg;
-			}
-		
-			
-			vcan.reachedItemId = 0;
-			vcan.renderedObjId = 0;
-			vcan.tempArr = [];
-			if(typeof vcan.objTxt != 'undefined'){
-				vcan.objTxt.removeTextNode();
-			}
-			
-			whBoard.uid  = 0;
-			if(typeof vcan.main.currentTransform != 'undefined'){
-				vcan.main.currentTransform = "";
-			}
-  		}
+//  		vcan.makeDefaultValue = function (){
+//  			whBoard.globalObj.myrepObj = [];
+//			whBoard.globalObj.replayObjs = [];
+//			
+//			var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
+//			var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
+//			var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
+//			var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
+//
+//  			
+//  			localStorage.clear();
+//			if(teacherId){
+//				localStorage.teacherId =  teacherId;
+//			}
+//			
+//			if(orginalTeacherId){
+//				localStorage.orginalTeacherId = orginalTeacherId;
+//			}
+//			
+//			if(wbrtcMsg){
+//				localStorage.wbrtcMsg = wbrtcMsg;
+//			}
+//			
+//			if(canvasDrwMsg){
+//				localStorage.canvasDrwMsg = canvasDrwMsg;
+//			}
+//		
+//			
+//			vcan.reachedItemId = 0;
+//			vcan.renderedObjId = 0;
+//			vcan.tempArr = [];
+//			if(typeof vcan.objTxt != 'undefined'){
+//				vcan.objTxt.removeTextNode();
+//			}
+//			
+//			whBoard.uid  = 0;
+//			if(typeof vcan.main.currentTransform != 'undefined'){
+//				vcan.main.currentTransform = "";
+//			}
+//  		}
+  		
+//  		vcan.makeDefaultValue = function (){
+//  			whBoard.globalObj.myrepObj = [];
+//			whBoard.globalObj.replayObjs = [];
+//			
+//			var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
+//			var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
+//			var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
+//			var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
+//
+//  			
+//  			localStorage.clear();
+//			if(teacherId){
+//				localStorage.teacherId =  teacherId;
+//			}
+//			
+//			if(orginalTeacherId){
+//				localStorage.orginalTeacherId = orginalTeacherId;
+//			}
+//			
+//			if(wbrtcMsg){
+//				localStorage.wbrtcMsg = wbrtcMsg;
+//			}
+//			
+//			if(canvasDrwMsg){
+//				localStorage.canvasDrwMsg = canvasDrwMsg;
+//			}
+//		
+//			vcan.reachedItemId = 0;
+//			vcan.renderedObjId = 0;
+//			vcan.tempArr = [];
+//			if(typeof vcan.objTxt != 'undefined'){
+//				vcan.objTxt.removeTextNode();
+//			}
+//			
+//			whBoard.uid  = 0;
+//			if(typeof vcan.main.currentTransform != 'undefined'){
+//				vcan.main.currentTransform = "";
+//			}
+//  		}
   		
   		//name of this function should be  change
 //  		whBoard.utility.makeCanvasDisable = function(){
@@ -621,7 +660,7 @@ $.when(
 //  		}
   		
   		
-  		
+  		/*
   		function requestPackets (e){
 			//more than one packets comes after connection on
 			if(e.message.repObj.length > 1){
@@ -664,6 +703,7 @@ $.when(
 			vm_chat.send({'repObj' : chunk, 'chunk' : true});
 			return;
   		}
+  		*/
   		
     	//TODO  this should be contain into text file
 //  		vcan.removeTextNode = function(){

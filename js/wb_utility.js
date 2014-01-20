@@ -497,12 +497,152 @@
 			},
 			
 			chkValueInLocalStorage : function(property){
-				if(typeof localStorage[property] != 'undefined'){
-					return localStorage[property]; 
+				if (localStorage.getItem(property) === null) {
+					return false; 
 				}else{
-					return false;
+					return localStorage[property]; 
 				}
+				
+				
+//				if(typeof localStorage[property] != 'undefined'){
+//					return localStorage[property]; 
+//				}else{
+//					return false;
+//				}
+			},
+			
+			uniqueArrOfObjsToOther : function (){
+				var tempRepObjs = "";
+				whBoard.globalObj.replayObjs = [];
+				for(var i=0; i<vcan.main.replayObjs.length; i++){
+					tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
+					whBoard.globalObj.replayObjs.push(tempRepObjs);
+				}
+			},
+			
+			uniqueArrOfObjsToSelf : function (){
+				vcan.main.replayObjs = [];
+				var tempRepObjs = "";
+				for(var i=0; i<whBoard.globalObj.replayObjs.length; i++){
+					tempRepObjs = vcan.extend({}, whBoard.globalObj.replayObjs[i]);
+					vcan.main.replayObjs.push(tempRepObjs);
+				}
+			},
+			
+			makeDefaultValue : function (){
+	  			whBoard.globalObj.myrepObj = [];
+				whBoard.globalObj.replayObjs = [];
+				
+				var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
+				var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
+				var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
+				var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
+
+	  			
+	  			localStorage.clear();
+				if(teacherId){
+					localStorage.teacherId =  teacherId;
+				}
+				
+				if(orginalTeacherId){
+					localStorage.orginalTeacherId = orginalTeacherId;
+				}
+				
+				if(wbrtcMsg){
+					localStorage.wbrtcMsg = wbrtcMsg;
+				}
+				
+				if(canvasDrwMsg){
+					localStorage.canvasDrwMsg = canvasDrwMsg;
+				}
+			
+				vcan.reachedItemId = 0;
+				vcan.renderedObjId = 0;
+				vcan.tempArr = [];
+				if(typeof vcan.objTxt != 'undefined'){
+					vcan.objTxt.removeTextNode();
+				}
+				
+				whBoard.uid  = 0;
+				if(typeof vcan.main.currentTransform != 'undefined'){
+					vcan.main.currentTransform = "";
+				}
+	  		}, 
+	  		
+	  		setOrginalTeacherContent : function (e){
+	  			window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+				localStorage.teacherId = e.message[0].userid;
+				window.whBoard.view.canvasDrawMsg('Canvas');
+				localStorage.canvasDrwMsg = true;
+				whBoard.createPacketContainer();
+				whBoard.createPacketInfoContainer();
+				whBoard.utility.initStoredPacketsNumbers();
+				localStorage.orginalTeacherId = e.message[0].userid;
+	  		},
+	  		
+	  		isSystemCompatible : function (){
+	  			if(window.whBoard.error.length > 0){
+	  				for(var i=0; i<window.whBoard.error.length; i++){
+	  					var error = window.whBoard.error[i];
+	  					if(error.hasOwnProperty('msg')){
+	  						whBoard.view.displayMessage(error.msg, error.id, error.className);
+	  					}
+	  				}
+	  				window.whBoard.error = [];
+	  			}
+	  		}, 
+	  		
+	  		initDefaultInfo : function (e, myVideo){
+				var clientNum = e.message.length;
+				  if(clientNum == 1){
+						if(!whBoard.utility.checkWebRtcConnected()){
+							vcan.vid = myVideo.init();
+							vcan.teacher = true;
+							if(typeof localStorage.teacherId == 'undefined'){
+								whBoard.utility.setOrginalTeacherContent(e);
+								
+//								window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+//								localStorage.teacherId = e.message[0].userid;
+//								window.whBoard.view.canvasDrawMsg('Canvas');
+//								localStorage.canvasDrwMsg = true;
+//								whBoard.createPacketContainer();
+//								whBoard.createPacketInfoContainer();
+//								whBoard.utility.initStoredPacketsNumbers();
+//								localStorage.orginalTeacherId = e.message[0].userid;
+							}
+							
+							myVideo.isInitiator = true;
+							vcan.oneExecuted = false;
+							
+						}
+					//browser B
+					}else if(clientNum == 2 && e.newuser == null){
+						if(!whBoard.utility.checkWebRtcConnected()){
+							vcan.studentId = id;
+							localStorage.studentId = id;
+							vm_chat.send({'isChannelReady':true});
+							vcan.oneExecuted = false;
+		  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
+		  				}
+		  			}
+//					else if(clientNum > 2){
+//		  				if(!vcan.chkAlreadyConnected()){
+//			  				var currBrowser =  e.message[e.message.length-1].userid; 
+//			  				var peerBrowser =  e.message[0].userid;
+//			  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
+//		  				}
+//		  			}
+			},
+			
+			checkWebRtcConnected : function(){
+				if(typeof cthis != 'undefined'){
+					if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
+						return true;
+					}
+				}
+				return false;
 			}
+
 		};
 	}
 )(window);

@@ -58,9 +58,9 @@
        <script type="text/javascript" src="js/keyboard.js"></script>
        
        <script type="text/javascript" src="js/lib/adapter.js"></script> 
+       <script type="text/javascript" src="js/video.js"></script>  
        
-  	   <script type="text/javascript" src="js/video.js"></script>  
-      
+       <script type="text/javascript" src="js/bridge.js"></script>
        <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 	  
 		   

@@ -30,6 +30,7 @@
 			lang : {},
 			system: {},
 			globalObj : {}, // For store the global oject
+			bridge : {},
 			
 			/**
 			 * This function basically does create the canvas on which 
@@ -472,24 +473,10 @@
 				}
 				if(cmd == 't_clearall'){
 						whBoard.utility.t_clearallInit();
+						whBoard.utility.makeDefaultValue();
 						/*
-						if(typeof localStorage.teacherId != 'undefined'){
-							var tempTeacherHolder = localStorage.teacherId;
-						}
-			  			
-			  			if(typeof localStorage.orginalTeacherId != 'undefined'){
-							var temporginalTeacherHolder = localStorage.orginalTeacherId;
-						}
-			  			
-						localStorage.clear();
-						if(typeof tempTeacherHolder != 'undefined'){
-							localStorage.teacherId =  tempTeacherHolder;
-						}
-						
-						if(typeof temporginalTeacherHolder != 'undefined'){
-							localStorage.orginalTeacherId = temporginalTeacherHolder;
-						}
-						*/
+						whBoard.globalObj.myrepObj = [];
+						whBoard.globalObj.replayObjs = [];
 						
 						var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
 						var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
@@ -515,7 +502,7 @@
 						}
 						
 						//localStorage.clear();
-						vcan.lastId = 0;
+						vcan.reachedItemId = 0;
 						vcan.renderedObjId = 0;
 						vcan.tempArr = [];
 						whBoard.uid = 0;
@@ -526,8 +513,10 @@
 						//vcan.updateRcvdInformation(e.message);
 						if(typeof vcan.main.currentTransform != 'undefined'){
 							vcan.main.currentTransform = "";
-						}
+						} */
+						
 						vm_chat.send({'clearAll': true});
+					
 				}
 				
 				if(cmd == 't_assign'){
