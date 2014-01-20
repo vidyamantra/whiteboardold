@@ -125,8 +125,9 @@
 					}
 				//	document.getElementById('containerWb').appendChild(cmdToolsWrapper);
 					
-					whBoard.createDiv('t_line', 'line', cmdToolsWrapper);
+					
 					whBoard.createDiv('t_rectangle', 'rectangle', cmdToolsWrapper);
+					whBoard.createDiv('t_line', 'line', cmdToolsWrapper);
 					whBoard.createDiv('t_freeDrawing', 'freeDrawing', cmdToolsWrapper);
 					whBoard.createDiv('t_oval', 'oval', cmdToolsWrapper);
 					whBoard.createDiv('t_triangle', 'triangle', cmdToolsWrapper);
