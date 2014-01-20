@@ -47,37 +47,6 @@ $.when(
         //ToDo:room name contain licencekey,couse id and activity id   
         
 	$(document).ready(function(){
-//		whBoard.utility.updateRcvdInformation =  function (msg){
-//			var receivedMsg = document.getElementById('rcvdMsgInfo');
-//			if(receivedMsg != null){
-//				var compMsg = "";
-//				for(var key in msg){
-//					compMsg += key +" : " + msg[key] + " <br />";
-//				}
-//				receivedMsg.innerHTML = compMsg;
-//			}
-//		}
-	
-		/*
-  		whBoard.utility.chkValueInLocalStorage = function (property){
-			if(typeof localStorage[property] != 'undefined'){
-				return localStorage[property]; 
-			}else{
-				return false;
-			}
-		}*/
-  		
-		
-//		if(window.whBoard.error.length > 0){
-//			for(var i=0; i<window.whBoard.error.length; i++){
-//				var error = window.whBoard.error[i];
-//				if(error.hasOwnProperty('msg')){
-//					whBoard.view.displayMessage(error.msg, error.id, error.className);
-//				}
-//			}
-//			window.whBoard.error = [];
-//		}
-		
 		whBoard.utility.isSystemCompatible();
 		if(window.whBoard.error.length > 2){
 			window.whBoard.error = [];
@@ -108,11 +77,6 @@ $.when(
     		whBoard.view.disappearBox('Canvas');
     		whBoard.view.disappearBox('drawArea');
     	});
-//    	window.addEventListener('click', function (){
-//    		whBoard.view.disappearBox('WebRtc')
-//    		whBoard.view.disappearBox('Canvas');
-//    		whBoard.view.disappearBox('drawArea');
-//    	}); 
     	
     	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
     	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
@@ -150,17 +114,6 @@ $.when(
                 'fastchatroom_name':'room1'});
         }
        	
-    	
-//		whBoard.utility.packetQueue = function (result){
-//			if(vcan.tempArr.length > 0){
-//				window.whBoard.vcan.main.replayObjs = vcan.tempArr;
-//				vcan.tempArr = [];
-//				whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
-//			}else{
-//				return;
-//			}
-//		}
-    		
     	if(typeof(Storage)!=="undefined"){
 			if(localStorage.repObjs){
 				var allRepObjs = JSON.parse(localStorage.repObjs);
@@ -197,80 +150,6 @@ $.when(
 		var myVideo = new window.whBoard.vcan.videoChat();
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
-		
-		//checkWebRtcConnected();
-//		vcan.chkAlreadyConnected = function(){
-//			if(typeof cthis != 'undefined'){
-//				if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
-//					return true;
-//				}
-//			}
-//			return false;
-//		}
-		
-//		vcan.initDefaultInfo = function (e){
-//			var clientNum = e.message.length;
-//			  if(clientNum == 1){
-//					if(!vcan.chkAlreadyConnected()){
-//						vcan.vid = myVideo.init();
-//						vcan.teacher = true;
-//						if(typeof localStorage.teacherId == 'undefined'){
-//							whBoard.utility.setOrginalTeacherContent(e);
-//							
-////							window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-////							localStorage.teacherId = e.message[0].userid;
-////							window.whBoard.view.canvasDrawMsg('Canvas');
-////							localStorage.canvasDrwMsg = true;
-////							whBoard.createPacketContainer();
-////							whBoard.createPacketInfoContainer();
-////							whBoard.utility.initStoredPacketsNumbers();
-////							localStorage.orginalTeacherId = e.message[0].userid;
-//						}
-//						
-//						myVideo.isInitiator = true;
-//						vcan.oneExecuted = false;
-//						
-//					}
-//				//browser B
-//				}else if(clientNum == 2 && e.newuser == null){
-//					if(!vcan.chkAlreadyConnected()){
-//						vcan.studentId = id;
-//						localStorage.studentId = id;
-//						vm_chat.send({'isChannelReady':true});
-//						vcan.oneExecuted = false;
-//	  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
-//	  					
-//	  					
-//					}
-//	  			}
-////				else if(clientNum > 2){
-////	  				if(!vcan.chkAlreadyConnected()){
-////		  				var currBrowser =  e.message[e.message.length-1].userid; 
-////		  				var peerBrowser =  e.message[0].userid;
-////		  				vm_chat.send({'createPeerObj': [currBrowser, peerBrowser]});
-////	  				}
-////	  			}
-//		}
-		
-		//this function works when teacher assign the  teacher role to student
-//		whBoard.uniqueArrOfObjsToOther = function (){
-//			var tempRepObjs = "";
-//			whBoard.globalObj.replayObjs = [];
-//			for(var i=0; i<vcan.main.replayObjs.length; i++){
-//				tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-//				whBoard.globalObj.replayObjs.push(tempRepObjs);
-//			}
-//		}
-		
-		//this function works when teacher assign the  teacher role to student
-//		whBoard.uniqueArrOfObjsToSelf = function (){
-//			vcan.main.replayObjs = [];
-//			var tempRepObjs = "";
-//			for(var i=0; i<whBoard.globalObj.replayObjs.length; i++){
-//				tempRepObjs = vcan.extend({}, whBoard.globalObj.replayObjs[i]);
-//				vcan.main.replayObjs.push(tempRepObjs);
-//			}
-//		}
 		
 		$(document).on("member_added", function(e){
 				//myVideo.id = id;
@@ -579,156 +458,6 @@ $.when(
 				}
     		}
     	});
-  		
-//  		vcan.makeDefaultValue = function (){
-//  			whBoard.globalObj.myrepObj = [];
-//			whBoard.globalObj.replayObjs = [];
-//			
-//			var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
-//			var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-//			var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
-//			var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
-//
-//  			
-//  			localStorage.clear();
-//			if(teacherId){
-//				localStorage.teacherId =  teacherId;
-//			}
-//			
-//			if(orginalTeacherId){
-//				localStorage.orginalTeacherId = orginalTeacherId;
-//			}
-//			
-//			if(wbrtcMsg){
-//				localStorage.wbrtcMsg = wbrtcMsg;
-//			}
-//			
-//			if(canvasDrwMsg){
-//				localStorage.canvasDrwMsg = canvasDrwMsg;
-//			}
-//		
-//			
-//			vcan.reachedItemId = 0;
-//			vcan.renderedObjId = 0;
-//			vcan.tempArr = [];
-//			if(typeof vcan.objTxt != 'undefined'){
-//				vcan.objTxt.removeTextNode();
-//			}
-//			
-//			whBoard.uid  = 0;
-//			if(typeof vcan.main.currentTransform != 'undefined'){
-//				vcan.main.currentTransform = "";
-//			}
-//  		}
-  		
-//  		vcan.makeDefaultValue = function (){
-//  			whBoard.globalObj.myrepObj = [];
-//			whBoard.globalObj.replayObjs = [];
-//			
-//			var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
-//			var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-//			var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
-//			var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
-//
-//  			
-//  			localStorage.clear();
-//			if(teacherId){
-//				localStorage.teacherId =  teacherId;
-//			}
-//			
-//			if(orginalTeacherId){
-//				localStorage.orginalTeacherId = orginalTeacherId;
-//			}
-//			
-//			if(wbrtcMsg){
-//				localStorage.wbrtcMsg = wbrtcMsg;
-//			}
-//			
-//			if(canvasDrwMsg){
-//				localStorage.canvasDrwMsg = canvasDrwMsg;
-//			}
-//		
-//			vcan.reachedItemId = 0;
-//			vcan.renderedObjId = 0;
-//			vcan.tempArr = [];
-//			if(typeof vcan.objTxt != 'undefined'){
-//				vcan.objTxt.removeTextNode();
-//			}
-//			
-//			whBoard.uid  = 0;
-//			if(typeof vcan.main.currentTransform != 'undefined'){
-//				vcan.main.currentTransform = "";
-//			}
-//  		}
-  		
-  		//name of this function should be  change
-//  		whBoard.utility.makeCanvasDisable = function(){
-//  				// TODO this could be tricky as it's best way to do
-//				// is remove the attached handler
-//				var canvasElement = vcan.main.canvas;
-//				canvasElement.style.position = 'relative';
-//				canvasElement.style.zIndex = "-1000";  
-//		}
-//  		
-//  		whBoard.utility.makeCanvasEnable = function(){
-//  			var canvasElement = vcan.main.canvas;
-//  			canvasElement.style.position = 'none';
-//			canvasElement.style.zIndex = "0";
-//  		}
-  		
-  		
-  		/*
-  		function requestPackets (e){
-			//more than one packets comes after connection on
-			if(e.message.repObj.length > 1){
-					////alert("suman bogati ggg");
-					whBoard.globalObj.myArr = e.message.repObj;
-			}
-  			whBoard.sentReq = true;
-			var sp = vcan.reachedItemId;
-			var ep = e.message.repObj[0].uid;
-				console.log('sp ' + sp + ' ' + ' ep ' + ep);
-				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-				return;
-  		}
-  		
-  		function makeQueue(e){
-			if(vcan.reachedItemId != vcan.renderedObjId){
-				for(var i=0; i<e.message.repObj.length; i++){
-					vcan.tempArr.push(e.message.repObj[i]);
-				}
-			}
-		}
-  		
-  		function sendPackets(e){
-			if(e.message.getMsPckt[0] == 0){
-				var i = -1;
-			}else{
-				var fs = e.message.getMsPckt[0].uid;
-				for(var i=0; i<whBoard.globalObj.myrepObj.length; i++){
-    				if(e.message.getMsPckt[0] == whBoard.globalObj.myrepObj[i].uid){
-    					fs =  e.message.getMsPckt[0];
-    					break;
-    				}
-				}
-			}
-			
-			for(var j=i+1; j<e.message.getMsPckt[1]; j++){
-				chunk.push(whBoard.globalObj.myrepObj[j]);
-			}
-			console.log('fid' + chunk[0].uid + ' eid' + chunk[chunk.length-1].uid);
-			vm_chat.send({'repObj' : chunk, 'chunk' : true});
-			return;
-  		}
-  		*/
-  		
-    	//TODO  this should be contain into text file
-//  		vcan.removeTextNode = function(){
-//  			var allTextContainer = document.getElementsByClassName('textBoxContainer');
-//  			for(var i=0; i<allTextContainer.length; i++){
-//  				allTextContainer[i].parentNode.removeChild(allTextContainer[i]);
-//  			}
-//  		}
   		
    });
 });

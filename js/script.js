@@ -132,7 +132,7 @@
 					whBoard.createDiv('t_oval', 'oval', cmdToolsWrapper);
 					whBoard.createDiv('t_triangle', 'triangle', cmdToolsWrapper);
 					whBoard.createDiv('t_text', 'text', cmdToolsWrapper);
-					whBoard.createDiv('t_replay', 'replay', cmdToolsWrapper);
+					//whBoard.createDiv('t_replay', 'replay', cmdToolsWrapper);
 					whBoard.createDiv('t_activeall', 'activeAll', cmdToolsWrapper);
 					whBoard.createDiv('t_clearall', 'clearAll', cmdToolsWrapper);
 					
