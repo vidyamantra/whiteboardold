@@ -149,13 +149,13 @@ body {
 }
 
 #localVideo{
-	border:1px solid #b9b9b9;
+	border:1px solid #CCCCCC;
 	width:30%;
 	
 }
 
 #remoteVideo{
-	border:1px solid #b9b9b9;
+	border:1px solid #CCCCCC;
 	width:30%;
 }
 
@@ -216,7 +216,7 @@ body {
 
 #chormeWebrtcCont p{
 	/*margin-top:5px;*/
-	padding:10px;	
+	padding:12px;	
 	z-index: 100;
 }
 
@@ -368,7 +368,7 @@ a, canavas{
 	padding-top: 8px;	
 	padding-bottom: 0;
 	padding-left: 4%;
-	border-bottom: #aaaaaa 1px solid;
+	border-bottom: #ccc 1px solid;
 }
 
 #commandToolsWrapper #t_line a, #commandToolsWrapper #t_rectangle a, #commandToolsWrapper #t_freeDrawing a, #commandToolsWrapper #t_oval a, #commandToolsWrapper #t_triangle a, #commandToolsWrapper #t_text a, #commandToolsWrapper #t_replay a, #commandToolsWrapper #t_activeall a, #commandToolsWrapper #t_clearall a, #commandToolsWrapper #t_connectionoff a,  #commandToolsWrapper #t_assign a{
@@ -411,8 +411,8 @@ a, canavas{
 	padding-left: 50px;
 	padding-top: 6px;
 	padding-bottom: 6px;
-	border-top:#aaaaaa 1px solid;
-	border-bottom: #aaaaaa 1px solid;
+	border-top:#ccc 1px solid;
+	border-bottom: #ccc 1px solid;
 	font-family: Verdana;
 	color:#595a5d;
 	font-weight: 500;
