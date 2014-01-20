@@ -166,10 +166,14 @@
 					
 					var imgTag = document.createElement('img');
 					imgTag.alt = whBoard.lang.getString(text);
-					imgTag.title = whBoard.lang.getString(text);
+					//imgTag.title = whBoard.lang.getString(text);
 					imgTag.src = 'images/'+text+".png";
+					ancTag.appendChild(imgTag);
 					
-					ancTag.appendChild(imgTag); 
+					ancTag.title = text;
+					ancTag.className = 'tooltip';
+					
+					
 					//ancTag.innerHTML = text;
 //					ancTag.title = text;
 //					ancTag.innerHTML = text;
@@ -304,7 +308,7 @@
 				//canvas.height = (window.innerHeight * 80) /100;
 				//window.vcan.renderAll();
 				
-				canvas.width = 900;
+				canvas.width = 930;
 				canvas.height = 700;
 			},
 			
@@ -472,6 +476,10 @@
 					
 				}
 				if(cmd == 't_clearall'){
+						var userInput = confirm(whBoard.lang.getString('clearAllWarnMessage'));
+						if(!userInput){
+							return ;
+						}	
 						whBoard.utility.t_clearallInit();
 						whBoard.utility.makeDefaultValue();
 						/*

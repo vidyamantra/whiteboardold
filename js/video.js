@@ -34,8 +34,14 @@
 //			    			console.log('cna ' + ' ' + cthis.cn);
 //		    			}
 		    			
+		    			var headingTag = document.createElement('h4');
+		    				headingTag.id = 'videoHeading';
+		    				headingTag.innerHTML  = "User Video";
+		    				var beforeAppend = document.getElementById('localVideo');
+		    				beforeAppend.parentNode.insertBefore(headingTag, beforeAppend);
+		    			
 		    			vcan.oneExecuted = true;
-		    		
+		    			
 			    		vcan.videoChat.localVideo = document.querySelector('#localVideo');
 			    		vcan.videoChat.remoteVideo = document.querySelector('#remoteVideo');
 			    		vcan.videoChat.remoteVideo2 = document.querySelector('#remoteVideo2');
@@ -81,7 +87,6 @@
 								whBoard.view.multiMediaMsg('WebRtc');
 								localStorage.wbrtcMsg = true;
 							}
-							
 						}
 						
 						console.log('Getting user media with constraints', this.constraints);

@@ -588,8 +588,13 @@
 	  						whBoard.view.displayMessage(error.msg, error.id, error.className);
 	  					}
 	  				}
-	  				window.whBoard.error = [];
+	  				
+	  				//window.whBoard.error = [];
+	  				
 	  			}
+	  			
+	  			
+	  			
 	  		}, 
 	  		
 	  		initDefaultInfo : function (e, myVideo){

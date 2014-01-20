@@ -17,6 +17,12 @@
 		whBoard.createPacketContainer = function (){
 			//Creating Column Two	
 			var packetContainer =  document.getElementById('packetContainer');
+			
+			var headingTag = document.createElement("h4");
+				headingTag.id = 'dataInfoHeading';
+				headingTag.innerHTML = whBoard.lang.getString('dataDetails'); 
+				packetContainer.appendChild(headingTag); 
+			
 			var labelDiv = whBoard.createPacketContDiv("dataInformation");
 				packetContainer.appendChild(labelDiv);
 			

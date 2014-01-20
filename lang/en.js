@@ -34,6 +34,7 @@
 			'sentPackets' : 'Sent Packets',
 			'receviedPackets' : 'Received Pacekts',
 			'total' : 'Total',
+			'dataDetails' : 'Data Details', 
 			'sentMessageInfo' : 'Sent Message Information',
 			'receivedMessageInfo' : 'Received Message information', 
 			'wbrtcMsgFireFox' : 'You can click on  Share Selected Devices' + 
@@ -41,7 +42,9 @@
 			'wbrtcMsgChrome' : 'You can click on deny button for not sharing your microphone and camera.'+ 
 				'while click on allow button to share your microphone and camera with Others.',
 			'canvasDrawMsg' : 'You can click on any tool for draw antyhing ' + 
-			'with mouse click, mouse move and mouse up into Draw Area'
+			'with mouse click, mouse move and mouse up into Draw Area',
+			'clearAllWarnMessage' : "Would you like to clear all What you have drawn, " +
+			"Once you clear the whiteboard, you will not get those drawn objects ever."
 			
 		}; 
 	}

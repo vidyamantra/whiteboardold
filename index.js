@@ -79,6 +79,12 @@ $.when(
 //		}
 		
 		whBoard.utility.isSystemCompatible();
+		if(window.whBoard.error.length > 2){
+			window.whBoard.error = [];
+			return;
+		}
+		
+		
 		
 		whBoard.globalObj.myrepObj = [];
     	whBoard.globalObj.replayObjs = []; // this should contain either into whiteboard or into van object
@@ -97,6 +103,11 @@ $.when(
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
     	
+    	window.addEventListener('click', function (){
+    		whBoard.view.disappearBox('WebRtc')
+    		whBoard.view.disappearBox('Canvas');
+    		whBoard.view.disappearBox('drawArea');
+    	});
 //    	window.addEventListener('click', function (){
 //    		whBoard.view.disappearBox('WebRtc')
 //    		whBoard.view.disappearBox('Canvas');
