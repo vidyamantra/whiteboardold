@@ -170,7 +170,8 @@
 					imgTag.src = 'images/'+text+".png";
 					ancTag.appendChild(imgTag);
 					
-					ancTag.title = text;
+					ancTag.title = '';
+					ancTag.dataset.title = text;
 					ancTag.className = 'tooltip';
 					
 					
