@@ -211,7 +211,7 @@ body {
 	background-repeat : no-repeat;
 	background-position : right top;
 */
-	height: 100px;	
+	height: 15px;	
 }
 
 #chormeWebrtcCont p{
@@ -223,7 +223,7 @@ body {
 #fireFoxWebrtcCont{
 	position : absolute;
 	left: 14%;
-	top : 21%;
+	top : 17%;
 }
 
 /*
@@ -304,7 +304,6 @@ a[title]:hover:after {
 	padding:10px;
 	margin-left:10%;
 	margin-top:2%;
-	height:100px;
 }
 
 
@@ -343,9 +342,6 @@ a, canavas{
   background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
 }
 		
-#canvasWrapper canvas{
-	height: 600px;
-	}
 
 #canvas{
 	border:none;
@@ -389,7 +385,6 @@ a, canavas{
 
 
 #canvasWrapper #canvas{
-	width: 100% !important; 
 	outline: none;
 }
 
@@ -480,7 +475,7 @@ a, canavas{
 .msgBoxWebRtc p:before, .msgBoxCanvas p:before { border-color: rgba(170, 170, 170, 0); border-bottom-color: #aaaaaa; border-width: 12px; margin-left: -11px; }
 
 
-.chormeWebrtcCont p:after, .chormeWebrtcCont p:before{left: 88%;}
+#chormeWebrtcCont p:after, #chormeWebrtcCont p:before{left: 93%;}
 
 
 .tooltip{
@@ -493,7 +488,7 @@ a, canavas{
 	background-color: #fff !important;
     border-radius: 0px !important;
     bottom: 26px;
-    content: attr(title)  !important;
+    content: attr(data-title)  !important;
     left: 20%  !important;
     padding: 5px 15px;
     position: absolute  !important;
@@ -535,6 +530,11 @@ a, canavas{
 
 #receivedPacketsLabel, #receivePackPsCont, #sentPacketsLabel, #sentPacketsLabel, #sendPackPsCont, #blankDiv, #perSecData{border-bottom:#aaa 1px solid;}
 
+
+#errorWebSocket, #errorWebRtc, #errorCanvas{background-color: #F2DEDE; border-color: #FDB9C3; color: #B94A48; font-size: 14px; border-radius: 5px; border-width:1px;}
+
+#errorWebSocketPara a, #errorWebRtcPara a, #errorCanvasPara a{color:#B94A48; font-weight: 600; font-size: 13px; text-decoration:none;}
+ 
 
 
 
