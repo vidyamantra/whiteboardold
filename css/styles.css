@@ -134,7 +134,7 @@ body {
 
 
 #videos {
-	width:100%;
+	width:930px;
 	margin-top:20px;
 	padding:15px;
 	clear:both;
@@ -171,16 +171,13 @@ body {
 	float:left;
 }
 #commandToolsWrapper{
-		width:96%;
+ 	width:893px;
 }
 
 #conControler{
 	clear:both;
 }
 
-#vcanvas {
-	position : absolute;
-}
 
 #containerWb{
 	/*
@@ -198,6 +195,9 @@ body {
 	padding:5px;
 }
 
+.msgBoxCanvas p {
+	margin-top: 65px;
+}
 
 #chormeWebrtcCont{
 	position : absolute;
@@ -217,6 +217,7 @@ body {
 #chormeWebrtcCont p{
 	/*margin-top:5px;*/
 	padding:10px;	
+	z-index: 100;
 }
 
 
@@ -224,6 +225,7 @@ body {
 	position : absolute;
 	left: 14%;
 	top : 17%;
+	z-index: 100;
 }
 
 /*
@@ -254,10 +256,10 @@ body {
 
 
 #canvasDrawMsgContFirefox{
-	position : absolute;
-	bottom:666px;
+	position : relative;
+	bottom:752px;
 	left : 460px;
-	top:67px;
+	z-index: 100;
 }
 
 
@@ -348,7 +350,10 @@ a, canavas{
 	}
 
 #vcanvas{
-	position: relative;	
+
+	width: 930px;
+	border-left:#aaa 1px solid;
+	border-right:#aaa 1px solid;
 	}
 
 #commandToolsWrapper{
@@ -388,10 +393,6 @@ a, canavas{
 	outline: none;
 }
 
-#canvasWrapper{
-	width: 100%;
-}
-
 #t_assign.controlCmd{
 	margin-left: 80%;
 }
@@ -428,7 +429,7 @@ a, canavas{
 
 #localVideo, #remoteVideo {
 	padding: 4px;
-    width: 19%;
+    width: 25%;
 }
 
 #videos #remoteVideo{
@@ -500,22 +501,9 @@ a, canavas{
     border:#ccc 1px solid !important;
     font-size: 12px;
     font-family: "Verdana", sans-serif;
-
+    border-radius: 3px !important;
 }
 
-
-.tooltip:hover:before{
-    border: solid  !important;
-    border-color: #333 transparent  !important;
-    border-width: 6px 6px 0 6px  !important;
-    bottom: 20px  !important;
-    content: ""  !important;
-    left: 50%  !important;
-    position: absolute  !important;
-    z-index: 99  !important;
-    height: 50px  !important;
-    color:#fff  !important;
-}
 
 
 /* HASAN Data Details css End */
@@ -534,8 +522,54 @@ a, canavas{
 #errorWebSocket, #errorWebRtc, #errorCanvas{background-color: #F2DEDE; border-color: #FDB9C3; color: #B94A48; font-size: 14px; border-radius: 5px; border-width:1px;}
 
 #errorWebSocketPara a, #errorWebRtcPara a, #errorCanvasPara a{color:#B94A48; font-weight: 600; font-size: 13px; text-decoration:none;}
+
+#vcanvas.student #containerWb{
+	background: #f9f9f9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f9f9f9 0%, #f0f0f0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#f0f0f0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f9f9f9 0%,#f0f0f0 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
+	border-bottom: #aaa 1px solid;
+	padding-top: 12px;
+}
  
 
 
 
 /* HASAN CSS END HERE */
+
+
+#topContainer{
+	height:200px;
+}
+
+#leftContainer{
+	width:200px;
+	float:left;
+}
+
+#vcanvas {
+	float:left;
+	border:2px solid #ddd;
+}
+
+
+#packetContainer{
+	width:600px;
+}
+
+
+#informationCont{
+	float:left;
+}
+
+#dataInfoHeading{
+	width:880px;
+}
+
+#informationCont{
+	margin-top:50px;
+}

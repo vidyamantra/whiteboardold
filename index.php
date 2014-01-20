@@ -67,6 +67,12 @@
   </head>
   
   <body>
+<!--
+  	<div id="topContainer">Top Container</div>
+  	<div id="leftContainer">This is my left container</div>
+-->
+  	
+  	
  	<div id="vcanvas">
 	<!--   	
  	<div id="myExample">
