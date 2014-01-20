@@ -31,7 +31,7 @@
 						this.mdTime = [];
 						
 						if(obj.borderColor ==  undefined){
-							this.freeDrawingColor = "#000";
+							this.freeDrawingColor = "#000000";
 						}else{
 							this.freeDrawingColor = obj.borderColor;
 						}

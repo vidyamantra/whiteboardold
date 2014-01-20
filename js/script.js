@@ -575,7 +575,7 @@
 				
 				if(cmd == 't_freeDrawing'){
 					//NOTE:- this is added during the UNIT testing
-					var borderColor = "#00000";
+					var borderColor = "#424240";
 					var linWidth = "3";
 					whBoard.obj.freeDrawObj =  new whBoard.readyFreeHandObj(borderColor, linWidth);
 					whBoard.obj.freeDrawObj.init();

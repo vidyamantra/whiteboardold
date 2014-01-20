@@ -117,8 +117,14 @@ $.when(
     	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
     	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
     	
+    	
+    	
     	if(!storageHasTeacher && !storageHasReclaim){
-    		whBoard.utility.removeToolBox(); 
+    		whBoard.utility.removeToolBox();
+    		document.getElementById('vcanvas').className = 'student';
+		}else{
+    		document.getElementById('vcanvas').className = 'teacher';
+
 		}
     	
     	if(storageHasReclaim){
