@@ -27,6 +27,7 @@
 				packetContainer.appendChild(labelDiv);
 			
 			var blankDiv = whBoard.createPacketContDiv("blankDiv");
+				blankDiv.innerHTML ="&nbsp;";
 				labelDiv.appendChild(blankDiv);
 				
 			var perSecLabel = whBoard.createPacketContDiv("perSecData");
