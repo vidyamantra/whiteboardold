@@ -74,17 +74,19 @@
  	</div>
 	-->
 	    <div id="containerWb">
-	  
+	    
+	  <div class="clear"></div>
 	    </div>	
 	    
 	    <div id='videos'>
+	    <h4>Users Video</h4>
 	    		<video id='localVideo' autoplay></video>
 	    		<video id='remoteVideo' class="remoteVideo" autoplay></video>
 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    </div>
 	    
 	    <div id="packetContainer">
-	    		
+	    		 <h4>Data Details</h4>
 	    </div>
 	    
 	    <!-- 
@@ -94,6 +96,7 @@
 	    </div>
 	     -->
 	    <div id="informationCont">
+	    	<h4>Data Details</h4>
 	    	<!-- 
 	    	<label>Sent Msg information</label>
 		    <div id="sentMsgInfo">

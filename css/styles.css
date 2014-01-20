@@ -1,5 +1,6 @@
+
  * { margin:0; padding:0; } 
-html, body { width:100%; height:100%; }
+html, body { width:100%; height:100%; font-family: "Verdana", sans-serif;}
 
 body {
 	margin:0;
@@ -9,7 +10,6 @@ body {
 	float:left;
 	width:200px;
 	/* margin-top:50px; */
-	margin-left: 17px;
 	
 	/* width: 12%; */
 	width: 140px;
@@ -28,8 +28,7 @@ body {
 	/* border:1px solid #ddd; */
 	margin:0;
 	padding:0;
-	margin-left:45px;
-	margin-top:50px;
+	margin-top:0px;
 	/*
 	margin-left:55px;
 	margin-top:60px
@@ -135,7 +134,7 @@ body {
 
 
 #videos {
-	width:90%;
+	width:100%;
 	margin-top:20px;
 	padding:15px;
 	clear:both;
@@ -150,13 +149,13 @@ body {
 }
 
 #localVideo{
-	border:3px solid navy;
+	border:1px solid #b9b9b9;
 	width:30%;
 	
 }
 
 #remoteVideo{
-	border:3px solid navy;
+	border:1px solid #b9b9b9;
 	width:30%;
 }
 
@@ -167,11 +166,12 @@ body {
 }
 
 #commandToolsWrapper a{
-	margin-left:18px;
+	padding-left:14px;
+	padding-right:14px;
 	float:left;
 }
 #commandToolsWrapper{
-		width:100%;
+		width:96%;
 }
 
 #conControler{
@@ -260,7 +260,7 @@ body {
 }
 
 #containerWb{
-	margin-top:20px;
+	/* margin-top:20px; */
 }
 
 #canvasDrawArea{
@@ -297,3 +297,174 @@ a[title]:hover:after {
 	margin-top:2%;
 	height:100px;
 }
+
+
+
+
+/* HASAN CSS START HERE */
+a, canavas{
+	outline: none;
+}
+
+.clear{
+	clear: both;
+}
+
+
+#commandToolsWrapper #t_line a img[title]:hover:after {
+  content: attr(title);
+  padding: 4px 8px;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  white-space: nowrap;
+  z-index: 20px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0px 0px 4px #222;
+  -webkit-box-shadow: 0px 0px 4px #222;
+  box-shadow: 0px 0px 4px #222;
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+}
+		
+#canvasWrapper canvas{
+	height: 600px;
+	}
+
+#canvas{
+	border:none;
+	}
+
+#vcanvas{
+	position: relative;	
+	}
+
+#commandToolsWrapper{
+	background: #f3f3f3; /* Old browsers */
+	background: -moz-linear-gradient(top, #f3f3f3 0%, #e7e7e7 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#e7e7e7)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #f3f3f3 0%,#e7e7e7 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #f3f3f3 0%,#e7e7e7 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #f3f3f3 0%,#e7e7e7 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #f3f3f3 0%,#e7e7e7 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#e7e7e7',GradientType=0 ); /* IE6-9 */
+	padding-top: 8px;	
+	padding-bottom: 0;
+	padding-left: 4%;
+	border-bottom: #aaaaaa 1px solid;
+}
+
+#commandToolsWrapper #t_line a, #commandToolsWrapper #t_rectangle a, #commandToolsWrapper #t_freeDrawing a, #commandToolsWrapper #t_oval a, #commandToolsWrapper #t_triangle a, #commandToolsWrapper #t_text a, #commandToolsWrapper #t_replay a, #commandToolsWrapper #t_activeall a, #commandToolsWrapper #t_clearall a, #commandToolsWrapper #t_connectionoff a,  #commandToolsWrapper #t_assign a{
+	
+	background-image: url(../images/border-img.png);
+	background-position: right center;
+	background-repeat: no-repeat;
+	
+		
+}
+
+#commandToolsWrapper #t_connectionoff a, #commandToolsWrapper #t_connectionon a{
+	padding-top: 5px;
+}
+
+#commandToolsWrapper #t_assign a{
+ 	padding-top: 2px;
+}
+
+
+#canvasWrapper #canvas{
+	width: 100% !important; 
+	outline: none;
+}
+
+#canvasWrapper{
+	width: 100%;
+}
+
+#t_assign.controlCmd{
+	margin-left: 80%;
+}
+
+/* HASAN Video css */
+
+#videos h4, #packetContainer h4, #informationCont h4{
+	background: #f9f9f9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f9f9f9 0%, #f0f0f0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#f0f0f0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f9f9f9 0%,#f0f0f0 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
+	padding-left: 50px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	border-top:#aaaaaa 1px solid;
+	border-bottom: #aaaaaa 1px solid;
+	font-family: Verdana;
+	color:#595a5d;
+	font-weight: 500;
+}
+
+#packetContainer h4, #informationCont h4{
+	margin-top: 5px;
+}
+
+#videos{
+	margin: 0px;
+	padding: 0px;	
+}
+
+#localVideo, #remoteVideo {
+	padding: 4px;
+    width: 19%;
+}
+
+#videos #remoteVideo{
+	margin-top: 10px; 
+	margin-left: 3%;
+}
+
+#videos #localVideo{
+	margin-left: 25%;
+	margin-top: 8px;
+}
+
+.selfClear:after {
+	content: ".";
+	display: block;
+	height: 0px;
+	clear: both;
+	visibility: hidden;
+}	
+.selfClear {
+    display: inline-block;
+}
+
+
+/* HASAN Video css End */
+
+
+/* HASAN Data Details css End */
+
+#packetContainer{width: 50%; float: left;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */}
+
+#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{float: left; width: 170px; border:#aaaaaa 1px solid; margin-top: 10px;}
+
+#packetContainer #dataInformation, #packetContainer #sendPackCont{border-right: none;}
+
+#sentPacketsLabel, #sendPackPsCont, #totSendPackCont, #receivedPacketsLabel, #receivePackPsCont, #totReceivedPackCont, #blankDiv, #perSecData, #totalDataLabel{padding: 6px;}
+
+#receivedPacketsLabel, #receivePackPsCont, #sentPacketsLabel, #sentPacketsLabel, #sendPackPsCont, #blankDiv, #perSecData{border-bottom:#aaa 1px solid;}
+
+
+
+
+/* HASAN CSS END HERE */
