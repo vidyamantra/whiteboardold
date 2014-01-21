@@ -28,32 +28,14 @@ $.when(
 		$.getScript( "js/script.js" ) */
 		
  ).done(function(){
-	  //repObjQue = []
-	 //mysuman = false;
-	 $.uiBackCompat=false;
-	////alert('suman bogati');
-    //place your code here, the scripts are all loaded
-//    var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
-//    	vm_chat.init({
-//            'userid':id,
-//            'sid':'212',
-//            'rid': path,
-//            'authuser':auth_user,
-//            'authpass':auth_pass,
-//            'userobj': userobj,
-//            'fastchat_lasttime':'0',
-//            'fastchatroom_title':'fastchat',
-//            'fastchatroom_name':'room1'});
-        //ToDo:room name contain licencekey,couse id and activity id   
-        
-	$(document).ready(function(){
+	$.uiBackCompat=false;
+
+    $(document).ready(function(){
 		whBoard.utility.isSystemCompatible();
 		if(window.whBoard.error.length > 2){
 			window.whBoard.error = [];
 			return;
 		}
-		
-		
 		
 		whBoard.globalObj.myrepObj = [];
     	whBoard.globalObj.replayObjs = []; // this should contain either into whiteboard or into van object
@@ -68,7 +50,6 @@ $.when(
     		vcan.reachedItemId = 0;
     	}
     	
-    	
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
     	
@@ -80,8 +61,6 @@ $.when(
     	
     	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
     	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
-    	
-    	
     	
     	if(!storageHasTeacher && !storageHasReclaim){
     		whBoard.utility.removeToolBox();
@@ -98,7 +77,6 @@ $.when(
 			}
     		whBoard.utility.createReclaimButton(cmdToolsWrapper);
     	}
-    	
     	
         var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
         if(whBoard.system.webSocket){
@@ -142,26 +120,16 @@ $.when(
 			
 		}, 1000);
     	
-		
-		//var prvPacket = "";
-		//var currElement = "";
-		//whBoard.sentReq = false;
-		//bcount = 0;
 		var myVideo = new window.whBoard.vcan.videoChat();
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
 		
 		$(document).on("member_added", function(e){
-				//myVideo.id = id;
-				//myVideo.browserLen = e.message.length;
-				//vcan.videoInit(e);
-				//vcan.initDefaultInfo();
 				whBoard.utility.initDefaultInfo(e,  myVideo);
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
 				}
 	  		});
-		
 		
 		if(typeof localStorage.teacherId != 'undefined'){
 			if(typeof localStorage.canvasDrwMsg == 'undefined'){
@@ -252,11 +220,7 @@ $.when(
 							   whBoard.utility.t_clearallInit();
 							   whBoard.utility.makeDefaultValue();
 	    				}
-  		
-//						whBoard.tool = new whBoard.tool_obj('t_clearall');
-//						whBoard.utility.t_clearallInit();
-//						whBoard.utility.makeDefaultValue();
-//						//var orginalTeacherId = vcan.chkValueInLocalStorage('orginalTeacherId');
+
 						if(orginalTeacherId){
 							whBoard.utility.updateRcvdInformation(e.message);
 						}
@@ -291,7 +255,7 @@ $.when(
 	    									 whBoard.bridge.requestPackets(e);
 	    									 
 	    								 }  
-									}
+									 }
 	    						 }
 	    					}
 	    				}
@@ -314,7 +278,6 @@ $.when(
 		    			if(orginalTeacherId){
 							whBoard.utility.updateRcvdInformation(e.message);
 						}
-		    			//whBoard.utility.updateRcvdInformation(e.message);
 		    		}else{
 		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt')){
 		    				whBoard.utility.updateRcvdInformation(e.message.repObj[0]);
@@ -445,7 +408,6 @@ $.when(
 					}
 	    		}
 	    		
-
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				window.whBoard.vcan.main.replayObjs = [];
