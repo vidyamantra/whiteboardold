@@ -116,6 +116,8 @@
 	    </div>
 	    <div class="clear"></div>
   	</div>   
+  	<div class="clear"></div>
+  	<div id="dss">This is my left container</div>
   </body>
   <!-- 
   <script type="text/javascript" src="js/dispmsg.js"> </script>  
