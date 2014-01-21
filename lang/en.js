@@ -31,12 +31,12 @@
 			'totSentPackets' : 'Total Sent Packets',
 			'perSecSentPacket' : 'Per Second Sent Packets',
 			'perSecond' : 'Per Second',
-			'sentPackets' : 'Sent Packets',
-			'receviedPackets' : 'Received Pacekts',
+			'sentPackets' : 'Sent <br/><span>Packets</span>',
+			'receviedPackets' : 'Received <br/><span>Pacekts</span>',
 			'total' : 'Total',
 			'dataDetails' : 'Data Details', 
-			'sentMessageInfo' : 'Sent Message Information',
-			'receivedMessageInfo' : 'Received Message information', 
+			'sentMessageInfo' : 'Sent Message <br/><span>Information</span>',
+			'receivedMessageInfo' : 'Received Message <br/><span>information</span>', 
 			'wbrtcMsgFireFox' : 'You can click on  Share Selected Devices' + 
 			'to share your microphone and camera with other person',
 			'wbrtcMsgChrome' : 'You can click on deny button for not sharing your microphone and camera.'+ 
