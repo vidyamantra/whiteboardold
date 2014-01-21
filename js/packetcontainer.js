@@ -95,18 +95,34 @@
 			var informationCont = document.getElementById('informationCont');
 				label = document.createElement('label'); 
 				label.innerHTML =  whBoard.lang.getString("sentMessageInfo");
-				informationCont.appendChild(label);
-		
-				var sentMsgInfo  = whBoard.createPacketContDiv('sentMsgInfo');
-				informationCont.appendChild(sentMsgInfo);
 				
+				var sentMsgInfoCont  = whBoard.createPacketContDiv('sentMsgInfoContainer');
+				sentMsgInfoCont.appendChild(label);
+				//informationCont.appendChild(label);
+				
+				
+				var sentMsgInfo  = whBoard.createPacketContDiv('sentMsgInfo');
+				//informationCont.appendChild(sentMsgInfo);
+				
+				sentMsgInfoCont.appendChild(sentMsgInfo);
+				
+				informationCont.appendChild(sentMsgInfoCont);
+				
+				
+				var receivedMsgInfoCont  = whBoard.createPacketContDiv('receivedMsgInfoContainer');
+				//sentMsgInfoCont.appendChild(label);
 				///creating received message information	
 				label = document.createElement('label'); 
-				label.innerHTML =  whBoard.lang.getString("receivedMessageInfo");;
-				informationCont.appendChild(label);
+				label.innerHTML =  whBoard.lang.getString("receivedMessageInfo");
+				
+				receivedMsgInfoCont.appendChild(label);
+				
+				//informationCont.appendChild(label);
 				
 			var rcvdMsgInfo  = whBoard.createPacketContDiv('rcvdMsgInfo');
-				informationCont.appendChild(rcvdMsgInfo);	
+				receivedMsgInfoCont.appendChild(rcvdMsgInfo);	
+				informationCont.appendChild(receivedMsgInfoCont);
+
 		}
 		
 	}

@@ -225,12 +225,20 @@ $.when(
 						if(typeof localStorage.canvasDrwMsg == 'undefined'){
 							window.whBoard.view.canvasDrawMsg('Canvas');
 							window.whBoard.view.drawLabel('drawArea');
+							//vcanvas
+							var canvasWrapper = document.getElementById("vcanvas");
+							canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
+							canvasWrapper.className = 'teacher';
 							localStorage.canvasDrwMsg = true;
 						}		
             		
             			return;
         			}else{
         				whBoard.utility.uniqueArrOfObjsToOther();
+        				var canvasWrapper = document.getElementById("vcanvas");
+						canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
+						canvasWrapper.className = 'student'
+						localStorage.canvasDrwMsg = true;
         				return;
         			}
         		}
