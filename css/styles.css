@@ -116,18 +116,16 @@ body {
 
 
 #sentMsgInfo{
-	border:2px solid #ddd;
-	width:320px;
+	border:1px solid #ddd;
 	height : 80px;
 	margin-top:10px;
 	margin-bottom:10px;
-	
+	border-right: none;
 }
 
 #rcvdMsgInfo{
 	margin-top:10px;
-	border:2px solid #ddd;
-	width:320px;
+	border:1px solid #ddd;
 	height : 80px;
 }
 
@@ -224,7 +222,7 @@ body {
 #fireFoxWebrtcCont{
 	position : absolute;
 	left: 120px;
-	top : 175px;
+	top : 200px;
 	z-index: 100;
 }
 
@@ -258,7 +256,7 @@ body {
 #canvasDrawMsgContFirefox{
 	position : relative;
 	bottom:752px;
-	left : 460px;
+	left : 396px;
 	z-index: 100;
 }
 
@@ -408,7 +406,7 @@ a, canavas{
 	background: -ms-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #f9f9f9 0%,#f0f0f0 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
-	padding-left: 50px;
+	padding-left: 15px;
 	padding-top: 6px;
 	padding-bottom: 6px;
 	border-top:#ccc 1px solid;
@@ -416,6 +414,7 @@ a, canavas{
 	font-family: Verdana;
 	color:#595a5d;
 	font-weight: 500;
+	font-size: 15px;
 }
 
 #packetContainer h4, #informationCont h4{
@@ -429,7 +428,7 @@ a, canavas{
 
 #localVideo, #remoteVideo {
 	padding: 4px;
-    width: 25%;
+    width: 26%;
 }
 
 #videos #remoteVideo{
@@ -532,7 +531,7 @@ a, canavas{
 	background: -ms-linear-gradient(top,  #f9f9f9 0%,#f0f0f0 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #f9f9f9 0%,#f0f0f0 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
-	border-bottom: #aaa 1px solid;
+	border-bottom: #ccc 1px solid;
 	padding-top: 12px;
 }
 
@@ -546,7 +545,20 @@ a, canavas{
 	color:#595A5D;
 }
 
+#informationCont #sentMsgInfoContainer{
+	width: 50%;
+	float: left;
+}
 
+
+#informationCont #receivedMsgInfoContainer{
+	width: 50%;
+	float: left;
+}
+
+#dataInformation{
+	margin-left: 10px;
+}
 
 /* HASAN CSS END HERE */
 
@@ -562,7 +574,7 @@ a, canavas{
 
 #vcanvas {
 	float:left;
-	border:2px solid #ddd;
+	border:1px solid #ccc;
 }
 
 
@@ -577,7 +589,7 @@ a, canavas{
 }
 
 #dataInfoHeading{
-	width:880px;
+	width:915px;
 }
 
 #informationCont{
