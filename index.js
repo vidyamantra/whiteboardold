@@ -179,9 +179,18 @@ $.when(
             			whBoard.utility.uniqueArrOfObjsToOther();
             			whBoard.view.disappearBox('Canvas');
                 		whBoard.view.disappearBox('drawArea');
+                		
+                		var canvasWrapper = document.getElementById("vcanvas");
+						canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
+						canvasWrapper.className = 'student'
+						localStorage.canvasDrwMsg = true;
             			return;
         			}else{
         				whBoard.utility.uniqueArrOfObjsToSelf();
+        				var canvasWrapper = document.getElementById("vcanvas");
+						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
+						canvasWrapper.className = 'teacher';
+						localStorage.canvasDrwMsg = true;
         				return;
         			}
         		}
@@ -194,18 +203,22 @@ $.when(
 							window.whBoard.view.canvasDrawMsg('Canvas');
 							window.whBoard.view.drawLabel('drawArea');
 							//vcanvas
-							var canvasWrapper = document.getElementById("vcanvas");
-							canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
-							canvasWrapper.className = 'teacher';
+							
 							localStorage.canvasDrwMsg = true;
 						}		
+						var canvasWrapper = document.getElementById("vcanvas");
+						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
+						canvasWrapper.className = 'teacher';
             		
             			return;
         			}else{
         				whBoard.utility.uniqueArrOfObjsToOther();
-        				var canvasWrapper = document.getElementById("vcanvas");
-						canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
-						canvasWrapper.className = 'student'
+        				if(!whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
+        					var canvasWrapper = document.getElementById("vcanvas");
+    						canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
+    						canvasWrapper.className = 'student'
+        				}
+        				
 						localStorage.canvasDrwMsg = true;
         				return;
         			}
@@ -408,6 +421,7 @@ $.when(
 					}
 	    		}
 	    		
+
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				window.whBoard.vcan.main.replayObjs = [];
