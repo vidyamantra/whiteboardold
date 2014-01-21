@@ -38,10 +38,6 @@ body {
 }
 
 
-#containerWb{
-	margin:0;
-	padding:0;
-}
 
 #container{
 	/*margin-left:25px;*/
@@ -116,17 +112,22 @@ body {
 
 
 #sentMsgInfo{
-	border:1px solid #ddd;
-	height : 80px;
+	border:1px solid #ccc;
 	margin-top:10px;
 	margin-bottom:10px;
-	border-right: none;
+	margin-right: 10px;
+	padding: 5px;
+	min-height: 62px;
+	text-align: left;
 }
 
 #rcvdMsgInfo{
 	margin-top:10px;
-	border:1px solid #ddd;
-	height : 80px;
+	border:1px solid #ccc;
+	margin-right: 10px;
+	padding: 5px;
+	min-height: 62px;
+	text-align: left;
 }
 
 
@@ -169,7 +170,7 @@ body {
 	float:left;
 }
 #commandToolsWrapper{
- 	width:893px;
+ 	width:915px;
 }
 
 #conControler{
@@ -265,7 +266,7 @@ body {
 #canvasDrawMsgContChrome{
 	position : relative;
 	bottom:750px;
-	left : 100px;
+	left : 128px;
 }
 
 #containerWb{
@@ -348,10 +349,13 @@ a, canavas{
 	}
 
 #vcanvas{
-
 	width: 930px;
+	margin: 0 auto;
+	clear: both;
 	border-left:#ccc 1px solid;
 	border-right:#ccc 1px solid;
+	border-top: #ccc 1px solid;
+	
 	}
 
 #commandToolsWrapper{
@@ -365,7 +369,7 @@ a, canavas{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#e7e7e7',GradientType=0 ); /* IE6-9 */
 	padding-top: 8px;	
 	padding-bottom: 0;
-	padding-left: 4%;
+	padding-left: 15px;
 	border-bottom: #ccc 1px solid;
 }
 
@@ -433,12 +437,14 @@ a, canavas{
 
 #videos #remoteVideo{
 	margin-top: 10px; 
-	margin-left: 3%;
+	margin-left: 25px;
+	height: 180px;
 }
 
 #videos #localVideo{
-	margin-left: 25%;
+	margin-left: 198px;
 	margin-top: 8px;
+	height: 180px;
 }
 
 .selfClear:after {
@@ -503,13 +509,14 @@ a, canavas{
     border-radius: 3px !important;
 }
 
+#commandToolsWrapper #t_rectangle a{padding-left: 7px;}
 
 
 /* HASAN Data Details css End */
 
 #packetContainer{width: 50%; float: left;box-sizing:border-box; -moz-box-sizing:border-box; /* Firefox */}
 
-#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{float: left; width: 140px; border:#ccc 1px solid; margin-top: 10px;}
+#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{float: left; width: 140px; border:#ccc 1px solid; margin-top: 15px;}
 
 #packetContainer #dataInformation, #packetContainer #sendPackCont{border-right: none;}
 
@@ -537,7 +544,7 @@ a, canavas{
 
 
 
-#sentPacketsLabel span, #receivedPacketsLabel span, #informationCont span{
+#sentPacketsLabel span, #receivedPacketsLabel span{
 	margin-left: 15px;
 }
 
@@ -548,16 +555,19 @@ a, canavas{
 #informationCont #sentMsgInfoContainer{
 	width: 50%;
 	float: left;
+	text-align: center;
 }
 
 
 #informationCont #receivedMsgInfoContainer{
 	width: 50%;
 	float: left;
+	text-align: center;
 }
 
 #dataInformation{
 	margin-left: 10px;
+	
 }
 
 /* HASAN CSS END HERE */
@@ -570,11 +580,6 @@ a, canavas{
 #leftContainer{
 	width:200px;
 	float:left;
-}
-
-#vcanvas {
-	float:left;
-	border:1px solid #ccc;
 }
 
 
@@ -595,3 +600,15 @@ a, canavas{
 #informationCont{
 	margin-top:50px;
 }
+
+#containerWb{
+	margin:0;
+	padding:0;
+	display:none\9 !important;
+}
+
+#vcanvas{
+	border-bottom: #ccc 1px solid\9 !important;
+}
+
+
