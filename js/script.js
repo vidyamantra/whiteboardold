@@ -310,8 +310,8 @@
 				//canvas.height = (window.innerHeight * 80) /100;
 				//window.vcan.renderAll();
 				
-				canvas.width = 930;
-				canvas.height = 700;
+				canvas.width = 1000;
+				canvas.height = 715;
 			},
 			
 			

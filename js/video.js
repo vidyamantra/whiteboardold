@@ -34,11 +34,12 @@
 //			    			console.log('cna ' + ' ' + cthis.cn);
 //		    			}
 		    			
+		    			/*
 		    			var headingTag = document.createElement('h4');
 		    				headingTag.id = 'videoHeading';
 		    				headingTag.innerHTML  = "User Video";
 		    				var beforeAppend = document.getElementById('localVideo');
-		    				beforeAppend.parentNode.insertBefore(headingTag, beforeAppend);
+		    				beforeAppend.parentNode.insertBefore(headingTag, beforeAppend); */
 		    			
 		    			vcan.oneExecuted = true;
 		    			
