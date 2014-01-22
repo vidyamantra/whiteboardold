@@ -433,10 +433,13 @@ a, canavas{
 	padding: 0px;	
 }
 
+/*
 #localVideo, #remoteVideo {
 	padding: 4px;
-    width: 26%;
+    width: 10%;
+    
 }
+*/
 
 #videos #remoteVideo{
 	margin-top: 10px; 
@@ -450,6 +453,7 @@ a, canavas{
 	margin-top: 8px;
 	height: 180px;
 	margin-bottom: 5px;
+	padding: 2px;
 }
 
 .selfClear:after {
@@ -619,3 +623,414 @@ a, canavas{
 #vcanvas{
 	border-bottom: #ccc 1px solid\9 !important;
 }
+
+
+
+
+@media only screen and (max-width: 1920px) and (min-width: 1368px){
+	
+	#canvasWrapper #canvas{
+		width: 1670px;
+		height: 780px;
+	}
+	
+	
+	#t_assign.controlCmd{
+		margin-left: 90%;
+	}
+	
+	#vcanvas{
+		margin-left: 0px;
+		width:1670px;
+	}
+	
+	#commandToolsWrapper, #dataInfoHeading{
+		width: 1655px;
+	}
+	#videos{
+		width: auto;
+		position: relative;
+	}
+	
+	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
+		width: 175px;
+	}
+	
+	#commandToolsWrapper{
+		height:37px;
+	}
+	
+	#commandToolsWrapper{
+		padding-top: 7px;
+	}
+	
+	#videos #localVideo{
+		height: auto;
+		margin: 0;
+		position: absolute;
+		right: 2px;
+		top: 91px;
+		width: 7%;
+		z-index: 100;
+	}
+	
+	#videos #remoteVideo{
+		margin-left: 0px;
+		margin-top:0px;
+		right: -1px;
+		padding: 3px;
+	}
+	
+
+	#canvasDrawMsgContFirefox{
+		bottom: 816px;
+		left: 370px;
+	}
+	
+	
+	#videos{
+		position: relative;
+		top: -781px;
+	}
+	
+	
+	#videos #remoteVideo{
+		height:auto;
+		position: absolute;
+	}
+	
+	#remoteVideo{
+		width: 18%;
+	}
+	
+	#vcanvas.student #videos{
+		border-bottom: none;
+	}
+	
+	#commandToolsWrapper{
+		padding-left: 20px;
+	}
+	
+	#informationCont{
+		width: 38%;
+		margin-right: 10%;
+	}
+	#dataInformation{
+		margin-left: 25%;
+	}
+	#commandToolsWrapper{
+		padding-left: 15px;
+	}
+	
+	#vcanvas.student #videos{
+		top: -780px;
+	}
+	
+	#vcanvas.student #videos #localVideo{
+		top: 139px;
+	}
+		
+	
+}
+
+
+
+
+
+
+/* HASAN CSS 1368PX RESOLUTION */
+
+
+@media only screen and (max-width: 1368px) and (min-width: 1281px){
+	
+	#canvasWrapper #canvas{
+		width: 1125px;
+		height: 475px;
+	}
+	
+	
+	#t_assign.controlCmd{
+		margin-left: 84%;
+	}
+	
+	#vcanvas{
+		margin-left: 0px;
+		width:1125px;
+	}
+	
+	#commandToolsWrapper{
+		padding-left: 15px;
+		width: 1110px;
+	}
+	#dataInfoHeading{
+		width: 1105px;
+	}
+	#videos{
+		width: auto;
+		position: relative;
+	}
+	
+	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
+		width: 175px;
+	}
+	
+	#commandToolsWrapper{
+		height:37px;
+	}
+	
+	#commandToolsWrapper{
+		padding-top: 7px;
+	}
+	
+	#videos #localVideo{
+		height: auto;
+		margin: 0;
+		position: absolute;
+		right: 2px;
+		top: 91px;
+		width: 7%;
+		z-index: 100;
+	}
+	
+	#videos #remoteVideo{
+		margin-left: 0px;
+		margin-top:0px;
+		right: -1px;
+		padding: 3px;
+	}
+	
+
+	#canvasDrawMsgContFirefox{
+		bottom: 520px;
+		left: 375px;
+	}
+	
+	
+	#videos{
+		position: relative;
+		top: -476px;
+	}
+	
+	
+	#videos #remoteVideo{
+		height:auto;
+		position: absolute;
+	}
+	
+	#remoteVideo{
+		width: 18%;
+	}
+	
+	#vcanvas.student #videos{
+		border-bottom: none;
+	}
+	
+	#informationCont{
+		width: 48%;
+		margin-right: 0%;
+	}
+	#dataInformation{
+		margin-left: 5%;
+	}
+	
+	#packetContainer h4{
+		padding-left: 20px;
+	}
+	
+	#vcanvas.student #videos{
+		top: -475px;
+	}
+	#vcanvas.student #videos #localVideo{
+		top:95px;
+	}
+	#videos #remoteVideo{
+		margin-right: 1px;
+	}	
+	
+}
+
+
+/* HASAN CSS 1280PX RESOLUTION */
+
+
+@media only screen and (max-width: 1280px) and (min-width: 1025px){
+	
+	#canvasWrapper #canvas{
+		width: 1025px;
+		height: 715px;
+	}
+	
+	
+	#t_assign.controlCmd{
+		margin-left: 78%;
+	}
+	
+	#vcanvas{
+		margin-left: 0px;
+		width:1025px;
+	}
+	
+	#commandToolsWrapper, #dataInfoHeading{
+		width: 1010px;
+	}
+	#videos{
+		width: auto;
+		position: relative;
+	}
+	
+	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
+		width: 120px;
+	}
+	
+	#commandToolsWrapper{
+		height:37px;
+	}
+	
+	#commandToolsWrapper{
+		padding-top: 7px;
+	}
+	
+	#videos #localVideo{
+		height: auto;
+		margin: 0;
+		position: absolute;
+		right: 3px;
+		top: 107px;
+		width: 8%;
+		z-index: 100;
+	}
+	
+	#videos #remoteVideo{
+		margin-left: 0px;
+		margin-top:0px;
+		right: -1px;
+		padding: 3px;
+	}
+	
+
+	#canvasDrawMsgContFirefox{
+		bottom: 765px;
+		left: 370px;
+	}
+	
+	
+	#videos{
+		position: relative;
+		top: -171px;
+	}
+	
+	
+	#videos #remoteVideo{
+		height:auto;
+		position: absolute;
+	}
+	
+	#remoteVideo{
+		width: 22%;
+	}
+	
+	#vcanvas.student #videos{
+		border-bottom: none;
+	}
+	
+	#vcanvas.student #videos{
+		top: -176px;
+	}
+		
+	
+}
+
+
+@media only screen and (max-width: 1024px) and (min-width: 768px){
+	
+	#canvasWrapper #canvas{
+		width: 800px;
+		height: 480px;
+	}
+	
+	#t_assign.controlCmd{
+		margin-left: 78%;
+	}
+	
+	#vcanvas{
+		margin-left: 0px;
+		width:800px;
+	}
+	
+	#commandToolsWrapper, #dataInfoHeading{
+		width: 785px;
+	}
+	#videos{
+		width: auto;
+		position: relative;
+	}
+	
+	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
+		width: 120px;
+	}
+	
+	#commandToolsWrapper{
+		height:37px;
+	}
+	
+	#commandToolsWrapper{
+		padding-top: 7px;
+	}
+	
+	#videos #localVideo{
+		height: auto;
+		position: absolute;
+		right: 3px;
+		margin: 0;
+		top: 76px;		
+		z-index: 100;
+		width: 7%;
+	}
+	
+	#videos #remoteVideo{
+		margin-left: 0px;
+		margin-top:0px;
+		right: -1px;
+		padding: 2px;
+	}
+	
+	#remoteVideo{
+		width: 20%;
+	}
+	
+	#canvasDrawMsgContFirefox{
+		bottom: 532px;
+		left: 370px;
+	}
+	
+	
+	#videos{
+		position: relative;
+		top: -120px;
+	}
+	
+	
+	#videos #remoteVideo{
+		height:auto;
+		position: absolute;
+	}
+	
+	#remoteVideo{
+		width: 20%;
+	}
+	
+	#vcanvas.student #videos{
+		border-bottom: none;
+	}
+	
+	#vcanvas.student #videos{
+		top: -125px;
+	}	
+	
+}
+
+
+/* HASAN CSS 1280 RESOLUTION END */
+
+
+

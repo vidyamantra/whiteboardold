@@ -93,7 +93,7 @@
 	-->
 	    <div id="containerWb">
 	    
-	  <div class="clear"></div>
+	
 	    </div>	
 	    
 	    <div id='videos'>
@@ -123,6 +123,7 @@
   					<source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
 	    		</video>
 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
+	    		<div class="clear"></div>
 	    </div>
 	    
 	    <div id="packetContainer">
