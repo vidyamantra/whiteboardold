@@ -61,6 +61,9 @@
        <script type="text/javascript" src="js/video.js"></script>  
        
        <script type="text/javascript" src="js/bridge.js"></script>
+       
+       <script type="text/javascript" src="js/video_resize.js"></script>
+       
        <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 	  
 		   
@@ -94,9 +97,31 @@
 	    </div>	
 	    
 	    <div id='videos'>
+	   <!--  
+	    	<div id="vidCmdWrapper">
+	    		<div id="resizeVideo" class="command">
+	    			r
+	    		</div>
+	    		
+	    		<div id="miniMizeVideo" class="command">
+	    			m
+	    		</div>
+	    		
+	    	</div>
+	    -->			
 	    		<!--  <h4>Users Video</h4> -->
-	    		<video id='localVideo' autoplay></video>
-	    		<video id='remoteVideo' class="remoteVideo" autoplay></video>
+	    		<!--   <video id='localVideo' autoplay></video>-->
+	    		
+	    		<div id="videoContainer">
+				 	<div class="dynDiv_resizeDiv_tl"></div>
+				 	<video id="localVideo" autoplay>
+				 		
+					</video>
+	    		
+	    		<video id='remoteVideo' class="remoteVideo" autoplay>
+	    			 <source src="http://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+  					<source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+	    		</video>
 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    </div>
 	    
@@ -129,6 +154,8 @@
   	<div class="clear"></div>
   	<div id="dss">This is my left container</div>
   </body>
+  
+  
   <!-- 
   <script type="text/javascript" src="js/dispmsg.js"> </script>  
   	

@@ -23,8 +23,8 @@
 		    	
 		    	init : function (vbool){
 		    		    //attach event handler
-		    		    //		    		    
-		    			cthis = this;
+		    		    //TODO this variable should be localized	    
+		    			cthis = this; 
 		    		//	document.getElementById('videoOff').addEventListener('click', cthis.hangup);
 		    			
 		    			//document.getElementById('videoOn').addEventListener('click', cthis);
@@ -42,6 +42,10 @@
 		    				beforeAppend.parentNode.insertBefore(headingTag, beforeAppend); */
 		    			
 		    			vcan.oneExecuted = true;
+		    			
+		    			//var  divCmd = document.getElementById('resizeVideo');
+		    			
+		    			//divCmd.addEventListener('click', cthis.resizeVideo);
 		    			
 			    		vcan.videoChat.localVideo = document.querySelector('#localVideo');
 			    		vcan.videoChat.remoteVideo = document.querySelector('#remoteVideo');
@@ -505,6 +509,11 @@
 		    
 		    hangUp : function (){
 		    	
+		    }, 
+		    
+		    resizeVideo : function (){
+		    	//alert('raj kumar');
+		    	vcan.videoChat.localVideo.style.width = 800 + "px";
 		    }
 		    
 		}
