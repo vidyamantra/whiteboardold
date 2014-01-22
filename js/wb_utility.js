@@ -647,6 +647,26 @@
 				}
 				return false;
 			}
+			
+//			getResoultion : function (){
+//				var resolution = {};
+//				if(window.outerWidth < 1280){
+//					resolution.width = 1024;
+//					resolution.height = 768; 
+//				}else if(window.outerWidth >= 1280 && window.outerWidth < 1368){
+//					resolution.width = 1280;
+//					resolution.height = 1024;
+//				}else if(window.outerWidth >= 1368 && window.outerWidth < 1920){
+//					resolution.width = 1368;
+//					resolution.height = 768;
+//				}else if(window.outerWidth >= 1920){
+//					resolution.width = 1920;
+//					resolution.height = 1080;
+//				}
+//				
+//				return resolution;
+//			}
+			
 
 		};
 	}

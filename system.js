@@ -8,6 +8,7 @@
 		whBoard.system.mybrowser = {};
 		//window.mybrowser = {};	
 		//alert(browserName);
+		
 		whBoard.system.mybrowser.detection = function(){
 		    var ua= navigator.userAgent, tem, 
 		    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
@@ -94,6 +95,45 @@
 			   whBoard.error.push({'msg' : whBoard.lang.getString('notSupportWebSocket'), 'id':'errorWebSocket', 'className' : 'error'});
 		   }
 	   }
+	   
+	   whBoard.system.setCanvasDimension = function (){
+		   var canvas = vcan.main.canvas;
+		   var resolution = whBoard.system.getResoultion();
+			if(resolution.width == 1024){
+				canvas.width = 800;
+				canvas.height = 480;
+			}else if(resolution.width == 1280){
+				canvas.width = 1025;
+				canvas.height = 715;
+			}else if(resolution.width == 1366){
+				canvas.width = 1125;
+				canvas.height = 475;
+			}else if(resolution.width == 1920){
+				canvas.width = 1670;
+				canvas.height = 780;
+			}
+	   }
+	   
+	   whBoard.system.getResoultion =  function (){
+			var resolution = {};
+			if(window.outerWidth < 1280){
+				resolution.width = 1024;
+				resolution.height = 768; 
+			}else if(window.outerWidth >= 1280 && window.outerWidth < 1366){
+				resolution.width = 1280;
+				resolution.height = 1024;
+			}else if(window.outerWidth >= 1366 && window.outerWidth < 1920){
+				resolution.width = 1366;
+				resolution.height = 768;
+			}else if(window.outerWidth >= 1920){
+				resolution.width = 1920;
+				resolution.height = 1080;
+			}
+			
+			return resolution;
+	  }
+	   
+	  window.addEventListener('resize', whBoard.system.setCanvasDimension);
 	   
 	 var browser = whBoard.system.mybrowser.detection();
 	 var browserName = browser[0];

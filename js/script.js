@@ -52,8 +52,8 @@
 				canvasObj.onkeydown = whBoard.utility.keyOperation;
 				
 				//window.addEventListener('resize', whBoard.resizeCanvas, false);
-				whBoard.resizeCanvas();
-				
+				//whBoard.setCanvasDimension(vcan.main.canvas);
+				whBoard.system.setCanvasDimension();
 				
 				if(typeof(Storage)!=="undefined"){
 					if(localStorage.repObjs){
@@ -305,15 +305,22 @@
 //			},
 			
 			
-			resizeCanvas : function() {
-				//canvas.width = (window.innerWidth * 80) /100;
-				//canvas.height = (window.innerHeight * 80) /100;
-				//window.vcan.renderAll();
-				
-				canvas.width = 1000;
-				canvas.height = 715;
+			setCanvasDimension : function(canvas){
+//				var resolution = whBoard.utility.getResoultion();
+//				if(resolution.width == 1024){
+//					canvas.width = 800;
+//					canvas.height = 480;
+//				}else if(resolution.width == 1280){
+//					canvas.width = 1025;
+//					canvas.height = 715;
+//				}else if(resolution.width == 1368){
+//					canvas.width = 1125;
+//					canvas.height = 475;
+//				}else if(resolution.width == 1920){
+//					canvas.width = 1670;
+//					canvas.height = 780;
+//				}
 			},
-			
 			
 			/**
 			 * this does call the initializer function for particular object    
