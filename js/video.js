@@ -529,6 +529,7 @@
 		    
 		    maxMizeVideo : function (parTagId){
 		    	cthis.createMiniMizeButton();
+		    	//	valert(document.getElementById(cthis.videoControlId));
 		    	document.getElementById(cthis.videoControlId).style.display = 'block';
 		    	cthis.removeButton(cthis.maxButtonId);
 		    },
@@ -558,10 +559,11 @@
 		        var maxButton = document.createElement('div');
 		        maxButton.id = cthis.maxButtonId;
 		        //maxButton.className = 'tooltip';
+		        //maxButton.innerHTML = '<a href="#" title="" data-title="Maxmize The Video" class="tooltip">&nbsp;</a>';
 		        maxButton.innerHTML = '<a href="#" title="" data-title="Maxmize The Video" class="tooltip">&nbsp;</a>';
 		        maxButton.addEventListener('click', cthis.maxMizeVideo);
 		        
-		        var parElement = document.getElementById(cthis.videoControlId);
+		        var parElement = document.getElementById(cthis.videoContainerId);
 		        parElement.insertBefore(maxButton, parElement.firstChild);
 		    }
 		}
