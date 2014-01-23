@@ -539,30 +539,32 @@
 		    	deleteItem.parentNode.removeChild(deleteItem);
 		    },
 		    
+		    //TODO THE functions createMiniMizeButton and createMaxMizeButton should be merged
+		    
 		    createMiniMizeButton : function (){
 		    	cthis.minButtonId = 'videoMinMize';
-		    	var minButton = document.createElement('div');
-		    	minButton.id = cthis.minButtonId;
-		    	minButton.innerHTML = 'Mn';
-		    	minButton.addEventListener('click', cthis.miniMizeVideo);
-		    	
-		    	var parElement = document.getElementById(cthis.videoContainerId);
-		    	parElement.appendChild(minButton, parElement.firstChild);
+		        var minButton = document.createElement('div');
+		        minButton.id = cthis.minButtonId;
+		        //minButton.className = 'tooltip';
+		        minButton.innerHTML = '<a href="#" title="" data-title="Minmize The Video" class="tooltip">&nbsp;</a>';
+		        minButton.addEventListener('click', cthis.miniMizeVideo);
+		        
+		        var parElement = document.getElementById(cthis.videoControlId);
+		        parElement.insertBefore(minButton, parElement.firstChild);
 		    },
 		    
 		    createMaxMizeButton  : function (){
 		    	cthis.maxButtonId = 'videoMaxMize';
-		    	var maxButton = document.createElement('div');
-		    	maxButton.id = cthis.maxButtonId;
-		    	maxButton.innerHTML = 'Mx';
-		    	maxButton.addEventListener('click', cthis.maxMizeVideo);
-		    	
-		    	var parElement = document.getElementById(cthis.videoContainerId);
-		    	parElement.appendChild(maxButton, parElement.firstChild);
+		        var maxButton = document.createElement('div');
+		        maxButton.id = cthis.maxButtonId;
+		        //maxButton.className = 'tooltip';
+		        maxButton.innerHTML = '<a href="#" title="" data-title="Maxmize The Video" class="tooltip">&nbsp;</a>';
+		        maxButton.addEventListener('click', cthis.maxMizeVideo);
+		        
+		        var parElement = document.getElementById(cthis.videoControlId);
+		        parElement.insertBefore(maxButton, parElement.firstChild);
 		    }
-		    
 		}
-		
 	
 		}
 		
