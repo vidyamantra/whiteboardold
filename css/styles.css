@@ -498,6 +498,7 @@ a, canavas{
 .tooltip{
     display: inline;
     position: relative;
+
 }
 
 	
@@ -506,10 +507,10 @@ a, canavas{
     border-radius: 0px !important;
     bottom: 26px;
     content: attr(data-title)  !important;
-    left: 20%  !important;
     padding: 5px 15px;
     position: absolute  !important;
-    z-index: 98;
+    z-index: 1;
+    left:20% !important;
     width: auto !important;
     height: 18px !important;
     color:#333 !important;
@@ -520,7 +521,15 @@ a, canavas{
     border-radius: 3px !important;
 }
 
-#commandToolsWrapper #t_rectangle a{padding-left: 7px;}
+#videoMinMize .tooltip, #videoMaxMize .tooltip{
+	left: 5px;
+    position: relative;
+    top: -10px;
+    color:#ddd;
+}
+
+
+
 
 
 /* HASAN Data Details css End */
@@ -627,6 +636,7 @@ a, canavas{
 }
 
 
+/*
 	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
 	background-image:url('../images/resize.png') !important;
 	background-position: left top;
@@ -659,28 +669,29 @@ a, canavas{
   	#videoControl{
 	position: absolute; 
   	}
+*/
 
 
 
 @media only screen and (max-width: 1920px) and (min-width: 1369px){
 	
 	#canvasWrapper #canvas{
-		width: 1025px;
-		height: 715px;
+		width: 1650px;
+		height: 780px;
 	}
 	
 	
 	#t_assign.controlCmd{
-		margin-left: 78%;
+		margin-left: 89%;
 	}
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1025px;
+		width:1650px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1010px;
+		width: 1630px;
 	}
 	#videos{
 		width: auto;
@@ -697,6 +708,7 @@ a, canavas{
 	
 	#commandToolsWrapper{
 		padding-top: 7px;
+		padding-left:20px;
 	}
 	
 	#videos #localVideo{
@@ -725,7 +737,7 @@ a, canavas{
 	
 	#videos{
 		position: relative;
-		top: -171px;
+		top: 0px;
 	}
 	
 	
@@ -754,7 +766,7 @@ a, canavas{
 	
 	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
 	background-color: #fff !important;
-	background-image:url('../images/resize.png') !important;
+	background-image:url('../images/resizePlus.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
 	width: 10px;
@@ -765,26 +777,74 @@ a, canavas{
 	}
 
 	.dynDiv_resizeDiv_tl {
- 	top: 4px;
+ 	top:100%
  	left: -3px;
  	border:none;
  	z-index: 100;
 }
 
 
+/*
 	#videoContainer {
-  	min-width:250px;
+  	min-width:285px;
   	height:auto;
   	background: transparent;
-  	top: -190px;
+  	top: -926px;
   	position: absolute;
   	right: 0
   	
   	}
+*/
 
 
+
+  	#vcanvas.student #videoContainer {
+	  top: -796px;
+  	}
+
+  	#videoMinMize{
+  	background-image:url('../images/min.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	height: 30px;
+    position: absolute;
+    right: -6px;
+    top: -791px;
+    width: 30px;
 	
-		
+  	}
+  	
+  	#videoMaxMize{
+	background-image:url('../images/max.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	height: 30px;
+    position: absolute;
+    right: -6px;
+    top: -791px;
+    width: 30px;
+  	}
+  	
+  	
+  	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: -795px;
+    width: 16px;
+	}
+	
+	#vcanvas.student #videos #videoMinMize{
+		border-left: none;
+		border-bottom: none;
+	}
+	
+	
+	#canvasDrawMsgContFirefox{
+		bottom: 810px;
+	}
 	
 }
 
@@ -889,7 +949,7 @@ a, canavas{
 	
 	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
 	background-color: #fff !important;
-	background-image:url('../images/resize.png') !important;
+	background-image:url('../images/resizePlus.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
 	width: 10px;
@@ -900,7 +960,7 @@ a, canavas{
 	}
 
 	.dynDiv_resizeDiv_tl {
- 	top: 4px;
+ 	top: 177px;
  	left: -3px;
  	border:none;
  	z-index: 100;
@@ -911,15 +971,59 @@ a, canavas{
   	min-width:250px;
   	height:auto;
   	background: transparent;
-  	top: -190px;
+  	top: -476px;
   	position: absolute;
   	right: 0
   	
   	}
 
+  	#vcanvas.student #videoContainer {
+	  top: -491px;
+  	}
 
+	#videoMinMize, #videoMaxMize{
+	  	position: absolute;
+  	}
+  	
+  	
+  	
+  	#vcanvas.student #videoMinMize{
+  	background-image:url('../images/min.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	
+  	}
+  	
+  	#vcanvas.student #videoMaxMize{
+	background-image:url('../images/max.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+
+  	}
+  	
+  	
+  	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: -490px;
+    width: 16px;
+	}
+	
+	#vcanvas.student #videos #videoMinMize{
+	border-left: none;
+	border-bottom: none;
+	height: 16px;
+    position: absolute;
+    right: 0;
+    top: -488px;
+    width: 16px;
+	}
 	
 	
+
 	
 }
 
@@ -990,7 +1094,7 @@ a, canavas{
 	
 	#videos{
 		position: relative;
-		top: -171px;
+		top: 0px;
 	}
 	
 	
@@ -1036,6 +1140,7 @@ a, canavas{
  	z-index: 100;
 }
 
+/*
 
 	#videoContainer {
   	min-width:250px;
@@ -1046,6 +1151,70 @@ a, canavas{
   	right: 0
   	
   	}
+*/
+
+	#videoContainer {
+	background: transparent;
+ 	width: 285px;
+ 	height : 200px;
+/*  	border: 1px solid #aaa; */
+ 	position: absolute;
+ 	right:0;
+ 	bottom:0;
+ 	overflow: hidden;
+	}
+  	
+  	#videoMinMize, #videoMaxMize{
+	  	position: absolute;
+  	}
+  	
+  	#vcanvas.student #videoContainer{
+	  	top:-211px;
+  	}
+  	
+  		#videoMinMize, #videoMaxMize{
+	  	position: absolute;
+  	}
+  	
+  	
+  	
+  	#vcanvas.student #videoMinMize{
+  	background-image:url('../images/min.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	
+  	}
+  	
+  	#vcanvas.student #videoMaxMize{
+	background-image:url('../images/max.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+
+  	}
+  	
+  	
+  	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: -90px;
+    width: 16px;
+	}
+	
+	#vcanvas.student #videos #videoMinMize{
+	border-left: none;
+	border-bottom: none;
+	height: 16px;
+    position: absolute;
+    right: 0;
+    top: -88px;
+    width: 16px;
+	}
+	
+  	
+  	
 
 		
 	
@@ -1171,12 +1340,14 @@ a, canavas{
   	min-width:200px;
   	height:auto;
   	background: transparent;
-  	top: -150px;
+  	top: -30px;
   	position: absolute;
   	right: 0
   	
   	}
-	
+	#videoMinMize, #videoMaxMize{
+		position: absolute;
+	}
 	
 	
 	
