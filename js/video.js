@@ -20,6 +20,8 @@
 		    	remoteStream : '',
 		    	turnReady : '',
 		    	oneExecuted : false,
+		    	videoControlId : 'videoContainer',
+		    	videoContainerId : "videos",
 		    	
 		    	init : function (vbool){
 		    		    //attach event handler
@@ -43,7 +45,10 @@
 		    			
 		    			vcan.oneExecuted = true;
 		    			
-		    			//var  divCmd = document.getElementById('resizeVideo');
+		    			cthis.createMiniMizeButton();
+//		    			var  videoCmd = document.getElementById("videoMiniMize");
+//		    			videoCmd.addEventListener('click', cthis.miniMizeVideo);
+		    			
 		    			
 		    			//divCmd.addEventListener('click', cthis.resizeVideo);
 		    			
@@ -511,9 +516,49 @@
 		    	
 		    }, 
 		    
-		    resizeVideo : function (){
-		    	//alert('raj kumar');
-		    	vcan.videoChat.localVideo.style.width = 800 + "px";
+		    miniMizeVideo : function (){
+		    	//cthis.minButtonId = this.id;
+		    	//var currentId = this.id;
+		    	var toBeHideVideo = document.getElementById(cthis.videoControlId);
+		    	var parTag = toBeHideVideo.parentNode;
+		    	toBeHideVideo.style.display = 'none'
+		    	
+		    	cthis.removeButton(cthis.minButtonId);
+		    	cthis.createMaxMizeButton();
+		    },
+		    
+		    maxMizeVideo : function (parTagId){
+		    	cthis.createMiniMizeButton();
+		    	document.getElementById(cthis.videoControlId).style.display = 'block';
+		    	cthis.removeButton(cthis.maxButtonId);
+		    },
+		    
+		    
+		    removeButton : function (id){
+		    	var deleteItem = document.getElementById(id); 
+		    	deleteItem.parentNode.removeChild(deleteItem);
+		    },
+		    
+		    createMiniMizeButton : function (){
+		    	cthis.minButtonId = 'videoMinMize';
+		    	var minButton = document.createElement('div');
+		    	minButton.id = cthis.minButtonId;
+		    	minButton.innerHTML = 'Mn';
+		    	minButton.addEventListener('click', cthis.miniMizeVideo);
+		    	
+		    	var parElement = document.getElementById(cthis.videoContainerId);
+		    	parElement.appendChild(minButton, parElement.firstChild);
+		    },
+		    
+		    createMaxMizeButton  : function (){
+		    	cthis.maxButtonId = 'videoMaxMize';
+		    	var maxButton = document.createElement('div');
+		    	maxButton.id = cthis.maxButtonId;
+		    	maxButton.innerHTML = 'Mx';
+		    	maxButton.addEventListener('click', cthis.maxMizeVideo);
+		    	
+		    	var parElement = document.getElementById(cthis.videoContainerId);
+		    	parElement.appendChild(maxButton, parElement.firstChild);
 		    }
 		    
 		}
