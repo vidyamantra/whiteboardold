@@ -93,7 +93,6 @@
 	-->
 	    <div id="containerWb">
 	    
-	
 	    </div>	
 	    
 	    <div id='videos'>
@@ -111,9 +110,13 @@
 	    -->			
 	    		<!--  <h4>Users Video</h4> -->
 	    		<!--   <video id='localVideo' autoplay></video>-->
+<<<<<<< HEAD
 	    		
 	    		<!--   <div id="videoMiniMize">M</div> -->	
 	    		
+=======
+	    			<div id="videoControl">M</div>
+>>>>>>> 10450c04d6328ac21f6908a96075e57141b1fe00
 	    		<div id="videoContainer">
 	    		 	<div class="dynDiv_resizeDiv_tl"></div>
 				 	<video id="localVideo" autoplay>
@@ -121,10 +124,17 @@
 					</video>
 	    		
 	    		<video id='remoteVideo' class="remoteVideo" autoplay>
+<<<<<<< HEAD
 	    		   <!--  
 	    			 <source src="http://www.w3schools.com/tags/movie.mp4" type="video/mp4">
   					 <source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
   					--> 
+=======
+
+	    			 <source src="http://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+  					<source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+
+>>>>>>> 10450c04d6328ac21f6908a96075e57141b1fe00
 	    		</video>
 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    		<div class="clear"></div>

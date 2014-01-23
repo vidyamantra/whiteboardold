@@ -139,9 +139,11 @@ body {
 	clear:both;
 }
 
+/*
 .canvasMsgBoxParent #videos{
 	margin-top : -200px;
 } 
+*/
 
 #videos{
 
@@ -155,7 +157,7 @@ body {
 
 #remoteVideo{
 	border:1px solid #CCCCCC;
-	width:30%;
+	width:100%;
 }
 
 #remoteVideo2{
@@ -625,27 +627,60 @@ a, canavas{
 }
 
 
+	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
+	background-image:url('../images/resize.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	width: 10px;
+	height: 10px;
+	background: #faa;
+	border: 1px solid #000;
+	position: absolute;
+	}
+
+	.dynDiv_resizeDiv_tl {
+ 	top: 4px;
+ 	left: -3px;
+ 	border:none;
+ 	z-index: 100;
+}
 
 
-@media only screen and (max-width: 1920px) and (min-width: 1368px){
+	#videoContainer {
+  	min-width:250px;
+  	height:auto;
+  	background: transparent;
+  	top: -190px;
+  	position: absolute;
+  	right: 0
+  	
+  	}
+  	
+  	#videoControl{
+	position: absolute; 
+  	}
+
+
+
+@media only screen and (max-width: 1920px) and (min-width: 1369px){
 	
 	#canvasWrapper #canvas{
-		width: 1670px;
-		height: 780px;
+		width: 1025px;
+		height: 715px;
 	}
 	
 	
 	#t_assign.controlCmd{
-		margin-left: 90%;
+		margin-left: 78%;
 	}
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1670px;
+		width:1025px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1655px;
+		width: 1010px;
 	}
 	#videos{
 		width: auto;
@@ -653,7 +688,7 @@ a, canavas{
 	}
 	
 	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
-		width: 175px;
+		width: 120px;
 	}
 	
 	#commandToolsWrapper{
@@ -668,9 +703,9 @@ a, canavas{
 		height: auto;
 		margin: 0;
 		position: absolute;
-		right: 2px;
-		top: 91px;
-		width: 7%;
+		right: 3px;
+		margin-top: 49%;
+		width: 35%;
 		z-index: 100;
 	}
 	
@@ -683,14 +718,14 @@ a, canavas{
 	
 
 	#canvasDrawMsgContFirefox{
-		bottom: 816px;
+		bottom: 765px;
 		left: 370px;
 	}
 	
 	
 	#videos{
 		position: relative;
-		top: -781px;
+		top: -171px;
 	}
 	
 	
@@ -700,35 +735,55 @@ a, canavas{
 	}
 	
 	#remoteVideo{
-		width: 18%;
+		width: 100%;
 	}
 	
 	#vcanvas.student #videos{
 		border-bottom: none;
 	}
 	
-	#commandToolsWrapper{
-		padding-left: 20px;
-	}
-	
-	#informationCont{
-		width: 38%;
-		margin-right: 10%;
-	}
-	#dataInformation{
-		margin-left: 25%;
-	}
-	#commandToolsWrapper{
-		padding-left: 15px;
-	}
-	
 	#vcanvas.student #videos{
-		top: -780px;
+		top: 16px;
 	}
 	
-	#vcanvas.student #videos #localVideo{
-		top: 139px;
+	.dynDiv_resizeDiv_tl{
+		padding-bottom: 5px;
+		padding-right: 5px;
 	}
+	
+	
+	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
+	background-color: #fff !important;
+	background-image:url('../images/resize.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	width: 10px;
+	height: 10px;
+	background: #faa;
+	border: 1px solid #000;
+	position: absolute;
+	}
+
+	.dynDiv_resizeDiv_tl {
+ 	top: 4px;
+ 	left: -3px;
+ 	border:none;
+ 	z-index: 100;
+}
+
+
+	#videoContainer {
+  	min-width:250px;
+  	height:auto;
+  	background: transparent;
+  	top: -190px;
+  	position: absolute;
+  	right: 0
+  	
+  	}
+
+
+	
 		
 	
 }
@@ -743,6 +798,7 @@ a, canavas{
 
 @media only screen and (max-width: 1368px) and (min-width: 1281px){
 	
+	
 	#canvasWrapper #canvas{
 		width: 1125px;
 		height: 475px;
@@ -750,20 +806,16 @@ a, canavas{
 	
 	
 	#t_assign.controlCmd{
-		margin-left: 84%;
+		margin-left: 78%;
 	}
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1125px;
+		width:1025px;
 	}
 	
-	#commandToolsWrapper{
-		padding-left: 15px;
-		width: 1110px;
-	}
-	#dataInfoHeading{
-		width: 1105px;
+	#commandToolsWrapper, #dataInfoHeading{
+		width: 1010px;
 	}
 	#videos{
 		width: auto;
@@ -771,7 +823,7 @@ a, canavas{
 	}
 	
 	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
-		width: 175px;
+		width: 120px;
 	}
 	
 	#commandToolsWrapper{
@@ -786,9 +838,9 @@ a, canavas{
 		height: auto;
 		margin: 0;
 		position: absolute;
-		right: 2px;
-		top: 91px;
-		width: 7%;
+		right: 3px;
+		margin-top: 49%;
+		width: 35%;
 		z-index: 100;
 	}
 	
@@ -801,14 +853,14 @@ a, canavas{
 	
 
 	#canvasDrawMsgContFirefox{
-		bottom: 520px;
-		left: 375px;
+		bottom: 765px;
+		left: 370px;
 	}
 	
 	
 	#videos{
 		position: relative;
-		top: -476px;
+		top: -171px;
 	}
 	
 	
@@ -818,34 +870,56 @@ a, canavas{
 	}
 	
 	#remoteVideo{
-		width: 18%;
+		width: 100%;
 	}
 	
 	#vcanvas.student #videos{
 		border-bottom: none;
 	}
 	
-	#informationCont{
-		width: 48%;
-		margin-right: 0%;
-	}
-	#dataInformation{
-		margin-left: 5%;
-	}
-	
-	#packetContainer h4{
-		padding-left: 20px;
-	}
-	
 	#vcanvas.student #videos{
-		top: -475px;
+		top: 16px;
 	}
-	#vcanvas.student #videos #localVideo{
-		top:95px;
+	
+	.dynDiv_resizeDiv_tl{
+		padding-bottom: 5px;
+		padding-right: 5px;
 	}
-	#videos #remoteVideo{
-		margin-right: 1px;
-	}	
+	
+	
+	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
+	background-color: #fff !important;
+	background-image:url('../images/resize.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	width: 10px;
+	height: 10px;
+	background: #faa;
+	border: 1px solid #000;
+	position: absolute;
+	}
+
+	.dynDiv_resizeDiv_tl {
+ 	top: 4px;
+ 	left: -3px;
+ 	border:none;
+ 	z-index: 100;
+}
+
+
+	#videoContainer {
+  	min-width:250px;
+  	height:auto;
+  	background: transparent;
+  	top: -190px;
+  	position: absolute;
+  	right: 0
+  	
+  	}
+
+
+	
+	
 	
 }
 
@@ -895,8 +969,8 @@ a, canavas{
 		margin: 0;
 		position: absolute;
 		right: 3px;
-		top: 107px;
-		width: 8%;
+		margin-top: 49%;
+		width: 35%;
 		z-index: 100;
 	}
 	
@@ -926,7 +1000,7 @@ a, canavas{
 	}
 	
 	#remoteVideo{
-		width: 22%;
+		width: 100%;
 	}
 	
 	#vcanvas.student #videos{
@@ -934,8 +1008,45 @@ a, canavas{
 	}
 	
 	#vcanvas.student #videos{
-		top: -176px;
+		top: 16px;
 	}
+	
+	.dynDiv_resizeDiv_tl{
+		padding-bottom: 5px;
+		padding-right: 5px;
+	}
+	
+	
+	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
+	background-color: #fff !important;
+	background-image:url('../images/resize.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	width: 10px;
+	height: 10px;
+	background: #faa;
+	border: 1px solid #000;
+	position: absolute;
+	}
+
+	.dynDiv_resizeDiv_tl {
+ 	top: 4px;
+ 	left: -3px;
+ 	border:none;
+ 	z-index: 100;
+}
+
+
+	#videoContainer {
+  	min-width:250px;
+  	height:auto;
+  	background: transparent;
+  	top: -190px;
+  	position: absolute;
+  	right: 0
+  	
+  	}
+
 		
 	
 }
@@ -980,11 +1091,10 @@ a, canavas{
 	#videos #localVideo{
 		height: auto;
 		position: absolute;
-		right: 3px;
+		right: 2px;
 		margin: 0;
-		top: 76px;		
+		margin-top: 51%;	
 		z-index: 100;
-		width: 7%;
 	}
 	
 	#videos #remoteVideo{
@@ -994,9 +1104,11 @@ a, canavas{
 		padding: 2px;
 	}
 	
+/*
 	#remoteVideo{
 		width: 20%;
 	}
+*/
 	
 	#canvasDrawMsgContFirefox{
 		bottom: 532px;
@@ -1015,9 +1127,7 @@ a, canavas{
 		position: absolute;
 	}
 	
-	#remoteVideo{
-		width: 20%;
-	}
+
 	
 	#vcanvas.student #videos{
 		border-bottom: none;
@@ -1027,10 +1137,55 @@ a, canavas{
 		top: -125px;
 	}	
 	
+	#vcanvas.student #videos{
+		top: 16px;
+	}
+	
+	.dynDiv_resizeDiv_tl{
+		padding-bottom: 5px;
+		padding-right: 5px;
+	}
+	
+	
+	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
+	background-color: #fff !important;
+	background-image:url('../images/resize.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	width: 10px;
+	height: 10px;
+	background: #faa;
+	border: 1px solid #000;
+	position: absolute;
+	}
+
+	.dynDiv_resizeDiv_tl {
+ 	top: 2px;
+ 	left: -3px;
+ 	border:none;
+ 	z-index: 100;
+}
+
+
+	#videoContainer {
+  	min-width:200px;
+  	height:auto;
+  	background: transparent;
+  	top: -150px;
+  	position: absolute;
+  	right: 0
+  	
+  	}
+	
+	
+	
+	
+	
 }
 
 
 /* HASAN CSS 1280 RESOLUTION END */
+
 
 
 
