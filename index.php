@@ -110,7 +110,6 @@
 	    -->			
 	    		<!--  <h4>Users Video</h4> -->
 	    		<!--   <video id='localVideo' autoplay></video>-->
-	    			<div id="videoControl">M</div>
 	    		<div id="videoContainer">
 				 	<div class="dynDiv_resizeDiv_tl"></div>
 				 	<video id="localVideo" autoplay>
@@ -126,6 +125,7 @@
 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    		<div class="clear"></div>
 	    </div>
+	     </div>
 	    
 	    <div id="packetContainer">
 	    		 <!--   <h4>Data Details</h4> -->

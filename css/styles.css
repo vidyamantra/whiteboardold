@@ -811,11 +811,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1025px;
+		width:1125px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1010px;
+		width: 1110px;
 	}
 	#videos{
 		width: auto;
@@ -860,7 +860,7 @@ a, canavas{
 	
 	#videos{
 		position: relative;
-		top: -171px;
+		top: 0px;
 	}
 	
 	
