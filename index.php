@@ -112,15 +112,19 @@
 	    		<!--  <h4>Users Video</h4> -->
 	    		<!--   <video id='localVideo' autoplay></video>-->
 	    		
+	    		<!--   <div id="videoMiniMize">M</div> -->	
+	    		
 	    		<div id="videoContainer">
-				 	<div class="dynDiv_resizeDiv_tl"></div>
+	    		 	<div class="dynDiv_resizeDiv_tl"></div>
 				 	<video id="localVideo" autoplay>
 				 		
 					</video>
 	    		
 	    		<video id='remoteVideo' class="remoteVideo" autoplay>
+	    		   <!--  
 	    			 <source src="http://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-  					<source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+  					 <source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
+  					--> 
 	    		</video>
 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    		<div class="clear"></div>

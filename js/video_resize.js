@@ -1,15 +1,8 @@
 (
-	function (window){
+
+function (window){
 		
 var ByRei_dynDiv = {
-
- info: {
-  Name: "ByRei dynDiv",
-  Version:  "1.0 RC1",
-  Author: "Markus Bordihn (http://markusbordihn.de)",
-  Description: "Simple dynamic DIV's"
- },
-
  api: {
   drag: null,
   drop: null,
