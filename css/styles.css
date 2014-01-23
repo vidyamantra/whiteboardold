@@ -672,6 +672,29 @@ a, canavas{
 */
 
 
+  	#videoMinMize{
+  	background-image:url('../images/min.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	height: 16px;
+    position: absolute;
+    width: 16px;
+    z-index: 100;
+	right: 0;
+  	}
+  	
+  	#videoMaxMize{
+	background-image:url('../images/max.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	height: 16px;
+    position: absolute;
+    width: 16px;
+    z-index: 100;
+  	}
+  	
+
+
 
 @media only screen and (max-width: 1920px) and (min-width: 1369px){
 	
@@ -808,8 +831,6 @@ a, canavas{
 	background-repeat: no-repeat;
 	height: 30px;
     position: absolute;
-    right: -6px;
-    top: -791px;
     width: 30px;
 	
   	}
@@ -977,9 +998,11 @@ a, canavas{
   	
   	}
 
+/*
   	#vcanvas.student #videoContainer {
 	  top: -491px;
   	}
+*/
 
 	#videoMinMize, #videoMaxMize{
 	  	position: absolute;
@@ -1008,7 +1031,6 @@ a, canavas{
     height: 16px;
     position: absolute;
     right: 0;
-    top: -490px;
     width: 16px;
 	}
 	
@@ -1018,11 +1040,10 @@ a, canavas{
 	height: 16px;
     position: absolute;
     right: 0;
-    top: -488px;
     width: 16px;
 	}
 	
-	
+
 
 	
 }
@@ -1154,16 +1175,21 @@ a, canavas{
 */
 
 	#videoContainer {
+/*
 	background: transparent;
  	width: 285px;
  	height : 200px;
+*/
 /*  	border: 1px solid #aaa; */
+/*
  	position: absolute;
  	right:0;
  	bottom:0;
  	overflow: hidden;
+*/
 	}
   	
+/*
   	#videoMinMize, #videoMaxMize{
 	  	position: absolute;
   	}
@@ -1172,10 +1198,11 @@ a, canavas{
 	  	top:-211px;
   	}
   	
-  		#videoMinMize, #videoMaxMize{
+  	#videoMinMize, #videoMaxMize{
 	  	position: absolute;
   	}
   	
+*/
   	
   	
   	#vcanvas.student #videoMinMize{
@@ -1193,13 +1220,14 @@ a, canavas{
   	}
   	
   	
+/*
   	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
     border-bottom: 1px solid #CCCCCC;
     border-left: 1px solid #CCCCCC;
     height: 16px;
     position: absolute;
     right: 0;
-    top: -90px;
+ 
     width: 16px;
 	}
 	
@@ -1209,12 +1237,24 @@ a, canavas{
 	height: 16px;
     position: absolute;
     right: 0;
-    top: -88px;
     width: 16px;
 	}
+*/
 	
+	
+	#videoContainer {
+	width: 250px;
+    height : 200px;
+    position: absolute;
+    right:0;
+    bottom:0;
+    overflow: hidden;
+    }
   	
-  	
+	#videos #remoteVideo{
+	left:0px;
+	bottom: 0px;
+	}
 
 		
 	
