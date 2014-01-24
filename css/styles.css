@@ -675,11 +675,7 @@ a, canavas{
 
 @media only screen and (max-width: 1920px) and (min-width: 1369px){
 	
-	#canvasWrapper #canvas{
-		width: 1650px;
-		height: 780px;
-	}
-	
+
 	
 	#t_assign.controlCmd{
 		margin-left: 89%;
@@ -929,10 +925,7 @@ a, canavas{
 @media only screen and (max-width: 1368px) and (min-width: 1281px){
 	
 	
-	#canvasWrapper #canvas{
-		width: 1125px;
-		height: 475px;
-	}
+
 	
 	
 	#t_assign.controlCmd{
@@ -1103,10 +1096,7 @@ a, canavas{
 
 @media only screen and (max-width: 1280px) and (min-width: 1025px){
 	
-	#canvasWrapper #canvas{
-		width: 1025px;
-		height: 715px;
-	}
+
 	
 	
 	#t_assign.controlCmd{
@@ -1304,12 +1294,7 @@ a, canavas{
 
 
 @media only screen and (max-width: 1024px) and (min-width: 768px){
-	
-	#canvasWrapper #canvas{
-		width: 800px;
-		height: 480px;
-	}
-	
+
 	#t_assign.controlCmd{
 		margin-left: 78%;
 	}
