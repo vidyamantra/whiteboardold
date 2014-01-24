@@ -599,6 +599,8 @@ a, canavas{
 
 
 
+
+
 @media only screen and (max-width: 1920px) and (min-width: 1369px){
 	
 
@@ -609,11 +611,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:auto;
+		width:1650px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: auto;
+		width: 1635px;
 	}
 	#videos{
 		width: auto;
@@ -637,7 +639,7 @@ a, canavas{
 		height: auto;
 		margin: 0;
 		position: absolute;
-		right: 3px;
+		right: 0;
 		margin-top: 49%;
 		width: 35%;
 		z-index: 100;
@@ -646,7 +648,7 @@ a, canavas{
 	#videos #remoteVideo{
 		margin-left: 0px;
 		margin-top:0px;
-		right: -1px;
+		right: -10px;
 		padding: 3px;
 	}
 	
@@ -688,7 +690,7 @@ a, canavas{
 	
 	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
 	background-color: #fff !important;
-	background-image:url('../images/resizePlus.png') !important;
+	background-image:url('../images/resize.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
 	width: 10px;
@@ -706,45 +708,27 @@ a, canavas{
 }
 
 
-/*
-	#videoContainer {
-  	min-width:285px;
-  	height:auto;
-  	background: transparent;
-  	top: -926px;
-  	position: absolute;
-  	right: 0
-  	
-  	}
-*/
-
-
-
-  	#vcanvas.student #videoContainer {
-	  top: -796px;
-  	}
 
   	#videoMinMize{
   	background-image:url('../images/min.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
-	height: 30px;
+	height: 16px;
     position: absolute;
-    right: -6px;
-    top: -791px;
-    width: 30px;
-	
+    right: 0px;
+    width: 16px;
+	z-index: 100;
   	}
   	
   	#videoMaxMize{
 	background-image:url('../images/max.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
-	height: 30px;
+	height: 16px;
     position: absolute;
-    right: -6px;
-    top: -791px;
-    width: 30px;
+    right: 0px;
+    width: 16px;
+	z-index: 100;
   	}
   	
   	
@@ -754,7 +738,6 @@ a, canavas{
     height: 16px;
     position: absolute;
     right: 0;
-    top: -795px;
     width: 16px;
 	}
 	
@@ -768,7 +751,7 @@ a, canavas{
 		bottom: 810px;
 	}
 	
-		#videoContainer {
+	#videoContainer {
 	background: transparent;
  	width: 285px;
  	height : 200px;
@@ -809,35 +792,34 @@ a, canavas{
   	
   	
   	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
-    border-bottom: 1px solid #CCCCCC;
-    border-right: 1px solid #CCCCCC;
     height: 16px;
     position: absolute;
-    right: 0;
     top: 2px;
     width: 16px;
+
 	}
 	
-	#vcanvas.student #videos #videoMinMize{
+	#vcanvas.student #videos #videoMinMize, #videoMinMize{
 	border-left: none;
 	border-bottom: none;
 	height: 16px;
     position: absolute;
-    right: -1;
-    top: 2;
+    right: -1px;
+    top: -2;
     width: 16px;
 	}
 	
-	#vcanvas.student #videos #videoMaxMize{
-	top:-33px;
+	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
 	border-left: 1px solid #CCCCCC;
-    border-top: 1px solid #CCCCCC;
+	border-top:#ccc 1px solid;
+	border-right: none;
+	height: 16px;
+    right: 0px;
+    top: -12px;
+    width: 16px;
 	}
   	
-  	
-	
-	
-	
+
 }
 
 
@@ -860,11 +842,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:auto;
+		width:1125px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: auto;
+		width: 1110px;
 	}
 	#videos{
 		width: auto;
@@ -896,7 +878,7 @@ a, canavas{
 	#videos #remoteVideo{
 		margin-left: 0px;
 		margin-top:0px;
-		right: -1px;
+		right: -8px;
 		padding: 3px;
 	}
 	
@@ -938,7 +920,7 @@ a, canavas{
 	
 	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
 	background-color: #fff !important;
-	background-image:url('../images/resizePlus.png') !important;
+	background-image:url('../images/resize.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
 	width: 10px;
@@ -949,7 +931,7 @@ a, canavas{
 	}
 
 	.dynDiv_resizeDiv_tl {
- 	top: 177px;
+ 	top: 0;
  	left: -3px;
  	border:none;
  	z-index: 100;
@@ -957,33 +939,36 @@ a, canavas{
 
 
 	#videoContainer {
-  	min-width:250px;
-  	height:auto;
-  	background: transparent;
-  	top: -476px;
-  	position: absolute;
-  	right: 0
+	background: transparent;
+ 	width: 285px;
+ 	height : 200px;
+/*  	border: 1px solid #aaa; */
+ 	position: absolute;
+ 	right:0;
+ 	bottom:0;
+ 	overflow: hidden;
+	}
   	
-  	}
-
-  	#vcanvas.student #videoContainer {
-	  top: -491px;
-  	}
-
-	#videoMinMize, #videoMaxMize{
+  	#videoMinMize, #videoMaxMize{
 	  	position: absolute;
   	}
   	
+  	#vcanvas.student #videoContainer{
+	  	top:-211px;
+  	}
   	
+  	#videoMinMize, #videoMaxMize{
+	  	position: absolute;
+  	}
   	
-  	#vcanvas.student #videoMinMize{
+  	#vcanvas.student #videoMinMize, #videoMinMize{
   	background-image:url('../images/min.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
 	
   	}
   	
-  	#vcanvas.student #videoMaxMize{
+  	#vcanvas.student #videoMaxMize, #videoMaxMize{
 	background-image:url('../images/max.png') !important;
 	background-position: left top;
 	background-repeat: no-repeat;
@@ -991,26 +976,30 @@ a, canavas{
   	}
   	
   	
-  	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
-    border-bottom: 1px solid #CCCCCC;
-    border-left: 1px solid #CCCCCC;
-    height: 16px;
-    position: absolute;
-    right: 0;
-    top: -490px;
-    width: 16px;
-	}
-	
-	#vcanvas.student #videos #videoMinMize{
+
+	#vcanvas.student #videos #videoMinMize, #videoMinMize{
 	border-left: none;
 	border-bottom: none;
 	height: 16px;
     position: absolute;
-    right: 0;
-    top: -488px;
+    right: -1px;
+    top: -2;
     width: 16px;
+    z-index: 100;
 	}
 	
+	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
+	border-left: 1px solid #CCCCCC;
+	border-top:#ccc 1px solid;
+	border-right: none;
+	height: 16px;
+    right: 0px;
+    top: -12px;
+    width: 16px;
+     z-index: 100;
+	}
+  	
+  	
 	
 
 	
@@ -1031,11 +1020,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:auto;
+		width:1025px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: auto;
+		width: 1010px;
 	}
 	#videos{
 		width: auto;
@@ -1133,18 +1122,7 @@ a, canavas{
     z-index: 100;
     }
 
-/*
 
-	#videoContainer {
-  	min-width:250px;
-  	height:auto;
-  	background: transparent;
-  	top: -190px;
-  	position: absolute;
-  	right: 0
-  	
-  	}
-*/
 
 	#videoContainer {
 	background: transparent;
@@ -1165,11 +1143,9 @@ a, canavas{
 	  	top:-211px;
   	}
   	
-  		#videoMinMize, #videoMaxMize{
+  	#videoMinMize, #videoMaxMize{
 	  	position: absolute;
   	}
-  	
-  	
   	
   	#vcanvas.student #videoMinMize, #videoMinMize{
   	background-image:url('../images/min.png') !important;
@@ -1187,31 +1163,32 @@ a, canavas{
   	
   	
   	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
-    border-bottom: 1px solid #CCCCCC;
-    border-right: 1px solid #CCCCCC;
     height: 16px;
     position: absolute;
-    right: 0;
     top: 2px;
     width: 16px;
+    right: -1px;
 	}
 	
-	#vcanvas.student #videos #videoMinMize{
+	#vcanvas.student #videos #videoMinMize, #videoMinMize{
 	border-left: none;
 	border-bottom: none;
 	height: 16px;
     position: absolute;
-    right: -1;
-    top: 2;
+    right: -1px;
+    top: -2;
     width: 16px;
 	}
 	
-	#vcanvas.student #videos #videoMaxMize{
-	top:-33px;
+	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
 	border-left: 1px solid #CCCCCC;
-    border-top: 1px solid #CCCCCC;
+	border-top:#ccc 1px solid;
+	border-right: none;
+	height: 16px;
+    right: 0px;
+    top: -12px;
+    width: 16px;
 	}
-  	
   	
 
 		
@@ -1227,11 +1204,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:auto;
+		width:800px;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: auto;
+		width: 785px;
 	}
 	#videos{
 		width: auto;
@@ -1262,7 +1239,7 @@ a, canavas{
 	#videos #remoteVideo{
 		margin-left: 0px;
 		margin-top:0px;
-		right: -1px;
+		right: -6px;
 		padding: 2px;
 	}
 	
@@ -1280,7 +1257,7 @@ a, canavas{
 	
 	#videos{
 		position: relative;
-		top: -120px;
+
 	}
 	
 	
@@ -1330,17 +1307,66 @@ a, canavas{
 
 
 	#videoContainer {
-  	min-width:200px;
-  	height:auto;
-  	background: transparent;
-  	top: -30px;
-  	position: absolute;
-  	right: 0
-  	
-  	}
-	#videoMinMize, #videoMaxMize{
-		position: absolute;
+	background: transparent;
+ 	width: 200px;
+ 	height : 163px;
+/*  	border: 1px solid #aaa; */
+ 	position: absolute;
+ 	right:0;
+ 	bottom:-13px;
+ 	overflow: hidden;
 	}
+  	
+  	#videoMinMize, #videoMaxMize{
+	  	position: absolute;
+  	}
+  	
+  	#vcanvas.student #videoContainer{
+	  	top:-211px;
+  	}
+  	
+  	#videoMinMize, #videoMaxMize{
+	  	position: absolute;
+  	}
+  	
+  	#vcanvas.student #videoMinMize, #videoMinMize{
+  	background-image:url('../images/min.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+	
+  	}
+  	
+  	#vcanvas.student #videoMaxMize, #videoMaxMize{
+	background-image:url('../images/max.png') !important;
+	background-position: left top;
+	background-repeat: no-repeat;
+
+  	}
+  	
+  	
+
+	#vcanvas.student #videos #videoMinMize, #videoMinMize{
+	border-left: none;
+	border-bottom: none;
+	height: 16px;
+    position: absolute;
+    right: -1px;
+    top: -2;
+    width: 16px;
+    z-index: 100;
+	}
+	
+	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
+	border-left: 1px solid #CCCCCC;
+	border-top:#ccc 1px solid;
+	border-right: none;
+	height: 16px;
+    right: 0px;
+    top: -12px;
+    width: 16px;
+     z-index: 100;
+	}
+  	
 	
 	
 	
