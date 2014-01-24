@@ -625,7 +625,9 @@
 						if(!whBoard.utility.checkWebRtcConnected()){
 							vcan.studentId = id;
 							localStorage.studentId = id;
-							vm_chat.send({'isChannelReady':true});
+//							var outerWidth = window.outerWidth;
+//							vm_chat.send({'isChannelReady':true, bwidth: outerWidth});
+							vm_chat.send({'isChannelReady' : true});
 							vcan.oneExecuted = false;
 		  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
 		  				}

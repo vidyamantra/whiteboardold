@@ -129,6 +129,8 @@ $.when(
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
 				}
+				var outerWidth = window.outerWidth;
+				vm_chat.send({'shareBrowserWidth':true, bwidth: outerWidth});
 	  		});
 		
 		if(typeof localStorage.teacherId != 'undefined'){
@@ -140,7 +142,13 @@ $.when(
     	}
 		vcan.tempArr = [];
   		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('createPeerObj')){
+  			if(e.message.hasOwnProperty('shareBrowserWidth')){
+  				if(e.fromUser.userid != id){
+  					//alert(e.message.bwidth); //to share the browser window
+  				}
+  				
+  				return;
+  			}else if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
   				if(myVideo.currBrowser == id){
@@ -155,6 +163,7 @@ $.when(
   					cthis.isStarted = false;
   				}
   			}else if(e.message.hasOwnProperty('isChannelReady')){
+  				
   				e.message.isChannelReady = true; 
   				vcan.myvid.videoOnMsg(e.message);
     		}else if(e.message.hasOwnProperty('video')){
