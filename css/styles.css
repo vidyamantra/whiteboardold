@@ -598,42 +598,6 @@ a, canavas{
 }
 
 
-/*
-	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
-	background-image:url('../images/resize.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	width: 10px;
-	height: 10px;
-	background: #faa;
-	border: 1px solid #000;
-	position: absolute;
-	}
-
-	.dynDiv_resizeDiv_tl {
- 	top: 4px;
- 	left: -3px;
- 	border:none;
- 	z-index: 100;
-}
-
-
-	#videoContainer {
-  	min-width:250px;
-  	height:auto;
-  	background: transparent;
-  	top: -190px;
-  	position: absolute;
-  	right: 0
-  	
-  	}
-  	
-  	#videoControl{
-	position: absolute; 
-  	}
-*/
-
-
 
 @media only screen and (max-width: 1920px) and (min-width: 1369px){
 	
@@ -645,11 +609,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1650px;
+		width:auto;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1630px;
+		width: auto;
 	}
 	#videos{
 		width: auto;
@@ -896,11 +860,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1125px;
+		width:auto;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1110px;
+		width: auto;
 	}
 	#videos{
 		width: auto;
@@ -1067,11 +1031,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1025px;
+		width:auto;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1010px;
+		width: auto;
 	}
 	#videos{
 		width: auto;
@@ -1263,11 +1227,11 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:800px;
+		width:auto;
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 785px;
+		width: auto;
 	}
 	#videos{
 		width: auto;
