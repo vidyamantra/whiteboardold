@@ -55,55 +55,17 @@ body {
 	display:block;
 }
 
-#qunit{
-	/*clear:both;*/
-}
-
-/*
-#sendPackCont, #receivePackCont{
-	border: 2px solid #DDDDDD;
-    margin-left: 5%;
-    margin-top: 10px;
-    width: 30%;
-    padding:5px;
-    float:left;
-    height : 60px;	
-}
-
-
-#receivePackCont{
-	float:right;
-	margin-left: 0;
-	margin-right:5%;
-}
-
-*/
 .numbers{
 	float:right;
 	
 }
 
-/*
-#totSendPackCont, #totReceivedPackCont{
-	border-top:2px solid #ddd;
-	padding:5px;
-}
 
-#sendPackPsCont, #receivePackPsCont{
-	padding:5px;
-}*/
 
 #sendPackCont{
 	/*padding:10px; */
 }
 
-/*
-#informationCont{
-	clear:both;
-	margin-left:550px;
-	margin-top:40px;
-	width:auto;
-} */
 
 
 #informationCont{
