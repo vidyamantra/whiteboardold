@@ -96,10 +96,9 @@
 		   }
 	   }
 	   
-	   whBoard.system.setCanvasDimension = function (){
-		   var canvas = vcan.main.canvas;
-		   var resolution = whBoard.system.getResoultion();
-			if(resolution.width == 1024){
+	   whBoard.system.measureResoultion = function (resolution){
+		    var canvas  = {};
+		    if(resolution.width == 1024){
 				canvas.width = 800;
 				canvas.height = 480;
 			}else if(resolution.width == 1280){
@@ -112,6 +111,31 @@
 				canvas.width = 1670;
 				canvas.height = 780;
 			}
+		    return canvas;
+		   
+	   }
+	   
+	   whBoard.system.setCanvasDimension = function (){
+		   var canvas = vcan.main.canvas;
+		   var resolution = whBoard.system.getResoultion();
+		   var measureRes = whBoard.system.measureResoultion(resolution);
+		   	   canvas.width = measureRes.width;
+			   canvas.height = measureRes.height;
+			   
+//			if(resolution.width == 1024){
+//				canvas.width = 800;
+//				canvas.height = 480;
+//			}else if(resolution.width == 1280){
+//				canvas.width = 1025;
+//				canvas.height = 715;
+//			}else if(resolution.width == 1366){
+//				canvas.width = 1125;
+//				canvas.height = 475;
+//			}else if(resolution.width == 1920){
+//				canvas.width = 1670;
+//				canvas.height = 780;
+//			}
+			   
 	   }
 	   
 	   whBoard.system.getResoultion =  function (){
@@ -133,7 +157,7 @@
 			return resolution;
 	  }
 	   
-	  window.addEventListener('resize', whBoard.system.setCanvasDimension);
+	 window.addEventListener('resize', whBoard.system.setCanvasDimension);
 	   
 	 var browser = whBoard.system.mybrowser.detection();
 	 var browserName = browser[0];

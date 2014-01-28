@@ -124,13 +124,32 @@ $.when(
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
 		
-		$(document).on("member_added", function(e){
+		$(document).on("member_added", function(e){ 
 				whBoard.utility.initDefaultInfo(e,  myVideo);
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
 				}
-				var outerWidth = window.outerWidth;
-				vm_chat.send({'shareBrowserWidth':true, bwidth: outerWidth});
+				//this should be 
+				var res = whBoard.system.getResoultion();
+				
+				
+				//var outerWidth = window.outerWidth;
+				
+//				e.message.
+//				if(member_added){
+//					
+//				}
+				
+			//	vm_chat.send({'shareBrowserWidth':true, browserRes: res});
+				
+				for(var i=0; i<e.message.length; i++){
+					if(e.message[i].userid == id){
+						//alert('suman bogati');
+						vm_chat.send({'shareBrowserWidth':true, browserRes: res});
+						break;
+					}
+				}
+				
 	  		});
 		
 		if(typeof localStorage.teacherId != 'undefined'){
@@ -141,12 +160,38 @@ $.when(
 			}
     	}
 		vcan.tempArr = [];
+		num = 0;
+		virtualWindow = false;
   		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('shareBrowserWidth')){
+  			if(e.message.hasOwnProperty('virtualWindow')){
   				if(e.fromUser.userid != id){
-  					//alert(e.message.bwidth); //to share the browser window
+  					//e.message.hasOwnProperty('virtualWindow')
+  					whBoard.utility.createVirtualWindow(e.message.virtualWindow);
+  					
+  					//alert('I am not interested');
+  					return;
+  				}
+  			}else if(e.message.hasOwnProperty('shareBrowserWidth')){
+  				if(e.fromUser.userid != id){
+  					 otherBrowser = e.message.browserRes; 
+  				}else{
+  					 myBrowser = whBoard.system.getResoultion();
   				}
   				
+  				if(typeof myBrowser == 'object' && typeof otherBrowser == 'object'){
+  					if(myBrowser.width > otherBrowser.width){
+  	  						if(virtualWindow == false){
+  	  							whBoard.utility.createVirtualWindow(otherBrowser);
+  	  							virtualWindow = true; 	
+							}
+  	  				}else if(myBrowser.width < otherBrowser.width){
+  	  					    if(virtualWindow == false){
+  	  							//alert("create virtual machine at other side");
+  	  							virtualWindow = true;
+  	  							vm_chat.send({'virtualWindow' : myBrowser});
+							}
+  	  				}
+  				}
   				return;
   			}else if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
@@ -443,7 +488,6 @@ $.when(
 	    			}
 	    		}
 
-	    		
 	    		if(e.message.hasOwnProperty('replayAll')){
 					window.whBoard.vcan.main.replayObjs =  whBoard.globalObj.replayObjs;
 					whBoard.utility.clearAll(false);

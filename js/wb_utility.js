@@ -648,6 +648,31 @@
 					}
 				}
 				return false;
+			},
+			
+			createVirtualWindow : function (resolution){
+				var div = document.createElement('div');
+				var virtualWindow = document.getElementById('virtualWindow');
+				if(virtualWindow == null){
+					div.id = 'virtualWindow';
+					//var offset
+					var offset =  vcan.main.offset;
+					
+					//alert(offset.x);
+					
+					var drawWhiteboard = whBoard.system.measureResoultion(resolution);
+
+					div.style.width = drawWhiteboard.width + "px";
+					div.style.height = drawWhiteboard.height + "px";
+					
+					//div.style.width = (resolution.width) + "px";
+					//div.style.height = (resolution.height) + "px";
+					
+					var containerWhiteBoard = document.getElementById('containerWb');
+					containerWhiteBoard.insertBefore(div, containerWhiteBoard.firstChild);
+					
+					 
+				}
 			}
 			
 //			getResoultion : function (){
