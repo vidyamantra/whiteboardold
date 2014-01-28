@@ -130,7 +130,7 @@ $.when(
 	  				whBoard.utility.makeCanvasDisable();
 				}
 				//this should be 
-				var res = whBoard.system.getResoultion();
+				var res = whBoard.system.getResoultion(window.outerWidth);
 				
 				
 				//var outerWidth = window.outerWidth;
@@ -163,9 +163,19 @@ $.when(
 		num = 0;
 		virtualWindow = false;
   		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('virtualWindow')){
+  			if(e.message.hasOwnProperty('resizeWindow')){
+  				if(e.fromUser.userid != id){
+  					var myResolution =  whBoard.system.getResoultion(window.outerWidth);
+  					var otherResolution = e.message.resizeWindow;
+  					if(otherResolution.width < myResolution.width){
+  						whBoard.utility.createVirtualWindow(otherResolution);
+  					}
+  				}
+  				 return;
+  			}else if(e.message.hasOwnProperty('virtualWindow')){
   				if(e.fromUser.userid != id){
   					//e.message.hasOwnProperty('virtualWindow')
+  					//alert('this is not performing guys');
   					whBoard.utility.createVirtualWindow(e.message.virtualWindow);
   					
   					//alert('I am not interested');
@@ -175,16 +185,20 @@ $.when(
   				if(e.fromUser.userid != id){
   					 otherBrowser = e.message.browserRes; 
   				}else{
-  					 myBrowser = whBoard.system.getResoultion();
+  					 myBrowser = whBoard.system.getResoultion(window.outerWidth);
+  					 //alert(myBrowser.width);
   				}
   				
   				if(typeof myBrowser == 'object' && typeof otherBrowser == 'object'){
   					if(myBrowser.width > otherBrowser.width){
   	  						if(virtualWindow == false){
+  	  							//createVirtualWindow
+  	  							//alert('this is not performing guys what is up');
   	  							whBoard.utility.createVirtualWindow(otherBrowser);
   	  							virtualWindow = true; 	
 							}
   	  				}else if(myBrowser.width < otherBrowser.width){
+  	  						//alert('is this not happening');
   	  					    if(virtualWindow == false){
   	  							//alert("create virtual machine at other side");
   	  							virtualWindow = true;

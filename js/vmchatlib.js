@@ -118,7 +118,7 @@ var vm_chat = {
 			}catch(e){
 				console.log("Error   : "+e);
 				return;
-			}
+			} 
 		}
 		this.sock.onerror = function(e) {
 			scope.error = e;

@@ -117,7 +117,7 @@
 	   
 	   whBoard.system.setCanvasDimension = function (){
 		   var canvas = vcan.main.canvas;
-		   var resolution = whBoard.system.getResoultion();
+		   var resolution = whBoard.system.getResoultion(window.outerWidth);
 		   var measureRes = whBoard.system.measureResoultion(resolution);
 		   	   canvas.width = measureRes.width;
 			   canvas.height = measureRes.height;
@@ -138,18 +138,19 @@
 			   
 	   }
 	   
-	   whBoard.system.getResoultion =  function (){
+	   whBoard.system.getResoultion =  function (windowWidth){
+		   
 			var resolution = {};
-			if(window.outerWidth < 1280){
+			if(windowWidth < 1280){
 				resolution.width = 1024;
 				resolution.height = 768; 
-			}else if(window.outerWidth >= 1280 && window.outerWidth < 1366){
+			}else if(windowWidth >= 1280 && windowWidth < 1366){
 				resolution.width = 1280;
 				resolution.height = 1024;
-			}else if(window.outerWidth >= 1366 && window.outerWidth < 1920){
+			}else if(windowWidth >= 1366 && windowWidth < 1920){
 				resolution.width = 1366;
 				resolution.height = 768;
-			}else if(window.outerWidth >= 1920){
+			}else if(windowWidth >= 1920){
 				resolution.width = 1920;
 				resolution.height = 1080;
 			}
@@ -158,6 +159,7 @@
 	  }
 	   
 	 window.addEventListener('resize', whBoard.system.setCanvasDimension);
+	 window.addEventListener('resize', whBoard.utility.resizeWindow);
 	   
 	 var browser = whBoard.system.mybrowser.detection();
 	 var browserName = browser[0];
