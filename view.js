@@ -3,7 +3,9 @@
 		//window.whBoard.lang.getString
 		whBoard = window.whBoard;
 		whBoard.view.msgBoxClass = 'msgBox';
-		
+		whBoard.view.window = {};
+		whBoard.view.virtualWindow = {};
+
 		/*
 		window.addEventListener('click', function (){
     		whBoard.view.disappearBox('WebRtc')
@@ -105,7 +107,160 @@
 			 var msg =  whBoard.lang.getString('drawArea');
 			 whBoard.view.displayMessage(msg, "canvasDrawArea",  whBoard.view.msgBoxClass+className, 'containerWb', false);
 		 }
-		   
-		
+		 
+		 whBoard.view.window.resize = function (){
+			this.incrFirstRes = this.incrSecRes = this.incrThirdRes = this.incrFourthRes = this.decrFirstRes = this.decrSecRes  = this.decrThirdRes = this.decrFourthRes = false ;
+			
+		//	this.incrSecRes = false;
+		//	this.incrThirdRes = false;
+		//	this.incrFourthRes = false;
+		//	this.decrFirstRes = false;
+		//	this.decrSecRes = false;
+		//	this.decrThirdRes = false;
+		//	this.decrFourthRes = false;
+			
+			var outerWidth = window.outerWidth;
+			
+			if(outerWidth < 1024){ this.incrFirstRes = false;}
+			if(outerWidth < 1280){ this.incrSecRes = false;}
+			if(outerWidth < 1366){ this.incrThirdRes = false;} 
+			if(outerWidth < 1920){ this.incrFourthRes = false;} 
+			
+			if(outerWidth >= 1024 && outerWidth < 1280){
+					if(!this.incrFirstRes){
+						var res = whBoard.system.getResoultion(window.outerWidth);
+						//vm_chat.send({'resizeWindow' : res});
+						vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+						
+					this.incrFirstRes = true;
+				}
+			}else if(outerWidth >= 1280 && outerWidth < 1366){
+				if(!this.incrSecRes){
+					var res  = whBoard.system.getResoultion(window.outerWidth);
+					
+					//vm_chat.send({'resizeWindow' : res});
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+					
+					this.incrSecRes = true;
+					this.decrSecRes = true;
+				}
+			}else if(outerWidth >= 1366 && outerWidth < 1920){
+				if(!this.incrThirdRes){
+					var res  = whBoard.system.getResoultion(window.outerWidth);
+					
+					//vm_chat.send({'resizeWindow' : res});
+					
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+					this.incrThirdRes = true;
+					this.decrThirdRes  = true;
+				}
+			}else if(outerWidth >= 1920){
+				if(!this.incrFourthRes){
+					var res  = whBoard.system.getResoultion(window.outerWidth);
+					
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+					//vm_chat.send({'resizeWindow' : res});
+					
+					this.incrFourthRes = true;
+					this.decrFourthRes = true;
+				}
+			}
+			
+			if(outerWidth < 1280 ){
+				if(this.decrSecRes){
+					var res  = whBoard.system.getResoultion(window.outerWidth);
+					//vm_chat.send({'resizeWindow' : res});
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+					this.decrFirstRes = true;
+					this.decrSecRes = false;
+				}
+			}else if(outerWidth >= 1280 && outerWidth < 1366){
+				if(this.decrThirdRes){
+					var res  = whBoard.system.getResoultion(window.outerWidth);
+					//vm_chat.send({'resizeWindow' : res});
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+					this.decrThirdRes = false;
+				}
+				
+			}else if(outerWidth >= 1366 && outerWidth < 1920){
+				if(this.decrFourthRes){
+					var res  = whBoard.system.getResoultion(window.outerWidth);
+					//vm_chat.send({'resizeWindow' : res});
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+					this.decrFourthRes = false;
+				}
+			}
+			//	console.log(' number of time count ' + count);
+		 }
+		 
+		 
+		 whBoard.view.virtualWindow.manupulation = function (e){
+				var message = e.message.virtualWindow;
+				if(message.hasOwnProperty('removeVirtualWindow')){
+	  				if(e.fromUser.userid != id){
+	  					whBoard.utility.removeVirtualWindow('virtualWindow');
+	  				}
+	  				return;
+	  			}else if(message.hasOwnProperty('resizeWindow')){
+					myResolution =  whBoard.system.getResoultion(window.outerWidth);
+	  				if(e.fromUser.userid != id){
+	  					var otherResolution = message.resizeWindow;
+	  					otherBrowser = otherResolution;
+	  					
+	  					if(otherResolution.width < myResolution.width){
+							whBoard.utility.createVirtualWindow(otherResolution);
+						}else if(otherResolution.width == myResolution.width){
+							whBoard.utility.removeVirtualWindow('virtualWindow');
+						}
+	  				}else{
+	  					if(myResolution.width < otherBrowser.width){
+	  						
+	  						//vm_chat.send({'resizeWindow' : myResolution});
+	  						 vm_chat.send({'virtualWindow' : { 'resizeWindow' : myResolution}});
+
+	  						
+	  						whBoard.utility.removeVirtualWindow('virtualWindow'); 
+	  					}else if(myResolution.width > otherBrowser.width){
+	  						whBoard.utility.createVirtualWindow(otherBrowser);
+	  						
+	  						vm_chat.send({'virtualWindow' : { 'removeVirtualWindow' : true}});
+
+	  						//vm_chat.send({'removeVirtualWindow' : true});
+	  						
+	  					}else if(myResolution.width == otherBrowser.width){
+	  						whBoard.utility.removeVirtualWindow('virtualWindow');
+	  					}
+	  				}
+	  				 return;
+	  			}else if(message.hasOwnProperty('createVirtualWindow')){
+	  				if(e.fromUser.userid != id){
+	  					whBoard.utility.createVirtualWindow(message.virtualWindow);
+	  					return;
+	  				}
+	  			}else if(message.hasOwnProperty('shareBrowserWidth')){
+	  				if(e.fromUser.userid != id){
+	  					 otherBrowser = message.browserRes; 
+	  				}else{
+	  					 myBrowser = whBoard.system.getResoultion(window.outerWidth);
+	  				}
+	  				
+	  				if(typeof myBrowser == 'object' && typeof otherBrowser == 'object'){
+	  					if(myBrowser.width > otherBrowser.width){
+	  	  						if(virtualWindow == false){
+	  	  							whBoard.utility.createVirtualWindow(otherBrowser);
+	  	  							virtualWindow = true; 	
+								}
+	  	  				}else if(myBrowser.width < otherBrowser.width){
+	  	  					    if(virtualWindow == false){
+	  	  							virtualWindow = true;
+	  	  							vm_chat.send({'virtualWindow' : {'createVirtualWindow' : myBrowser}});
+								}
+	  	  				}
+	  				}
+	  			}
+				return;
+			}
+		 
+		 
 	}	
 )(window);

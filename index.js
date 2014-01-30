@@ -67,7 +67,6 @@ $.when(
     		document.getElementById('vcanvas').className = 'student';
 		}else{
     		document.getElementById('vcanvas').className = 'teacher';
-
 		}
     	
     	if(storageHasReclaim){
@@ -124,31 +123,24 @@ $.when(
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
 		
-		$(document).on("member_added", function(e){ 
+		$(document).on("member_added", function(e){
 				whBoard.utility.initDefaultInfo(e,  myVideo);
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
 				}
-				//this should be 
+				
 				var res = whBoard.system.getResoultion(window.outerWidth);
 				
+				//vm_chat.send({'shareBrowserWidth':true, browserRes: res});
 				
-				//var outerWidth = window.outerWidth;
+				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, browserRes: res}});
 				
-//				e.message.
-//				if(member_added){
-//					
+//				for(var i=0; i<e.message.length; i++){
+//					if(e.message[i].userid == id){
+//						vm_chat.send({'shareBrowserWidth':true, browserRes: res});
+//						break;
+//					}
 //				}
-				
-			//	vm_chat.send({'shareBrowserWidth':true, browserRes: res});
-				
-				for(var i=0; i<e.message.length; i++){
-					if(e.message[i].userid == id){
-						//alert('suman bogati');
-						vm_chat.send({'shareBrowserWidth':true, browserRes: res});
-						break;
-					}
-				}
 				
 	  		});
 		
@@ -163,51 +155,11 @@ $.when(
 		num = 0;
 		virtualWindow = false;
   		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('resizeWindow')){
-  				if(e.fromUser.userid != id){
-  					var myResolution =  whBoard.system.getResoultion(window.outerWidth);
-  					var otherResolution = e.message.resizeWindow;
-  					if(otherResolution.width < myResolution.width){
-  						whBoard.utility.createVirtualWindow(otherResolution);
-  					}
-  				}
-  				 return;
-  			}else if(e.message.hasOwnProperty('virtualWindow')){
-  				if(e.fromUser.userid != id){
-  					//e.message.hasOwnProperty('virtualWindow')
-  					//alert('this is not performing guys');
-  					whBoard.utility.createVirtualWindow(e.message.virtualWindow);
-  					
-  					//alert('I am not interested');
-  					return;
-  				}
-  			}else if(e.message.hasOwnProperty('shareBrowserWidth')){
-  				if(e.fromUser.userid != id){
-  					 otherBrowser = e.message.browserRes; 
-  				}else{
-  					 myBrowser = whBoard.system.getResoultion(window.outerWidth);
-  					 //alert(myBrowser.width);
-  				}
-  				
-  				if(typeof myBrowser == 'object' && typeof otherBrowser == 'object'){
-  					if(myBrowser.width > otherBrowser.width){
-  	  						if(virtualWindow == false){
-  	  							//createVirtualWindow
-  	  							//alert('this is not performing guys what is up');
-  	  							whBoard.utility.createVirtualWindow(otherBrowser);
-  	  							virtualWindow = true; 	
-							}
-  	  				}else if(myBrowser.width < otherBrowser.width){
-  	  						//alert('is this not happening');
-  	  					    if(virtualWindow == false){
-  	  							//alert("create virtual machine at other side");
-  	  							virtualWindow = true;
-  	  							vm_chat.send({'virtualWindow' : myBrowser});
-							}
-  	  				}
-  				}
+  			if(e.message.hasOwnProperty('virtualWindow')){
+  				whBoard.view.virtualWindow.manupulation(e);
   				return;
-  			}else if(e.message.hasOwnProperty('createPeerObj')){
+  			}
+			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
   				if(myVideo.currBrowser == id){

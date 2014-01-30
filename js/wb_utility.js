@@ -1,7 +1,5 @@
 (
 	function (window){
-		var fp = sp = tp = frt =  false;
-
 		var whBoard = window.whBoard;
 		whBoard.utility = {
 			
@@ -594,9 +592,6 @@
 	  				//window.whBoard.error = [];
 	  				
 	  			}
-	  			
-	  			
-	  			
 	  		}, 
 	  		
 	  		initDefaultInfo : function (e, myVideo){
@@ -655,10 +650,14 @@
 			createVirtualWindow : function (resolution){
 				//alert('is this happening');
 				var div = document.createElement('div');
-				var virtualWindow = document.getElementById('virtualWindow');
-				if(virtualWindow != null){
-					virtualWindow.parentNode.removeChild(virtualWindow);
-				}
+				
+//				var virtualWindow = document.getElementById('virtualWindow');
+//				if(virtualWindow != null){
+//					virtualWindow.parentNode.removeChild(virtualWindow);
+//				}
+				
+				 whBoard.utility.removeVirtualWindow('virtualWindow');
+				
 				//if(virtualWindow == null){
 					div.id = 'virtualWindow';
 					//var offset
@@ -681,80 +680,12 @@
 				//}
 			},
 			
-			
-			//TODO this function should be optimization
-			resizeWindow : function (){
-				var outerWidth = window.outerWidth;
-				if(outerWidth < 1024){
-					fp = false;
+			removeVirtualWindow : function (id){
+				var virtualWindow = document.getElementById(id);
+				if(virtualWindow != null){
+					virtualWindow.parentNode.removeChild(virtualWindow);
 				} 
-				
-				if(outerWidth < 1280){
-					sp = false;
-				}
-				
-				if(outerWidth < 1366){
-					tp = false;
-				}
-				
-				if(outerWidth < 1920){
-					frp = false;
-				}
-				
-				if(outerWidth >= 1024 && outerWidth < 1280){
-					if(!fp){
-						var res  = whBoard.system.getResoultion(window.outerWidth);
-						console.log('outerWidth ' + res.width);
-						vm_chat.send({'resizeWindow' : res});
-						fp = true;
-					}
-					
-				}else if(outerWidth >= 1280 && outerWidth < 1366){
-					if(!sp){
-						var res  = whBoard.system.getResoultion(window.outerWidth);
-						console.log('outerWidth ' + res.width);
-						vm_chat.send({'resizeWindow' : res});
-						sp = true;
-					}
-				}else if(outerWidth >= 1366 && outerWidth < 1920){
-					if(!tp){
-						var res  = whBoard.system.getResoultion(window.outerWidth);
-						console.log('outerWidth ' + res.width);
-						vm_chat.send({'resizeWindow' : res});
-						tp = true;
-					}
-					
-				}else if(outerWidth >= 1920){
-					if(!frp){
-						var res  = whBoard.system.getResoultion(window.outerWidth);
-						console.log('outerWidth ' + res.width);
-						vm_chat.send({'resizeWindow' : res});
-						frp = true;
-					}
-				}
 			}
-			
-			
-//			getResoultion : function (){
-//				var resolution = {};
-//				if(window.outerWidth < 1280){
-//					resolution.width = 1024;
-//					resolution.height = 768; 
-//				}else if(window.outerWidth >= 1280 && window.outerWidth < 1368){
-//					resolution.width = 1280;
-//					resolution.height = 1024;
-//				}else if(window.outerWidth >= 1368 && window.outerWidth < 1920){
-//					resolution.width = 1368;
-//					resolution.height = 768;
-//				}else if(window.outerWidth >= 1920){
-//					resolution.width = 1920;
-//					resolution.height = 1080;
-//				}
-//				
-//				return resolution;
-//			}
-			
-
 		};
 	}
 )(window);

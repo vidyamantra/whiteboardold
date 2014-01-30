@@ -159,7 +159,7 @@
 	  }
 	   
 	 window.addEventListener('resize', whBoard.system.setCanvasDimension);
-	 window.addEventListener('resize', whBoard.utility.resizeWindow);
+	 window.addEventListener('resize', whBoard.view.window.resize);
 	   
 	 var browser = whBoard.system.mybrowser.detection();
 	 var browserName = browser[0];
