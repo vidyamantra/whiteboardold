@@ -108,101 +108,149 @@
 			 whBoard.view.displayMessage(msg, "canvasDrawArea",  whBoard.view.msgBoxClass+className, 'containerWb', false);
 		 }
 		 
+		 
+		 
+		 count = 0;
+		  //triggered when resize window is finished
+		  whBoard.view.window.resizeFinished = (function(){
+				var timer = 0;
+				return function(callback, ms){
+					clearTimeout (timer);
+					timer = setTimeout(callback, ms);
+				};
+		 	})();
 		 whBoard.view.window.resize = function (){
-			this.incrFirstRes = this.incrSecRes = this.incrThirdRes = this.incrFourthRes = this.decrFirstRes = this.decrSecRes  = this.decrThirdRes = this.decrFourthRes = false ;
-			
-		//	this.incrSecRes = false;
-		//	this.incrThirdRes = false;
-		//	this.incrFourthRes = false;
-		//	this.decrFirstRes = false;
-		//	this.decrSecRes = false;
-		//	this.decrThirdRes = false;
-		//	this.decrFourthRes = false;
-			
-			var outerWidth = window.outerWidth;
-			
-			if(outerWidth < 1024){ this.incrFirstRes = false;}
-			if(outerWidth < 1280){ this.incrSecRes = false;}
-			if(outerWidth < 1366){ this.incrThirdRes = false;} 
-			if(outerWidth < 1920){ this.incrFourthRes = false;} 
-			
-			if(outerWidth >= 1024 && outerWidth < 1280){
-					if(!this.incrFirstRes){
-						var res = whBoard.system.getResoultion(window.outerWidth);
-						//vm_chat.send({'resizeWindow' : res});
-						vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-						
-					this.incrFirstRes = true;
-				}
-			}else if(outerWidth >= 1280 && outerWidth < 1366){
-				if(!this.incrSecRes){
-					var res  = whBoard.system.getResoultion(window.outerWidth);
-					
-					//vm_chat.send({'resizeWindow' : res});
-					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-					
-					this.incrSecRes = true;
-					this.decrSecRes = true;
-				}
-			}else if(outerWidth >= 1366 && outerWidth < 1920){
-				if(!this.incrThirdRes){
-					var res  = whBoard.system.getResoultion(window.outerWidth);
-					
-					//vm_chat.send({'resizeWindow' : res});
-					
-					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-					this.incrThirdRes = true;
-					this.decrThirdRes  = true;
-				}
-			}else if(outerWidth >= 1920){
-				if(!this.incrFourthRes){
-					var res  = whBoard.system.getResoultion(window.outerWidth);
-					
-					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-					//vm_chat.send({'resizeWindow' : res});
-					
-					this.incrFourthRes = true;
-					this.decrFourthRes = true;
-				}
-			}
-			
-			if(outerWidth < 1280 ){
-				if(this.decrSecRes){
-					var res  = whBoard.system.getResoultion(window.outerWidth);
-					//vm_chat.send({'resizeWindow' : res});
-					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-					this.decrFirstRes = true;
-					this.decrSecRes = false;
-				}
-			}else if(outerWidth >= 1280 && outerWidth < 1366){
-				if(this.decrThirdRes){
-					var res  = whBoard.system.getResoultion(window.outerWidth);
-					//vm_chat.send({'resizeWindow' : res});
-					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-					this.decrThirdRes = false;
+			  var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+			  var vcanvas = document.getElementById('vcanvas');
+			  vcanvas.style.width = res.width + 'px';
+			  
+			  vcan.renderAll();
+			   
+			  if (typeof  lastresizetime == 'undefined') {
+				  lastresizetime = new Date().getTime();
+				  //this.sock.send(jobj);
+				  console.log('this is performing');
+				  vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
 				}
 				
-			}else if(outerWidth >= 1366 && outerWidth < 1920){
-				if(this.decrFourthRes){
-					var res  = whBoard.system.getResoultion(window.outerWidth);
-					//vm_chat.send({'resizeWindow' : res});
-					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
-					this.decrFourthRes = false;
+				presentresizetime = new Date().getTime();
+				if ((presentresizetime-lastresizetime)>=500) { // Optimized
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});						
+					lastresizetime = new Date().getTime();
+					console.log('send request ' + count);
 				}
-			}
-			//	console.log(' number of time count ' + count);
+				
+				whBoard.view.window.resizeFinished(function(){
+					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});	
+			    }, 500);
+				
+//			   var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+//			   var vcanvas = document.getElementById('vcanvas');
+//			   vcanvas.style.width = res.width + 'px';
+			   //vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
 		 }
+		 
+//		 whBoard.view.window.resize_old = function (){
+//			this.incrFirstRes = this.incrSecRes = this.incrThirdRes = this.incrFourthRes = this.decrFirstRes = this.decrSecRes  = this.decrThirdRes = this.decrFourthRes = false ;
+//			
+//			
+//			
+//		//	this.incrSecRes = false;
+//		//	this.incrThirdRes = false;
+//		//	this.incrFourthRes = false;
+//		//	this.decrFirstRes = false;
+//		//	this.decrSecRes = false;
+//		//	this.decrThirdRes = false;
+//		//	this.decrFourthRes = false;
+//			
+//			var outerWidth = window.outerWidth;
+//			
+//			if(outerWidth < 1024){ this.incrFirstRes = false;}
+//			if(outerWidth < 1280){ this.incrSecRes = false;}
+//			if(outerWidth < 1366){ this.incrThirdRes = false;} 
+//			if(outerWidth < 1920){ this.incrFourthRes = false;} 
+//			
+//			if(outerWidth >= 1024 && outerWidth < 1280){
+//					if(!this.incrFirstRes){
+//						var res = whBoard.system.getResoultion(window.outerWidth);
+//						//vm_chat.send({'resizeWindow' : res});
+//						vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//						
+//					this.incrFirstRes = true;
+//				}
+//			}else if(outerWidth >= 1280 && outerWidth < 1366){
+//				if(!this.incrSecRes){
+//					var res  = whBoard.system.getResoultion(window.outerWidth);
+//					
+//					//vm_chat.send({'resizeWindow' : res});
+//					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//					
+//					this.incrSecRes = true;
+//					this.decrSecRes = true;
+//				}
+//			}else if(outerWidth >= 1366 && outerWidth < 1920){
+//				if(!this.incrThirdRes){
+//					var res  = whBoard.system.getResoultion(window.outerWidth);
+//					
+//					//vm_chat.send({'resizeWindow' : res});
+//					
+//					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//					this.incrThirdRes = true;
+//					this.decrThirdRes  = true;
+//				}
+//			}else if(outerWidth >= 1920){
+//				if(!this.incrFourthRes){
+//					var res  = whBoard.system.getResoultion(window.outerWidth);
+//					
+//					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//					//vm_chat.send({'resizeWindow' : res});
+//					
+//					this.incrFourthRes = true;
+//					this.decrFourthRes = true;
+//				}
+//			}
+//			
+//			if(outerWidth < 1280 ){
+//				if(this.decrSecRes){
+//					var res  = whBoard.system.getResoultion(window.outerWidth);
+//					//vm_chat.send({'resizeWindow' : res});
+//					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//					this.decrFirstRes = true;
+//					this.decrSecRes = false;
+//				}
+//			}else if(outerWidth >= 1280 && outerWidth < 1366){
+//				if(this.decrThirdRes){
+//					var res  = whBoard.system.getResoultion(window.outerWidth);
+//					//vm_chat.send({'resizeWindow' : res});
+//					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//					this.decrThirdRes = false;
+//				}
+//				
+//			}else if(outerWidth >= 1366 && outerWidth < 1920){
+//				if(this.decrFourthRes){
+//					var res  = whBoard.system.getResoultion(window.outerWidth);
+//					//vm_chat.send({'resizeWindow' : res});
+//					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});
+//					this.decrFourthRes = false;
+//				}
+//			}
+//			//	console.log(' number of time count ' + count);
+//		 }
 		 
 		 
 		 whBoard.view.virtualWindow.manupulation = function (e){
-				var message = e.message.virtualWindow;
+			 	var message = e.message.virtualWindow;
+				
 				if(message.hasOwnProperty('removeVirtualWindow')){
 	  				if(e.fromUser.userid != id){
 	  					whBoard.utility.removeVirtualWindow('virtualWindow');
 	  				}
 	  				return;
 	  			}else if(message.hasOwnProperty('resizeWindow')){
-					myResolution =  whBoard.system.getResoultion(window.outerWidth);
+					//myResolution =  whBoard.system.getResoultion(window.outerWidth);
+	  				myResolution = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+	  				//alert(myResolution.width);
+//	  				console.log('my width ' + myResolution.width);
 	  				if(e.fromUser.userid != id){
 	  					var otherResolution = message.resizeWindow;
 	  					otherBrowser = otherResolution;
@@ -216,7 +264,8 @@
 	  					if(myResolution.width < otherBrowser.width){
 	  						
 	  						//vm_chat.send({'resizeWindow' : myResolution});
-	  						 vm_chat.send({'virtualWindow' : { 'resizeWindow' : myResolution}});
+	  						//CRITICAL this function does call undefinite
+	  						//vm_chat.send({'virtualWindow' : { 'resizeWindow' : myResolution}});
 
 	  						
 	  						whBoard.utility.removeVirtualWindow('virtualWindow'); 
@@ -233,15 +282,31 @@
 	  				}
 	  				 return;
 	  			}else if(message.hasOwnProperty('createVirtualWindow')){
+	  				if(message.hasOwnProperty('toolHeight')){
+	  					//alert('sss');
+	  					//alert(message.createVirtualWindow.toolHeight);
+	  					//whBoard.toolWrapperHeight =  message.toolHeight;
+	  					localStorage.setItem('toolHeight', message.toolHeight) ;
+	  				}
+	  				
 	  				if(e.fromUser.userid != id){
-	  					whBoard.utility.createVirtualWindow(message.virtualWindow);
+	  					whBoard.utility.createVirtualWindow(message.createVirtualWindow);
 	  					return;
 	  				}
 	  			}else if(message.hasOwnProperty('shareBrowserWidth')){
-	  				if(e.fromUser.userid != id){
-	  					 otherBrowser = message.browserRes; 
+	  				if(localStorage.getItem('teacherId') != null){
+	  					var toolBoxHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+	  					
+	  					
+	  				}
+					
+					if(e.fromUser.userid != id){
+	  					 otherBrowser = message.browserRes;
+	  					 
 	  				}else{
-	  					 myBrowser = whBoard.system.getResoultion(window.outerWidth);
+	  					 //myBrowser = whBoard.system.getResoultion(window.outerWidth);
+	  	  			   myBrowser = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+
 	  				}
 	  				
 	  				if(typeof myBrowser == 'object' && typeof otherBrowser == 'object'){
@@ -252,8 +317,15 @@
 								}
 	  	  				}else if(myBrowser.width < otherBrowser.width){
 	  	  					    if(virtualWindow == false){
-	  	  							virtualWindow = true;
-	  	  							vm_chat.send({'virtualWindow' : {'createVirtualWindow' : myBrowser}});
+	  	  					    	virtualWindow = true;
+	  	  					    	if(localStorage.getItem('teacherId') != null){
+	  	  					    		//alert(toolBoxHeight);
+	  	  					    		//alert('suamn bogati');
+	  	  					    		vm_chat.send({'virtualWindow' : {'createVirtualWindow' : myBrowser, 'toolHeight' : toolBoxHeight}});
+	  	  					    	}else{
+	  	  					    		vm_chat.send({'virtualWindow' : {'createVirtualWindow' : myBrowser}});
+	  	  					    	}
+	  	  					    	
 								}
 	  	  				}
 	  				}

@@ -42,7 +42,8 @@
 				vcan.main.children = []; //vcan.main should be converted into 'this' variable
 				vcan.main.id = 0;
 				vcan.main.uid = 0;
-				
+//				var vcanvas = document.getElementById('vcanvas');
+//				vcanvas.style.width = 800+'px';
 				vcan.main.canvas = document.querySelector(canvid);
 				vcan.main.canid =  canvid.substring(1, canvid.length);
 				vcan.main.currentTransform = "";

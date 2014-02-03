@@ -537,23 +537,31 @@
 				var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
 				var wbrtcMsg = whBoard.utility.chkValueInLocalStorage('wbrtcMsg');
 				var canvasDrwMsg = whBoard.utility.chkValueInLocalStorage('canvasDrwMsg');
+				var toolHeight = whBoard.utility.chkValueInLocalStorage('toolHeight');
 
-	  			
 	  			localStorage.clear();
 				if(teacherId){
-					localStorage.teacherId =  teacherId;
+					//localStorage.teacherId =  teacherId;
+					localStorage.setItem('teacherId', teacherId);
 				}
 				
 				if(orginalTeacherId){
-					localStorage.orginalTeacherId = orginalTeacherId;
+					//localStorage.orginalTeacherId = orginalTeacherId;
+					localStorage.setItem('orginalTeacherId', orginalTeacherId);
 				}
 				
 				if(wbrtcMsg){
-					localStorage.wbrtcMsg = wbrtcMsg;
+					//localStorage.wbrtcMsg = wbrtcMsg;
+					localStorage.setItem('wbrtcMsg', wbrtcMsg);
 				}
 				
 				if(canvasDrwMsg){
-					localStorage.canvasDrwMsg = canvasDrwMsg;
+					//localStorage.canvasDrwMsg = canvasDrwMsg;
+					localStorage.setItem('canvasDrwMsg', canvasDrwMsg);
+				}
+				
+				if(toolHeight){
+					localStorage.setItem('toolHeight', toolHeight);
 				}
 			
 				vcan.reachedItemId = 0;
@@ -647,37 +655,28 @@
 				return false;
 			},
 			
-			createVirtualWindow : function (resolution){
-				//alert('is this happening');
+			createVirtualWindow : function (resolution){	
 				var div = document.createElement('div');
 				
-//				var virtualWindow = document.getElementById('virtualWindow');
-//				if(virtualWindow != null){
-//					virtualWindow.parentNode.removeChild(virtualWindow);
-//				}
-				
 				 whBoard.utility.removeVirtualWindow('virtualWindow');
-				
-				//if(virtualWindow == null){
-					div.id = 'virtualWindow';
-					//var offset
+				 	var divId = 'virtualWindow';
+					div.setAttribute('id', divId);
 					var offset =  vcan.main.offset;
+					var drawWhiteboard = resolution;
 					
-					//alert(offset.x);
-					
-					var drawWhiteboard = whBoard.system.measureResoultion(resolution);
-
 					div.style.width = drawWhiteboard.width + "px";
-					div.style.height = drawWhiteboard.height + "px";
 					
-					//div.style.width = (resolution.width) + "px";
-					//div.style.height = (resolution.height) + "px";
+					var toolHeight = parseInt(localStorage.getItem('toolHeight'));
+						toolHeight = toolHeight != null ? toolHeight : 0;
+					
+					if(localStorage.getItem('teacherId') != null){
+						div.style.height = (drawWhiteboard.height + toolHeight) + "px";
+					}else{
+						div.style.height = (drawWhiteboard.height - toolHeight) + "px";
+					}
 					
 					var containerWhiteBoard = document.getElementById('containerWb');
 					containerWhiteBoard.insertBefore(div, containerWhiteBoard.firstChild);
-					
-					 
-				//}
 			},
 			
 			removeVirtualWindow : function (id){
@@ -685,6 +684,35 @@
 				if(virtualWindow != null){
 					virtualWindow.parentNode.removeChild(virtualWindow);
 				} 
+			},
+			
+			getWideValueAppliedByCss : function (id, attr){
+				var element = document.getElementById(id);
+			    var style = window.getComputedStyle(element);
+			    
+			
+//			    if(typeof style.marginLeft != 'undefined'){
+//			    	var leftMargin = parseInt(style.marginLeft.match(/\d+/));
+//			    	if(leftMargin == null){
+//			    		leftMargin = 0;
+//			    	}
+//			    }
+//			    
+//			    if(typeof style.marginRight != 'undefined'){
+//			    	var rightMargin = parseInt(style.marginRight.match(/\d+/));
+//			    	rightMargin = (leftMargin == null) ? 0 : rightMargin;
+//			    }
+//			    
+//			    return (element.clientWidth + leftMargin + rightMargin);
+			    
+			    if(typeof style.marginTop != 'undefined'){
+			    	var marginTop = parseInt(style.marginTop.match(/\d+/));
+			    	if(marginTop == null){
+			    		marginTop = 0;
+			    	}
+			    }
+
+			    return (element.clientHeight + marginTop);
 			}
 		};
 	}

@@ -129,12 +129,12 @@ body {
 }
 
 #commandToolsWrapper a{
-	padding-left:14px;
+	padding-left:12px;
 	padding-right:14px;
 	float:left;
 }
 #commandToolsWrapper{
- 	width:915px;
+ 	width:90%;
 }
 
 #conControler{
@@ -314,11 +314,11 @@ a, canavas{
 
 
 #vcanvas{
- width: 930px;
+ /*width: 930px; */ 
  /*margin: 0 auto; */
  /* clear: both; */
  float:left; 
- margin-left:50px;
+ /*margin-left:50px;*/
  border:#ccc 1px solid;
  margin-top:10px;
  
@@ -610,11 +610,12 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1650px;
+		/*width:1650px; */
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1635px;
+		/*width: 1635px;*/
+		width:90%;
 	}
 	#videos{
 		width: auto;
@@ -632,6 +633,7 @@ a, canavas{
 	#commandToolsWrapper{
 		padding-top: 7px;
 		padding-left:20px;
+		
 	}
 	
 	#videos #localVideo{
@@ -757,7 +759,7 @@ a, canavas{
 /*  	border: 1px solid #aaa; */
  	position: absolute;
  	right:0;
- 	bottom:0;
+ 
  	overflow: hidden;
 	}
   	
@@ -841,11 +843,12 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1125px;
+		/*width:1125px;*/
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1110px;
+		/*width: 1110px;*/
+		width: 98%;
 	}
 	#videos{
 		width: auto;
@@ -1019,11 +1022,13 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:1025px;
+		/*width:1025px;*/
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 1010px;
+		/* width: 1010px; */
+		width:90%;
+		
 	}
 	#videos{
 		width: auto;
@@ -1203,11 +1208,12 @@ a, canavas{
 	
 	#vcanvas{
 		margin-left: 0px;
-		width:800px;
+		/*width:800px;*/
 	}
 	
 	#commandToolsWrapper, #dataInfoHeading{
-		width: 785px;
+		/*width: 785px; */
+		width  : 90%;
 	}
 	#videos{
 		width: auto;
@@ -1224,6 +1230,7 @@ a, canavas{
 	
 	#commandToolsWrapper{
 		padding-top: 7px;
+		/*margin-top : 30px; */
 	}
 	
 	#videos #localVideo{
@@ -1377,4 +1384,14 @@ a, canavas{
 
 
 
+#videoContainer{
+/*	bottom:190px !important;*/
+}
 
+
+/*by suman */
+
+/*
+#commandToolsWrapper{
+	maring-top : 40px !important;
+}*/

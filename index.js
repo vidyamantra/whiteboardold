@@ -31,6 +31,23 @@ $.when(
 	$.uiBackCompat=false;
 
     $(document).ready(function(){
+    	
+    	/*
+		var outerWidth = window.outerWidth;
+		var innerHeight = window.innerHeight;
+		
+		whBoard.ow = {};
+		whBoard.oh = {};
+		
+		whBoard.ow = outerWidth-220;
+		whBoard.oh = oh = innerHeight-210;
+		var vcanvas = document.getElementById('vcanvas');
+		vcanvas.style.width = whBoard.ow + 'px';
+		
+		*/
+		whBoard.system.setCanvasDimension();
+		
+
 		whBoard.utility.isSystemCompatible();
 		if(window.whBoard.error.length > 2){
 			window.whBoard.error = [];
@@ -129,7 +146,10 @@ $.when(
 	  				whBoard.utility.makeCanvasDisable();
 				}
 				
-				var res = whBoard.system.getResoultion(window.outerWidth);
+				//
+				
+				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+			//	var res = whBoard.system.getResoultion(window.outerWidth);
 				
 				//vm_chat.send({'shareBrowserWidth':true, browserRes: res});
 				
@@ -152,13 +172,25 @@ $.when(
 			}
     	}
 		vcan.tempArr = [];
-		num = 0;
+		//num = 0;
 		virtualWindow = false;
+		//count = 0;
+	    //var numb = 0;
   		$(document).on("newmessage", function(e){
+  			//++numb;
+  			//console.log("number " + numb);
+
   			if(e.message.hasOwnProperty('virtualWindow')){
+				if(e.message.virtualWindow.hasOwnProperty('resizeWindow')){
+  					//console.log('received packet ' + (++count));
+  				}
+  				
   				whBoard.view.virtualWindow.manupulation(e);
   				return;
   			}
+  			
+
+  				
 			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
@@ -249,9 +281,9 @@ $.when(
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
 	    				if(e.fromUser.userid != id){
-					  		   whBoard.tool = new whBoard.tool_obj('t_clearall');
-							   whBoard.utility.t_clearallInit();
-							   whBoard.utility.makeDefaultValue();
+					  		  whBoard.tool = new whBoard.tool_obj('t_clearall');
+							  whBoard.utility.t_clearallInit();
+							  whBoard.utility.makeDefaultValue();
 	    				}
 
 						if(orginalTeacherId){
@@ -260,7 +292,7 @@ $.when(
 						
 						return;
 				
-					}
+				}
 	    		if(e.fromUser.userid != id){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){

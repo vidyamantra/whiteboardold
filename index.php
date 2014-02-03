@@ -18,7 +18,8 @@
 	   	   window.vm_chat = vm_chat;		
 	   </script>
 	
-	   <link rel="stylesheet" type="text/css" href="css/styles.css" />
+	   <link rel="stylesheet" type="text/css" href="css/styles.css" /> 
+	   
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
 	  

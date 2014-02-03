@@ -54,6 +54,8 @@
 				//window.addEventListener('resize', whBoard.resizeCanvas, false);
 				//whBoard.setCanvasDimension(vcan.main.canvas);
 				whBoard.system.setCanvasDimension();
+//				vcan.main.canvas.width = 930;
+//				vcan.main.canvas.height = 700;
 				
 				if(typeof(Storage)!=="undefined"){
 					if(localStorage.repObjs){
