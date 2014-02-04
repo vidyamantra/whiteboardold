@@ -8,10 +8,13 @@
    <script type="text/javascript">
 	<?php echo "name='".$_GET['name']."';"; ?>
 	<?php echo "id='".$_GET['id']."';"; ?>
+	<?php echo "socketOn='".$_GET['socket']."';"; ?>
+	<?php echo "dataInfo='".$_GET['datainfo']."';"; ?>
+	
 	
 	</script>
 	<!-- footer tab -->
-
+	
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	  <script type="text/javascript" src="js/vmchatlib.js"></script>
 	   <script type="text/javascript">

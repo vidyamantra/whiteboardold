@@ -146,8 +146,11 @@
 					
 					whBoard.createDiv('t_assign', 'assign', cmdToolsWrapper, 'controlCmd');
 					
-					whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
-					whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
+					if(parseInt(socketOn) == 1){
+						whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
+						whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
+					}
+					
 //					var parentWrapper = document.createElement('div');
 //					vcan.wrapperPar.id = 'cmdParent';
 //					parentWrapper.appendChild(cmdToolsWrapper);
@@ -397,7 +400,9 @@
 					//	whBoard.createPacketContainer();
 					// whBoard.createPacketInfoContainer();
 					var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-			    	if(orginalTeacherId){
+					
+			    	if(orginalTeacherId && parseInt(dataInfo) == 1){
+			    		
 			    		whBoard.createPacketContainer();
 						whBoard.createPacketInfoContainer();
 						whBoard.utility.initStoredPacketsNumbers();
