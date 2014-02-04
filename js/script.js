@@ -118,9 +118,11 @@
 					//cmdToolsWrapper.id = 'commandToolsWrapper';
 					cmdToolsWrapper.id	=  whBoard.commandToolsWrapperId;
 					
+					//var canvasElem = document.getElementById(vcan.canvasWrapperId);
 					var canvasElem = document.getElementById(vcan.canvasWrapperId);
 				
 					if (canvasElem != null) {
+						//alert(cmdToolsWrapper.id);
 						document.getElementById('containerWb').insertBefore(cmdToolsWrapper, canvasElem);
 					}else{
 						document.getElementById('containerWb').appendChild(cmdToolsWrapper);
@@ -540,7 +542,13 @@
 				
 				if(cmd == 't_assign'){
 					whBoard.utility.assignRole();
-					vm_chat.send({'assignRole': true});
+					var toolHeight = localStorage.getItem('toolHeight');
+					if(toolHeight !=  null){
+						vm_chat.send({'assignRole': true, 'toolHeight' : toolHeight});
+					}else{
+						vm_chat.send({'assignRole': true });
+					}
+					
 				}
 				
 				if(cmd == 't_reclaim'){

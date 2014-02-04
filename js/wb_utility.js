@@ -376,6 +376,7 @@
 			},
 			 
 			assignRole : function (studentId){
+				
 				if(typeof studentId != 'undefined'){
 					if(localStorage.hasOwnProperty('reclaim')){
 						var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
@@ -673,6 +674,13 @@
 						div.style.height = (drawWhiteboard.height + toolHeight) + "px";
 					}else{
 						div.style.height = (drawWhiteboard.height - toolHeight) + "px";
+						
+//						if(localStorage.getItem('orginalTeacherId') == null){
+//							div.style.height = (drawWhiteboard.height - toolHeight) + "px";
+//						}else{
+//							div.style.height = (drawWhiteboard.height) + "px";
+//
+//						}
 					}
 					
 					var containerWhiteBoard = document.getElementById('containerWb');
@@ -713,6 +721,26 @@
 			    }
 
 			    return (element.clientHeight + marginTop);
+			},
+			
+			isNumber : function (num){
+				if(!isNaN(+num)){
+					return +num;
+				}
+				return false;
+			}, 
+			
+			setCommandToolHeights : function (toolHeight, operation){
+				var vWindow = document.getElementById('virtualWindow');
+				if(vWindow != null){
+					var divHeight = parseInt(vWindow.style.height.match(/\d+/));
+					if(operation == 'increment'){
+						vWindow.style.height = divHeight + parseInt(toolHeight) + "px";
+					}else{
+						vWindow.style.height = divHeight - parseInt(toolHeight) + "px";
+					}
+				}
+			
 			}
 		};
 	}

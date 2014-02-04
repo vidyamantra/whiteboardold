@@ -236,6 +236,21 @@ $.when(
 						canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
 						canvasWrapper.className = 'student'
 						localStorage.canvasDrwMsg = true;
+						
+						if(localStorage.getItem('orginialTeacherId') ==  null){
+							var toolHeight = localStorage.getItem('toolHeight');
+							whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
+						}	
+						
+//						if(localStorage.getItem('orginialTeacherId') ==  null){
+//							var toolHeight = localStorage.getItem('toolHeight');
+//	        				var vWindow = document.getElementById('virtualWindow');
+//							if(vWindow != null){
+//								var divHeight = parseInt(vWindow.style.height.match(/\d+/));
+//								vWindow.style.height = divHeight - parseInt(toolHeight) + "px";
+//							}
+//						}
+						
             			return;
         			}else{
         				whBoard.utility.uniqueArrOfObjsToSelf();
@@ -243,6 +258,7 @@ $.when(
 						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
 						canvasWrapper.className = 'teacher';
 						localStorage.canvasDrwMsg = true;
+						
         				return;
         			}
         		}
@@ -254,13 +270,27 @@ $.when(
 						if(typeof localStorage.canvasDrwMsg == 'undefined'){
 							window.whBoard.view.canvasDrawMsg('Canvas');
 							window.whBoard.view.drawLabel('drawArea');
-							//vcanvas
+							//localStorage.canvasDrwMsg = true;
+							localStorage.setItem('canvasDrwMsg', true);
+						//	var toolHeight = localStorage.getItem('toolHeight')
 							
-							localStorage.canvasDrwMsg = true;
+							
 						}		
 						var canvasWrapper = document.getElementById("vcanvas");
 						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
 						canvasWrapper.className = 'teacher';
+						
+						var  toolHeight = e.message.toolHeight;
+						
+						whBoard.utility.setCommandToolHeights(toolHeight, 'increment');
+						
+//						if(whBoard.utility.isNumber(toolHeight)){
+//	        				var vWindow = document.getElementById('virtualWindow');
+//							if(vWindow != null){
+//								var divHeight = parseInt(vWindow.style.height.match(/\d+/));
+//								vWindow.style.height = divHeight + parseInt(toolHeight) + "px";
+//							}
+//						}
             		
             			return;
         			}else{
@@ -271,7 +301,24 @@ $.when(
     						canvasWrapper.className = 'student'
         				}
         				
-						localStorage.canvasDrwMsg = true;
+        				if(localStorage.getItem('orginialTeacherId') ==  null){
+							var toolHeight = localStorage.getItem('toolHeight');
+							whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
+        				}
+        				
+        				
+        				
+//        				if(localStorage.getItem('orginialTeacherId') ==  null){
+//							var toolHeight = localStorage.getItem('toolHeight');
+//	        				var vWindow = document.getElementById('virtualWindow');
+//							if(vWindow != null){
+//								var divHeight = parseInt(vWindow.style.height.match(/\d+/));
+//								vWindow.style.height = divHeight - parseInt(toolHeight) + "px";
+//							}
+//						}
+        				
+						//localStorage.canvasDrwMsg = true;
+        				localStorage.setItem('localStorage.canvasDrwMsg', true);
         				return;
         			}
         		}
