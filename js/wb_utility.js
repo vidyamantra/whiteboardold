@@ -733,6 +733,22 @@
 						virDiv.style.height = (divHeight + parseInt(toolHeight))  + "px";
 					}
 				}
+			},
+			
+			setClass : function (elmentId, newClass){
+				var elem = document.getElementById(elmentId);
+				var allClasses = elem.classList;
+				var classes ="";
+				if(allClasses.length > 0){
+					 if(classes.length < 2){
+						 classes = allClasses[0] + " ";
+					 }else{
+						 classes = allClasses.join(" ") + " ";
+					 }
+				}
+				
+				var classes = classes + newClass;
+				elem.setAttribute('class', classes);
 			}
 		};
 	}

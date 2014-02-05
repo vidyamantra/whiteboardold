@@ -88,9 +88,29 @@ $.when(
     	
     	if(!storageHasTeacher && !storageHasReclaim){
     		whBoard.utility.removeToolBox();
-    		document.getElementById('vcanvas').className = 'student';
+    		//document.getElementById('vcanvas').className = 'student';
+    		whBoard.utility.setClass('vcanvas', 'student');
 		}else{
-    		document.getElementById('vcanvas').className = 'teacher';
+    		//document.getElementById('vcanvas').className = 'teacher';
+    		
+			
+			whBoard.utility.setClass('vcanvas', 'teacher');
+			
+//    		var canvasWrapper = document.getElementById('vcanvas');
+//			var allClasses = canvasWrapper.classList;
+//			var classes ="";
+//			if(allClasses.length > 0){
+//				 if(classes.length < 2){
+//					 classes = allClasses[0] + " ";
+//				 }else{
+//					 classes = allClasses.join(" ") + " ";
+//				 }
+//			}
+//			
+//			var classes = classes + 'teacher';
+//			canvasWrapper.setAttribute('class', classes);
+			
+			
 		}
     	
     	if(storageHasReclaim){

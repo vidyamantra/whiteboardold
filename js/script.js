@@ -152,14 +152,9 @@
 						whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
 						whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
 						
-//						var canvasWrapper = document.getElementById('vcanvas');
-//						canvasWrapper.addAttribute('class', 'socketon');
+						whBoard.utility.setClass('vcanvas', 'socketon');
 						
 					}
-					
-//					var parentWrapper = document.createElement('div');
-//					vcan.wrapperPar.id = 'cmdParent';
-//					parentWrapper.appendChild(cmdToolsWrapper);
 			},
 			
 			/**
