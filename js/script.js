@@ -151,6 +151,10 @@
 					if(whBoard.socketOn == 1){
 						whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
 						whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
+						
+//						var canvasWrapper = document.getElementById('vcanvas');
+//						canvasWrapper.addAttribute('class', 'socketon');
+						
 					}
 					
 //					var parentWrapper = document.createElement('div');
@@ -404,7 +408,7 @@
 					var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
 					whBoard.dataInfo = parseInt(dataInfo);
 					if(orginalTeacherId && whBoard.dataInfo == 1){
-			    		whBoard.createPacketContainer();
+						whBoard.createPacketContainer();
 						whBoard.createPacketInfoContainer();
 						whBoard.utility.initStoredPacketsNumbers();
 			    	}

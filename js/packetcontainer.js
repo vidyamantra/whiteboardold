@@ -21,8 +21,11 @@
 			var headingTag = document.createElement("h4");
 				headingTag.id = 'dataInfoHeading';
 				headingTag.innerHTML = whBoard.lang.getString('dataDetails'); 
-				packetContainer.appendChild(headingTag); 
-			
+				//packetContainer.appendChild(headingTag); 
+				
+				var mainContainer = document.getElementById('mainContainer');
+				mainContainer.insertBefore(headingTag, mainContainer.firstChild);
+				
 			var labelDiv = whBoard.createPacketContDiv("dataInformation");
 				packetContainer.appendChild(labelDiv);
 			

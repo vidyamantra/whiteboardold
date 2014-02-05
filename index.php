@@ -75,7 +75,7 @@
   
   <body>
 
-	   
+	<!--     
   	<div id="topContainer">Top Container</div>
   	<div id="leftContainer">
   		This is my left container
@@ -84,7 +84,7 @@
   		This is my left container
   		This is my left container
   		This is my left container
-  		
+  		-->
   		
   	</div>
   	 
@@ -130,10 +130,15 @@
 	    		<div class="clear"></div>
 	    </div>
 	     </div>
-	    
-	    <div id="packetContainer">
-	    		 <!--   <h4>Data Details</h4> -->
-	    </div>
+	    <dv id="mainContainer">
+		    <div id="packetContainer">
+		    		
+		    </div>
+		    
+		    <div id="informationCont">
+	    	
+	    	</div>
+	    </dv>
 	    
 	    <!-- 
 	    <div id="conControler">
@@ -141,20 +146,7 @@
 	    	<a href="#" id="offConnection">Connection Off</a>
 	    </div>
 	     -->
-	    <div id="informationCont">
-	    	<!--   <h4>Data Details</h4> -->
-	    	<!-- 
-	    	<label>Sent Msg information</label>
-		    <div id="sentMsgInfo">
-		    		
-		    </div>
-		    
-		    <label>Received Msg information</label>
-		    <div id="rcvdMsgInfo">
-		    	
-		    </div>
-		     -->
-	    </div>
+	    
 	    <div class="clear"></div>
   	</div>   
   	<div class="clear"></div>

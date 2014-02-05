@@ -45,6 +45,7 @@ $.when(
 		vcanvas.style.width = whBoard.ow + 'px';
 		
 		*/
+    	
 		whBoard.system.setCanvasDimension();
 		
 
@@ -70,6 +71,12 @@ $.when(
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
     	
+    	whBoard.utility.makeCanvasDisable();
+    	
+//    	var canvasElement = document.getElementById('canvas');
+//    	canvasElement.style.position = 'relative';
+//		canvasElement.style.zIndex = "-1000"; 
+		
     	window.addEventListener('click', function (){
     		whBoard.view.disappearBox('WebRtc')
     		whBoard.view.disappearBox('Canvas');
@@ -141,27 +148,18 @@ $.when(
 		vcan.renderedObjId = 0;
 		
 		$(document).on("member_added", function(e){
-				whBoard.utility.initDefaultInfo(e,  myVideo);
+				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
+					//alert('this is happenig');
+					whBoard.utility.makeCanvasEnable();
+				}
+				
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
 				}
 				
-				//
-				
+				whBoard.utility.initDefaultInfo(e,  myVideo);
 				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
-			//	var res = whBoard.system.getResoultion(window.outerWidth);
-				
-				//vm_chat.send({'shareBrowserWidth':true, browserRes: res});
-				
 				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, browserRes: res}});
-				
-//				for(var i=0; i<e.message.length; i++){
-//					if(e.message[i].userid == id){
-//						vm_chat.send({'shareBrowserWidth':true, browserRes: res});
-//						break;
-//					}
-//				}
-				
 	  		});
 		
 		if(typeof localStorage.teacherId != 'undefined'){
@@ -171,26 +169,15 @@ $.when(
 				localStorage.canvasDrwMsg = true;
 			}
     	}
+		
 		vcan.tempArr = [];
-		//num = 0;
 		virtualWindow = false;
-		//count = 0;
-	    //var numb = 0;
-  		$(document).on("newmessage", function(e){
-  			//++numb;
-  			//console.log("number " + numb);
-
+		$(document).on("newmessage", function(e){
   			if(e.message.hasOwnProperty('virtualWindow')){
-				if(e.message.virtualWindow.hasOwnProperty('resizeWindow')){
-  					//console.log('received packet ' + (++count));
-  				}
-  				
-  				whBoard.view.virtualWindow.manupulation(e);
+				whBoard.view.virtualWindow.manupulation(e);
   				return;
   			}
   			
-
-  				
 			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
@@ -199,14 +186,12 @@ $.when(
   						oneExecuted = true;
   						vm_chat.send({'isChannelReady':true});
   						vcan.myvid.init(true);
-  						//toUse 
   						myVideo.toUser = myVideo.peerBrowser;
   					}
   				}else{
   					cthis.isStarted = false;
   				}
   			}else if(e.message.hasOwnProperty('isChannelReady')){
-  				
   				e.message.isChannelReady = true; 
   				vcan.myvid.videoOnMsg(e.message);
     		}else if(e.message.hasOwnProperty('video')){
@@ -238,15 +223,12 @@ $.when(
 						localStorage.canvasDrwMsg = true;
 						
 						if(localStorage.getItem('orginialTeacherId') ==  null){
-							//var toolHeight = localStorage.getItem('toolHeight');
 							whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
 						}	
-						
 
 						return;
         			}else{
         				if(localStorage.getItem('orginalTeacherId') !=  null){
-							//var toolHeight = localStorage.getItem('toolHeight');
         					var toolHeight = localStorage.getItem('toolHeight');
         					whBoard.utility.setCommandToolHeights(toolHeight, 'increment');
 						}	

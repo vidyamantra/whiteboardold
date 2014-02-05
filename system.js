@@ -96,29 +96,7 @@
 		   }
 	   }
 	   
-//	   whBoard.system.measureResoultion = function (resolution){
-//		    var canvas  = {};
-//		    if(resolution.width == 1024){
-//				canvas.width = 800;
-//				canvas.height = 480;
-//			}else if(resolution.width == 1280){
-//				canvas.width = 1025;
-//				canvas.height = 715;
-//			}else if(resolution.width == 1366){
-//				canvas.width = 1125;
-//				canvas.height = 475;
-//			}else if(resolution.width == 1920){
-//				canvas.width = 1670;
-//				canvas.height = 780;
-//			}
-//		    return canvas;
-//		   
-//	   }
-	   
 	   whBoard.system.measureResoultion = function (resolution){
-		   
-//		   var offsetLeft = 220;
-//		   var width =  resolution.width-offsetLeft;
 		   var offsetLeft = 220;
 		   if(resolution.width < 1024){
 			   var width =  1024-offsetLeft;
@@ -131,50 +109,11 @@
 		    
 	   }
 	   
-	   inMemCanvas = document.createElement('canvas');
-	   inMemCtx  = inMemCanvas.getContext('2d');
-		 
-		// ctx = vcan.main.canvas.getContext('2d');
-
-		    
-//	   whBoard.system.setCanvasDimension = function (){
-//		   var canvas = vcan.main.canvas;
-//		   ctx = vcan.main.canvas.getContext('2d');
-//		   var resolution = whBoard.system.getResoultion(window.outerWidth);
-//		   var measureRes = whBoard.system.measureResoultion(resolution);
-//		   
-//		   	inMemCanvas.width = vcan.main.canvas.width;
-//		    inMemCanvas.height = vcan.main.canvas.height;
-//		    inMemCtx.drawImage(vcan.main.canvas, 0, 0);
-//		    	ctx.drawImage(canvas, 0, 0);
-//		   	    canvas.width = measureRes.width;
-//			    canvas.height = measureRes.height;
-//			    ctx.drawImage(inMemCanvas, 0, 0);
-//			   
-//	   }
-	   
 	   whBoard.system.setCanvasDimension = function (){
-		   //alert('sss');
-		   
-		   //ctx.restore();
-		   //var resolution = whBoard.system.getResoultion(window.outerWidth);
-		   
 		   
 		   var measureRes = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
 		   var vcanvas = document.getElementById('vcanvas');
 		   vcanvas.style.width = measureRes.width + 'px';
-//		   
-////	   	    canvas.width = measureRes.width;
-////		    canvas.height = measureRes.height;
-//			
-//				
-//			inMemCanvas.width = vcan.main.canvas.width;
-//		    inMemCanvas.height = vcan.main.canvas.height;
-//		    inMemCtx.drawImage(vcan.main.canvas, 0, 0);
-//		    
-//			
-//		    ctx.drawImage(canvas, 0, 0);
-		   //alert(vcan.main.canvas);
 		   if(typeof vcan.main.canvas != 'undefined'){
 			    var canvas = vcan.main.canvas;
 				ctx = vcan.main.canvas.getContext('2d');
@@ -182,13 +121,6 @@
 		        canvas.width = measureRes.width;
 			    canvas.height = measureRes.height;	   
 		   }
-		    //vcan.renderAll();
-		    
-		  //  ctx.drawImage(inMemCanvas, 0, 0);
-		   // ctx.save();
-		    
-		    
-		 			   
 	   }
 	   
 	   whBoard.system.getResoultion =  function (windowWidth){

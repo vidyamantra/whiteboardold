@@ -632,6 +632,7 @@
 						if(!whBoard.utility.checkWebRtcConnected()){
 							vcan.studentId = id;
 							localStorage.studentId = id;
+							
 //							var outerWidth = window.outerWidth;
 //							vm_chat.send({'isChannelReady':true, bwidth: outerWidth});
 							vm_chat.send({'isChannelReady' : true});
