@@ -219,10 +219,9 @@ body {
 
 
 #canvasDrawMsgContFirefox{
-	position : relative;
-	bottom:752px;
-	left : 396px;
-	z-index: 100;
+ 	left: 510px;
+    position: absolute;
+    z-index: 100;
 }
 
 
@@ -335,11 +334,11 @@ a, canavas{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#e7e7e7',GradientType=0 ); /* IE6-9 */
 	padding-top: 8px;	
 	padding-bottom: 0;
-	padding-left: 15px;
 	border-bottom: #ccc 1px solid;
+	padding-left: 1%;
 }
 
-#commandToolsWrapper #t_line a, #commandToolsWrapper #t_rectangle a, #commandToolsWrapper #t_freeDrawing a, #commandToolsWrapper #t_oval a, #commandToolsWrapper #t_triangle a, #commandToolsWrapper #t_text a, #commandToolsWrapper #t_replay a, #commandToolsWrapper #t_activeall a, #commandToolsWrapper #t_clearall a, #commandToolsWrapper #t_connectionoff a,  #commandToolsWrapper #t_assign a{
+#commandToolsWrapper #t_line a, #commandToolsWrapper #t_rectangle a, #commandToolsWrapper #t_freeDrawing a, #commandToolsWrapper #t_oval a, #commandToolsWrapper #t_triangle a, #commandToolsWrapper #t_text a, #commandToolsWrapper #t_replay a, #commandToolsWrapper #t_activeall a, #commandToolsWrapper #t_clearall a, #commandToolsWrapper #t_connectionoff a{
 	
 	background-image: url(../images/border-img.png);
 	background-position: right center;
@@ -363,7 +362,7 @@ a, canavas{
 }
 
 #t_assign.controlCmd{
-	margin-left: 80%;
+	margin-left: 96%;
 }
 
 /* HASAN Video css */
@@ -600,424 +599,15 @@ a, canavas{
 
 
 
-@media only screen and (max-width: 20000px) and (min-width: 1920px){
-	
 
-	
+
+
 	#t_assign.controlCmd{
-		margin-left: 89%;
+		margin-left: 95%;
 	}
-	
-	#vcanvas{
-		margin-left: 0px;
-		/*width:1650px; */
-	}
-	
-	#commandToolsWrapper, #dataInfoHeading{
-		/*width: 1635px;*/
-		width:90%;
-	}
-	#videos{
-		width: auto;
-		position: relative;
-	}
-	
-	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
-		width: 120px;
-	}
-	
-	#commandToolsWrapper{
-		height:37px;
-	}
-	
-	#commandToolsWrapper{
-		padding-top: 7px;
-		padding-left:20px;
-		
-	}
-	
-	#videos #localVideo{
-		height: auto;
-		margin: 0;
-		position: absolute;
-		right: 0;
-		margin-top: 49%;
-		width: 35%;
-		z-index: 100;
-	}
-	
-	#videos #remoteVideo{
-		margin-left: 0px;
-		margin-top:0px;
-		right: -10px;
-		padding: 3px;
-	}
-	
-
-	#canvasDrawMsgContFirefox{
-		bottom: 765px;
-		left: 370px;
-	}
-	
-	
-	#videos{
-		position: relative;
-		top: 0px;
-	}
-	
-	
-	#videos #remoteVideo{
-		height:auto;
-		position: absolute;
-	}
-	
-	#remoteVideo{
-		width: 100%;
-	}
-	
-	#vcanvas.student #videos{
-		border-bottom: none;
-	}
-	
-	#vcanvas.student #videos{
-		top: 16px;
-	}
-	
-	.dynDiv_resizeDiv_tl{
-		padding-bottom: 5px;
-		padding-right: 5px;
-	}
-	
-	
-	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
-	background-color: #fff !important;
-	background-image:url('../images/resize.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	width: 10px;
-	height: 10px;
-	background: #faa;
-	border: 1px solid #000;
-	position: absolute;
-	}
-
-	.dynDiv_resizeDiv_tl {
- 	top:100%
- 	left: -3px;
- 	border:none;
- 	z-index: 100;
-}
-
-
-
-  	#videoMinMize{
-  	background-image:url('../images/min.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	height: 16px;
-    position: absolute;
-    right: 0px;
-    width: 16px;
-	z-index: 100;
-  	}
-  	
-  	#videoMaxMize{
-	background-image:url('../images/max.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	height: 16px;
-    position: absolute;
-    right: 0px;
-    width: 16px;
-	z-index: 100;
-  	}
-  	
-  	
-  	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
-    border-bottom: 1px solid #CCCCCC;
-    border-left: 1px solid #CCCCCC;
-    height: 16px;
-    position: absolute;
-    right: 0;
-    width: 16px;
-	}
-	
-	#vcanvas.student #videos #videoMinMize{
-		border-left: none;
-		border-bottom: none;
-	}
-	
-	
-	#canvasDrawMsgContFirefox{
-		bottom: 810px;
-	}
-	
-	#videoContainer {
-	background: transparent;
- 	width: 285px;
- 	height : 200px;
-/*  	border: 1px solid #aaa; */
- 	position: absolute;
- 	right:0;
- 
- 	overflow: hidden;
-	}
-  	
-  	#videoMinMize, #videoMaxMize{
-	  	position: absolute;
-  	}
-  	
-  	#vcanvas.student #videoContainer{
-	  	top:-211px;
-  	}
-  	
-  		#videoMinMize, #videoMaxMize{
-	  	position: absolute;
-  	}
-  	
-  	
-  	
-  	#vcanvas.student #videoMinMize, #videoMinMize{
-  	background-image:url('../images/min.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	
-  	}
-  	
-  	#vcanvas.student #videoMaxMize, #videoMaxMize{
-	background-image:url('../images/max.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-
-  	}
-  	
-  	
-  	#vcanvas.student #videos #videoMinMize, #vcanvas.student #videos #videoMaxMize {
-    height: 16px;
-    position: absolute;
-    top: 2px;
-    width: 16px;
-
-	}
-	
-	#vcanvas.student #videos #videoMinMize, #videoMinMize{
-	border-left: none;
-	border-bottom: none;
-	height: 16px;
-    position: absolute;
-    right: -1px;
-    top: -2;
-    width: 16px;
-	}
-	
-	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
-	border-left: 1px solid #CCCCCC;
-	border-top:#ccc 1px solid;
-	border-right: none;
-	height: 16px;
-    right: 0px;
-    top: -12px;
-    width: 16px;
-	}
-  	
-
-}
-
-
-
-
-
-
-/* HASAN CSS 1368PX RESOLUTION */
-
-
-@media only screen and (max-width: 1919px) and (min-width: 1366px){
-	
-	
-
-	
-	
-	#t_assign.controlCmd{
-		margin-left: 78%;
-	}
-	
-	#vcanvas{
-		margin-left: 0px;
-		/*width:1125px;*/
-	}
-	
-	#commandToolsWrapper, #dataInfoHeading{
-		/*width: 1110px;*/
-		width: 98%;
-	}
-	#videos{
-		width: auto;
-		position: relative;
-	}
-	
-	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
-		width: 120px;
-	}
-	
-	#commandToolsWrapper{
-		height:37px;
-	}
-	
-	#commandToolsWrapper{
-		padding-top: 7px;
-	}
-	
-	#videos #localVideo{
-		height: auto;
-		margin: 0;
-		position: absolute;
-		right: 3px;
-		margin-top: 49%;
-		width: 35%;
-		z-index: 100;
-	}
-	
-	#videos #remoteVideo{
-		margin-left: 0px;
-		margin-top:0px;
-		right: -8px;
-		padding: 3px;
-	}
-	
-
-	#canvasDrawMsgContFirefox{
-		bottom: 765px;
-		left: 370px;
-	}
-	
-	
-	#videos{
-		position: relative;
-		top: 0px;
-	}
-	
-	
-	#videos #remoteVideo{
-		height:auto;
-		position: absolute;
-	}
-	
-	#remoteVideo{
-		width: 100%;
-	}
-	
-	#vcanvas.student #videos{
-		border-bottom: none;
-	}
-	
-	#vcanvas.student #videos{
-		top: 16px;
-	}
-	
-	.dynDiv_resizeDiv_tl{
-		padding-bottom: 5px;
-		padding-right: 5px;
-	}
-	
-	
-	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
-	background-color: #fff !important;
-	background-image:url('../images/resize.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	width: 10px;
-	height: 10px;
-	background: #faa;
-	border: 1px solid #000;
-	position: absolute;
-	}
-
-	.dynDiv_resizeDiv_tl {
- 	top: 0;
- 	left: -3px;
- 	border:none;
- 	z-index: 100;
-}
-
-
-	#videoContainer {
-	background: transparent;
- 	width: 285px;
- 	height : 200px;
-/*  	border: 1px solid #aaa; */
- 	position: absolute;
- 	right:0;
- 	bottom:0;
- 	overflow: hidden;
-	}
-  	
-  	#videoMinMize, #videoMaxMize{
-	  	position: absolute;
-  	}
-  	
-  	#vcanvas.student #videoContainer{
-	  	top:-211px;
-  	}
-  	
-  	#videoMinMize, #videoMaxMize{
-	  	position: absolute;
-  	}
-  	
-  	#vcanvas.student #videoMinMize, #videoMinMize{
-  	background-image:url('../images/min.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	
-  	}
-  	
-  	#vcanvas.student #videoMaxMize, #videoMaxMize{
-	background-image:url('../images/max.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-
-  	}
-  	
-  	
-
-	#vcanvas.student #videos #videoMinMize, #videoMinMize{
-	border-left: none;
-	border-bottom: none;
-	height: 16px;
-    position: absolute;
-    right: -1px;
-    top: -2;
-    width: 16px;
-    z-index: 100;
-	}
-	
-	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
-	border-left: 1px solid #CCCCCC;
-	border-top:#ccc 1px solid;
-	border-right: none;
-	height: 16px;
-    right: 0px;
-    top: -12px;
-    width: 16px;
-     z-index: 100;
-	}
-  	
-  	
-	
-
-	
-}
-
-
-/* HASAN CSS 1280PX RESOLUTION */
-
-
-@media only screen and (max-width: 1365px) and (min-width: 1280px){
-	
-
-	
-	
-	#t_assign.controlCmd{
-		margin-left: 78%;
+	#t_assign.controlCmd a{
+		padding-left: 0px;
+		padding-right: 0px;
 	}
 	
 	#vcanvas{
@@ -1027,7 +617,7 @@ a, canavas{
 	
 	#commandToolsWrapper, #dataInfoHeading{
 		/* width: 1010px; */
-		width:90%;
+		width:99%;
 		
 	}
 	#videos{
@@ -1052,7 +642,7 @@ a, canavas{
 		margin: 0;
 		position: absolute;
 		right: 3px;
-		margin-top: 49%;
+		margin-top: 48%;
 		width: 35%;
 		z-index: 100;
 	}
@@ -1061,14 +651,9 @@ a, canavas{
 		margin-left: 0px;
 		margin-top:0px;
 		right: -9px;
-		padding: 3px;
+		padding: 2px;
 	}
 	
-
-	#canvasDrawMsgContFirefox{
-		bottom: 765px;
-		left: 370px;
-	}
 	
 	
 	#videos{
@@ -1121,7 +706,7 @@ a, canavas{
 
 	.dynDiv_resizeDiv_tl {
     border: medium none;
-    left: 3px;
+    left: 6px;
     top: 3px;
     z-index: 100;
     }
@@ -1135,8 +720,9 @@ a, canavas{
 /*  	border: 1px solid #aaa; */
  	position: absolute;
  	right:0;
- 	bottom:0;
+ 	bottom:-50px;
  	overflow: hidden;
+ 	
 	}
   	
   	#videoMinMize, #videoMaxMize{
@@ -1144,7 +730,7 @@ a, canavas{
   	}
   	
   	#vcanvas.student #videoContainer{
-	  	top:-211px;
+	  	top:-237px;
   	}
   	
   	#videoMinMize, #videoMaxMize{
@@ -1193,205 +779,7 @@ a, canavas{
     top: -12px;
     width: 16px;
 	}
-  	
-
-		
-	
-}
-
-
-@media only screen and (max-width: 1279px) and (min-width: 1024px){
-
-	#t_assign.controlCmd{
-		margin-left: 78%;
-	}
-	
-	#vcanvas{
-		margin-left: 0px;
-		/*width:800px;*/
-	}
-	
-	#commandToolsWrapper, #dataInfoHeading{
-		/*width: 785px; */
-		width  : 90%;
-	}
-	#videos{
-		width: auto;
-		position: relative;
-	}
-	
-	#packetContainer #dataInformation, #packetContainer #sendPackCont, #packetContainer #receivePackCont{
-		width: 120px;
-	}
-	
-	#commandToolsWrapper{
-		height:37px;
-	}
-	
-	#commandToolsWrapper{
-		padding-top: 7px;
-		/*margin-top : 30px; */
-	}
-	
-	#videos #localVideo{
-		height: auto;
-		position: absolute;
-		right: 2px;
-		margin: 0;
-		margin-top: 51%;	
-		z-index: 100;
-	}
-	
-	#videos #remoteVideo{
-		margin-left: 0px;
-		margin-top:0px;
-		right: -6px;
-		padding: 2px;
-	}
-	
-/*
-	#remoteVideo{
-		width: 20%;
-	}
-*/
-	
-	#canvasDrawMsgContFirefox{
-		bottom: 532px;
-		left: 370px;
-	}
-	
-	
-	#videos{
-		position: relative;
-
-	}
-	
-	
-	#videos #remoteVideo{
-		height:auto;
-		position: absolute;
-	}
-	
-
-	
-	#vcanvas.student #videos{
-		border-bottom: none;
-	}
-	
-	#vcanvas.student #videos{
-		top: -125px;
-	}	
-	
-	#vcanvas.student #videos{
-		top: 16px;
-	}
-	
-	.dynDiv_resizeDiv_tl{
-		padding-bottom: 5px;
-		padding-right: 5px;
-	}
-	
-	
-	.dynDiv_resizeDiv_tl,.dynDiv_resizeDiv_tr,.dynDiv_resizeDiv_bl,.dynDiv_resizeDiv_br {
-	background-color: #fff !important;
-	background-image:url('../images/resize.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	width: 10px;
-	height: 10px;
-	background: #faa;
-	border: 1px solid #000;
-	position: absolute;
-	}
-
-	.dynDiv_resizeDiv_tl {
- 	top: 2px;
- 	left: -3px;
- 	border:none;
- 	z-index: 100;
-}
-
-
-	#videoContainer {
-	background: transparent;
- 	width: 200px;
- 	height : 163px;
-/*  	border: 1px solid #aaa; */
- 	position: absolute;
- 	right:0;
- 	bottom:-13px;
- 	overflow: hidden;
-	}
-  	
-  	#videoMinMize, #videoMaxMize{
-	  	position: absolute;
-  	}
-  	
-  	#vcanvas.student #videoContainer{
-	  	top:-211px;
-  	}
-  	
-  	#videoMinMize, #videoMaxMize{
-	  	position: absolute;
-  	}
-  	
-  	#vcanvas.student #videoMinMize, #videoMinMize{
-  	background-image:url('../images/min.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-	
-  	}
-  	
-  	#vcanvas.student #videoMaxMize, #videoMaxMize{
-	background-image:url('../images/max.png') !important;
-	background-position: left top;
-	background-repeat: no-repeat;
-
-  	}
-  	
-  	
-
-	#vcanvas.student #videos #videoMinMize, #videoMinMize{
-	border-left: none;
-	border-bottom: none;
-	height: 16px;
-    position: absolute;
-    right: -1px;
-    top: -2;
-    width: 16px;
-    z-index: 100;
-	}
-	
-	#vcanvas.student #videos #videoMaxMize, #videoMaxMize{
-	border-left: 1px solid #CCCCCC;
-	border-top:#ccc 1px solid;
-	border-right: none;
-	height: 16px;
-    right: 0px;
-    top: -12px;
-    width: 16px;
-     z-index: 100;
-	}
-  	
-	
-	
-	
-	
-}
-
-
-/* HASAN CSS 1280 RESOLUTION END */
 
 
 
-#videoContainer{
-/*	bottom:190px !important;*/
-}
 
-
-/*by suman */
-
-/*
-#commandToolsWrapper{
-	maring-top : 40px !important;
-}*/
