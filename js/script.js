@@ -146,7 +146,9 @@
 					
 					whBoard.createDiv('t_assign', 'assign', cmdToolsWrapper, 'controlCmd');
 					
-					if(parseInt(socketOn) == 1){
+					whBoard.socketOn = parseInt(socketOn);
+					
+					if(whBoard.socketOn == 1){
 						whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
 						whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
 					}
@@ -400,9 +402,8 @@
 					//	whBoard.createPacketContainer();
 					// whBoard.createPacketInfoContainer();
 					var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-					
-			    	if(orginalTeacherId && parseInt(dataInfo) == 1){
-			    		
+					whBoard.dataInfo = parseInt(dataInfo);
+					if(orginalTeacherId && whBoard.dataInfo == 1){
 			    		whBoard.createPacketContainer();
 						whBoard.createPacketInfoContainer();
 						whBoard.utility.initStoredPacketsNumbers();

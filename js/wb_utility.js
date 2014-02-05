@@ -368,11 +368,12 @@
 			}, 
 			
 			updateSentPackets : function (obj){
-				if(whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
-					whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
-					document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+				if(whBoard.dataInfo == 1){
+					if(whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
+						whBoard.sentPackets = whBoard.sentPackets + JSON.stringify(obj).length;
+						document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
+					}
 				}
-				
 			},
 			 
 			assignRole : function (studentId){
@@ -657,6 +658,7 @@
 			},
 			
 			createVirtualWindow : function (resolution){	
+				//alert(resolution.width);
 				var div = document.createElement('div');
 				
 				 whBoard.utility.removeVirtualWindow('virtualWindow');
@@ -667,21 +669,26 @@
 					
 					div.style.width = drawWhiteboard.width + "px";
 					
-					var toolHeight = parseInt(localStorage.getItem('toolHeight'));
-						toolHeight = toolHeight != null ? toolHeight : 0;
-					
-					if(localStorage.getItem('teacherId') != null){
-						div.style.height = (drawWhiteboard.height + toolHeight) + "px";
+					if(typeof assignRoleAtStudent != 'undefined'){
+						var toolHeight = 0;
 					}else{
-						div.style.height = (drawWhiteboard.height - toolHeight) + "px";
-						
-//						if(localStorage.getItem('orginalTeacherId') == null){
-//							div.style.height = (drawWhiteboard.height - toolHeight) + "px";
-//						}else{
-//							div.style.height = (drawWhiteboard.height) + "px";
-//
-//						}
+						var toolHeight = parseInt(localStorage.getItem('toolHeight'));
+						toolHeight = toolHeight != null ? toolHeight : 0;
 					}
+					
+					if(localStorage.getItem('orginalTeacherId') !=  null){
+						div.style.height = (drawWhiteboard.height + toolHeight) + "px";
+
+					}else{
+						
+						if(localStorage.getItem('teacherId') !=  null){
+							div.style.height = (drawWhiteboard.height) + "px";
+						}else{
+							div.style.height = (drawWhiteboard.height - toolHeight) + "px";
+						}
+					}
+					 		
+
 					
 					var containerWhiteBoard = document.getElementById('containerWb');
 					containerWhiteBoard.insertBefore(div, containerWhiteBoard.firstChild);
@@ -697,21 +704,6 @@
 			getWideValueAppliedByCss : function (id, attr){
 				var element = document.getElementById(id);
 			    var style = window.getComputedStyle(element);
-			    
-			
-//			    if(typeof style.marginLeft != 'undefined'){
-//			    	var leftMargin = parseInt(style.marginLeft.match(/\d+/));
-//			    	if(leftMargin == null){
-//			    		leftMargin = 0;
-//			    	}
-//			    }
-//			    
-//			    if(typeof style.marginRight != 'undefined'){
-//			    	var rightMargin = parseInt(style.marginRight.match(/\d+/));
-//			    	rightMargin = (leftMargin == null) ? 0 : rightMargin;
-//			    }
-//			    
-//			    return (element.clientWidth + leftMargin + rightMargin);
 			    
 			    if(typeof style.marginTop != 'undefined'){
 			    	var marginTop = parseInt(style.marginTop.match(/\d+/));
@@ -731,16 +723,15 @@
 			}, 
 			
 			setCommandToolHeights : function (toolHeight, operation){
-				var vWindow = document.getElementById('virtualWindow');
-				if(vWindow != null){
-					var divHeight = parseInt(vWindow.style.height.match(/\d+/));
-					if(operation == 'increment'){
-						vWindow.style.height = divHeight + parseInt(toolHeight) + "px";
+				var virDiv = document.getElementById('virtualWindow');
+				if(virDiv !=  null){
+					var divHeight = parseInt(virDiv.style.height.match(/\d+/));
+					if(operation == 'decrement'){
+						virDiv.style.height = (divHeight - parseInt(toolHeight))  + "px";
 					}else{
-						vWindow.style.height = divHeight - parseInt(toolHeight) + "px";
+						virDiv.style.height = (divHeight + parseInt(toolHeight))  + "px";
 					}
 				}
-			
 			}
 		};
 	}
