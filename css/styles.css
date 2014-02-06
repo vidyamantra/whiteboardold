@@ -253,15 +253,14 @@ a[title]:hover:after {
 		
 }
 
-.socketon.teacher #commandToolsWrapper #t_assign.controlCmd a, #commandToolsWrapper #t_connectionoff a{
-	background-image: url(../images/border-img.png);
-	background-position: left center;
-	background-repeat: no-repeat;
-}
-
 #commandToolsWrapper #t_assign.controlCmd a{
 	background-image: none;
 	padding-right: 15px;
+}
+.socketon.teacher #commandToolsWrapper #t_assign.controlCmd a, #commandToolsWrapper #t_connectionoff a, .con.controlCmd, .controlCmd.coff{
+	background-image: url(../images/border-img.png);
+	background-position: left center;
+	background-repeat: no-repeat;
 }
 
 #commandToolsWrapper #t_connectionoff a, #commandToolsWrapper #t_connectionon a{
@@ -712,11 +711,14 @@ a[title]:hover:after {
 	bottom:45px;
 }
 
+/*
 .coff, .con{
 	width :10px;
 	height :5px;
 }
+*/
 
+/*
 .coff {
 	border:2px solid red;
 }
@@ -724,3 +726,12 @@ a[title]:hover:after {
 .con{
 	border:2px solid green;
 }
+*/
+.controlCmd.coff, .con.controlCmd{padding-left: 20px;}
+
+.controlCmd.coff a{border:red 1px solid; padding-left: 4px!important; padding-right: 4px!important; border-radius: 2px;}
+
+.con.controlCmd a {border:#79aa26 1px solid; padding-left: 4px !important; padding-right: 4px!important; border-radius: 2px;}
+.con{margin-right: 20px; float: right;}
+
+.con.controlCmd a{}
