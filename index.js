@@ -190,8 +190,10 @@ $.when(
 			}
 		});
 		$(document).on("member_added", function(e){
+			   //alert('suman');
 				//alert(e.message.length);
 				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
+					//alert('suman');
 					//alert('this is happenig');
 					whBoard.utility.makeCanvasEnable();
 					//whBoard.utility.setClass('connectInfo', 'con');

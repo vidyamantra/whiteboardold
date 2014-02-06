@@ -298,10 +298,15 @@
 	  				if(localStorage.getItem('teacherId') != null){
 	  					var toolBoxHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
 	  					
-	  					
+		  				
+
 	  				}
 					
 					if(e.fromUser.userid != id){
+						if(localStorage.getItem('teacherId') != null){
+							whBoard.utility.makeCanvasEnable();
+						}
+						
 	  					 otherBrowser = message.browserRes;
 	  					 
 	  				}else{
