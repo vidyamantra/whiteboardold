@@ -699,9 +699,7 @@ a[title]:hover:after {
     width: 16px;
 }
 
-#videoMaxMize{
-	top: -33px;
-}
+.socketon.teacher #videoMaxMize{top: -17px;}
 
 
 .controlCmd{
