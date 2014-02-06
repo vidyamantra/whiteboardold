@@ -145,7 +145,7 @@
 					//var	cmdToolsWrapper2  = document.createElement('div');
 					//cmdToolsWrapper.id = 'commandToolsWrapper2';
 					
-					whBoard.createDiv('t_connect', 'c', cmdToolsWrapper, 'controlCmd coff');
+					whBoard.createDiv('t_connect', 'conn', cmdToolsWrapper, 'controlCmd coff');
 					whBoard.createDiv('t_assign', 'assign', cmdToolsWrapper, 'controlCmd');
 					
 					whBoard.socketOn = parseInt(socketOn);
