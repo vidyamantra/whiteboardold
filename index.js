@@ -46,6 +46,7 @@ $.when(
 		
 		*/
     	
+    	
 		whBoard.system.setCanvasDimension();
 		
 
@@ -269,6 +270,10 @@ $.when(
         				//	debugger;
         				//alert(e.message.socket);
         				whBoard.socketOn = parseInt(e.message.socket);
+//        				alert('suman bgoati');
+//        				debugger;
+        				whBoard.utility.setClass('vcanvas', 'socketon');
+        				
         				whBoard.utility.assignRole(id);
             			whBoard.utility.uniqueArrOfObjsToSelf();
 						if(typeof localStorage.canvasDrwMsg == 'undefined'){

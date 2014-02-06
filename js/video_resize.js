@@ -1,7 +1,7 @@
 (
 
 function (window){
-		
+//http://dyndiv.markusbordihn.de/example/moveable-resizeable/ 		
 var ByRei_dynDiv = {
  api: {
   drag: null,
