@@ -362,7 +362,11 @@ a, canavas{
 }
 
 #t_assign.controlCmd{
-	margin-left: 96%;
+	margin-left: 95%;
+}
+
+.socketon #t_assign.controlCmd{
+	margin-left: 83%;
 }
 
 /* HASAN Video css */
@@ -599,16 +603,14 @@ a, canavas{
 
 
 
-
-
-
-
-	#t_assign.controlCmd{
-		margin-left: 95%;
-	}
 	#t_assign.controlCmd a{
 		padding-left: 0px;
 		padding-right: 0px;
+	}
+	
+	.socketon #t_assign.controlCmd a{
+		padding-left: 12px;
+		padding-right: 14px;
 	}
 	
 	#vcanvas{
@@ -663,6 +665,7 @@ a, canavas{
 	#videos #remoteVideo{
 		height:auto;
 		position: absolute;
+		min-height: 215px;
 	}
 	
 	#remoteVideo{
