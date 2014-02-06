@@ -15,9 +15,9 @@ var vm_chat = {
 		
 	wsconnect : function(){ 
 		//alert('smran');
-		console.log('simran');
+		//console.log('simran');
 		vm_chat.wsuri = "wss://"+this.cfg.rid;
-		console.log(vm_chat.wsuri);
+		//console.log(vm_chat.wsuri);
 		if ("WebSocket" in window) {
 			this.sock = new WebSocket(vm_chat.wsuri);
 		} else if ("MozWebSocket" in window) {
@@ -31,7 +31,7 @@ var vm_chat = {
 		this.sock.onopen = function(e) { 
 			
 			//alert(localStorage.repObjs);
-			console.log("OPN : Connected to " + vm_chat.wsuri);
+			//console.log("OPN : Connected to " + vm_chat.wsuri);
 			$.event.trigger({
 				type: "connectionopen"
 				//repObjs : localStorage.repObjs
@@ -46,13 +46,13 @@ var vm_chat = {
 		
 		this.sock.onmessage = function(e) {  
 			
-			console.log("MSG : Connected to " + vm_chat.wsuri);
-			try{
+			//console.log("MSG : Connected to " + vm_chat.wsuri);
+			//try{
 				
 				//var r1 = JSON.parse(e.data, vm_chat.functionReviver);
 				var r1 = JSON.parse(e.data);
 					//r1.
-				console.log(r1);
+				//console.log(r1);
 
 				if (r1.type =="joinroom"){	
 				
@@ -115,10 +115,10 @@ var vm_chat = {
 					console.log("Unauthenticated user");
 					//alert('Unauthenticated user');		
 				}	
-			}catch(e){
-				console.log("Error   : "+e);
-				return;
-			} 
+//			}catch(e){
+//				console.log("Error   : "+e);
+//				return;
+//			} 
 		}
 		this.sock.onerror = function(e) {
 			scope.error = e;

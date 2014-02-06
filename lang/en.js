@@ -44,7 +44,8 @@
 			'canvasDrawMsg' : 'You can click on any tool for draw antyhing ' + 
 			'with mouse click, mouse move and mouse up into Draw Area',
 			'clearAllWarnMessage' : "Would you like to clear all what you have drawn, " +
-			"Once you clear the whiteboard, you will not get those drawn objects ever."
+			"Once you clear the whiteboard, you will not get those drawn objects ever.",
+			'c' : 'c'
 			
 		}; 
 	}

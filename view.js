@@ -120,7 +120,7 @@
 				};
 		 	})();
 		 whBoard.view.window.resize = function (){
-			  var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+			  var res = whBoard.system.measureResoultion({'width' : window.innerWidth, 'height' : window.innerHeight });
 			  var vcanvas = document.getElementById('vcanvas');
 			  vcanvas.style.width = res.width + 'px';
 			  
@@ -141,6 +141,7 @@
 				}
 				
 				whBoard.view.window.resizeFinished(function(){
+					//alert('suman bogati');
 					vm_chat.send({'virtualWindow' : { 'resizeWindow' : res}});	
 			    }, 500);
 				

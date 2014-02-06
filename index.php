@@ -113,9 +113,11 @@
 	    		<!--  <h4>Users Video</h4> -->
 	    		<!--   <video id='localVideo' autoplay></video>-->
 	    		<div id="videoContainer">
-	    		 <div  class="dynDiv_moveParentDiv">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MOVE</div>
-				 <div class="dynDiv_resizeDiv_tl"></div>
-				 	<video id="localVideo" autoplay>
+	    		 
+	    		 <div class="dynDiv_resizeDiv_tl"></div>
+	    		 
+	    		 <div  class="dynDiv_moveParentDiv">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    		 		<video id="localVideo" autoplay>
 				 		
 					</video>
 	    		
@@ -125,7 +127,10 @@
   					<source src="http://www.w3schools.com/tags/movie.ogg" type="video/ogg">
 
 	    		</video>
-	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
+	    		 	
+	    		  </div>
+				 
+				 	    		<!--  <video id='remoteVideo2'  autoplay muted></video> -->
 	    		<div class="clear"></div>
 	    </div>
 	     </div>

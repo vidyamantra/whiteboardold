@@ -74,6 +74,17 @@ $.when(
     	
     	whBoard.utility.makeCanvasDisable();
     	
+//    	var connectInfo = document.createElement('div');
+//    		connectInfo.className = 'controlCmd coff';
+//    		connectInfo.id = "connectInfo";
+//    		connectInfo.innerHTML = '&nbsp';
+//    		
+//    		var beforeAppend = document.getElementsByClassName('controlCmd')[0];
+//    		beforeAppend.parentNode.insertBefore(connectInfo, beforeAppend);
+    			
+    		
+    		
+    	
 //    	var canvasElement = document.getElementById('canvas');
 //    	canvasElement.style.position = 'relative';
 //		canvasElement.style.zIndex = "-1000"; 
@@ -168,10 +179,25 @@ $.when(
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
 		
+		$(document).on("member_removed", function(e){
+			whBoard.utility.makeCanvasDisable();
+			//whBoard.utility.setClass('connectInfo', 'coff');
+			document.getElementsByClassName('con')[0].className = 'coff controlCmd';
+			
+			var vdiv = document.getElementById('virtualWindow');
+			if(vdiv != null){
+				vdiv.parentNode.removeChild(vdiv);
+			}
+		});
 		$(document).on("member_added", function(e){
+				//alert(e.message.length);
 				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
 					//alert('this is happenig');
 					whBoard.utility.makeCanvasEnable();
+					//whBoard.utility.setClass('connectInfo', 'con');
+					//document.getElementById('connectInfo').innerHTML = 'ON';
+					var cdiv = document.getElementsByClassName('coff')[0];
+					cdiv.className = 'con controlCmd';
 				}
 				
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
@@ -213,6 +239,18 @@ $.when(
   					cthis.isStarted = false;
   				}
   			}else if(e.message.hasOwnProperty('isChannelReady')){
+  				
+//  				if(e.message.hasOwnProperty('memberAdded')){
+//  					alert('suma bogati');
+//  					if(localStorage.getItem('teacherId') != null){
+//  						whBoard.utility.makeCanvasEnable();
+//  						whBoard.utility.setClass('connectInfo', 'con');
+//  					
+//  					}
+//  				}
+  				
+  				
+  				
   				e.message.isChannelReady = true; 
   				vcan.myvid.videoOnMsg(e.message);
     		}else if(e.message.hasOwnProperty('video')){
@@ -258,7 +296,9 @@ $.when(
 						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
 						canvasWrapper.className = 'teacher';
 						localStorage.canvasDrwMsg = true;
-						
+						//alert('suman bogati');
+						document.getElementsByClassName('coff')[0].className = 'con controlCmd';
+
 						
         				return;
         			}
@@ -293,6 +333,8 @@ $.when(
 						var toolHeight = localStorage.getItem('toolHeight');
 						whBoard.utility.setCommandToolHeights(toolHeight, 'increment');
 						
+						
+						document.getElementsByClassName('coff')[0].className = 'con controlCmd';
             			return;
         			}else{
         				whBoard.utility.uniqueArrOfObjsToOther();
@@ -305,7 +347,7 @@ $.when(
         				
         				
         				if(localStorage.getItem('orginialTeacherId') ==  null){
-							whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
+        					whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
         				}
         				
         				localStorage.setItem('localStorage.canvasDrwMsg', true);

@@ -606,6 +606,8 @@
 	  		
 	  		initDefaultInfo : function (e, myVideo){
 				var clientNum = e.message.length;
+				
+				
 				  if(clientNum == 1){
 						if(!whBoard.utility.checkWebRtcConnected()){
 							vcan.vid = myVideo.init();
@@ -635,7 +637,7 @@
 							
 //							var outerWidth = window.outerWidth;
 //							vm_chat.send({'isChannelReady':true, bwidth: outerWidth});
-							vm_chat.send({'isChannelReady' : true});
+							vm_chat.send({'isChannelReady' : true, 'memberAdded' : true});
 							vcan.oneExecuted = false;
 		  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
 		  				}

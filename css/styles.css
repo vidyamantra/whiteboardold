@@ -708,3 +708,19 @@ a[title]:hover:after {
 
 
 
+#videoContainer{
+	bottom:45px;
+}
+
+.coff, .con{
+	width :10px;
+	height :5px;
+}
+
+.coff {
+	border:2px solid red;
+}
+
+.con{
+	border:2px solid green;
+}
