@@ -116,7 +116,7 @@ body {
 
 #chormeWebrtcCont{
 	position : absolute;
-	right: 3%;
+	right: 2%;
 	top : 0%;
 }
 
@@ -158,9 +158,8 @@ body {
 
 
 #canvasDrawMsgContChrome{
-    position : relative;
-	bottom:750px;
-	left : 128px;
+    position : absolute;
+	left : 270px;
 }
 
 #canvasDrawArea{
@@ -246,13 +245,23 @@ a[title]:hover:after {
 	padding-left: 1%;
 }
 
-#commandToolsWrapper #t_line a, #commandToolsWrapper #t_rectangle a, #commandToolsWrapper #t_freeDrawing a, #commandToolsWrapper #t_oval a, #commandToolsWrapper #t_triangle a, #commandToolsWrapper #t_text a, #commandToolsWrapper #t_replay a, #commandToolsWrapper #t_activeall a, #commandToolsWrapper #t_clearall a, #commandToolsWrapper #t_connectionoff a{
-	
+#commandToolsWrapper #t_line a, #commandToolsWrapper #t_rectangle a, #commandToolsWrapper #t_freeDrawing a, #commandToolsWrapper #t_oval a, #commandToolsWrapper #t_triangle a, #commandToolsWrapper #t_text a, #commandToolsWrapper #t_replay a, #commandToolsWrapper #t_activeall a, #commandToolsWrapper #t_clearall a, #commandToolsWrapper #t_connectionoff a, #commandToolsWrapper #t_assign a{
 	background-image: url(../images/border-img.png);
 	background-position: right center;
 	background-repeat: no-repeat;
 	
 		
+}
+
+.socketon.teacher #commandToolsWrapper #t_assign.controlCmd a, #commandToolsWrapper #t_connectionoff a{
+	background-image: url(../images/border-img.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+#commandToolsWrapper #t_assign.controlCmd a{
+	background-image: none;
+	padding-right: 15px;
 }
 
 #commandToolsWrapper #t_connectionoff a, #commandToolsWrapper #t_connectionon a{
@@ -269,13 +278,15 @@ a[title]:hover:after {
 	
 }
 
+/*
 #t_assign.controlCmd{
 	margin-left: 95%;
 }
 
 .socketon #t_assign.controlCmd{
-	margin-left: 83%;
+	margin-left: 85%;
 }
+*/
 
 /* HASAN Video css */
 
@@ -565,7 +576,7 @@ a[title]:hover:after {
 #videos #remoteVideo{
 	height:auto;
 	position: absolute;
-	min-height: 215px;
+	min-height: auto;
 }
 	
 #remoteVideo{
@@ -688,8 +699,14 @@ a[title]:hover:after {
     width: 16px;
 }
 
+#videoMaxMize{
+	top: -33px;
+}
 
-#videoMaxMize a.tooltip:hover{}
+
+.controlCmd{
+	float: right;
+}
 
 
 
