@@ -75,7 +75,7 @@
   
   <body>
 
-	<!--     
+	
   	<div id="topContainer">Top Container</div>
   	<div id="leftContainer">
   		This is my left container
@@ -84,8 +84,6 @@
   		This is my left container
   		This is my left container
   		This is my left container
-  		-->
-  		
   	</div>
   	 
 

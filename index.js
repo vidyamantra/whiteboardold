@@ -266,6 +266,9 @@ $.when(
         		if(e.message.hasOwnProperty('assignRole')){
         			var  toolHeight = e.message.toolHeight;
         			if(e.fromUser.userid != id){
+        				//	debugger;
+        				//alert(e.message.socket);
+        				whBoard.socketOn = parseInt(e.message.socket);
         				whBoard.utility.assignRole(id);
             			whBoard.utility.uniqueArrOfObjsToSelf();
 						if(typeof localStorage.canvasDrwMsg == 'undefined'){

@@ -148,12 +148,12 @@
 					
 					whBoard.socketOn = parseInt(socketOn);
 					
+					
+					
 					if(whBoard.socketOn == 1){
 						whBoard.createDiv('t_connectionoff', 'connectionOff', cmdToolsWrapper, 'controlCmd');
 						whBoard.createDiv('t_connectionon', 'connectionOn', cmdToolsWrapper, 'controlCmd');
-						
 						whBoard.utility.setClass('vcanvas', 'socketon');
-						
 					}
 			},
 			
@@ -549,9 +549,9 @@
 					whBoard.utility.assignRole();
 					var toolHeight = localStorage.getItem('toolHeight');
 					if(toolHeight !=  null){
-						vm_chat.send({'assignRole': true, 'toolHeight' : toolHeight});
+						vm_chat.send({'assignRole': true, 'toolHeight' : toolHeight, 'socket' : whBoard.socketOn});
 					}else{
-						vm_chat.send({'assignRole': true });
+						vm_chat.send({'assignRole': true, 'socket' : whBoard.socketOn});
 					}
 					
 				}
