@@ -45,8 +45,9 @@
 			'with mouse click, mouse move and mouse up into Draw Area',
 			'clearAllWarnMessage' : "Would you like to clear all what you have drawn, " +
 			"Once you clear the whiteboard, you will not get those drawn objects ever.",
-			'c' : 'c'
-			
+			'con' : 'connection on',
+			'cof' : 'connection off',
+			 'askForConnect' : 'You will be able to perform this action after other user is connected'
 		}; 
 	}
 )(window);

@@ -377,7 +377,6 @@
 			},
 			 
 			assignRole : function (studentId){
-				
 				if(typeof studentId != 'undefined'){
 					if(localStorage.hasOwnProperty('reclaim')){
 						var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
@@ -632,8 +631,12 @@
 					//browser B
 					}else if(clientNum == 2 && e.newuser == null){
 						if(!whBoard.utility.checkWebRtcConnected()){
+							
 							vcan.studentId = id;
 							localStorage.studentId = id;
+							
+						//	whBoard.utility.setOrginalTeacherContent(e);
+
 							
 //							var outerWidth = window.outerWidth;
 //							vm_chat.send({'isChannelReady':true, bwidth: outerWidth});
@@ -660,7 +663,8 @@
 				return false;
 			},
 			
-			createVirtualWindow : function (resolution){	
+			createVirtualWindow : function (resolution){
+				
 				//alert(resolution.width);
 				var div = document.createElement('div');
 				
@@ -706,16 +710,20 @@
 			
 			getWideValueAppliedByCss : function (id, attr){
 				var element = document.getElementById(id);
-			    var style = window.getComputedStyle(element);
-			    
-			    if(typeof style.marginTop != 'undefined'){
-			    	var marginTop = parseInt(style.marginTop.match(/\d+/));
-			    	if(marginTop == null){
-			    		marginTop = 0;
-			    	}
-			    }
+				if(element != null){
+				    var style = window.getComputedStyle(element);
+				    
+				    if(typeof style.marginTop != 'undefined'){
+				    	var marginTop = parseInt(style.marginTop.match(/\d+/));
+				    	if(marginTop == null){
+				    		marginTop = 0;
+				    	}
+				    }
 
-			    return (element.clientHeight + marginTop);
+				    return (element.clientHeight + marginTop);
+				}else{
+					return false;
+				}
 			},
 			
 			isNumber : function (num){
@@ -751,6 +759,21 @@
 				
 				var classes = classes + newClass;
 				elem.setAttribute('class', classes);
+			}, 
+			
+			isUserConnected : function (userLength){
+				//ocalStorage.getItem('orginalTeacherId') != null is inserted for reclaim button
+				if(userLength > 1 && (localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null)){
+					whBoard.user.connected = true;
+				}
+			},
+			
+			setStyleUserConnetion : function (currClass, newClass, whoIs){
+				//whBoard.utility.makeCanvasEnable();
+				
+				var cdiv = document.getElementsByClassName(currClass)[0];
+				cdiv.setAttribute('class', newClass + ' controlCmd');
+				
 			}
 		};
 	}

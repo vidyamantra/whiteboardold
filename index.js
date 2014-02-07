@@ -100,10 +100,8 @@ $.when(
     	
     	if(!storageHasTeacher && !storageHasReclaim){
     		whBoard.utility.removeToolBox();
-    		//document.getElementById('vcanvas').className = 'student';
     		whBoard.utility.setClass('vcanvas', 'student');
 		}else{
-    		//document.getElementById('vcanvas').className = 'teacher';
     		
 			
 			whBoard.utility.setClass('vcanvas', 'teacher');
@@ -180,27 +178,45 @@ $.when(
 		vcan.renderedObjId = 0;
 		
 		$(document).on("member_removed", function(e){
-			whBoard.utility.makeCanvasDisable();
-			//whBoard.utility.setClass('connectInfo', 'coff');
-			document.getElementsByClassName('con')[0].className = 'coff controlCmd';
 			
+			whBoard.utility.makeCanvasDisable();
+			whBoard.utility.setStyleUserConnetion('con', 'coff');
+
 			var vdiv = document.getElementById('virtualWindow');
 			if(vdiv != null){
 				vdiv.parentNode.removeChild(vdiv);
 			}
+			
+			whBoard.user.connected = false;
+			
+//			document.getElementsByClassName('con')[0].className = 'coff controlCmd';
+			
+//			var vdiv = document.getElementById('virtualWindow');
+//			if(vdiv != null){
+//				vdiv.parentNode.removeChild(vdiv);
+//			}
+			
+			
 		});
 		$(document).on("member_added", function(e){
-			   //alert('suman');
+			    //alert(e.message.length);
+//				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
+//					whBoard.utility.makeCanvasEnable();
+//					var cdiv = document.getElementsByClassName('coff')[0];
+//					cdiv.className = 'con controlCmd';
+//				}
+			    
 				//alert(e.message.length);
-				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
-					//alert('suman');
-					//alert('this is happenig');
+				whBoard.utility.isUserConnected(e.message.length);
+				if(whBoard.user.connected){
 					whBoard.utility.makeCanvasEnable();
-					//whBoard.utility.setClass('connectInfo', 'con');
-					//document.getElementById('connectInfo').innerHTML = 'ON';
-					var cdiv = document.getElementsByClassName('coff')[0];
-					cdiv.className = 'con controlCmd';
+					whBoard.utility.setStyleUserConnetion('coff', 'con');
 				}
+				
+//				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
+//					whBoard.utility.makeCanvasEnable();
+//					whBoard.utility.setStyleUserConnetion('coff', 'con');
+//				}
 				
 				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
 	  				whBoard.utility.makeCanvasDisable();
@@ -208,8 +224,15 @@ $.when(
 				
 				whBoard.utility.initDefaultInfo(e,  myVideo);
 				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
-				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, browserRes: res}});
-	  		});
+				
+				 var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+				if(toolHeight != false){
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight}});
+				}else{
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res}});
+				}
+				
+  		});
 		
 		if(typeof localStorage.teacherId != 'undefined'){
 			if(typeof localStorage.canvasDrwMsg == 'undefined'){
@@ -223,6 +246,8 @@ $.when(
 		virtualWindow = false;
 		$(document).on("newmessage", function(e){
   			if(e.message.hasOwnProperty('virtualWindow')){
+  				
+  				//alert('raju brother');
 				whBoard.view.virtualWindow.manupulation(e);
   				return;
   			}
@@ -250,8 +275,6 @@ $.when(
 //  					
 //  					}
 //  				}
-  				
-  				
   				
   				e.message.isChannelReady = true; 
   				vcan.myvid.videoOnMsg(e.message);
@@ -285,8 +308,8 @@ $.when(
 						
 						if(localStorage.getItem('orginialTeacherId') ==  null){
 							whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
-						}	
-
+						}
+						
 						return;
         			}else{
         				if(localStorage.getItem('orginalTeacherId') !=  null){
@@ -298,10 +321,11 @@ $.when(
 						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
 						canvasWrapper.className = 'teacher';
 						localStorage.canvasDrwMsg = true;
-						//alert('suman bogati');
-						document.getElementsByClassName('coff')[0].className = 'con controlCmd';
 
+						whBoard.utility.setStyleUserConnetion('coff', 'con');
+						//whBoard.utility.makeCanvasEnable();
 						
+						//document.getElementsByClassName('coff')[0].className = 'con controlCmd';
         				return;
         			}
         		}
@@ -309,13 +333,9 @@ $.when(
         		if(e.message.hasOwnProperty('assignRole')){
         			var  toolHeight = e.message.toolHeight;
         			if(e.fromUser.userid != id){
-        				//	debugger;
-        				//alert(e.message.socket);
-        				whBoard.socketOn = parseInt(e.message.socket);
-//        				alert('suman bgoati');
-//        				debugger;
-        				whBoard.utility.setClass('vcanvas', 'socketon');
         				
+        				whBoard.socketOn = parseInt(e.message.socket);
+        				whBoard.utility.setClass('vcanvas', 'socketon');
         				whBoard.utility.assignRole(id);
             			whBoard.utility.uniqueArrOfObjsToSelf();
 						if(typeof localStorage.canvasDrwMsg == 'undefined'){
@@ -331,19 +351,20 @@ $.when(
 						canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
 						canvasWrapper.className = 'teacher';
 						
+						whBoard.user.connected  = true;
 					
 						var toolHeight = localStorage.getItem('toolHeight');
 						whBoard.utility.setCommandToolHeights(toolHeight, 'increment');
-						
-						
-						document.getElementsByClassName('coff')[0].className = 'con controlCmd';
+						whBoard.utility.setStyleUserConnetion('coff', 'con', 'fromAssign');
+
+					//	document.getElementsByClassName('coff')[0].className = 'con controlCmd';
             			return;
         			}else{
         				whBoard.utility.uniqueArrOfObjsToOther();
         				if(!whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
         					var canvasWrapper = document.getElementById("vcanvas");
     						canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
-    						canvasWrapper.className = 'student'
+    						canvasWrapper.className = 'student';
         				}
         				
         				

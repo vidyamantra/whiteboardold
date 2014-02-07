@@ -735,3 +735,7 @@ a[title]:hover:after {
 .con{margin-right: 20px; float: right;}
 
 .con.controlCmd a{}
+
+.controlCmd.coff{
+	margin-right : 10px;
+}

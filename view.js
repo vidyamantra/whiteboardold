@@ -248,6 +248,7 @@
 	  				}
 	  				return;
 	  			}else if(message.hasOwnProperty('resizeWindow')){
+	  			//	alert('suman bogait');
 					//myResolution =  whBoard.system.getResoultion(window.outerWidth);
 	  				myResolution = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
 	  				//alert(myResolution.width);
@@ -295,13 +296,22 @@
 	  					return;
 	  				}
 	  			}else if(message.hasOwnProperty('shareBrowserWidth')){
+//	  				alert('suman bogati');
+//	  				debugger;
+	  				
+	  				if(message.hasOwnProperty('toolHeight')){
+	  					
+	  					localStorage.setItem('toolHeight', message.toolHeight);
+	  				}
+	  				
 	  				if(localStorage.getItem('teacherId') != null){
 	  					var toolBoxHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
-	  					
-		  				
-
+	  					localStorage.setItem('toolHeight', toolBoxHeight);
 	  				}
-					
+	  				
+//	  				alert('suman bogati');
+//	  				debugger;
+//	  				
 					if(e.fromUser.userid != id){
 						if(localStorage.getItem('teacherId') != null){
 							whBoard.utility.makeCanvasEnable();
@@ -310,6 +320,7 @@
 	  					 otherBrowser = message.browserRes;
 	  					 
 	  				}else{
+//	  					alert('suman brot');
 	  					 //myBrowser = whBoard.system.getResoultion(window.outerWidth);
 	  	  			   myBrowser = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
 

@@ -1,4 +1,4 @@
-/**
+/** 
  * 
  */
 (function (window,document){
@@ -31,6 +31,7 @@
 			system: {},
 			globalObj : {}, // For store the global oject
 			bridge : {},
+			user : {}, 
 			
 			/**
 			 * This function basically does create the canvas on which 
@@ -337,53 +338,55 @@
 			 * @param expects the mouse down event.
 			 */
 			objInit : function (evt){
-				
-				/*
-				var anchorNode = evt.originalTarget;
-				if(evt.originalTarget == undefined){
-					anchorNode = evt.target; //for chrome and safari
-				} 
-				* after input the image tag
-				* */
-				
-				var anchorNode = this;
-				
-				/**important **/
-				
-				if(anchorNode.parentNode.id == 't_replay'){
-					whBoard.utility.clearAll(false);
-					vm_chat.send({'replayAll' :  true});
-				}else{
-					whBoard.toolInit(anchorNode.parentNode.id);
-				}
-				
-//				if(anchorNode.parentNode.id == 't_replay'){
-//					whBoard.utility.clearAll(false);
-//					
-//				}	
-				//multiuser handle to id of created object
-				// this function expexted three paramters
-				//whBoard.toolInit(anchorNode.parentNode.id, 'multiuser');
-				//whBoard.toolInit(anchorNode.parentNode.id);
-				
-//				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
-//					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign'){
-			
-				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
-					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign' 
-						  && anchorNode.parentNode.id != 't_connectionoff' && anchorNode.parentNode.id != 't_connectionon'){
-			
-					var currTime = new Date().getTime();
-					//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
-					whBoard.lt = anchorNode.parentNode.id;
-					var obj = {'cmd':anchorNode.parentNode.id, mt : currTime};
-					whBoard.uid++;
-					console.log('uid ' + ' ' + whBoard.uid);
-					obj.uid =whBoard.uid; 
-					vcan.main.replayObjs.push(obj);
-					vm_chat.send({'repObj': [obj]}); //after optimized
-				}
+				if(whBoard.user.connected){
+						/*
+						var anchorNode = evt.originalTarget;
+						if(evt.originalTarget == undefined){
+							anchorNode = evt.target; //for chrome and safari
+						} 
+						* after input the image tag
+						* */
+						
+						var anchorNode = this;
+						
+						/**important **/
+						
+						if(anchorNode.parentNode.id == 't_replay'){
+							whBoard.utility.clearAll(false);
+							vm_chat.send({'replayAll' :  true});
+						}else{
+							whBoard.toolInit(anchorNode.parentNode.id);
+						}
+						
+		//				if(anchorNode.parentNode.id == 't_replay'){
+		//					whBoard.utility.clearAll(false);
+		//					
+		//				}	
+						//multiuser handle to id of created object
+						// this function expexted three paramters
+						//whBoard.toolInit(anchorNode.parentNode.id, 'multiuser');
+						//whBoard.toolInit(anchorNode.parentNode.id);
+						
+		//				if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
+		//					  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign'){
 					
+						if(anchorNode.parentNode.id != 't_replay' && anchorNode.parentNode.id  != 't_clearall' 
+							  && anchorNode.parentNode.id != 't_reclaim' && anchorNode.parentNode.id != 't_assign' 
+								  && anchorNode.parentNode.id != 't_connectionoff' && anchorNode.parentNode.id != 't_connectionon'){
+					
+							var currTime = new Date().getTime();
+							//var obj = {'cmd':anchorNode.parentNode.id, mdTime : currTime};
+							whBoard.lt = anchorNode.parentNode.id;
+							var obj = {'cmd':anchorNode.parentNode.id, mt : currTime};
+							whBoard.uid++;
+							console.log('uid ' + ' ' + whBoard.uid);
+							obj.uid =whBoard.uid; 
+							vcan.main.replayObjs.push(obj);
+							vm_chat.send({'repObj': [obj]}); //after optimized
+						}
+				}else{
+					alert(whBoard.lang.getString('askForConnect'));
+				}	
 			},
 			
 			
