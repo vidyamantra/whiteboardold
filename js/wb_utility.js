@@ -604,9 +604,8 @@
 	  		}, 
 	  		
 	  		initDefaultInfo : function (e, myVideo){
-				var clientNum = e.message.length;
-				
-				
+	  			  var clientNum = e.message.length;
+//	  			  alert(clientNum);
 				  if(clientNum == 1){
 						if(!whBoard.utility.checkWebRtcConnected()){
 							vcan.vid = myVideo.init();
@@ -635,7 +634,7 @@
 							vcan.studentId = id;
 							localStorage.studentId = id;
 							
-						//	whBoard.utility.setOrginalTeacherContent(e);
+//							whBoard.utility.setOrginalTeacherContent(e);
 
 							
 //							var outerWidth = window.outerWidth;
@@ -773,8 +772,31 @@
 				
 				var cdiv = document.getElementsByClassName(currClass)[0];
 				cdiv.setAttribute('class', newClass + ' controlCmd');
-				
 			}
+			
+//			connectionOptimization : function (){
+//				if (typeof  lastarrowtime == 'undefined') {
+//					lastarrowtime = new Date().getTime();
+//					whBoard.sentPackets = whBoard.sentPackets + jobj.length;
+//
+//					if(this.sock.readyState == 1){
+//						this.sock.send(jobj);
+//					}
+//					
+//					vm_chat.updateSentInformation(jobj, true);
+//				}
+//				
+//				presentarrowtime = new Date().getTime();
+//				if ((presentarrowtime-lastarrowtime)>=100) {
+//					whBoard.sentPackets = whBoard.sentPackets + jobj.length;
+//					//this.sock.send(jobj);
+//					if(this.sock.readyState == 1){
+//						this.sock.send(jobj);
+//					}
+//					vm_chat.updateSentInformation(jobj, true);
+//					lastarrowtime = new Date().getTime();
+//				}
+//			}
 		};
 	}
 )(window);

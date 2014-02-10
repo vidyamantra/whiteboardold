@@ -2800,37 +2800,37 @@
 		 	 * this function does time optimization for paritclar object
 		 	 * @param e expects the event parameter
 		 	 */
-		 	 vcan.doOptiMize = function(e){
-				 if (((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null))) {
-			        	lastmousemovetime = new Date().getTime();
-			           if(!e.detail.hasOwnProperty('cevent')){
-			        		//var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
-			        	    var obj = vcan.makeStackObj(lastmousemovetime, 'm', e.clientX, e.clientY);
-			        	    whBoard.uid++;
-			        	    obj.uid = whBoard.uid; 
-							vcan.main.replayObjs.push(obj);
-							vm_chat.send({'repObj': [obj]});  //after optimized
-							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-							whBoard.utility.updateSentPackets(obj);
-			        	}
-			      	}
-			        
-					presentmousemovetime = new Date().getTime();
-					if((presentmousemovetime-lastmousemovetime)>=2000) {	 // Optimized
-						var currTime= new Date().getTime();
-						if(!e.detail.hasOwnProperty('cevent')){
-						var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
-							whBoard.uid++;
-		        	    	obj.uid = whBoard.uid; 
-							vcan.main.replayObjs.push(obj);
-							vm_chat.send({'repObj': [obj]});
-							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-							whBoard.utility.updateSentPackets(obj);
-						}
-
-				  		lastmousemovetime = new Date().getTime();
-					}
-			  }
+//		 	 vcan.doOptiMize = function(e){
+//				 if (((typeof  lastmousemovetime == 'undefined') || (lastmousemovetime == null))) {
+//			        	lastmousemovetime = new Date().getTime();
+//			           if(!e.detail.hasOwnProperty('cevent')){
+//			        		//var obj = {'mdTime' :  lastmousemovetime, 'action' : 'move', 'x' :  e.clientX, 'y' : e.clientY};
+//			        	    var obj = vcan.makeStackObj(lastmousemovetime, 'm', e.clientX, e.clientY);
+//			        	    whBoard.uid++;
+//			        	    obj.uid = whBoard.uid; 
+//							vcan.main.replayObjs.push(obj);
+//							vm_chat.send({'repObj': [obj]});  //after optimized
+//							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+//							whBoard.utility.updateSentPackets(obj);
+//			        	}
+//			      	}
+//			        
+//					presentmousemovetime = new Date().getTime();
+//					if((presentmousemovetime-lastmousemovetime)>=2000) {	 // Optimized
+//						var currTime= new Date().getTime();
+//						if(!e.detail.hasOwnProperty('cevent')){
+//						var obj = vcan.makeStackObj(currTime, 'm', e.clientX, e.clientY);
+//							whBoard.uid++;
+//		        	    	obj.uid = whBoard.uid; 
+//							vcan.main.replayObjs.push(obj);
+//							vm_chat.send({'repObj': [obj]});
+//							localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+//							whBoard.utility.updateSentPackets(obj);
+//						}
+//
+//				  		lastmousemovetime = new Date().getTime();
+//					}
+//			  }
  		
 		vcan.makeStackObj = function (time, action, x, y){
 			var obj = {'mt' :  time, 'ac' : action, 'x' :  x, 'y' : y};

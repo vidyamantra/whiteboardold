@@ -207,6 +207,19 @@ $.when(
 //				}
 			    
 				//alert(e.message.length);
+//				if(e.message.length > 1){
+//					for(var i=0; i< e.message.length; i++){
+//						if(typeof e.message[i+1] == 'Object'){
+//							if(e.message[i]['userid'] == e.message[i+1]['userid']){
+//								alert('The ids for teacher and student are same please make sure they are unique');	
+//							}
+//							break;
+//						}
+//					}
+//					return;
+//				}
+				
+				
 				whBoard.utility.isUserConnected(e.message.length);
 				if(whBoard.user.connected){
 					whBoard.utility.makeCanvasEnable();

@@ -67,6 +67,7 @@
        <script type="text/javascript" src="js/bridge.js"></script>
        
        <script type="text/javascript" src="js/video_resize.js"></script>
+       <script type="text/javascript" src="js/optimization.js"></script>
        
        <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 	  

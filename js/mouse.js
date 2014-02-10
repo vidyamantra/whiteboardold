@@ -302,13 +302,15 @@
 						    	  	var pointer = vcan.utility.actualPointer(e);
 						    	  	var currTime = new Date().getTime();
 						    	  	if(!e.detail.hasOwnProperty('cevent')){
-						    	  		var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
-						    	  		whBoard.uid++;
-						    	  		console.log('uid ' + whBoard.uid);
-										obj.uid =whBoard.uid;
-										vcan.main.replayObjs.push(obj);
-										vm_chat.send({'repObj': [obj]});
-										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+						    	  		vcan.calculatePackets(currTime, 'u', e.clientX, e.clientY);
+						    	  		
+//						    	  		var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
+//						    	  		whBoard.uid++;
+//						    	  		console.log('uid ' + whBoard.uid);
+//										obj.uid =whBoard.uid;
+//										vcan.main.replayObjs.push(obj);
+//										vm_chat.send({'repObj': [obj]});
+//										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 						    	  	}
 						    	  	
 						    	  	if(vcan.main.dragMode == true){
@@ -321,13 +323,13 @@
 	  						  }else{
 								  if(!e.detail.hasOwnProperty('cevent')){
 									    //alert('hello guys');
-									    var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
-										//TOOD very urgent the uid is not created and pushed into stack
-									    whBoard.uid++;
-									    obj.uid = whBoard.uid;
-									    vcan.main.replayObjs.push(obj);
-										vm_chat.send({'repObj': [obj]});
-										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
+									    vcan.calculatePackets(currTime, 'u', e.clientX, e.clientY);
+//									    var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
+//									    whBoard.uid++;
+//									    obj.uid = whBoard.uid;
+//									    vcan.main.replayObjs.push(obj);
+//										vm_chat.send({'repObj': [obj]});
+//										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 						    	  	}
 							  }
 						     
