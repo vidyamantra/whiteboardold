@@ -43,6 +43,7 @@
 				window.webrtcDetectedBrowser = "chrome";
 				whBoard.RTCPeerConnection = webkitRTCPeerConnection;
 				whBoard.RTCSessionDescription = RTCSessionDescription;
+				whBoard.RTCIceCandidate = RTCIceCandidate;
 				navigator.getUserMedia = navigator.webkitGetUserMedia;
 				
 				whBoard.attachMediaStream = function(element, stream) {

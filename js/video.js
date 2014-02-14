@@ -503,6 +503,8 @@
 				  } else if (message.type === 'answer' && cthis.isStarted) {
 					  cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
 				  } else if (message.type === 'candidate' && cthis.isStarted) {
+//					alert('sss');
+//					debugger;
 				    var candidate = new whBoard.RTCIceCandidate({sdpMLineIndex:message.label,
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
