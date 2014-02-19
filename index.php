@@ -61,7 +61,7 @@
        <script type="text/javascript" src="js/readytextobj.js"></script>
        <script type="text/javascript" src="js/keyboard.js"></script>
        
-       <script type="text/javascript" src="js/lib/adapter.js"></script> 
+       <script type="text/javascript" src="js/adapter.js"></script> 
        <script type="text/javascript" src="js/video.js"></script>  
        
        <script type="text/javascript" src="js/bridge.js"></script>
