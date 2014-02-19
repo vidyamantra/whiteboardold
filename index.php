@@ -32,10 +32,10 @@
 
  
 	   <!--  <script type="text/javascript" src="lib.js"></script> -->
-	   <script type="text/javascript" src="lang/en.js"></script>
-	   <script type="text/javascript" src="lang.js"></script>
-	   <script type="text/javascript" src="view.js"></script>
-	   <script type="text/javascript" src="system.js"></script>
+	   <script type="text/javascript" src="js/en.js"></script>
+	   <script type="text/javascript" src="js/lang.js"></script>
+	   <script type="text/javascript" src="js/view.js"></script>
+	   <script type="text/javascript" src="js/system.js"></script>
 	   
 	    
 	   

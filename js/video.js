@@ -3,6 +3,11 @@
 		var vm_chat = window.vm_chat;
 		var vcan = window.vcan;
 		var whBoard = window.whBoard;
+		
+		//have to 
+		var responseErorr = function (){
+			console.log("this error is come when the create and answer is occurring");
+		}
 		vcan.videoChat = function (){
 			return {
 		    	isChannelReady : '',
@@ -293,14 +298,14 @@
 				  console.log('Sending offer to peer, with constraints: \n' +
 				    '  \'' + JSON.stringify(constraints) + '\'.');
 				  crtOffer = true;
-				  cthis.pc[cthis.cn].createOffer(this.setLocalAndSendMessage, null, constraints);
+				  cthis.pc[cthis.cn].createOffer(this.setLocalAndSendMessage, responseErorr, constraints);
 				  
 				}, 
 
 				doAnswer:  function () {
 				  console.log('Sending answer to peer.');
 				  crtAns = true;
-				  cthis.pc[cthis.cn].createAnswer(this.setLocalAndSendMessage, null, this.sdpConstraints);
+				  cthis.pc[cthis.cn].createAnswer(this.setLocalAndSendMessage, responseErorr, this.sdpConstraints);
 				  
 				},
 
