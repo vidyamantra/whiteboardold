@@ -202,12 +202,9 @@
 //					}else{
 //						document.getElementById('containerWb').appendChild(cmdToolsWrapper);
 //					}
-					
-				
-					
 			},
 			
-			/**
+			 /**
 			 * this funciton does create the canvas
 			 */
 			createCanvas : function (){

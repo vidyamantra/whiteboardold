@@ -10,6 +10,7 @@
 	<?php echo "id='".$_GET['id']."';"; ?>
 	<?php echo "socketOn='".$_GET['socket']."';"; ?>
 	<?php echo "dataInfo='".$_GET['datainfo']."';"; ?>
+	<?php echo "role='".$_GET['r']."';"; ?>
 	
 	
 	</script>
@@ -25,19 +26,14 @@
 	   
 	   <script type="text/javascript" src="js/vcan.js"></script>
 	   <script type="text/javascript" src="js/script.js"></script>
-	  
 	   <script type="text/javascript" src="index.js"></script>
-	   
 	   <script type="text/javascript" src="js/wb_utility.js"></script>
 
- 
 	   <!--  <script type="text/javascript" src="lib.js"></script> -->
 	   <script type="text/javascript" src="js/en.js"></script>
 	   <script type="text/javascript" src="js/lang.js"></script>
 	   <script type="text/javascript" src="js/view.js"></script>
 	   <script type="text/javascript" src="js/system.js"></script>
-	   
-	    
 	   
 	   <script type="text/javascript" src="js/packetcontainer.js"></script>
 	   <script type="text/javascript" src="js/drawobject.js"></script>
@@ -60,16 +56,13 @@
        <script type="text/javascript" src="js/replay.js"></script>
        <script type="text/javascript" src="js/readytextobj.js"></script>
        <script type="text/javascript" src="js/keyboard.js"></script>
-       
        <script type="text/javascript" src="js/adapter.js"></script> 
        <script type="text/javascript" src="js/video.js"></script>  
-       
        <script type="text/javascript" src="js/bridge.js"></script>
-       
        <script type="text/javascript" src="js/video_resize.js"></script>
        <script type="text/javascript" src="js/optimization.js"></script>
        
-       <!--      <script type="text/javascript" src="js/whiteboard.js"></script> --> 
+       <!--  <script type="text/javascript" src="js/whiteboard.js"></script> --> 
 	  
 		   
   </head>

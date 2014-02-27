@@ -240,7 +240,21 @@
 		 
 		 
 		 whBoard.view.virtualWindow.manupulation = function (e){
+			    //alert(whBoard.currRole + 'this is me guys');
+			 
 			 	var message = e.message.virtualWindow;
+//			 
+//			 	if(e.fromUser.userid != id){
+//			 		var role = message.hasOwnProperty('role');
+//			 		if(role){
+//			 			localStorage.setItem('otherRole', role);
+//	  					alert('other ' + message.role);
+//	  				}
+//			 		
+//			 	}else{
+//			 			alert('me  ' +  role);
+//			 	}
+			 	
 				
 				if(message.hasOwnProperty('removeVirtualWindow')){
 	  				if(e.fromUser.userid != id){
@@ -268,9 +282,8 @@
 	  						//vm_chat.send({'resizeWindow' : myResolution});
 	  						//CRITICAL this function does call undefinite
 	  						//vm_chat.send({'virtualWindow' : { 'resizeWindow' : myResolution}});
-
+	  						whBoard.utility.removeVirtualWindow('virtualWindow');
 	  						
-	  						whBoard.utility.removeVirtualWindow('virtualWindow'); 
 	  					}else if(myResolution.width > otherBrowser.width){
 	  						whBoard.utility.createVirtualWindow(otherBrowser);
 	  						

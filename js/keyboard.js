@@ -40,9 +40,9 @@
 				}
 			}
 		}
-		
-		whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
-		whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+		//alert('');
+//		whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
+//		whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
 		
 		
 		// this is used for demo only 

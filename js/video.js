@@ -144,6 +144,7 @@
 
 				maybeStart : function() {
 					if (!cthis.isStarted && cthis.localStream && cthis.isChannelReady) {
+						console.log("started suman bogati");
 						////alert(myVideo);
 						if(cthis.pc.length > 0){
 							 cthis.cn++;
@@ -153,6 +154,7 @@
 						cthis.pc[cthis.cn].addStream(cthis.localStream);
 						cthis.isStarted = true;
 					    if (cthis.isInitiator) {
+//					    	/alert('do call');
 					    	cthis.doCall();
 					    }
 							
@@ -283,6 +285,9 @@
 				}, 
 
 				doCall : function() {
+//					alert('do call');
+					console.log('Do Call');
+//					/alert("do call");
 				  ////alert(cthis.id);
 				  ////alert('hi hello');
 				  var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
@@ -491,7 +496,7 @@
 					  cthis.bNotRender = true;
 					  cthis.maybeStart();
 				  }else if (message === 'got user media') {
-					  
+//					  alert('just started suman');
 					//  cthis.bNotRender = true;
 					   cthis.maybeStart();
 					   
@@ -499,8 +504,6 @@
 				    if (!cthis.isInitiator && !cthis.isStarted) {
 				    	cthis.maybeStart();
 				    }
-				    
-				    
 				    
 				    cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
 				    
@@ -514,7 +517,6 @@
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
 				  } else if (message === 'bye' && cthis.isStarted) {
-					  
 					  cthis.handleRemoteHangup();
 				  }
 		    },
@@ -585,7 +587,8 @@
 		window.onbeforeunload = function() {
 			////alert('suman bo');
 			cthis.sendMessage('bye');
-			
+			//THIS COULD BE VERY DANGEROUS
+			vm_chat.disconnect();
 		}
 	}		
 	

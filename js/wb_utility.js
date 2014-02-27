@@ -473,6 +473,8 @@
 			},
 			
 			makeCanvasDisable : function(){
+				//alert('suman');
+				//debugger;
   				// TODO this could be tricky as it's best way to do
 				// is remove the attached handler
 				var canvasElement = vcan.main.canvas;
@@ -481,8 +483,8 @@
 			},
 			
 			makeCanvasEnable : function(){
-	  			var canvasElement = vcan.main.canvas;
-	  			canvasElement.style.position = 'none';
+				var canvasElement = vcan.main.canvas;
+	  			//canvasElement.style.position = 'none';
 				canvasElement.style.zIndex = "0";
 	  		},
 	  		
@@ -579,14 +581,18 @@
 	  		}, 
 	  		
 	  		setOrginalTeacherContent : function (e){
-	  			window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-				localStorage.teacherId = e.message[0].userid;
+	  			//window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+				
+	  			//localStorage.teacherId = e.message[0].userid;
+	  			localStorage.teacherId = whBoard.currId;
 				window.whBoard.view.canvasDrawMsg('Canvas');
 				localStorage.canvasDrwMsg = true;
 				whBoard.createPacketContainer();
 				whBoard.createPacketInfoContainer();
 				whBoard.utility.initStoredPacketsNumbers();
-				localStorage.orginalTeacherId = e.message[0].userid;
+				
+				//localStorage.orginalTeacherId = e.message[0].userid;
+				localStorage.orginalTeacherId = whBoard.currId;
 	  		},
 	  		
 	  		isSystemCompatible : function (){
@@ -603,46 +609,59 @@
 	  			}
 	  		}, 
 	  		
-	  		initDefaultInfo : function (e, myVideo){
-	  			  var clientNum = e.message.length;
-//	  			  alert(clientNum);
+	  		initDefaultInfo : function (e, myVideo, role){
+	  			  //var clientNum = e.message.length;
+	  			  //var  clientNum= e.message.checkUser.clientNum;
+	  			  //var newuser =   e.message.checkUser.newUser;
+	  			    var  clientNum =  e.message.checkUser.e.clientLen;
+	  			    var newuser =   e.message.checkUser.e.newUser;
+	  			  if(role == 't'){
+		  				if(localStorage.getItem('orginalTeacherId') == null){
+							whBoard.utility.setOrginalTeacherContent(e);
+						}
+	  		//	  }else if(role == 's' && e.newuser == null){
+	  			 }else if(role == 's' && newuser == null){
+		  				vcan.studentId = id;
+						//localStorage.studentId = id;
+//		  				if(localStorage.getItem('orginalTeacherId') != null){
+//		  					localStorage.removeItem('orginalTeacherId');
+//		  				}
+//		  				
+//		  				if(localStorage.getItem('teacherId') != null){
+//		  					localStorage.removeItem('teacherId');
+//		  				}
+		  				
+		  				
+		  				if(localStorage.getItem('studentId') ==  null){
+		  					localStorage.setItem('studentId', id);
+		  				}
+	  			  }
+	  			  
 				  if(clientNum == 1){
-						if(!whBoard.utility.checkWebRtcConnected()){
+//					  alert('ss');
+					 	//if(!whBoard.utility.checkWebRtcConnected()){
 							vcan.vid = myVideo.init();
-							vcan.teacher = true;
-							if(typeof localStorage.teacherId == 'undefined'){
-								whBoard.utility.setOrginalTeacherContent(e);
-								
-//								window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-//								localStorage.teacherId = e.message[0].userid;
-//								window.whBoard.view.canvasDrawMsg('Canvas');
-//								localStorage.canvasDrwMsg = true;
-//								whBoard.createPacketContainer();
-//								whBoard.createPacketInfoContainer();
-//								whBoard.utility.initStoredPacketsNumbers();
-//								localStorage.orginalTeacherId = e.message[0].userid;
-							}
-							
+							//vcan.teacher = true;
 							myVideo.isInitiator = true;
 							vcan.oneExecuted = false;
+						//	vm_chat.send({'clientRegister' : true});
 							
-						}
+						//}
 					//browser B
-					}else if(clientNum == 2 && e.newuser == null){
-						if(!whBoard.utility.checkWebRtcConnected()){
-							
-							vcan.studentId = id;
-							localStorage.studentId = id;
-							
-//							whBoard.utility.setOrginalTeacherContent(e);
-
-							
-//							var outerWidth = window.outerWidth;
-//							vm_chat.send({'isChannelReady':true, bwidth: outerWidth});
+				//	}else if(clientNum == 2 && e.newuser == null){
+				  }else if(clientNum >= 2 && newuser == null){
+//					  alert(clientNum);
+//					  alert(clientNum);
+//					  alert("suman bogati");
+						//if(!whBoard.utility.checkWebRtcConnected()){ canbecrtical
+					      //alert(clientNum);
+					  	  if(clientNum > 2){
+					  		  alert("there may be the problem because of user is more than 2");
+					  	  }
 							vm_chat.send({'isChannelReady' : true, 'memberAdded' : true});
 							vcan.oneExecuted = false;
 		  					vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
-		  				}
+//		  				/}
 		  			}
 //					else if(clientNum > 2){
 //		  				if(!vcan.chkAlreadyConnected()){
@@ -655,6 +674,7 @@
 			
 			checkWebRtcConnected : function(){
 				if(typeof cthis != 'undefined'){
+					//critical
 					if(cthis.pc[0].hasOwnProperty('iceConnectionState') || typeof cthis.pc[0].iceConnectionState != 'undefined'){
 						return true;
 					}
@@ -761,18 +781,281 @@
 			}, 
 			
 			isUserConnected : function (userLength){
+				//debugger;
 				//ocalStorage.getItem('orginalTeacherId') != null is inserted for reclaim button
-				if(userLength > 1 && (localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null)){
+			//	if(userLength > 1 && (localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null)
+			//  TODO there is need to roboust validation for check that user is connected 
+				//alert(userLength.);
+//				if(userLength > 1 || (userLength > 1 && localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null)	){
+//					whBoard.user.connected = true;
+//				}
+				
+				//if(userLength > 1 || (userLength > 1 && (localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null))){
+				//alert(localStorage.getItem('otherRole'));
+				if(userLength > 1 && localStorage.getItem('otherRole')){
+//					alert('not happend');
 					whBoard.user.connected = true;
 				}
 			},
 			
 			setStyleUserConnetion : function (currClass, newClass, whoIs){
-				//whBoard.utility.makeCanvasEnable();
-				
 				var cdiv = document.getElementsByClassName(currClass)[0];
-				cdiv.setAttribute('class', newClass + ' controlCmd');
+				if(cdiv != null)
+					cdiv.setAttribute('class', newClass + ' controlCmd');
+			},
+			
+//			existUserLikeMe_devloping : function (e){
+//				//alert(e.fromUser.userid);
+//			 	if(e.fromUser.userid != id){
+//			 		if(e.message.checkUser.hasOwnProperty('role')){
+//			 			var role = e.message.checkUser.role;
+//			 			if(role){
+//			 				
+//			 				if(localStorage.getItem('otherRole') ==  null){
+//			 					var roles  = [];
+//		 						roles.push(role);
+//		 						//for now only roles are storing, ids need to store later perhaps
+//		 						localStorage.setItem('otherRole', JSON.stringify(roles));
+//			 				}else{
+//			 					roles = JSON.parse(localStorage.getItem('otherRole'));
+//			 					roles.push(role);
+//			 				}
+//			 				
+//			 				localStorage.setItem('otherRole', roles);
+//				 			console.log("Other Browser " + role + ' ' + e.fromUser.userid);
+//		  				}
+//			 		}
+//			 	}else{
+//			 		//var otherRole = localStorage.getItem('otherRole');
+//			 		
+//			 		var otherRoles = JSON.parse(localStorage.getItem('otherRole'));
+//			 		
+//			 		//alert(otherRoles[0]);
+//			 		if(otherRoles != null){
+//			 			for(var i=0; i<otherRoles.length; i++){
+//			 				if(whBoard.currRole == otherRoles[i]){
+//			 					return true;
+//			 				}
+//			 			}
+//			 			return false;
+//			 		}
+//			 		
+//			 		
+//			 		
+//			 		
+////			 		if(otherRole != null){
+////			 			if(otherRole != null){
+////				 			if(otherRole == whBoard.currRole){
+////				 				return true;
+////				 			}else{
+////								if(whBoard.currRole == 't'){
+////									if(otherRole == 't'){
+////					 					return true;
+////					 				}else{
+////					 					return false;
+////					 				}
+////								}else if(whBoard.currRole == 's'){
+////									if(otherRole == 's'){
+////					 					return true;
+////					 				}else{
+////					 					return false;
+////					 				}
+////								}
+////				 			}
+////				 		}
+////				 		return false;
+////			 		}
+//			 	}
+//			},
+			
+			existUserLikeMe : function (e){
+				//alert(e.fromUser.userid);
+			 	if(e.fromUser.userid != id){
+			 		if(e.message.checkUser.hasOwnProperty('role')){
+			 			var role = e.message.checkUser.role;
+			 			if(role){
+			 				if(localStorage.getItem('otherRole') ==  null){
+			 					var roles  = [];
+		 						//roles.push(role);
+		 						if(role != whBoard.currRole){
+			 						roles.push(role);
+			 						//alert('tt');
+//			 						/debugger;
+			 					}else{
+			 						existUser = true;
+			 						return true;
+			 					}
+		 						//roles.push(role);
+		 						
+		 						//alert('this performing');
+		 						//debugger;
+		 						
+			 					//var roles  = [];
+		 						//roles.push(role);
+		 						//for now only roles are storing, ids need to store later perhaps
+		 					//	localStorage.setItem('otherRole', JSON.stringify(roles));
+			 				}else{
+			 					roles = JSON.parse(localStorage.getItem('otherRole'));
+			 					roles.push(role);
+			 				}
+			 				if(typeof roles != 'undefined'){
+			 					localStorage.setItem('otherRole', JSON.stringify(roles));
+			 					console.log("Other Browser " + role + ' ' + e.fromUser.userid);
+			 				}
+			 				
+				 			
+		  				}
+			 			//alert("2");
+//			 				var joinId = e.message.joinId;
+//			 				if(joinId != e.fromUser.userid){
+//								alert('Either Teacher Or Student is already existed, \nIt\'s also possible there other role is passing');
+//
+//			 				}
+//							return;
+			 			return (whBoard.currRole == role) ? true : false;
+			 		}
+			 	}else{
+			 		
+			 		if(typeof existUser != 'undefined'){
+			 			return true;
+			 		}else{
+			 			var otherRoles = JSON.parse(localStorage.getItem('otherRole'));
+				 		//alert(otherRoles[0]);
+				 		if(otherRoles != null){
+				 			for(var i=0; i<otherRoles.length; i++){
+				 				if(whBoard.currRole == otherRoles[i]){
+				 					return true;
+				 				}
+				 			}
+				 			return false;
+				 		}
+			 		}
+			 		
+			 		
+//			 		if(otherRole != null){
+//			 			if(otherRole != null){
+//				 			if(otherRole == whBoard.currRole){
+//				 				return true;
+//				 			}else{
+//								if(whBoard.currRole == 't'){
+//									if(otherRole == 't'){
+//					 					return true;
+//					 				}else{
+//					 					return false;
+//					 				}
+//								}else if(whBoard.currRole == 's'){
+//									if(otherRole == 's'){
+//					 					return true;
+//					 				}else{
+//					 					return false;
+//					 				}
+//								}
+//				 			}
+//				 		}
+//				 		return false;
+//			 		}
+			 	}
+			},
+			
+			makeUserAvailable : function (browerLength){
+				whBoard.utility.isUserConnected(browerLength);
+				if(whBoard.user.connected){
+//					/whBoard.userAvailable = true;
+					whBoard.utility.makeCanvasEnable();
+					whBoard.utility.setStyleUserConnetion('coff', 'con');
+				}
+			},
+			
+		   bootStrapCanvas : function(e){
+				console.log("created canvas");
+				//alert(e.message.checkUser.clientNum);
+			    //e.messag = {'length' : e.message.checkUser.clientNum}
+				e.messag = {'length' : e.message.checkUser.e.clientLen};
+				e.newuser = e.message.checkUser.newUser;
+				whBoard.utility.displayCanvas();
+				var myVideo = new window.whBoard.vcan.videoChat();
+				vcan.myvid = myVideo;
+				vcan.renderedObjId = 0;
+				if(whBoard.role == 't'){
+					vcan.teacher = true;
+				}
+				whBoard.utility.initAll(e);
+				whBoard.utility.initDefaultInfo(e,  myVideo, role);
+				var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
+				var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
+			
+				if(!storageHasTeacher && !storageHasReclaim){
+				whBoard.utility.removeToolBox();
+		    		whBoard.utility.setClass('vcanvas', 'student');
+				}else{
+		    		whBoard.utility.setClass('vcanvas', 'teacher');
+				}
+				
+				if(storageHasReclaim){
+		    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+					while(cmdToolsWrapper.hasChildNodes()){
+						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+					}
+		    		whBoard.utility.createReclaimButton(cmdToolsWrapper);
+		    	}
+				
+				if(typeof(Storage)!=="undefined"){
+					if(localStorage.repObjs){
+						var allRepObjs = JSON.parse(localStorage.repObjs);
+						whBoard.vcan.main.replayObjs = allRepObjs;
+						whBoard.utility.clearAll(false, 'dontClear');
+					
+						whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+						if(allRepObjs.length > 0){
+							whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+							vcan.reachedItemId = whBoard.uid;
+							whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+						}
+					}
+				}
+				
+				if(typeof localStorage.teacherId != 'undefined'){
+					if(typeof localStorage.canvasDrwMsg == 'undefined'){
+						window.whBoard.view.canvasDrawMsg('Canvas');
+						window.whBoard.view.drawLabel('drawArea');
+						localStorage.canvasDrwMsg = true;
+					}
+		    	}
+
+				
+				whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
+				whBoard.globalObj.chunk = [];
+	  		
+	  			whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
+				whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+			},
+			
+		   displayCanvas : function(){
+				//alert("you there bro");
+				//debugger;
+	    		window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
+	        	window.whBoard.init();
+	        	whBoard.utility.makeCanvasDisable();
+	    	}, 
+	    	
+	        initAll : function (e) {
+				//if(!storageHasTeacher){
+				if(localStorage.getItem('teacherId') != null){
+	  				whBoard.utility.makeCanvasDisable();
+				}
+				
+			//	whBoard.utility.initDefaultInfo(e,  myVideo, role);
+
+				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+				
+				var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+				if(toolHeight != false){
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight, 'role' : role}});
+				}else{
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res, 'role' : role}});
+				}	
 			}
+			
 			
 //			connectionOptimization : function (){
 //				if (typeof  lastarrowtime == 'undefined') {

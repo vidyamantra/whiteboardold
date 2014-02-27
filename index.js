@@ -29,27 +29,20 @@ $.when(
 		
  ).done(function(){
 	$.uiBackCompat=false;
-
     $(document).ready(function(){
     	
-    	/*
-		var outerWidth = window.outerWidth;
-		var innerHeight = window.innerHeight;
-		
-		whBoard.ow = {};
-		whBoard.oh = {};
-		
-		whBoard.ow = outerWidth-220;
-		whBoard.oh = oh = innerHeight-210;
-		var vcanvas = document.getElementById('vcanvas');
-		vcanvas.style.width = whBoard.ow + 'px';
-		
-		*/
+    	if(localStorage.getItem('otherRole') != null){
+		//	console.log("he guys");
+			localStorage.removeItem('otherRole');	
+		}
+    	/**
+    	 * This should be wrapped into object
+    	 */
+    	whBoard.currId = id;
+    	whBoard.currRole = role;
     	
-    	
-		whBoard.system.setCanvasDimension();
+    	whBoard.system.setCanvasDimension();
 		
-
 		whBoard.utility.isSystemCompatible();
 		if(window.whBoard.error.length > 2){
 			window.whBoard.error = [];
@@ -59,7 +52,6 @@ $.when(
 		whBoard.globalObj.myrepObj = [];
     	whBoard.globalObj.replayObjs = []; // this should contain either into whiteboard or into van object
     	whBoard.globalObj.myArr = [];
-    	
     	var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
     	
     	//this could be converted into ternary operator
@@ -69,67 +61,57 @@ $.when(
     		vcan.reachedItemId = 0;
     	}
     	
-    	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
-    	window.whBoard.init();
+    	//alert(vm_chat);
     	
-    	whBoard.utility.makeCanvasDisable();
+//    	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
+//    	window.whBoard.init();
+//    	whBoard.utility.makeCanvasDisable();
     	
-//    	var connectInfo = document.createElement('div');
-//    		connectInfo.className = 'controlCmd coff';
-//    		connectInfo.id = "connectInfo";
-//    		connectInfo.innerHTML = '&nbsp';
-//    		
-//    		var beforeAppend = document.getElementsByClassName('controlCmd')[0];
-//    		beforeAppend.parentNode.insertBefore(connectInfo, beforeAppend);
-    			
-    		
-    		
+//    	function displayCanvas(){
+//			//alert("you there bro");
+//			//debugger;
+//    		window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
+//        	window.whBoard.init();
+//        	whBoard.utility.makeCanvasDisable();
+//    	}
     	
-//    	var canvasElement = document.getElementById('canvas');
-//    	canvasElement.style.position = 'relative';
-//		canvasElement.style.zIndex = "-1000"; 
-		
     	window.addEventListener('click', function (){
     		whBoard.view.disappearBox('WebRtc')
     		whBoard.view.disappearBox('Canvas');
     		whBoard.view.disappearBox('drawArea');
     	});
     	
-    	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
-    	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
+    	 
+    	 if(role == 't'){
+				if(localStorage.getItem('studentId') != null){
+					localStorage.removeItem('studentId');
+				}
+		  }else if(role == 's'){
+			    if(localStorage.getItem('orginalTeacherId') != null){
+					localStorage.removeItem('orginalTeacherId');
+					if(localStorage.getItem('teacherId') != null){
+	  					localStorage.removeItem('teacherId');
+	  				}
+				}
+		  }
+			  
+    	//var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
+    	//var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
     	
-    	if(!storageHasTeacher && !storageHasReclaim){
-    		whBoard.utility.removeToolBox();
-    		whBoard.utility.setClass('vcanvas', 'student');
-		}else{
-    		
-			
-			whBoard.utility.setClass('vcanvas', 'teacher');
-			
-//    		var canvasWrapper = document.getElementById('vcanvas');
-//			var allClasses = canvasWrapper.classList;
-//			var classes ="";
-//			if(allClasses.length > 0){
-//				 if(classes.length < 2){
-//					 classes = allClasses[0] + " ";
-//				 }else{
-//					 classes = allClasses.join(" ") + " ";
-//				 }
+//    	if(!storageHasTeacher && !storageHasReclaim){
+//    		whBoard.utility.removeToolBox();
+//    		whBoard.utility.setClass('vcanvas', 'student');
+//		}else{
+//    		whBoard.utility.setClass('vcanvas', 'teacher');
+//		}
+    	
+//    	if(storageHasReclaim){
+//    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+//			while(cmdToolsWrapper.hasChildNodes()){
+//				cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
 //			}
-//			
-//			var classes = classes + 'teacher';
-//			canvasWrapper.setAttribute('class', classes);
-			
-			
-		}
-    	
-    	if(storageHasReclaim){
-    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-			while(cmdToolsWrapper.hasChildNodes()){
-				cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
-			}
-    		whBoard.utility.createReclaimButton(cmdToolsWrapper);
-    	}
+//    		whBoard.utility.createReclaimButton(cmdToolsWrapper);
+//    	}
     	
         var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
         if(whBoard.system.webSocket){
@@ -145,24 +127,24 @@ $.when(
                 'fastchatroom_name':'room1'});
         }
        	
-    	if(typeof(Storage)!=="undefined"){
-			if(localStorage.repObjs){
-				var allRepObjs = JSON.parse(localStorage.repObjs);
-				whBoard.vcan.main.replayObjs = allRepObjs;
-				whBoard.utility.clearAll(false, 'dontClear');
-				
-				// TODO this should not be run should do improvement
-//				for(i=0; i<allRepObjs.length; i++){
-//					replayObjs.push(allRepObjs[i]);
+//    	if(typeof(Storage)!=="undefined"){
+//			if(localStorage.repObjs){
+//				var allRepObjs = JSON.parse(localStorage.repObjs);
+//				whBoard.vcan.main.replayObjs = allRepObjs;
+//				whBoard.utility.clearAll(false, 'dontClear');
+//				
+//				// TODO this should not be run should do improvement
+////				for(i=0; i<allRepObjs.length; i++){
+////					replayObjs.push(allRepObjs[i]);
+////				}
+//				whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+//				if(allRepObjs.length > 0){
+//					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+//					vcan.reachedItemId = whBoard.uid;
+//					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
 //				}
-				whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
-				if(allRepObjs.length > 0){
-					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
-					vcan.reachedItemId = whBoard.uid;
-					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
-				}
-			}
-		}
+//			}
+//		}
     	
  		var oldData2 = whBoard.receivedPackets;
 		setInterval(function (){
@@ -173,12 +155,11 @@ $.when(
 			
 		}, 1000);
     	
-		var myVideo = new window.whBoard.vcan.videoChat();
-		vcan.myvid = myVideo;
-		vcan.renderedObjId = 0;
+//		var myVideo = new window.whBoard.vcan.videoChat();
+//		vcan.myvid = myVideo;
+//		vcan.renderedObjId = 0;
 		
 		$(document).on("member_removed", function(e){
-			
 			whBoard.utility.makeCanvasDisable();
 			whBoard.utility.setStyleUserConnetion('con', 'coff');
 
@@ -187,7 +168,10 @@ $.when(
 				vdiv.parentNode.removeChild(vdiv);
 			}
 			
+			//cthis.isStarted = false;
 			whBoard.user.connected = false;
+			localStorage.removeItem('otherRole');
+
 			
 //			document.getElementsByClassName('con')[0].className = 'coff controlCmd';
 			
@@ -198,78 +182,412 @@ $.when(
 			
 			
 		});
+		
+//		function initAll(e){
+//			//whBoard.utility.isUserConnected(e.message.length);
+//////			whBoard.utility.isUserConnected(e.message.checkUser.e.clientLen);
+////			
+////			if(whBoard.user.connected){
+////				whBoard.utility.makeCanvasEnable();
+////				whBoard.utility.setStyleUserConnetion('coff', 'con');
+////			}
+//			
+//			//if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
+//			
+//						
+//
+//			//if(!storageHasTeacher){
+//			if(localStorage.getItem('teacherId') != null){
+//  				whBoard.utility.makeCanvasDisable();
+//			}
+//			
+//		//	whBoard.utility.initDefaultInfo(e,  myVideo, role);
+//
+//			var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+//			
+//			var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+//			if(toolHeight != false){
+//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight, 'role' : role}});
+//			}else{
+//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res, 'role' : role}});
+//			}	
+//		}
+		
 		$(document).on("member_added", function(e){
-			    //alert(e.message.length);
-//				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
-//					whBoard.utility.makeCanvasEnable();
-//					var cdiv = document.getElementsByClassName('coff')[0];
-//					cdiv.className = 'con controlCmd';
-//				}
-			    
-				//alert(e.message.length);
-//				if(e.message.length > 1){
-//					for(var i=0; i< e.message.length; i++){
-//						if(typeof e.message[i+1] == 'Object'){
-//							if(e.message[i]['userid'] == e.message[i+1]['userid']){
-//								alert('The ids for teacher and student are same please make sure they are unique');	
-//							}
-//							break;
-//						}
-//					}
-//					return;
-//				}
-				
-				
-				whBoard.utility.isUserConnected(e.message.length);
-				if(whBoard.user.connected){
-					whBoard.utility.makeCanvasEnable();
-					whBoard.utility.setStyleUserConnetion('coff', 'con');
-				}
-				
-//				if(e.message.length > 1 && localStorage.getItem('teacherId') != null){
-//					whBoard.utility.makeCanvasEnable();
-//					whBoard.utility.setStyleUserConnetion('coff', 'con');
-//				}
-				
-				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
-	  				whBoard.utility.makeCanvasDisable();
-				}
-				
-				whBoard.utility.initDefaultInfo(e,  myVideo);
-				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
-				
-				 var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
-				if(toolHeight != false){
-					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight}});
-				}else{
-					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res}});
-				}
+//			alert(e.message.length);
+			vm_chat.send({'checkUser' : {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
+			//vm_chat.send({'checkUser' : {'role':role, 'e' : e}});
+		
+//			whBoard.utility.isUserConnected(e.message.length);
+//			if(whBoard.user.connected){
+//				whBoard.utility.makeCanvasEnable();
+//				whBoard.utility.setStyleUserConnetion('coff', 'con');
+//			}
+//			
+//			if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
+//  				whBoard.utility.makeCanvasDisable();
+//			}
+//			
+//			whBoard.utility.initDefaultInfo(e,  myVideo, role);
+//
+//			var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+//			
+//			var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+//			if(toolHeight != false){
+//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight, 'role' : role}});
+//			}else{
+//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res, 'role' : role}});
+//			}
 				
   		});
 		
-		if(typeof localStorage.teacherId != 'undefined'){
-			if(typeof localStorage.canvasDrwMsg == 'undefined'){
-				window.whBoard.view.canvasDrawMsg('Canvas');
-				window.whBoard.view.drawLabel('drawArea');
-				localStorage.canvasDrwMsg = true;
-			}
-    	}
+//		if(typeof localStorage.teacherId != 'undefined'){
+//			if(typeof localStorage.canvasDrwMsg == 'undefined'){
+//				window.whBoard.view.canvasDrawMsg('Canvas');
+//				window.whBoard.view.drawLabel('drawArea');
+//				localStorage.canvasDrwMsg = true;
+//			}
+//    	}
 		
 		vcan.tempArr = [];
 		virtualWindow = false;
+		var connectNum = 0;
+		
+//		function bootStrapCanvas(e){
+//			console.log("created canvas");
+//			//alert(e.message.checkUser.clientNum);
+//		    //e.messag = {'length' : e.message.checkUser.clientNum}
+//			e.messag = {'length' : e.message.checkUser.e.clientLen};
+//			e.newuser = e.message.checkUser.newUser;
+//			displayCanvas();
+//			var myVideo = new window.whBoard.vcan.videoChat();
+//			vcan.myvid = myVideo;
+//			vcan.renderedObjId = 0;
+//			if(whBoard.role == 't'){
+//				vcan.teacher = true;
+//			}
+//			initAll(e);
+//			whBoard.utility.initDefaultInfo(e,  myVideo, role);
+//			var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
+//			var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
+//		
+//			if(!storageHasTeacher && !storageHasReclaim){
+//			whBoard.utility.removeToolBox();
+//	    		whBoard.utility.setClass('vcanvas', 'student');
+//			}else{
+//	    		whBoard.utility.setClass('vcanvas', 'teacher');
+//			}
+//			
+//			if(storageHasReclaim){
+//	    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+//				while(cmdToolsWrapper.hasChildNodes()){
+//					cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+//				}
+//	    		whBoard.utility.createReclaimButton(cmdToolsWrapper);
+//	    	}
+//			
+//			if(typeof(Storage)!=="undefined"){
+//				if(localStorage.repObjs){
+//					var allRepObjs = JSON.parse(localStorage.repObjs);
+//					whBoard.vcan.main.replayObjs = allRepObjs;
+//					whBoard.utility.clearAll(false, 'dontClear');
+//				
+//					whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+//					if(allRepObjs.length > 0){
+//						whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+//						vcan.reachedItemId = whBoard.uid;
+//						whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+//					}
+//				}
+//			}
+//			
+//			if(typeof localStorage.teacherId != 'undefined'){
+//				if(typeof localStorage.canvasDrwMsg == 'undefined'){
+//					window.whBoard.view.canvasDrawMsg('Canvas');
+//					window.whBoard.view.drawLabel('drawArea');
+//					localStorage.canvasDrwMsg = true;
+//				}
+//	    	}
+//
+//			
+//			whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
+//			whBoard.globalObj.chunk = [];
+//  		
+//  			whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
+//			whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+//		}
+		
 		$(document).on("newmessage", function(e){
-  			if(e.message.hasOwnProperty('virtualWindow')){
+			if(e.message.hasOwnProperty('checkUser')){
+				var joinId = e.message.joinId;
+				connectNum++;
+				//alert(connectNum + ' ' +  e.message.checkUser.e.clientLen);
+				var alreadyExist = whBoard.utility.existUserLikeMe(e);
+//				alert(alreadyExist);
+				console.log('form Id' +  e.fromUser.userid);
+				//bootStrapCanvas(e);
+
+				//if(connectNum == parseInt(e.message.checkUser.e.clientLen, 10)){
+					
+				//if((e.fromUser.userid == id && e.fromUser.userid == joinId) ){
+					//alert('hello guys'  + e.fromUser.userid);
+			//	}
+				//if(connectNum == parseInt(e.message.checkUser.e.clientLen, 10) || localStorage.getItem('otherRole') == null){
+				//|| (id == joinId)
+					if((e.fromUser.userid == id && e.fromUser.userid == joinId) ){
+						// this whole code put inside the setTimeout function for server synchronious
+						// there is no consitent response from server to browser.
+						// So setTimeout let browser waits until all the respones come from browser.
+						//TODO need to find out better solution
+					//	bootStrapCanvas(e);
+						setTimeout(
+							function (){
+								alreadyExist = whBoard.utility.existUserLikeMe(e);
+								if(alreadyExist){
+									alert('Either Teacher Or Student is already existed, \nIt\'s also possible there other role is passing');
+				  					return;	
+								}else{
+									whBoard.utility.bootStrapCanvas(e);
+								
+//									console.log("created canvas");
+//				  				    e.messag = {'length' : e.message.checkUser.clientNum}
+//			  	  					e.newuser = e.message.checkUser.newUser;
+//			  	  					displayCanvas();
+//			  	  					var myVideo = new window.whBoard.vcan.videoChat();
+//			  	  					vcan.myvid = myVideo;
+//			  	  					vcan.renderedObjId = 0;
+//			  	  					if(whBoard.role == 't'){
+//			  	  						vcan.teacher = true;
+//			  	  					}
+//			  	  					initAll(e);
+//			  	  					whBoard.utility.initDefaultInfo(e,  myVideo, role);
+//			  	  					var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
+//									var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
+//									
+//			  	  					if(!storageHasTeacher && !storageHasReclaim){
+//										whBoard.utility.removeToolBox();
+//			  	  			    		whBoard.utility.setClass('vcanvas', 'student');
+//			  	  					}else{
+//			  	  			    		whBoard.utility.setClass('vcanvas', 'teacher');
+//			  	  					}
+//			  	  					
+//			  	  					if(storageHasReclaim){
+//			  	  			    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+//			  	  						while(cmdToolsWrapper.hasChildNodes()){
+//			  	  							cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+//			  	  						}
+//			  	  			    		whBoard.utility.createReclaimButton(cmdToolsWrapper);
+//			  	  			    	}
+//			  	  					
+//			  	  					if(typeof(Storage)!=="undefined"){
+//			  	  						if(localStorage.repObjs){
+//			  	  							var allRepObjs = JSON.parse(localStorage.repObjs);
+//			  	  							whBoard.vcan.main.replayObjs = allRepObjs;
+//			  	  							whBoard.utility.clearAll(false, 'dontClear');
+//			  	  						
+//			  	  							whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+//			  	  							if(allRepObjs.length > 0){
+//			  	  								whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+//			  	  								vcan.reachedItemId = whBoard.uid;
+//			  	  								whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+//			  	  							}
+//			  	  						}
+//			  	  					}
+//			  	  					
+//			  	  					if(typeof localStorage.teacherId != 'undefined'){
+//			  	  						if(typeof localStorage.canvasDrwMsg == 'undefined'){
+//			  	  							window.whBoard.view.canvasDrawMsg('Canvas');
+//			  	  							window.whBoard.view.drawLabel('drawArea');
+//			  	  							localStorage.canvasDrwMsg = true;
+//			  	  						}
+//			  	  			    	}
+//	
+//			  	  				
+//			  	  				whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
+//			  	        		whBoard.globalObj.chunk = [];
+//			  	        		
+//			  	        		whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
+//			  					whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+									
+//									whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
+//									whBoard.utility.makeUserAvailable = function (browerLength){
+//										whBoard.utility.isUserConnected(browerLength);
+//										if(whBoard.user.connected){
+//											whBoard.utility.makeCanvasEnable();
+//											whBoard.utility.setStyleUserConnetion('coff', 'con');
+//										}
+//									}
+									
+									whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
+//									whBoard.userAvailable = false;
+//									whBoard.utility.isUserConnected(e.message.checkUser.e.clientLen);
+//									if(whBoard.user.connected){
+//										whBoard.utility.makeCanvasEnable();
+//										whBoard.utility.setStyleUserConnetion('coff', 'con');
+//									}
+								}
+								
+							}, 1200  //time may increased according to server response
+						);
+				}else{
+					
+					whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
+					
+//					if(!whBoard.hasOwnProperty('userAvailable')){
+//						alert('display');
+//						whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
+//					}else{
+//						alert('not display');
+//					}
+					
+//					if(typeof userAvailable == 'undefined'){
+//						alert('happening');
+//						whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
+//					}else{
+//						alert("simran bahadue");
+//					}
+					
+//					whBoard.utility.isUserConnected(e.message.checkUser.e.clientLen);
+//					if(whBoard.user.connected){
+//						whBoard.utility.makeCanvasEnable();
+//						whBoard.utility.setStyleUserConnetion('coff', 'con');
+//					}
+				}
   				
-  				//alert('raju brother');
-				whBoard.view.virtualWindow.manupulation(e);
-  				return;
+					
+  					
+//  	  				whBoard.utility.isUserConnected(e.message.checkUser.e.clientLen);
+//					if(whBoard.user.connected){
+//						whBoard.utility.makeCanvasEnable();
+//						whBoard.utility.setStyleUserConnetion('coff', 'con');
+//					}
+  					
+//  					whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
+//  					whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+//				}else{
+//					alert('id ' + e.message.checkUser.e.clientLen);
+//				}
+				
+		
+				
+				if(alreadyExist && (id == joinId) && (e.fromUser.userid != id)){
+			//		alert('Either Teacher Or Student is already existed, \nIt\'s also possible there other role is passing + suman');
+				//	return;
+				}else{
+				
+//					if((e.fromUser.userid == id) && (e.fromUser.userid == joinId)){
+//						if(alreadyExist){
+//						//alert('the teacher is already existed not able join the room');
+//						alert('Either Teacher Or Student is already existed, \nIt\'s also possible there other role is passing');
+//	  					return;	
+//						}else{
+//
+//	  					console.log("created canvas");
+//	  				    e.messag = {'length' : e.message.checkUser.clientNum}
+//  	  					e.newuser = e.message.checkUser.newUser;
+//  	  					displayCanvas();
+//  	  					var myVideo = new window.whBoard.vcan.videoChat();
+//  	  					vcan.myvid = myVideo;
+//  	  					vcan.renderedObjId = 0;
+//  	  					if(whBoard.role == 't'){
+//  	  						vcan.teacher = true;
+//  	  					}
+//  	  					initAll(e);
+//  	  					
+//  	  					whBoard.utility.initDefaultInfo(e,  myVideo, role);
+//  	  					
+//  	  					var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
+//						var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
+//						
+//  	  					
+//  	  					
+//  	  					if(!storageHasTeacher && !storageHasReclaim){
+//						//	alert("Hi I am here for you");
+//						//	debugger;
+//  	  			    		whBoard.utility.removeToolBox();
+//  	  			    		whBoard.utility.setClass('vcanvas', 'student');
+//  	  					}else{
+//							//alert("this is performing");
+//  	  			    		whBoard.utility.setClass('vcanvas', 'teacher');
+//  	  					}
+//  	  					
+//  	  					if(storageHasReclaim){
+//  	  			    		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
+//  	  						while(cmdToolsWrapper.hasChildNodes()){
+//  	  							cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+//  	  						}
+//  	  			    		whBoard.utility.createReclaimButton(cmdToolsWrapper);
+//  	  			    	}
+//  	  					
+//  	  					if(typeof(Storage)!=="undefined"){
+//  	  						if(localStorage.repObjs){
+//  	  							var allRepObjs = JSON.parse(localStorage.repObjs);
+//  	  							whBoard.vcan.main.replayObjs = allRepObjs;
+//  	  							whBoard.utility.clearAll(false, 'dontClear');
+//  	  							
+//  	  							// TODO this should not be run should do improvement
+////	  	  							for(i=0; i<allRepObjs.length; i++){
+////	  	  								replayObjs.push(allRepObjs[i]);
+////	  	  							}
+//  	  							whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+//  	  							if(allRepObjs.length > 0){
+//  	  								whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+//  	  								vcan.reachedItemId = whBoard.uid;
+//  	  								whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+//  	  							}
+//  	  						}
+//  	  					}
+//  	  					
+//  	  					if(typeof localStorage.teacherId != 'undefined'){
+//  	  						if(typeof localStorage.canvasDrwMsg == 'undefined'){
+//  	  							window.whBoard.view.canvasDrawMsg('Canvas');
+//  	  							window.whBoard.view.drawLabel('drawArea');
+//  	  							localStorage.canvasDrwMsg = true;
+//  	  						}
+//  	  			    	}
+//	  				}
+//					
+//				}
+//  					
+//  					
+//  					
+//  					whBoard.utility.isUserConnected(e.message.checkUser.e.clientLen);
+//						
+//					if(whBoard.user.connected){
+//						whBoard.utility.makeCanvasEnable();
+//						whBoard.utility.setStyleUserConnetion('coff', 'con');
+//					}
+//  					
+//  					whBoard.canvas.bind('keydown', whBoard.keyBoard.triggerActiveAll);
+//  					whBoard.canvas.bind('keyup', whBoard.keyBoard.triggerdeActiveAll);
+				}
+  			//	}
+			}else if(e.message.hasOwnProperty('virtualWindow')){
+				
+//  				var shareBrowser = 	e.message.virtualWindow.hasOwnProperty('shareBrowserWidth');
+//  					if(shareBrowser){
+//  						var alreadyExist = whBoard.utility.existUserLikeMe(e);
+//  		  				if(alreadyExist){
+//  		  					alert('the teacher is already existed not able join the room');
+//  		  					return;	
+//  		  					
+//  		  				}
+//  					}
+  				
+	  				
+	  				
+					whBoard.view.virtualWindow.manupulation(e);
+	  				return;
   			}
   			
 			if(e.message.hasOwnProperty('createPeerObj')){
   				myVideo.currBrowser =  e.message.createPeerObj[0];
   				myVideo.peerBrowser =  e.message.createPeerObj[1];
   				if(myVideo.currBrowser == id){
+  					
   					if(typeof oneExecuted == 'undefined'){
+  						alert("this is also performing");
+  						console.log("this is also performing");
   						oneExecuted = true;
   						vm_chat.send({'isChannelReady':true});
   						vcan.myvid.init(true);
@@ -288,7 +606,7 @@ $.when(
 //  					
 //  					}
 //  				}
-  				
+//  				/alert('ssumn');
   				e.message.isChannelReady = true; 
   				vcan.myvid.videoOnMsg(e.message);
     		}else if(e.message.hasOwnProperty('video')){
@@ -337,7 +655,6 @@ $.when(
 
 						whBoard.utility.setStyleUserConnetion('coff', 'con');
 						//whBoard.utility.makeCanvasEnable();
-						
 						//document.getElementsByClassName('coff')[0].className = 'con controlCmd';
         				return;
         			}
@@ -373,6 +690,9 @@ $.when(
 					//	document.getElementsByClassName('coff')[0].className = 'con controlCmd';
             			return;
         			}else{
+        				
+        				localStorage.setItem('studentId', id);
+        				
         				whBoard.utility.uniqueArrOfObjsToOther();
         				if(!whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
         					var canvasWrapper = document.getElementById("vcanvas");
@@ -391,8 +711,8 @@ $.when(
         			}
         		}
         		
-        		whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
-        		whBoard.globalObj.chunk = [];
+//        		whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
+//        		whBoard.globalObj.chunk = [];
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
 	    				if(e.fromUser.userid != id){
@@ -459,7 +779,8 @@ $.when(
 							whBoard.utility.updateRcvdInformation(e.message);
 						}
 		    		}else{
-		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt')){
+		    			if(!e.message.hasOwnProperty('replayAll') && !e.message.hasOwnProperty('getMsPckt') 
+		    					&& !e.message.hasOwnProperty('checkUser')){
 		    				whBoard.utility.updateRcvdInformation(e.message.repObj[0]);
 		    			}
 		    		}
@@ -608,7 +929,20 @@ $.when(
 				}
     		}
     	});
-  		
+		
+//  	window.onbeforeunload = function (){
+//  		if(localStorage.getItem('otherRole') != null){
+//  			console.log("he guys");
+//  		//	localStorage.removeItem('otherRole');	
+//  		}
+//  	}
+
+		
+//     VERY DANGEROUS DO NOT ENABLE 		
+//		window.onbeforeunload = function (){
+//			vm_chat.disconnect();
+//		}
+		
    });
 });
 
