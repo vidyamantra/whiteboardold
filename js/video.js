@@ -538,8 +538,7 @@
 		
 		
 		window.onbeforeunload = function() {
-			//tempIsInitiaor = true;
-			////alert('suman bo');
+			localStorage.removeItem('otherRole');
 			cthis.sendMessage('bye');
 			//THIS COULD BE VERY DANGEROUS
 			vm_chat.disconnect();

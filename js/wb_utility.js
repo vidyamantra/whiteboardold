@@ -915,8 +915,11 @@
 		 					//	localStorage.setItem('otherRole', JSON.stringify(roles));
 			 				}else{
 			 					roles = JSON.parse(localStorage.getItem('otherRole'));
-			 					roles.push(role);
+			 					if(roles.indexOf(role) == -1){
+			 						roles.push(role);
+			 					}
 			 				}
+			 				
 			 				if(typeof roles != 'undefined'){
 			 					localStorage.setItem('otherRole', JSON.stringify(roles));
 			 					console.log("Other Browser " + role + ' ' + e.fromUser.userid);
@@ -950,29 +953,6 @@
 				 		}
 			 		}
 			 		
-			 		
-//			 		if(otherRole != null){
-//			 			if(otherRole != null){
-//				 			if(otherRole == whBoard.currRole){
-//				 				return true;
-//				 			}else{
-//								if(whBoard.currRole == 't'){
-//									if(otherRole == 't'){
-//					 					return true;
-//					 				}else{
-//					 					return false;
-//					 				}
-//								}else if(whBoard.currRole == 's'){
-//									if(otherRole == 's'){
-//					 					return true;
-//					 				}else{
-//					 					return false;
-//					 				}
-//								}
-//				 			}
-//				 		}
-//				 		return false;
-//			 		}
 			 	}
 			},
 			

@@ -28,6 +28,7 @@ $.when(
 		$.getScript( "js/script.js" ) */
 		
  ).done(function(){
+	 
 	$.uiBackCompat=false;
 
     $(document).ready(function(){
@@ -53,7 +54,6 @@ $.when(
     	
     	whBoard.currId = id;
     	whBoard.currRole = role;
-    	
     	
     	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
     	window.whBoard.init();
@@ -146,18 +146,24 @@ $.when(
 		vcan.renderedObjId = 0;
 		
 		$(document).on("member_removed", function(e){
-			
-			whBoard.utility.makeCanvasDisable();
-			whBoard.utility.setStyleUserConnetion('con', 'coff');
+			if(e.message.length==1){
+				whBoard.utility.makeCanvasDisable();
+				whBoard.utility.setStyleUserConnetion('con', 'coff');
 
-			var vdiv = document.getElementById('virtualWindow');
-			if(vdiv != null){
-				vdiv.parentNode.removeChild(vdiv);
+				var vdiv = document.getElementById('virtualWindow');
+				if(vdiv != null){
+					vdiv.parentNode.removeChild(vdiv);
+				}
+				
+				whBoard.user.connected = false;
+				localStorage.removeItem('otherRole');
+			}else{
+//				alert(localStorage.getItem('orginalTeacherId'));
+				if(localStorage.getItem('orginalTeacherId') != null){
+					alert("It seems that there is more than two user tried to connect");
+				}
 			}
-			
-			whBoard.user.connected = false;
-			
-			localStorage.removeItem('otherRole');
+
 			
 //			document.getElementsByClassName('con')[0].className = 'coff controlCmd';
 			
@@ -195,6 +201,7 @@ $.when(
 		}
 		
 		$(document).on("member_added", function(e){
+//			document.getElementById('clientLength').innerHTML = e.message.length;
 			whBoard.clientLen = e.message.length;
 			vm_chat.send({'checkUser' : {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});
@@ -247,6 +254,7 @@ $.when(
 									var canvasContainer = document.getElementById('containerWb');
 									canvasContainer.parentNode.removeChild(canvasContainer);
 									alert('Either Teacher Or Student is already existed, \nIt\'s also possible there other role is passing');
+									vm_chat.disconnect();
 				  					return;	
 								}else{
 									bootStrapCanvas(e);
