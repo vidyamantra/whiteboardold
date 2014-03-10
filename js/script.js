@@ -115,6 +115,12 @@
 			 * this function does create the command interface  
 			 */
 			createCommand : function (){
+				
+				var alreadyCreated = whBoard.utility.alreadyExistToolBar();
+				 if(alreadyCreated){
+					 return true;
+				 }
+				 
 				var cmdToolsWrapper  = document.createElement('div');
 					//cmdToolsWrapper.id = 'commandToolsWrapper';
 					cmdToolsWrapper.id	=  whBoard.commandToolsWrapperId;
@@ -131,15 +137,15 @@
 				//	document.getElementById('containerWb').appendChild(cmdToolsWrapper);
 					
 					
-					whBoard.createDiv('t_rectangle', 'rectangle', cmdToolsWrapper);
-					whBoard.createDiv('t_line', 'line', cmdToolsWrapper);
-					whBoard.createDiv('t_freeDrawing', 'freeDrawing', cmdToolsWrapper);
-					whBoard.createDiv('t_oval', 'oval', cmdToolsWrapper);
-					whBoard.createDiv('t_triangle', 'triangle', cmdToolsWrapper);
-					whBoard.createDiv('t_text', 'text', cmdToolsWrapper);
+					whBoard.createDiv('t_rectangle', 'rectangle', cmdToolsWrapper, 'tool');
+					whBoard.createDiv('t_line', 'line', cmdToolsWrapper, 'tool');
+					whBoard.createDiv('t_freeDrawing', 'freeDrawing', cmdToolsWrapper, 'tool');
+					whBoard.createDiv('t_oval', 'oval', cmdToolsWrapper, 'tool');
+					whBoard.createDiv('t_triangle', 'triangle', cmdToolsWrapper, 'tool');
+					whBoard.createDiv('t_text', 'text', cmdToolsWrapper, 'tool');
 					//whBoard.createDiv('t_replay', 'replay', cmdToolsWrapper);
-					whBoard.createDiv('t_activeall', 'activeAll', cmdToolsWrapper);
-					whBoard.createDiv('t_clearall', 'clearAll', cmdToolsWrapper);
+					whBoard.createDiv('t_activeall', 'activeAll', cmdToolsWrapper, 'tool');
+					whBoard.createDiv('t_clearall', 'clearAll', cmdToolsWrapper, 'tool');
 					//whBoard.createDiv('t_userCon', 'clearAll', cmdToolsWrapper);
 					
 					
@@ -150,7 +156,6 @@
 					whBoard.createDiv('t_assign', 'assign', cmdToolsWrapper, 'controlCmd');
 					
 					whBoard.socketOn = parseInt(socketOn);
-					
 					
 					
 					if(whBoard.socketOn == 1){
@@ -397,17 +402,22 @@
 			attachToolFunction : function(id, alreadyCreated){
 				//console.log('suman bogati my name');
 				vcan.canvasWrapperId = 'canvasWrapper';
+				
 				whBoard.createCommand(alreadyCreated);
 				if(typeof alreadyCreated == 'undefined'){
-					whBoard.createCanvas();
+					if(document.getElementById('canvas') == null){
+						whBoard.createCanvas();
+					}
 					//	whBoard.createPacketContainer();
 					// whBoard.createPacketInfoContainer();
 					var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
 					whBoard.dataInfo = parseInt(dataInfo);
 					if(orginalTeacherId && whBoard.dataInfo == 1){
-						whBoard.createPacketContainer();
-						whBoard.createPacketInfoContainer();
-						whBoard.utility.initStoredPacketsNumbers();
+						if(!whBoard.utility.alreadyExistPacketContainer()){
+							whBoard.createPacketContainer();
+							whBoard.createPacketInfoContainer();
+							whBoard.utility.initStoredPacketsNumbers();
+						}
 			    	}
 				}
 				

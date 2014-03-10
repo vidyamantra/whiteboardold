@@ -19,6 +19,7 @@
 				navigator.getUserMedia = navigator.mozGetUserMedia;
 				
 				whBoard.attachMediaStream = function(element, stream) {
+				  whBoard.videoAdd = true;
 				  console.log("Attaching media stream");
 				  element.mozSrcObject = stream;
 				  element.play();
@@ -48,6 +49,7 @@
 				
 				whBoard.attachMediaStream = function(element, stream) {
 				  element.src = window.URL.createObjectURL(stream);
+				  whBoard.videoAdd = true;
 				  
 				};
 				

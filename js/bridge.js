@@ -22,7 +22,13 @@
 			}
 		}
   		
-		whBoard.bridge.sendPackets = function(e, chunk){
+		whBoard.bridge.sendPackets = function(e){
+//			alert('sss');
+//			debugger;
+//			whBoard.globalObj.myrepObj = whBoard.vcan.getStates('replayObjs');
+//			whBoard.globalObj.chunk = [];
+			chunk = [];
+			
 			if(e.message.getMsPckt[0] == 0){
 				var i = -1;
 			}else{

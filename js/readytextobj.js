@@ -106,9 +106,15 @@
 						divNode.className = "textBoxContainer";
 						
 						divNode.style.position = 'absolute';
-
+						
+						//alert('x' + vcan.main.offset.x + ", y" + vcan.main.offset.y);
+//						alert('x' + obj.x + ", y" + obj.y);
+						
+//						alert(obj.x + ' ' + obj.y);
+//						alert(obj.y);
 						divNode.style.left = (vcan.main.offset.x+obj.x) + "px";
-						divNode.style.top =  (vcan.main.offset.y+obj.y) + "px";
+						//divNode.style.top =  (vcan.main.offset.y+obj.y) + "px";
+						divNode.style.top =  (obj.y) + "px";
 //						divNode.style.left = (whBoard.vcan.main.offset.x+obj.x) + "px";
 	//					divNode.style.top =  (whBoard.vcan.main.offset.y+obj.y) + "px";
 						

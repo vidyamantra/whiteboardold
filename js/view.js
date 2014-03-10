@@ -53,7 +53,6 @@
 			if(typeof className != 'undefined'){
 				tag.className = className;
 			}
-			
 			return tag;
 		}
 		
@@ -120,6 +119,7 @@
 				};
 		 	})();
 		 whBoard.view.window.resize = function (){
+//			  alert('why this is calling');
 			  var res = whBoard.system.measureResoultion({'width' : window.innerWidth, 'height' : window.innerHeight });
 			  var vcanvas = document.getElementById('vcanvas');
 			  vcanvas.style.width = res.width + 'px';
@@ -240,8 +240,6 @@
 		 
 		 
 		 whBoard.view.virtualWindow.manupulation = function (e){
-			    //alert(whBoard.currRole + 'this is me guys');
-			 
 			 	var message = e.message.virtualWindow;
 //			 
 //			 	if(e.fromUser.userid != id){
@@ -277,22 +275,24 @@
 							whBoard.utility.removeVirtualWindow('virtualWindow');
 						}
 	  				}else{
-	  					if(myResolution.width < otherBrowser.width){
-	  						
-	  						//vm_chat.send({'resizeWindow' : myResolution});
-	  						//CRITICAL this function does call undefinite
-	  						//vm_chat.send({'virtualWindow' : { 'resizeWindow' : myResolution}});
-	  						whBoard.utility.removeVirtualWindow('virtualWindow');
-	  						
-	  					}else if(myResolution.width > otherBrowser.width){
-	  						whBoard.utility.createVirtualWindow(otherBrowser);
-	  						
-	  						vm_chat.send({'virtualWindow' : { 'removeVirtualWindow' : true}});
+	  					if(typeof otherBrowser != 'undefined'){
+	  						if(myResolution.width < otherBrowser.width){
+		  						
+		  						//vm_chat.send({'resizeWindow' : myResolution});
+		  						//CRITICAL this function does call undefinite
+		  						//vm_chat.send({'virtualWindow' : { 'resizeWindow' : myResolution}});
+		  						whBoard.utility.removeVirtualWindow('virtualWindow');
+		  						
+		  					}else if(myResolution.width > otherBrowser.width){
+		  						whBoard.utility.createVirtualWindow(otherBrowser);
+		  						
+		  						vm_chat.send({'virtualWindow' : { 'removeVirtualWindow' : true}});
 
-	  						//vm_chat.send({'removeVirtualWindow' : true});
-	  						
-	  					}else if(myResolution.width == otherBrowser.width){
-	  						whBoard.utility.removeVirtualWindow('virtualWindow');
+		  						//vm_chat.send({'removeVirtualWindow' : true});
+		  						
+		  					}else if(myResolution.width == otherBrowser.width){
+		  						whBoard.utility.removeVirtualWindow('virtualWindow');
+		  					}
 	  					}
 	  				}
 	  				 return;

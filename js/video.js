@@ -128,12 +128,25 @@
 					  //whBoard.view.disappearBox();
 					  whBoard.view.disappearBox('WebRtc');
 					  cthis.localStream = stream;
+					  
 					  whBoard.attachMediaStream(vcan.videoChat.localVideo, stream);
 					  console.log('Adding local stream.');
-					  cthis.sendMessage('got user media');
-					  if(cthis.isInitiator) {
-						  cthis.maybeStart();
+					  
+					  //					  
+					  if(whBoard.clentLen == 1){
+						  cthis.sendMessage('got user media');
 					  }
+					  
+					  // this whole feature can be hide 
+					  // if we avoid this feature.
+					  if(whBoard.clientLen >= 2){
+						  vm_chat.send({'vidInit' : true})
+					  }
+	
+//					   // NOTE:- warning:- can be very critical
+//					  if(cthis.isInitiator) {
+//						  cthis.maybeStart();
+//					  }
 				}, 
 
 				handleUserMediaError : function (error){
@@ -142,10 +155,9 @@
 					console.log('navigator.getUserMedia error: ', error);
 				}, 
 
-				maybeStart : function() {
-					if (!cthis.isStarted && cthis.localStream && cthis.isChannelReady) {
-						console.log("started suman bogati");
-						////alert(myVideo);
+				maybeStart : function(fromUserId) {
+					if ((fromUserId != id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady) || 
+							(whBoard.joinUserId == id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady  && !cthis.isInitiator)) {
 						if(cthis.pc.length > 0){
 							 cthis.cn++;
 						}
@@ -153,78 +165,10 @@
 						cthis.createPeerConnection();
 						cthis.pc[cthis.cn].addStream(cthis.localStream);
 						cthis.isStarted = true;
+						
 					    if (cthis.isInitiator) {
-//					    	/alert('do call');
 					    	cthis.doCall();
 					    }
-							
-						
-							
-						
-					    
-//						if(cthis.browserLen <=2){
-//							if(cthis.pc.length > 0){
-//								 cthis.cn++;
-//							}
-//							
-//							cthis.createPeerConnection();
-//							cthis.pc[cthis.cn].addStream(cthis.localStream);
-//							cthis.isStarted = true;
-//						    if (cthis.isInitiator) {
-//						    	cthis.doCall();
-//						    }
-//						}else{
-//							//browser A
-//							if(cthis.id == '45' & cthis.ba == false){
-//								console.log('suman a');
-//								cthis.ba = true;
-//								
-//								if(cthis.pc.length > 0){
-//									 cthis.cn++;
-//								}
-//								cthis.createPeerConnection();
-//								cthis.pc[cthis.cn].addStream(cthis.localStream);
-//								cthis.isStarted = true;
-//								
-//							    if (cthis.isInitiator) {
-//							    	cthis.doCall();
-//							    }
-//							    
-//							  //browser B
-//							}else if(cthis.id == '15' & cthis.bb == false && cthis.bNotRender == true){
-//								//console.log('suman b');
-//								cthis.bb = true;
-//								
-//								if(cthis.pc.length > 0){
-//									 cthis.cn++;
-//								}
-//								cthis.createPeerConnection();
-//								cthis.pc[cthis.cn].addStream(cthis.localStream);
-//								cthis.isStarted = true;
-//							    //if (cthis.isInitiator) {
-//							    	cthis.doCall();
-//							    //}
-//							}
-//							//browser C
-//							if(cthis.id == '41'){
-//								console.log('suman c');
-//								if(cthis.pc.length > 0){
-//									 cthis.cn++;
-//								}
-//								cthis.createPeerConnection();
-//								cthis.pc[cthis.cn].addStream(cthis.localStream);
-//								cthis.isStarted = true;
-//								
-////							    if (cthis.isInitiator) {
-////							    	cthis.doCall();
-////							    }
-//							    
-//							    if(cthis.bNotRender == false){
-//							    	cthis.isStarted = false;
-//							    	cthis.sendMessage('got user media suman');
-//							    }
-//							}
-//						}
 					}
 				},
 
@@ -267,7 +211,8 @@
 
 				handleRemoteStreamAdded : function(event) {
 					console.log('Remote stream added.');
-				//  reattachMediaStream(miniVideo, localVideo);
+					
+					//reattachMediaStream(miniVideo, localVideo);
 					////alert('sumanbrother');
 					//debugger;
 					//for remote 1
@@ -350,6 +295,7 @@
 				},
 
 				hangup : function() {
+				  
 				  ////alert('raju brother');
 				  //console.log('Hanging up.');
 				  cthis.stop();
@@ -357,12 +303,15 @@
 				}, 
 
 				handleRemoteHangup : function() {
-				  cthis.pc.splice(0, 1);
+//				  alert('sss');
+//				  cthis.pc.splice(0, 1);
 				  console.log('Session terminated.');
 				  ////alert('suman bogati is there');
 				  cthis.transitionToWaiting();
 				  cthis.isInitiator = true;
+				  cthis.isStarted = false;
 				  cthis.stop();
+				  cthis.pc.splice(0, 1);
 				 // //alert('suman bogati');
 				  //debugger;
 				  
@@ -421,7 +370,7 @@
 				      break;
 				    }
 				  }
-
+				  
 				  // Remove CN in m line and sdp.
 				  sdpLines = this.removeCN(sdpLines, mLineIndex);
 
@@ -471,25 +420,11 @@
 				  return sdpLines;
 				},
 			
-		    videoOnMsg : function (message){
+		    videoOnMsg : function (message, fromUserId){
 		    		if(message.hasOwnProperty('isChannelReady')){
 		    			cthis.isChannelReady = true;
 		    		}
 		    		
-//			    	if(message.hasOwnProperty('create')){
-//						vm_chat.send({'video': {'created':true}})
-//					}else if(message.hasOwnProperty('join')){
-//						console.log('Another peer made a request to join room ' + room);
-//						console.log('This peer is the initiator of room ' + room + '!');
-//						this.isChannelReady = true;
-//						 vm_chat.send({'video': {'joined':true}})
-//					}else if(message.hasOwnProperty('joined')){
-//						console.log('This peer has joined room ' + room);
-//						this.isChannelReady = true;
-//					}else if(message.hasOwnProperty('created')){
-//						console.log('Created room ' + room);
-//						this.isInitiator = true;
-//					}
 				  console.log('Received message:', message);
 				  
 				  if(message === 'got user media suman'){
@@ -498,7 +433,7 @@
 				  }else if (message === 'got user media') {
 //					  alert('just started suman');
 					//  cthis.bNotRender = true;
-					   cthis.maybeStart();
+					   cthis.maybeStart(fromUserId);
 					   
 				  }else if (message.type === 'offer'){
 				    if (!cthis.isInitiator && !cthis.isStarted) {
@@ -516,9 +451,15 @@
 				    var candidate = new whBoard.RTCIceCandidate({sdpMLineIndex:message.label,
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
-				  } else if (message === 'bye' && cthis.isStarted) {
-					  cthis.handleRemoteHangup();
+				  } else if (message === 'bye'){
+					  tempIsInitiaor = true;
+					  if(cthis.isStarted){
+						  cthis.handleRemoteHangup();
+					  }
 				  }
+//				  if(message === 'bye' && cthis.isStarted) {	
+//					  cthis.handleRemoteHangup();
+//				  }
 		    },
 		    
 		    hangUp : function (){
@@ -574,9 +515,21 @@
 		        
 		        var parElement = document.getElementById(cthis.videoContainerId);
 		        parElement.insertBefore(maxButton, parElement.firstChild);
-		    }
-		}
-	
+		    },
+		    
+		    // basically this function would called when 
+		    // second browser would come or any browser refresh the 
+		    // after both browser come
+			isVideoFound : function (videoFound, fromUser){
+					if(fromUser != id){
+						if(videoFound == false){
+							cthis.isInitiator = true;
+						}
+						alert('this is chrome');
+						cthis.sendMessage('got user media');
+					}
+				}
+			}
 		}
 		
 		vcan.videoChat.hangup2 = function (){
@@ -585,10 +538,20 @@
 		
 		
 		window.onbeforeunload = function() {
+			//tempIsInitiaor = true;
 			////alert('suman bo');
 			cthis.sendMessage('bye');
 			//THIS COULD BE VERY DANGEROUS
 			vm_chat.disconnect();
+		}
+		
+		window.isVideoFound = function (videoFound, fromUser){
+			if(fromUser != id){
+				if(videoFound == false){
+					cthis.isInitiator = true;
+				}
+				cthis.sendMessage('got user media');
+			}
 		}
 	}		
 	
