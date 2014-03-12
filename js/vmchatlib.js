@@ -183,31 +183,6 @@ var vm_chat = {
 		
 		// Case for createArrow LIMIT every 500ms
 		if (msg.hasOwnProperty('createArrow')) {
-//			if (typeof  lastarrowtime == 'undefined') {
-//				//alert('joi');
-//				lastarrowtime = new Date().getTime();
-//				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-//				//this.sock.send(jobj);
-//				if(this.sock.readyState == 1){
-//					this.sock.send(jobj);
-//				}
-//				
-//				vm_chat.updateSentInformation(jobj, true);
-//			}
-//			
-//			presentarrowtime = new Date().getTime();
-//			if ((presentarrowtime-lastarrowtime)>=100) { // Optimized
-//
-//				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-//				//this.sock.send(jobj);
-//				if(this.sock.readyState == 1){
-//					this.sock.send(jobj);
-//				}
-//				vm_chat.updateSentInformation(jobj, true);
-//				lastarrowtime = new Date().getTime();
-//			}
-//			
-
 			
 			if (typeof optimizObj == 'undefined'){
 				optimizObj = optimization();

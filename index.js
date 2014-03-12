@@ -126,61 +126,62 @@ $.when(
 		vcan.myvid = myVideo;
 		vcan.renderedObjId = 0;
 		
-		$(document).on("member_removed", function(e){
-			
-			if(e.message.length==1){
-				whBoard.utility.makeCanvasDisable();
-				whBoard.utility.setStyleUserConnetion('con', 'coff');
+		//this code is set for when the move is not 
+		//removed by server but done action for it.
+		
+		$(document).on("user_logout", function(e){
+			removedMemberId = e.fromUser.userid;
+		});
+		
+		function actionAfterRemovedUser(){
+			whBoard.utility.makeCanvasDisable();
+			whBoard.utility.setStyleUserConnetion('con', 'coff');
 
-				var vdiv = document.getElementById('virtualWindow');
-				if(vdiv != null){
-					vdiv.parentNode.removeChild(vdiv);
-				}
-				
-				whBoard.user.connected = false;
-				localStorage.removeItem('otherRole');
-				
-				//for control the video
-				//when user is disconnected from internet
-				  tempIsInitiaor = true;
-				  if(cthis.isStarted){
-					  cthis.handleRemoteHangup();
-				  }
-//				cthis.handleRemoteHangup();
-//				cthis.pc = false;
+			var vdiv = document.getElementById('virtualWindow');
+			if(vdiv != null){
+				vdiv.parentNode.removeChild(vdiv);
+			}
+			
+			whBoard.user.connected = false;
+			localStorage.removeItem('otherRole');
+			
+			//for control the video
+			//when user is disconnected from internet
+			  tempIsInitiaor = true;
+			  if(cthis.isStarted){
+				  cthis.handleRemoteHangup();
+			  }
+//			cthis.handleRemoteHangup();
+//			cthis.pc = false;
+		}
+		
+		$(document).on("member_removed", function(e){
+			if(e.message.length==1){
+				actionAfterRemovedUser();
 			}else{
-				if(localStorage.getItem('orginalTeacherId') != null){
-					alert("It seems that there is more than two user tried to connect");
+				
+				//this code performs when member is not removed indeed
+				if(typeof removedMemberId != 'undefined'){
+					for(var i=0; i<e.message.length; i++){
+						if(e.message[i].userid == removedMemberId){
+							alert('Hmmmm this is finally alerted');
+							debugger;
+							actionAfterRemovedUser();
+						}
+					}
+				}else{
+					if(localStorage.getItem('orginalTeacherId') != null){
+						alert("It seems that there is more than two user tried to connect");
+					}
 				}
 			}
 		});
 		
-
-		
-//		function bootStrapCanvas(e) {
-//			whBoard.utility.isUserConnected(e.message.length);
-//			if(whBoard.user.connected){
-//				whBoard.utility.setStyleUserConnetion('coff', 'con');
-//			}
-//			
-//			if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
-//				whBoard.utility.makeCanvasDisable();
-//			}
-//			
-//			whBoard.utility.initDefaultInfo(e,  myVideo, role);
-//			var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
-//			
-//			var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
-//			if(toolHeight != false){
-//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight}});
-//			}else{
-//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res}});
-//			}
-//		}
 		
 		$(document).on("member_added", function(e){
 //			alert("nothing happend");
-//			document.getElementById('clientLength').innerHTML = e.message.length;
+			
+			document.getElementById('clientLength').innerHTML = e.message.length;
 			whBoard.clientLen = e.message.length;
 			vm_chat.send({'checkUser' : {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});
@@ -196,6 +197,7 @@ $.when(
 //			}
 //    	}
 		
+		
 		vcan.tempArr = [];
 		virtualWindow = false;
 		var connectNum = 0;
@@ -203,7 +205,6 @@ $.when(
 			if(e.message.hasOwnProperty('vidInit')){
 				if(e.fromUser.userid != id){
 					if(whBoard.videoAdd != true){
-//						cthis.isInitiator = true;
 						vm_chat.send({'foundVideo' : false});
 					}else{
 						vm_chat.send({'foundVideo' : true, 'fromUser' : e.fromUser.userid} );
@@ -213,7 +214,6 @@ $.when(
 			}else if(e.message.hasOwnProperty('foundVideo')){
 				
 				if(e.message.foundVideo == false){
-//					alert(vcan.myvid);
 					window.isVideoFound(false,  e.fromUser.userid);
 //					vcan.myvid.isVideoFound(false,  e.fromUser.userid);
 				}else{

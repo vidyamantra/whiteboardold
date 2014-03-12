@@ -295,18 +295,14 @@
 				},
 
 				hangup : function() {
-				  
-				  ////alert('raju brother');
-				  //console.log('Hanging up.');
-				  cthis.stop();
-				  cthis.sendMessage('bye');
+					cthis.stop();
+					cthis.sendMessage('bye');
 				}, 
 
 				handleRemoteHangup : function() {
-//				  alert('sss');
-//				  cthis.pc.splice(0, 1);
+
 				  console.log('Session terminated.');
-				  ////alert('suman bogati is there');
+
 				  cthis.transitionToWaiting();
 				  cthis.isInitiator = true;
 				  cthis.isStarted = false;
@@ -538,8 +534,10 @@
 		
 		
 		window.onbeforeunload = function() {
+			alert('suman bogati');
 			localStorage.removeItem('otherRole');
 			cthis.sendMessage('bye');
+//			cthis.sendMessage({'bye' : true, id : id });
 			//THIS COULD BE VERY DANGEROUS
 			vm_chat.disconnect();
 		}
