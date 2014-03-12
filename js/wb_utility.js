@@ -986,7 +986,7 @@
 	        	whBoard.utility.makeCanvasDisable();
 	    	}, 
 	    	
-	        initAll : function (e) {
+	    	initAll : function (e) {
 				if(localStorage.getItem('teacherId') != null){
 	  				whBoard.utility.makeCanvasDisable();
 				}
@@ -1036,7 +1036,80 @@
 					commandToolWrapper.style.position = "relative";
 					commandToolWrapper.style.zIndex = "0";
 				} 
+			}, 
+			
+			replayFromLocalStroage : function(){
+				if(typeof(Storage)!=="undefined"){
+					if(localStorage.repObjs){
+						var allRepObjs = JSON.parse(localStorage.repObjs);
+						whBoard.vcan.main.replayObjs = allRepObjs;
+						whBoard.utility.clearAll(false, 'dontClear');
+						
+						whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+						if(allRepObjs.length > 0){
+							whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+							vcan.reachedItemId = whBoard.uid;
+							whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+						}
+					}
+				}
+			},
+			
+			shareVideoInformation : function (e, myVideo, storageHasTeacher) {
+				whBoard.utility.isUserConnected(e.message.length);
+				if(whBoard.user.connected){
+					whBoard.utility.setStyleUserConnetion('coff', 'con');
+				}
+				
+				if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
+					whBoard.utility.makeCanvasDisable();
+				}
+				
+				whBoard.utility.initDefaultInfo(e,  myVideo, role);
+				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+				
+				var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+				if(toolHeight != false){
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight}});
+				}else{
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res}});
+				}
+			}, 
+			
+		    setUserStatus : function(storageHasTeacher, storageHasReclaim){
+				if(!storageHasTeacher && !storageHasReclaim){
+					whBoard.utility.removeToolBox();
+					whBoard.utility.setClass('vcanvas', 'student');
+				}else{
+					whBoard.utility.setClass('vcanvas', 'teacher');
+				}
+			},
+			
+			crateCanvasDrawMesssage : function(){
+				if(typeof localStorage.teacherId != 'undefined'){
+					if(typeof localStorage.canvasDrwMsg == 'undefined'){
+						window.whBoard.view.canvasDrawMsg('Canvas');
+						window.whBoard.view.drawLabel('drawArea');
+						localStorage.canvasDrwMsg = true;
+					}
+				}
+			},
+			
+		   removeOtherUserExist : function(role){
+			     if(role == 't'){
+						if(localStorage.getItem('studentId') != null){
+							localStorage.removeItem('studentId');
+						}
+				  }else if(role == 's'){
+					    if(localStorage.getItem('orginalTeacherId') != null){
+							localStorage.removeItem('orginalTeacherId');
+							if(localStorage.getItem('teacherId') != null){
+			  					localStorage.removeItem('teacherId');
+			  				}
+						}
+				  }
 			}
+
 			
 			
 //			connectionOptimization : function (){

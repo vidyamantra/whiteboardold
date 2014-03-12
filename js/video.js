@@ -452,10 +452,10 @@
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
 				  } else if (message === 'bye'){
-					  tempIsInitiaor = true;
-					  if(cthis.isStarted){
-						  cthis.handleRemoteHangup();
-					  }
+//					  tempIsInitiaor = true;
+//					  if(cthis.isStarted){
+//						  cthis.handleRemoteHangup();
+//					  }
 				  }
 //				  if(message === 'bye' && cthis.isStarted) {	
 //					  cthis.handleRemoteHangup();

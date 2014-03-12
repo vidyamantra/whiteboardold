@@ -1,27 +1,3 @@
-/*var cssId = 'myCss';  // you could encode the css path itself to generate id..
-if (!document.getElementById(cssId))
-{
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'css/styles.css'; 
-    link.media = 'all';
-    head.appendChild(link);
-}
-
-var cssId = 'myCss1';  // you could encode the css path itself to generate id..
-if (!document.getElementById(cssId)){
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-
-    link.media = 'all';
-    head.appendChild(link);
-}*/
 $.when(
 		//$.getScript( "js/whiteboard.js" )
 		/*$.getScript( "js/vcan.js" ),
@@ -34,6 +10,7 @@ $.when(
     $(document).ready(function(){
     	whBoard.system.setCanvasDimension();
 		whBoard.utility.isSystemCompatible();
+		
 		if(window.whBoard.error.length > 2){
 			window.whBoard.error = [];
 			return;
@@ -55,9 +32,11 @@ $.when(
     	whBoard.currId = id;
     	whBoard.currRole = role;
     	
-    	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
-    	window.whBoard.init();
-    	whBoard.utility.makeCanvasDisable();
+//    	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
+//    	window.whBoard.init();
+//    	whBoard.utility.makeCanvasDisable();
+    	
+    	whBoard.utility.displayCanvas();
   
 		window.addEventListener('click', function (){
     		whBoard.view.disappearBox('WebRtc')
@@ -68,25 +47,29 @@ $.when(
     	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
     	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
     	
-    	if(!storageHasTeacher && !storageHasReclaim){
-    		whBoard.utility.removeToolBox();
-    		whBoard.utility.setClass('vcanvas', 'student');
-		}else{
-			whBoard.utility.setClass('vcanvas', 'teacher');
-		}
+    	whBoard.utility.setUserStatus(storageHasTeacher, storageHasReclaim);
     	
-      if(role == 't'){
-			if(localStorage.getItem('studentId') != null){
-				localStorage.removeItem('studentId');
-			}
-	  }else if(role == 's'){
-		    if(localStorage.getItem('orginalTeacherId') != null){
-				localStorage.removeItem('orginalTeacherId');
-				if(localStorage.getItem('teacherId') != null){
-  					localStorage.removeItem('teacherId');
-  				}
-			}
-	  }
+//    	if(!storageHasTeacher && !storageHasReclaim){
+//    		whBoard.utility.removeToolBox();
+//    		whBoard.utility.setClass('vcanvas', 'student');
+//		}else{
+//			whBoard.utility.setClass('vcanvas', 'teacher');
+//		}
+    	
+//	  if(role == 't'){
+//		if(localStorage.getItem('studentId') != null){
+//			localStorage.removeItem('studentId');
+//			}
+//	  }else if(role == 's'){
+//          if(localStorage.getItem('orginalTeacherId') != null){
+//			localStorage.removeItem('orginalTeacherId');
+//			if(localStorage.getItem('teacherId') != null){
+//				localStorage.removeItem('teacherId');
+//				}
+//			}
+//	  }
+    	
+      whBoard.utility.removeOtherUserExist(role);
     	
     	if(storageHasReclaim){
     		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
@@ -98,7 +81,6 @@ $.when(
     	
         var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
         if(whBoard.system.webSocket){
-        	
          	vm_chat.init({
                 'userid':id,
                 'sid':sid,
@@ -109,28 +91,27 @@ $.when(
                 'fastchat_lasttime':'0',
                 'fastchatroom_title':'fastchat',
                 'fastchatroom_name':room});
-        	}
+        }
        	
-    	if(typeof(Storage)!=="undefined"){
-			if(localStorage.repObjs){
-				var allRepObjs = JSON.parse(localStorage.repObjs);
-				whBoard.vcan.main.replayObjs = allRepObjs;
-				whBoard.utility.clearAll(false, 'dontClear');
-				
-				// TODO this should not be run should do improvement
-//				for(i=0; i<allRepObjs.length; i++){
-//					replayObjs.push(allRepObjs[i]);
+        
+        whBoard.utility.replayFromLocalStroage();
+        
+//    	if(typeof(Storage)!=="undefined"){
+//			if(localStorage.repObjs){
+//				var allRepObjs = JSON.parse(localStorage.repObjs);
+//				whBoard.vcan.main.replayObjs = allRepObjs;
+//				whBoard.utility.clearAll(false, 'dontClear');
+//				
+//				whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+//				if(allRepObjs.length > 0){
+//					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
+//					vcan.reachedItemId = whBoard.uid;
+//				    whBoard.utility.makeCanvasDisable();
+//                    whBoard.utility.toolWrapperDisable();
+//					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
 //				}
-				whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
-				if(allRepObjs.length > 0){
-					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
-					vcan.reachedItemId = whBoard.uid;
-				    whBoard.utility.makeCanvasDisable();
-                    whBoard.utility.toolWrapperDisable();
-					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
-				}
-			}
-		}
+//			}
+//		}
     	
  		var oldData2 = whBoard.receivedPackets;
 		setInterval(function (){
@@ -146,6 +127,7 @@ $.when(
 		vcan.renderedObjId = 0;
 		
 		$(document).on("member_removed", function(e){
+			
 			if(e.message.length==1){
 				whBoard.utility.makeCanvasDisable();
 				whBoard.utility.setStyleUserConnetion('con', 'coff');
@@ -157,62 +139,62 @@ $.when(
 				
 				whBoard.user.connected = false;
 				localStorage.removeItem('otherRole');
+				
+				//for control the video
+				//when user is disconnected from internet
+				  tempIsInitiaor = true;
+				  if(cthis.isStarted){
+					  cthis.handleRemoteHangup();
+				  }
+//				cthis.handleRemoteHangup();
+//				cthis.pc = false;
 			}else{
-//				alert(localStorage.getItem('orginalTeacherId'));
 				if(localStorage.getItem('orginalTeacherId') != null){
 					alert("It seems that there is more than two user tried to connect");
 				}
 			}
-
-			
-//			document.getElementsByClassName('con')[0].className = 'coff controlCmd';
-			
-//			var vdiv = document.getElementById('virtualWindow');
-//			if(vdiv != null){
-//				vdiv.parentNode.removeChild(vdiv);
-//			}
-			
-			
 		});
 		
-		function bootStrapCanvas(e) {
-//			e.message.checkUser =  {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }};
-			
-//			e.message.joinId = e.message[e.message.length-1].userid;
-			whBoard.utility.isUserConnected(e.message.length);
-			if(whBoard.user.connected){
-//				whBoard.utility.makeCanvasEnable();
-				whBoard.utility.setStyleUserConnetion('coff', 'con');
-			}
-			
-			if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
-  				whBoard.utility.makeCanvasDisable();
-			}
-			
-			whBoard.utility.initDefaultInfo(e,  myVideo, role);
-			var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
-			
-			var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
-			if(toolHeight != false){
-				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight}});
-			}else{
-				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res}});
-			}
-		}
+
+		
+//		function bootStrapCanvas(e) {
+//			whBoard.utility.isUserConnected(e.message.length);
+//			if(whBoard.user.connected){
+//				whBoard.utility.setStyleUserConnetion('coff', 'con');
+//			}
+//			
+//			if(typeof vcan.teacher == 'undefined' && !storageHasTeacher){
+//				whBoard.utility.makeCanvasDisable();
+//			}
+//			
+//			whBoard.utility.initDefaultInfo(e,  myVideo, role);
+//			var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
+//			
+//			var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
+//			if(toolHeight != false){
+//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight}});
+//			}else{
+//				vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res}});
+//			}
+//		}
 		
 		$(document).on("member_added", function(e){
+//			alert("nothing happend");
 //			document.getElementById('clientLength').innerHTML = e.message.length;
 			whBoard.clientLen = e.message.length;
 			vm_chat.send({'checkUser' : {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});
 		
-		if(typeof localStorage.teacherId != 'undefined'){
-			if(typeof localStorage.canvasDrwMsg == 'undefined'){
-				window.whBoard.view.canvasDrawMsg('Canvas');
-				window.whBoard.view.drawLabel('drawArea');
-				localStorage.canvasDrwMsg = true;
-			}
-    	}
+		
+		whBoard.utility.crateCanvasDrawMesssage();
+		
+//		if(typeof localStorage.teacherId != 'undefined'){
+//			if(typeof localStorage.canvasDrwMsg == 'undefined'){
+//				window.whBoard.view.canvasDrawMsg('Canvas');
+//				window.whBoard.view.drawLabel('drawArea');
+//				localStorage.canvasDrwMsg = true;
+//			}
+//    	}
 		
 		vcan.tempArr = [];
 		virtualWindow = false;
@@ -257,7 +239,8 @@ $.when(
 									vm_chat.disconnect();
 				  					return;	
 								}else{
-									bootStrapCanvas(e);
+//									bootStrapCanvas(e);
+									whBoard.utility.shareVideoInformation(e, myVideo, storageHasTeacher);
 									whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
 								}
 								
@@ -509,39 +492,6 @@ $.when(
 	        			}
 	    				
 	    				if(e.message.hasOwnProperty('chunk') && e.fromUser.userid != id){
-	    					
-
-////// below sorting is achvieved by these commented out code	    					
-//	    					for(var k=0; k<replayObjs.length; k++){
-//	    						if(replayObjs[k].uid == e.message.repObj[0].uid-1){
-//	    							findIndex = true
-//	    							break;
-//	    						}
-//	    					}
-//	    					
-//	    					
-//	    					var fPart = replayObjs.slice(0, k+1);
-//	    					var secPart = e.message.repObj;
-//	    					var tPart = replayObjs.slice(k+1, replayObjs.length);
-//	    					
-//	    					if(fPart[fPart.length-1].uid+1 != secPart[0].uid){
-//	    						//alert('break');
-//	    						debugger;
-//	    					}
-//	    					
-//	    					if(secPart[secPart.length-1].uid+1 != tPart[0].uid){
-//	    						//alert('break');
-//	    						debugger;
-//	    					}
-//	    					
-//	    					replayObjs = fPart.concat(secPart, tPart);
-//////////////////////////////////////////////////////////////////////
-	    					
-//	    					for(var i=0; i< e.message.repObj.length; i++){
-//	    						replayObjs.push(e.message.repObj[i]);
-//	    					}
-	    					
-	    					
 	    					if(whBoard.globalObj.myArr.length > 0){
 								if(e.message.repObj[e.message.repObj.length-1].uid == whBoard.globalObj.myArr[0].uid){
 									for(var i=0; i< whBoard.globalObj.myArr.length; i++){
@@ -620,7 +570,6 @@ $.when(
 				}
     		}
     	});
-  		
    });
 });
 
