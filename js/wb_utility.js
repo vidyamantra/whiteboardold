@@ -463,6 +463,9 @@
 					(localStorage.getItem('orginalTeacherId') != null && whBoard.utility.chkValueInLocalStorage('reclaim'))){
 						whBoard.utility.toolWrapperEnable();
 				}
+//				alert(whBoard.user.connected)
+//				if(localStorage.getItem('teacherId') != null && whBoard.utility.isUserConnected(whBoard.clientLen)){
+				whBoard.utility.isUserConnected(whBoard.clientLen);
 				
 				if(localStorage.getItem('teacherId') != null && whBoard.user.connected){
 					whBoard.utility.makeCanvasEnable();
@@ -807,6 +810,7 @@
 				//alert(localStorage.getItem('otherRole'));
 				if(userLength > 1 && localStorage.getItem('otherRole')){
 					whBoard.user.connected = true;
+					
 				}
 			},
 			
@@ -1107,8 +1111,6 @@
 						}
 				  }
 			}
-
-			
 			
 //			connectionOptimization : function (){
 //				if (typeof  lastarrowtime == 'undefined') {
