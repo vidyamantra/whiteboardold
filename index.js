@@ -179,9 +179,7 @@ $.when(
 		
 		
 		$(document).on("member_added", function(e){
-//			alert("nothing happend");
-			
-			document.getElementById('clientLength').innerHTML = e.message.length;
+//			document.getElementById('clientLength').innerHTML = e.message.length;
 			whBoard.clientLen = e.message.length;
 			vm_chat.send({'checkUser' : {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});

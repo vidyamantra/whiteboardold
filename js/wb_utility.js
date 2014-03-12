@@ -459,14 +459,12 @@
 			},
 			
 			packetQueue : function (result){
-				
 				if((localStorage.getItem('teacherId') != null) || 
 					(localStorage.getItem('orginalTeacherId') != null && whBoard.utility.chkValueInLocalStorage('reclaim'))){
 						whBoard.utility.toolWrapperEnable();
 				}
 				
-				
-				if(localStorage.getItem('teacherId') != null){
+				if(localStorage.getItem('teacherId') != null && whBoard.user.connected){
 					whBoard.utility.makeCanvasEnable();
 				}
 				
