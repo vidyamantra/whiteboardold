@@ -300,17 +300,12 @@
 				}, 
 
 				handleRemoteHangup : function() {
-
 				  console.log('Session terminated.');
-
 				  cthis.transitionToWaiting();
 				  cthis.isInitiator = true;
 				  cthis.isStarted = false;
 				  cthis.stop();
 				  cthis.pc.splice(0, 1);
-				 // //alert('suman bogati');
-				  //debugger;
-				  
 				},
 				
 				transitionToWaiting : function() {
@@ -448,10 +443,10 @@
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);
 				  } else if (message === 'bye'){
-//					  tempIsInitiaor = true;
-//					  if(cthis.isStarted){
-//						  cthis.handleRemoteHangup();
-//					  }
+					  tempIsInitiaor = true;
+					  if(cthis.isStarted){
+						  cthis.handleRemoteHangup();
+					  }
 				  }
 //				  if(message === 'bye' && cthis.isStarted) {	
 //					  cthis.handleRemoteHangup();
@@ -534,12 +529,11 @@
 		
 		
 		window.onbeforeunload = function() {
-			alert('suman bogati');
 			localStorage.removeItem('otherRole');
+			whBoard.utility.userIds = [];
 			cthis.sendMessage('bye');
-//			cthis.sendMessage({'bye' : true, id : id });
-			//THIS COULD BE VERY DANGEROUS
 			vm_chat.disconnect();
+			
 		}
 		
 		window.isVideoFound = function (videoFound, fromUser){

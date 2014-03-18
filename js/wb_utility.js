@@ -2,7 +2,7 @@
 	function (window){
 		var whBoard = window.whBoard;
 		whBoard.utility = {
-			
+			 userIds : [],
 			/**
 			 * This function does check that passed object is existing into 
 			 * removeElements array or not
@@ -105,8 +105,6 @@
 			t_clearallInit : function() {
 				var delRpNode = true;
 				whBoard.utility.clearAll(delRpNode);
-				
-				
 				if(localStorage.repObjs){
 					//localStorage.clear();
 					//alert('suman bogati');
@@ -465,11 +463,34 @@
 				}
 //				alert(whBoard.user.connected)
 //				if(localStorage.getItem('teacherId') != null && whBoard.utility.isUserConnected(whBoard.clientLen)){
-				whBoard.utility.isUserConnected(whBoard.clientLen);
+
+// Enable code
+//				if(localStorage.getItem('otherRole') != null){
+//					whBoard.utility.isUserConnected(whBoard.clientLen, whBoard.utility.canvasEnabelWhenRefresh);
+//				}
 				
+				/////////////////////
+				//enable code should be enable, but there we can not check
+				//isUerConnected at very first becuse it's available only when the 
+				// member_added is invoked which means
+				//the problem of synhronous
+				/////////////////////
+				
+				
+				whBoard.utility.isUserConnected(whBoard.clientLen);
+			//	alert("this is out condition");
+				whBoard.drawMode = false;
 				if(localStorage.getItem('teacherId') != null && whBoard.user.connected){
 					whBoard.utility.makeCanvasEnable();
 				}
+
+//				if(localStorage.getItem('teacherId') != null){
+//					whBoard.utility.makeCanvasEnable();
+//				}
+				
+//				if(localStorage.getItem('teacherId') != null && whBoard.user.connected){
+//					whBoard.utility.makeCanvasEnable();
+//				}
 				
 				console.log("should come first");
 				if(vcan.tempArr.length > 0){
@@ -810,7 +831,6 @@
 				//alert(localStorage.getItem('otherRole'));
 				if(userLength > 1 && localStorage.getItem('otherRole')){
 					whBoard.user.connected = true;
-					
 				}
 			},
 			
@@ -897,24 +917,12 @@
 			 			if(role){
 			 				if(localStorage.getItem('otherRole') ==  null){
 			 					var roles  = [];
-		 						//roles.push(role);
-		 						if(role != whBoard.currRole){
+			 					if(role != whBoard.currRole){
 			 						roles.push(role);
-			 						//alert('tt');
-//			 						/debugger;
 			 					}else{
 			 						existUser = true;
 			 						return true;
 			 					}
-		 						//roles.push(role);
-		 						
-		 						//alert('this performing');
-		 						//debugger;
-		 						
-			 					//var roles  = [];
-		 						//roles.push(role);
-		 						//for now only roles are storing, ids need to store later perhaps
-		 					//	localStorage.setItem('otherRole', JSON.stringify(roles));
 			 				}else{
 			 					roles = JSON.parse(localStorage.getItem('otherRole'));
 			 					if(roles.indexOf(role) == -1){
@@ -926,25 +934,14 @@
 			 					localStorage.setItem('otherRole', JSON.stringify(roles));
 			 					console.log("Other Browser " + role + ' ' + e.fromUser.userid);
 			 				}
-			 				
-				 			
-		  				}
-			 			//alert("2");
-//			 				var joinId = e.message.joinId;
-//			 				if(joinId != e.fromUser.userid){
-//								alert('Either Teacher Or Student is already existed, \nIt\'s also possible there other role is passing');
-//
-//			 				}
-//							return;
+			 			}
 			 			return (whBoard.currRole == role) ? true : false;
 			 		}
 			 	}else{
-			 		
 			 		if(typeof existUser != 'undefined'){
 			 			return true;
 			 		}else{
 			 			var otherRoles = JSON.parse(localStorage.getItem('otherRole'));
-				 		//alert(otherRoles[0]);
 				 		if(otherRoles != null){
 				 			for(var i=0; i<otherRoles.length; i++){
 				 				if(whBoard.currRole == otherRoles[i]){
@@ -954,23 +951,52 @@
 				 			return false;
 				 		}
 			 		}
-			 		
 			 	}
 			},
 			
+			
+			existUserWithSameId : function (e){
+				var myId = e.message.checkUser.id;
+				this.userIds.push(e.fromUser.userid);
+				
+				if(this.userIds.length > 1){
+					var userSameId = whBoard.utility.arrayContainsSameValue(this.userIds[0], this.userIds);
+					if(userSameId){
+						return true;
+					}
+				}
+				
+				/*
+				if(e.fromUser.userid != id){
+			 		 if(localStorage.getItem('otherUserId') ==  null){
+						localStorage.setItem('otherUserId', myId);
+						return false;
+	 				}else{
+	 					var myId = JSON.parse(localStorage.getItem('otherUserId'));
+	 					if(myId == id){
+	 						return true;
+	 					}
+	 				}
+			 		return false;
+			 	}else{
+			 		this.userIdentifyTrackId++;
+			 		var myId = JSON.parse(localStorage.getItem('otherUserId'));
+			 		if(myId != null){
+			 			if(id == myId){
+			 		
+			 				return true;
+		 					
+		 				}
+			 		}
+			 		
+			 		return false;
+			 	}*/
+			}, 	
+			
 			makeUserAvailable : function (browerLength){
 				whBoard.utility.isUserConnected(browerLength);
-//				alert(whBoard.user.connected);
-//				whBoard.user.connected = true; //this should be removed
 				if(whBoard.user.connected){
-//					/whBoard.userAvailable = true;
 					if(localStorage.getItem('repObjs') == null){
-						
-						/*
-						if(document.getElementById('commandToolsWrapper') != null){
-							document.getElementById('commandToolsWrapper').style.zIndex = "0";
-						} */
-						
 						whBoard.utility.toolWrapperEnable();
 						if(vcan.main.canvas != null){
 							whBoard.utility.makeCanvasEnable();
@@ -986,6 +1012,7 @@
 	    		window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
 	        	window.whBoard.init();
 	        	whBoard.utility.makeCanvasDisable();
+	        	whBoard.utility.toolWrapperDisable();
 	    	}, 
 	    	
 	    	initAll : function (e) {
@@ -1021,7 +1048,6 @@
 				}else{
 					return false;
 				}
-				
 			},
 			
 			toolWrapperDisable : function (){
@@ -1032,7 +1058,10 @@
 				} 
 			},
 			
+			
+			//change the name with toolBoxEnable
 			toolWrapperEnable : function (){
+			
 				var commandToolWrapper = document.getElementById('commandToolsWrapper') ;
 				if(commandToolWrapper != null){
 					commandToolWrapper.style.position = "relative";
@@ -1110,6 +1139,23 @@
 			  				}
 						}
 				  }
+			},
+			
+			canvasEnabelWhenRefresh : function(){
+//				alert('not perform');
+				if(localStorage.getItem('teacherId') != null){
+					whBoard.utility.makeCanvasEnable();
+				}
+			},
+			
+			arrayContainsSameValue : function (val, ids){
+				
+				 for(var i = 0; i<ids.length; i++){
+		            if(ids[i] !== val){
+		            	return false;	
+		            }
+		        }
+				return true;
 			}
 			
 //			connectionOptimization : function (){

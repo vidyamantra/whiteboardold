@@ -147,25 +147,30 @@ $.when(
 			
 			//for control the video
 			//when user is disconnected from internet
-			  tempIsInitiaor = true;
-			  if(cthis.isStarted){
-				  cthis.handleRemoteHangup();
+			  
+			if(typeof cthis != 'undefined'){
+				  tempIsInitiaor = true;
+				  if(cthis.isStarted){
+					  cthis.handleRemoteHangup();
+				  }
 			  }
 //			cthis.handleRemoteHangup();
 //			cthis.pc = false;
 		}
 		
 		$(document).on("member_removed", function(e){
+//			alert("nothing happend");
+			whBoard.utility.userIds = [];
 			if(e.message.length==1){
 				actionAfterRemovedUser();
 			}else{
 				
+//				alert(removedMemberId);
+//				alert("It seems that there is more than two user tried to connect");
 				//this code performs when member is not removed indeed
 				if(typeof removedMemberId != 'undefined'){
 					for(var i=0; i<e.message.length; i++){
 						if(e.message[i].userid == removedMemberId){
-							alert('Hmmmm this is finally alerted');
-							debugger;
 							actionAfterRemovedUser();
 						}
 					}
@@ -179,9 +184,9 @@ $.when(
 		
 		
 		$(document).on("member_added", function(e){
-//			document.getElementById('clientLength').innerHTML = e.message.length;
+//			document.getElementById('clientLength').innerHTML = e.message.length + " suman ";
 			whBoard.clientLen = e.message.length;
-			vm_chat.send({'checkUser' : {'role':role, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
+			vm_chat.send({'checkUser' : {'role':role, 'id' : id, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});
 		
 		
@@ -221,11 +226,30 @@ $.when(
 				}
 				return;
 			}else if(e.message.hasOwnProperty('checkUser')){
+				
 				var joinId = e.message.joinId;
+//				alert(joinId);
 				whBoard.joinUserId = joinId;
 				connectNum++;
+				
 				var alreadyExist = whBoard.utility.existUserLikeMe(e);
-				console.log('form Id' +  e.fromUser.userid);
+//				if(!alreadyExist){
+//					var sameIdUser = whBoard.utility.existUserWithSameId(e);
+					// whBoard.utility.userIds.length <=2 means user joined the room
+//					if(sameIdUser && whBoard.utility.userIds.length <=2){
+//						vm_chat.disconnect();
+//						var canvasContainer = document.getElementById('containerWb');
+//						canvasContainer.parentNode.removeChild(canvasContainer);
+//						alert('There is already other user is exist with same user \n Do login with other userId.');
+//						return;
+//					}
+//				}
+				
+//				whBoard.utility.userIds = [];
+//				alert(sameIdUser);
+//				alert('sameUser ' + sameIdUser);
+				
+				//console.log('form Id' +  e.fromUser.userid);
 					if((e.fromUser.userid == id && e.fromUser.userid == joinId) ){
 						setTimeout(
 							function (){
@@ -240,6 +264,14 @@ $.when(
 //									bootStrapCanvas(e);
 									whBoard.utility.shareVideoInformation(e, myVideo, storageHasTeacher);
 									whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
+									
+									if(whBoard.user.connected && !whBoard.drawMode){
+										whBoard.utility.makeCanvasEnable();
+									}else{
+//										alert('ss');
+										//alert("hiell o");
+//										whBoard.utility.makeCanvasDisable();
+									}
 								}
 								
 							}, 1000  //time may increased according to server response
@@ -419,7 +451,7 @@ $.when(
 	    							 
 	    							 if((vcan.reachedItemId+1 != e.message.repObj[0].uid ) && (!e.message.hasOwnProperty('chunk')) ){
 	    								 if(Number(vcan.reachedItemId) < Number(e.message.repObj[0].uid)){
-	    									 console.log('Lid ' + vcan.reachedItemId + ' uid ' + e.message.repObj[0].uid);
+//	    									 console.log('Lid ' + vcan.reachedItemId + ' uid ' + e.message.repObj[0].uid);
 	    									 endPoint = e.message.repObj[0].uid;
 	    									 whBoard.bridge.requestPackets(e);
 	    									 

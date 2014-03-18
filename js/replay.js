@@ -12,6 +12,8 @@
 				},
 				
 				renderObj : function (myfunc){
+				     whBoard.drawMode = true;
+
 					wbRep = whBoard.replay;
 					if(typeof wbRep.objs[wbRep.objNo] == 'undefined'){
 						console.log("is this happend");	

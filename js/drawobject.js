@@ -168,7 +168,7 @@
 										if((presentmousemovetime-lastmousemovetime)>=2000) {	 // Optimized
 												for(var i=0; i<dataChunk.length; i++){
 													whBoard.uid++;
-												    console.log('uid ' + whBoard.uid);													
+//												    console.log('uid ' + whBoard.uid);													
 													dataChunk[i].uid =whBoard.uid;
 													vcan.main.replayObjs.push(dataChunk[i]);
 												}
@@ -311,7 +311,7 @@
 									 dataChunk.push(obj);
 									 for(var i=0; i<dataChunk.length; i++){
 											whBoard.uid++;
-											console.log('uid ' + whBoard.uid);
+//											console.log('uid ' + whBoard.uid);
 											dataChunk[i].uid =whBoard.uid;
 										 vcan.main.replayObjs.push(dataChunk[i]);
 									 }
