@@ -22,7 +22,6 @@ $.when(
     	
     	var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
     	
-    	//this could be converted into ternary operator
     	if(whBoard.utility.chkValueInLocalStorage('reachedItemId')){
     		vcan.reachedItemId = parseInt(localStorage.reachedItemId);
     	}else{
@@ -31,10 +30,6 @@ $.when(
     	
     	whBoard.currId = id;
     	whBoard.currRole = role;
-    	
-//    	window.whBoard.attachToolFunction(vcan.cmdWrapperDiv);
-//    	window.whBoard.init();
-//    	whBoard.utility.makeCanvasDisable();
     	
     	whBoard.utility.displayCanvas();
   
@@ -48,28 +43,7 @@ $.when(
     	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
     	
     	whBoard.utility.setUserStatus(storageHasTeacher, storageHasReclaim);
-    	
-//    	if(!storageHasTeacher && !storageHasReclaim){
-//    		whBoard.utility.removeToolBox();
-//    		whBoard.utility.setClass('vcanvas', 'student');
-//		}else{
-//			whBoard.utility.setClass('vcanvas', 'teacher');
-//		}
-    	
-//	  if(role == 't'){
-//		if(localStorage.getItem('studentId') != null){
-//			localStorage.removeItem('studentId');
-//			}
-//	  }else if(role == 's'){
-//          if(localStorage.getItem('orginalTeacherId') != null){
-//			localStorage.removeItem('orginalTeacherId');
-//			if(localStorage.getItem('teacherId') != null){
-//				localStorage.removeItem('teacherId');
-//				}
-//			}
-//	  }
-    	
-      whBoard.utility.removeOtherUserExist(role);
+    	whBoard.utility.removeOtherUserExist(role);
     	
     	if(storageHasReclaim){
     		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
@@ -96,23 +70,6 @@ $.when(
         
         whBoard.utility.replayFromLocalStroage();
         
-//    	if(typeof(Storage)!=="undefined"){
-//			if(localStorage.repObjs){
-//				var allRepObjs = JSON.parse(localStorage.repObjs);
-//				whBoard.vcan.main.replayObjs = allRepObjs;
-//				whBoard.utility.clearAll(false, 'dontClear');
-//				
-//				whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
-//				if(allRepObjs.length > 0){
-//					whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
-//					vcan.reachedItemId = whBoard.uid;
-//				    whBoard.utility.makeCanvasDisable();
-//                    whBoard.utility.toolWrapperDisable();
-//					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
-//				}
-//			}
-//		}
-    	
  		var oldData2 = whBoard.receivedPackets;
 		setInterval(function (){
 			if(document.getElementById(whBoard.receivedPackDivPS) != null){
