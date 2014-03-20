@@ -157,6 +157,7 @@
 
 				maybeStart : function(fromUserId) {
 					if ((fromUserId != id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady) || 
+							(fromUserId == id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady || typeof cthis.byCommand != 'undefined') || 
 							(whBoard.joinUserId == id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady  && !cthis.isInitiator)) {
 						if(cthis.pc.length > 0){
 							 cthis.cn++;
@@ -418,17 +419,15 @@
 		    		
 				  console.log('Received message:', message);
 				  
-				  if(message === 'got user media suman'){
-					  cthis.bNotRender = true;
-					  cthis.maybeStart();
-				  }else if (message === 'got user media') {
+				  if (message === 'got user media') {
 //					  alert('just started suman');
 					//  cthis.bNotRender = true;
 					   cthis.maybeStart(fromUserId);
 					   
 				  }else if (message.type === 'offer'){
 				    if (!cthis.isInitiator && !cthis.isStarted) {
-				    	cthis.maybeStart();
+//				    	cthis.maybeStart();
+				    	cthis.maybeStart(fromUserId);
 				    }
 				    
 				    cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
@@ -437,8 +436,7 @@
 				  } else if (message.type === 'answer' && cthis.isStarted) {
 					  cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
 				  } else if (message.type === 'candidate' && cthis.isStarted) {
-//					alert('sss');
-//					debugger;
+					
 				    var candidate = new whBoard.RTCIceCandidate({sdpMLineIndex:message.label,
 				      candidate:message.candidate});
 				    cthis.pc[cthis.cn].addIceCandidate(candidate);

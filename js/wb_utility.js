@@ -449,6 +449,11 @@
 			},
 			
 			connectionOff : function (){
+				cthis.isInitiator = false;
+				cthis.pc = [];
+				cthis.cn = 0;
+				cthis.isStarted = false;
+				cthis.byCommand = true;
 				vm_chat.disconnect();
 			},
 			
@@ -1062,7 +1067,6 @@
 			
 			//change the name with toolBoxEnable
 			toolWrapperEnable : function (){
-			
 				var commandToolWrapper = document.getElementById('commandToolsWrapper') ;
 				if(commandToolWrapper != null){
 					commandToolWrapper.style.position = "relative";
