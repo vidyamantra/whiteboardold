@@ -29,7 +29,7 @@
 			view : {}, // For display important message to user
 			lang : {},
 			system: {},
-			globalObj : {}, // For store the global oject
+			gObj : {}, // For store the global oject
 			bridge : {},
 			user : {}, 
 			
@@ -513,8 +513,8 @@
 						whBoard.utility.t_clearallInit();
 						whBoard.utility.makeDefaultValue();
 						/*
-						whBoard.globalObj.myrepObj = [];
-						whBoard.globalObj.replayObjs = [];
+						whBoard.gObj.myrepObj = [];
+						whBoard.gObj.replayObjs = [];
 						
 						var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
 						var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');

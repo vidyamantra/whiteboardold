@@ -503,6 +503,7 @@
 			},
 			
 			 updateRcvdInformation : function (msg){
+				 
 				var receivedMsg = document.getElementById('rcvdMsgInfo');
 				if(receivedMsg != null){
 					var compMsg = "";
@@ -558,25 +559,25 @@
 			
 			uniqueArrOfObjsToOther : function (){
 				var tempRepObjs = "";
-				whBoard.globalObj.replayObjs = [];
+				whBoard.gObj.replayObjs = [];
 				for(var i=0; i<vcan.main.replayObjs.length; i++){
 					tempRepObjs = vcan.extend({}, vcan.main.replayObjs[i]);
-					whBoard.globalObj.replayObjs.push(tempRepObjs);
+					whBoard.gObj.replayObjs.push(tempRepObjs);
 				}
 			},
 			
 			uniqueArrOfObjsToSelf : function (){
 				vcan.main.replayObjs = [];
 				var tempRepObjs = "";
-				for(var i=0; i<whBoard.globalObj.replayObjs.length; i++){
-					tempRepObjs = vcan.extend({}, whBoard.globalObj.replayObjs[i]);
+				for(var i=0; i<whBoard.gObj.replayObjs.length; i++){
+					tempRepObjs = vcan.extend({}, whBoard.gObj.replayObjs[i]);
 					vcan.main.replayObjs.push(tempRepObjs);
 				}
 			},
 			
 			makeDefaultValue : function (){
-	  			whBoard.globalObj.myrepObj = [];
-				whBoard.globalObj.replayObjs = [];
+	  			whBoard.gObj.myrepObj = [];
+				whBoard.gObj.replayObjs = [];
 				
 				var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
 				var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
@@ -1076,7 +1077,7 @@
 						whBoard.vcan.main.replayObjs = allRepObjs;
 						whBoard.utility.clearAll(false, 'dontClear');
 						
-						whBoard.globalObj.replayObjs = whBoard.globalObj.replayObjs.concat(allRepObjs);
+						whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.concat(allRepObjs);
 						if(allRepObjs.length > 0){
 							whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
 							vcan.reachedItemId = whBoard.uid;
@@ -1156,6 +1157,26 @@
 		            }
 		        }
 				return true;
+			}, 
+			
+		  actionAfterRemovedUser: function(){
+				whBoard.utility.makeCanvasDisable();
+				whBoard.utility.setStyleUserConnetion('con', 'coff');
+
+				var vdiv = document.getElementById('virtualWindow');
+				if(vdiv != null){
+					vdiv.parentNode.removeChild(vdiv);
+				}
+				
+				whBoard.user.connected = false;
+				localStorage.removeItem('otherRole');
+				
+				if(typeof cthis != 'undefined'){
+					  tempIsInitiaor = true;
+					  if(cthis.isStarted){
+						  cthis.handleRemoteHangup();
+					  }
+				  }
 			}
 			
 //			connectionOptimization : function (){
