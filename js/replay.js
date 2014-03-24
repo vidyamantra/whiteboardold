@@ -40,7 +40,7 @@
 //							debugger;
 						}
 						//whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
-						vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
+						whBoard.gObj.displayedObjId = wbRep.objs[wbRep.objNo].uid;
 						whBoard.toolInit(wbRep.objs[wbRep.objNo].cmd, 'fromFile', true);
 						
 					}else{
@@ -60,19 +60,19 @@
 						}else{
 							var eventObj = {detail : {cevent : {x:currObj.x, y:currObj.y}}};
 						}
-					    vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
-					   // console.log('rendered id ' + vcan.renderedObjId);
+					    whBoard.gObj.displayedObjId = wbRep.objs[wbRep.objNo].uid;
+					   // console.log('rendered id ' + whBoard.gObj.displayedObjId);
                         var eventConstruct = new CustomEvent(event, eventObj); //this is not supported for ie9 and older ie browsers
                         vcan.main.canvas.dispatchEvent(eventConstruct);
                         
-                		//vcan.renderedObjId = wbRep.objs[wbRep.objNo].uid;
-						//console.log('renderObj ' + vcan.renderedObjId);
+                		//whBoard.gObj.displayedObjId = wbRep.objs[wbRep.objNo].uid;
+						//console.log('renderObj ' + whBoard.gObj.displayedObjId);
 					}
 					
-					//console.log('rendered id ' + vcan.renderedObjId);
+					//console.log('rendered id ' + whBoard.gObj.displayedObjId);
 					
 					if(typeof wbRep.callBkfunc == 'function'){
-						if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){
+						if(wbRep.objs[wbRep.objs.length-1].uid == whBoard.gObj.displayedObjId){
 							
 							//alert(wbRep.callBkfunc.hasOwnProeprty('myname')); 
 							wbRep.callBkfunc('callBkfunc');
@@ -87,17 +87,15 @@
 						
 						whBoard.replayTime = wbRep.objs[wbRep.objNo+1].mt - wbRep.objs[wbRep.objNo].mt;
 //						if(typeof myfunc != 'undefined'){
-//							if(wbRep.objs[wbRep.objs.length-1].uid == vcan.renderedObjId){
+//							if(wbRep.objs[wbRep.objs.length-1].uid == whBoard.gObj.displayedObjId){
 //								myfunc(true);
 //							}
 //						}
 						
 						wbRep.objNo++;
-						
 						if(typeof wbRep.repMode != 'undefined' && wbRep.repMode == 'fromBrowser'){
 							whBoard.replayTime = 0;
 						}
-						
 						setTimeout(wbRep.renderObj, whBoard.replayTime);
 					}
 					

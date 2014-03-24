@@ -7,7 +7,7 @@
 					whBoard.gObj.myArr = e.message.repObj;
 			}
   			whBoard.sentReq = true;
-			var sp = vcan.reachedItemId;
+			var sp = whBoard.gObj.rcvdPackId;
 			var ep = e.message.repObj[0].uid;
 				console.log('sp ' + sp + ' ' + ' ep ' + ep);
 				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
@@ -20,7 +20,7 @@
 					whBoard.gObj.myArr = msgRepObj;
 			}
   			whBoard.sentReq = true;
-			var sp = vcan.reachedItemId;
+			var sp = whBoard.gObj.rcvdPackId;
 			var ep = msgRepObj[0].uid;
 				console.log('sp ' + sp + ' ' + ' ep ' + ep);
 				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
@@ -30,9 +30,9 @@
 		
   		
 		whBoard.bridge.makeQueue = function(e){
-			if(vcan.reachedItemId != vcan.renderedObjId){
+			if(whBoard.gObj.rcvdPackId != whBoard.gObj.displayedObjId){
 				for(var i=0; i<e.message.repObj.length; i++){
-					vcan.tempArr.push(e.message.repObj[i]);
+					whBoard.gObj.packQueue.push(e.message.repObj[i]);
 				}
 			}
 		}
@@ -93,11 +93,11 @@
 				localStorage.repObjs = JSON.stringify(whBoard.gObj.replayObjs);
 			}
 			
-			if(fromUserId != id && (vcan.renderedObjId + 1 != repObj[0].uid)){
-				if(vcan.tempArr.length > 0){
-					if(repObj[repObj.length-1].uid == vcan.tempArr[0].uid){
+			if(fromUserId != id && (whBoard.gObj.displayedObjId + 1 != repObj[0].uid)){
+				if(whBoard.gObj.packQueue.length > 0){
+					if(repObj[repObj.length-1].uid == whBoard.gObj.packQueue[0].uid){
 						var fArr = repObj;
-						vcan.tempArr = fArr.concat(vcan.tempArr);
+						whBoard.gObj.packQueue = fArr.concat(whBoard.gObj.packQueue);
 					}
 				}
 			}

@@ -255,7 +255,7 @@
 			 	
 				
 				if(message.hasOwnProperty('removeVirtualWindow')){
-	  				if(e.fromUser.userid != id){
+	  				if(e.fromUser.userid != wbUser.id){
 	  					whBoard.utility.removeVirtualWindow('virtualWindow');
 	  				}
 	  				return;
@@ -265,7 +265,7 @@
 	  				myResolution = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
 	  				//alert(myResolution.width);
 //	  				console.log('my width ' + myResolution.width);
-	  				if(e.fromUser.userid != id){
+	  				if(e.fromUser.userid != wbUser.id){
 	  					var otherResolution = message.resizeWindow;
 	  					otherBrowser = otherResolution;
 	  					
@@ -304,7 +304,7 @@
 	  					localStorage.setItem('toolHeight', message.toolHeight) ;
 	  				}
 	  				
-	  				if(e.fromUser.userid != id){
+	  				if(e.fromUser.userid != wbUser.id){
 	  					whBoard.utility.createVirtualWindow(message.createVirtualWindow);
 	  					return;
 	  				}
@@ -325,7 +325,7 @@
 //	  				alert('suman bogati');
 //	  				debugger;
 //	  				
-					if(e.fromUser.userid != id){
+					if(e.fromUser.userid != wbUser.id){
 						if(localStorage.getItem('teacherId') != null){
 							whBoard.utility.makeCanvasEnable();
 						}
@@ -341,13 +341,13 @@
 	  				
 	  				if(typeof myBrowser == 'object' && typeof otherBrowser == 'object'){
 	  					if(myBrowser.width > otherBrowser.width){
-	  	  						if(virtualWindow == false){
+	  	  						if(!whBoard.gObj.virtualWindow){
 	  	  							whBoard.utility.createVirtualWindow(otherBrowser);
-	  	  							virtualWindow = true; 	
+	  	  							whBoard.gObj.virtualWindow = true; 	
 								}
 	  	  				}else if(myBrowser.width < otherBrowser.width){
-	  	  					    if(virtualWindow == false){
-	  	  					    	virtualWindow = true;
+	  	  					    if(!whBoard.gObj.virtualWindow){
+	  	  					    	whBoard.gObj.virtualWindow = true;
 	  	  					    	if(localStorage.getItem('teacherId') != null){
 	  	  					    		//alert(toolBoxHeight);
 	  	  					    		//alert('suamn bogati');

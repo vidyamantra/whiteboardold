@@ -4,7 +4,6 @@
 (function (window,document){
 		var vm_chat = window.vm_chat;
 		var i=0;
-		var dummyNum = 0;
 		/**
 		 * This is the main object which has properties and methods
 		 * Through this properties and methods all the front stuff is happening
@@ -155,7 +154,7 @@
 					whBoard.createDiv('t_connect', 'conn', cmdToolsWrapper, 'controlCmd coff');
 					whBoard.createDiv('t_assign', 'assign', cmdToolsWrapper, 'controlCmd');
 					
-					whBoard.socketOn = parseInt(socketOn);
+					whBoard.socketOn = parseInt(wbUser.socketOn);
 					
 					
 					if(whBoard.socketOn == 1){
@@ -411,7 +410,7 @@
 					//	whBoard.createPacketContainer();
 					// whBoard.createPacketInfoContainer();
 					var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
-					whBoard.dataInfo = parseInt(dataInfo);
+					whBoard.dataInfo = parseInt(wbUser.dataInfo);
 					if(orginalTeacherId && whBoard.dataInfo == 1){
 						if(!whBoard.utility.alreadyExistPacketContainer()){
 							whBoard.createPacketContainer();
@@ -540,8 +539,8 @@
 						}
 						
 						//localStorage.clear();
-						vcan.reachedItemId = 0;
-						vcan.renderedObjId = 0;
+						whBoard.gObj.rcvdPackId = 0;
+						whBoard.gObj.displayedObjId = 0;
 						vcan.tempArr = [];
 						whBoard.uid = 0;
 						//vcan.objTxt.removeTextNode();

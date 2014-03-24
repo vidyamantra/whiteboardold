@@ -381,6 +381,13 @@
 			},
 			 
 			assignRole : function (studentId){
+				whBoard.tool = "";
+				if(vcan.main.action == 'move'){
+					whBoard.utility.deActiveFrmDragDrop();
+//					delete vcan.main.action;
+				}
+				
+				
 				if(typeof studentId != 'undefined'){
 //					if(localStorage.hasOwnProperty('reclaim')){
 					if(localStorage.getItem('reclaim') != null){
@@ -419,6 +426,7 @@
 				}
 				
 				
+				
 //				if(typeof localStorage.orginalTeacherId != 'undefined'){
 //					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
 //					while(cmdToolsWrapper.hasChildNodes()){
@@ -438,6 +446,12 @@
 			}, 
 			
 			reclaimRole : function (){
+				whBoard.tool = "";
+				if(vcan.main.action == 'move'){
+					whBoard.utility.deActiveFrmDragDrop();
+//					delete vcan.main.action;
+				}
+				
 				whBoard.utility.removeToolBox();
 				window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 				localStorage.teacherId = localStorage.orginalTeacherId;
@@ -498,9 +512,9 @@
 //				}
 				
 				console.log("should come first");
-				if(vcan.tempArr.length > 0){
-					window.whBoard.vcan.main.replayObjs = vcan.tempArr;
-					vcan.tempArr = [];
+				if(whBoard.gObj.packQueue.length > 0){
+					window.whBoard.vcan.main.replayObjs = whBoard.gObj.packQueue;
+					whBoard.gObj.packQueue = [];
 					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
 				}else{
 					return;
@@ -615,9 +629,9 @@
 					localStorage.setItem('toolHeight', toolHeight);
 				}
 			
-				vcan.reachedItemId = 0;
-				vcan.renderedObjId = 0;
-				vcan.tempArr = [];
+				whBoard.gObj.rcvdPackId = 0;
+				whBoard.gObj.displayedObjId = 0;
+				whBoard.gObj.packQueue = [];
 				if(typeof vcan.objTxt != 'undefined'){
 					vcan.objTxt.removeTextNode();
 				}
@@ -632,7 +646,7 @@
 	  			//window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
 				
 	  			//localStorage.teacherId = e.message[0].userid;
-	  			localStorage.teacherId = whBoard.currId;
+	  			localStorage.teacherId = whBoard.gObj.uid;
 				window.whBoard.view.canvasDrawMsg('Canvas');
 				localStorage.canvasDrwMsg = true;
 				
@@ -646,7 +660,11 @@
 //				whBoard.utility.initStoredPacketsNumbers();
 //				
 				//localStorage.orginalTeacherId = e.message[0].userid;
-				localStorage.orginalTeacherId = whBoard.currId;
+				
+//				localStorage.orginalTeacherId = whBoard.gObj.uid;
+				localStorage.setItem('orginalTeacherId', whBoard.gObj.uid);
+				
+				
 	  		},
 	  		
 	  		isSystemCompatible : function (){
@@ -663,7 +681,7 @@
 	  			}
 	  		}, 
 	  		
-	  		initDefaultInfo : function (e, myVideo, role){
+	  		initDefaultInfo : function (e, role){
 	  			  //var clientNum = e.message.length;
 	  			  //var  clientNum= e.message.checkUser.clientNum;
 	  			  //var newuser =   e.message.checkUser.newUser;
@@ -679,7 +697,7 @@
 						}
 	  		//	  }else if(role == 's' && e.newuser == null){
 	  			 }else if(role == 's' && newuser == null){
-		  				vcan.studentId = id;
+		  				vcan.studentId = wbUser.id;
 						//localStorage.studentId = id;
 //		  				if(localStorage.getItem('orginalTeacherId') != null){
 //		  					localStorage.removeItem('orginalTeacherId');
@@ -691,27 +709,30 @@
 		  				
 		  				
 		  				if(localStorage.getItem('studentId') ==  null){
-		  					localStorage.setItem('studentId', id);
+		  					localStorage.setItem('studentId', wbUser.id);
 		  				}
 	  			  }
 	  			  
 //	  			  alert('number ' +  clientNum);
 	  			  
 				  if(clientNum == 1){
-						vcan.vid = myVideo.init();
-						myVideo.isInitiator = true;
+//						vcan.vid = whBoard.gObj.video.init();
+					    whBoard.gObj.video.init();
+						whBoard.gObj.video.isInitiator = true;
 						vcan.oneExecuted = false;
 				  }else if(clientNum >= 2 && newuser == null){
 					  console.log("browser number " + clientNum);
-					  	  if(clientNum > 2){
-					  		  alert("there may be the problem because of user is more than 2");
-					  	  }
-					  	
-					  	 vm_chat.send({'videoInt' : true});
-					  	 vm_chat.send({'isChannelReady' : true, 'memberAdded' : true});
-						 vcan.oneExecuted = false;
-		  				 vcan.vid = myVideo.init(); //this(webRtc) is not supported by safari
-		  			}
+				  	  if(clientNum > 2){
+				  		  alert("there may be the problem because of user is more than 2");
+				  	  }
+				  	
+				  	 vm_chat.send({'videoInt' : true});
+				  	 vm_chat.send({'isChannelReady' : true, 'memberAdded' : true});
+					 vcan.oneExecuted = false;
+					 
+//	  				 vcan.vid = whBoard.gObj.video.init(); //this(webRtc) is not supported by safari
+					 whBoard.gObj.video.init();
+		  		}
 			},
 			
 			
@@ -881,7 +902,7 @@
 //			 		//alert(otherRoles[0]);
 //			 		if(otherRoles != null){
 //			 			for(var i=0; i<otherRoles.length; i++){
-//			 				if(whBoard.currRole == otherRoles[i]){
+//			 				if(whBoard.gObj.uRole == otherRoles[i]){
 //			 					return true;
 //			 				}
 //			 			}
@@ -893,16 +914,16 @@
 //			 		
 ////			 		if(otherRole != null){
 ////			 			if(otherRole != null){
-////				 			if(otherRole == whBoard.currRole){
+////				 			if(otherRole == whBoard.gObj.uRole){
 ////				 				return true;
 ////				 			}else{
-////								if(whBoard.currRole == 't'){
+////								if(whBoard.gObj.uRole == 't'){
 ////									if(otherRole == 't'){
 ////					 					return true;
 ////					 				}else{
 ////					 					return false;
 ////					 				}
-////								}else if(whBoard.currRole == 's'){
+////								}else if(whBoard.gObj.uRole == 's'){
 ////									if(otherRole == 's'){
 ////					 					return true;
 ////					 				}else{
@@ -917,13 +938,13 @@
 //			},
 			
 			existUserLikeMe : function (e){
-			 	if(e.fromUser.userid != id){
+			 	if(e.fromUser.userid != wbUser.id){
 			 		if(e.message.checkUser.hasOwnProperty('role')){
 			 			var role = e.message.checkUser.role;
 			 			if(role){
 			 				if(localStorage.getItem('otherRole') ==  null){
 			 					var roles  = [];
-			 					if(role != whBoard.currRole){
+			 					if(role != whBoard.gObj.uRole){
 			 						roles.push(role);
 			 					}else{
 			 						existUser = true;
@@ -941,7 +962,7 @@
 			 					console.log("Other Browser " + role + ' ' + e.fromUser.userid);
 			 				}
 			 			}
-			 			return (whBoard.currRole == role) ? true : false;
+			 			return (whBoard.gObj.uRole == role) ? true : false;
 			 		}
 			 	}else{
 			 		if(typeof existUser != 'undefined'){
@@ -950,7 +971,7 @@
 			 			var otherRoles = JSON.parse(localStorage.getItem('otherRole'));
 				 		if(otherRoles != null){
 				 			for(var i=0; i<otherRoles.length; i++){
-				 				if(whBoard.currRole == otherRoles[i]){
+				 				if(whBoard.gObj.uRole == otherRoles[i]){
 				 					return true;
 				 				}
 				 			}
@@ -962,7 +983,7 @@
 			
 			
 			existUserWithSameId : function (e){
-				var myId = e.message.checkUser.id;
+				var myId = e.message.checkUser.wbUser.id;
 				this.userIds.push(e.fromUser.userid);
 				
 				if(this.userIds.length > 1){
@@ -1030,9 +1051,9 @@
 				
 				var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');
 				if(toolHeight != false){
-					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight, 'role' : role}});
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes' : res, 'toolHeight' : toolHeight, 'role' : wbUser.role}});
 				}else{
-					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res, 'role' : role}});
+					vm_chat.send({'virtualWindow' : {'shareBrowserWidth':true, 'browserRes': res, 'role' : wbUser.role}});
 				}	
 			},
 			
@@ -1084,14 +1105,14 @@
 						whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.concat(allRepObjs);
 						if(allRepObjs.length > 0){
 							whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
-							vcan.reachedItemId = whBoard.uid;
+							whBoard.gObj.rcvdPackId = whBoard.uid;
 							whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
 						}
 					}
 				}
 			},
 			
-			shareVideoInformation : function (e, myVideo, storageHasTeacher) {
+			shareVideoInformation : function (e, storageHasTeacher) {
 				whBoard.utility.isUserConnected(e.message.length);
 				if(whBoard.user.connected){
 					whBoard.utility.setStyleUserConnetion('coff', 'con');
@@ -1101,7 +1122,7 @@
 					whBoard.utility.makeCanvasDisable();
 				}
 				
-				whBoard.utility.initDefaultInfo(e,  myVideo, role);
+				whBoard.utility.initDefaultInfo(e,  wbUser.role);
 				var res = whBoard.system.measureResoultion({'width' : window.outerWidth, 'height' : window.innerHeight });
 				
 				var toolHeight = whBoard.utility.getWideValueAppliedByCss('commandToolsWrapper');

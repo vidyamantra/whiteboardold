@@ -1,7 +1,5 @@
 (
-function (window){
-	var connectNum = 0; //this would be delete 
-	
+function (window){ 
 	whBoard.response = {
 		reclaimRole : function (formUserId, id){
 			if(formUserId != id){
@@ -95,8 +93,6 @@ function (window){
 		checkUser : function (e, id, storageHasTeacher){
 			var joinId = e.message.joinId;
 			whBoard.joinUserId = joinId;
-			connectNum++; //TODO check this variable is need or not
-			
 			var alreadyExist = whBoard.utility.existUserLikeMe(e);
 			if((e.fromUser.userid == id && e.fromUser.userid == joinId) ){
 				setTimeout(
@@ -109,14 +105,12 @@ function (window){
 							vm_chat.disconnect();
 		  					return 'disconnect';	
 						}else{
-							
-							whBoard.utility.shareVideoInformation(e, myVideo, storageHasTeacher);
+							whBoard.utility.shareVideoInformation(e, storageHasTeacher);
 							whBoard.utility.makeUserAvailable(e.message.checkUser.e.clientLen);
 							if(whBoard.user.connected && !whBoard.drawMode){
 								whBoard.utility.makeCanvasEnable();
 							}
 						}
-						
 					}, 1000  //time may increased according to server response
 				);
 			}else{
@@ -126,15 +120,15 @@ function (window){
 		
 		createPeer : function (currObj, peerObj, id){
 			
-			myVideo.currBrowser =  currObj;
-			myVideo.peerBrowser =  peerObj;
+			whBoard.gObj.video.currBrowser =  currObj;
+			whBoard.gObj.video.peerBrowser =  peerObj;
 			
-			if(myVideo.currBrowser == id){
+			if(whBoard.gObj.video.currBrowser == id){
 				if(typeof oneExecuted == 'undefined'){
 					oneExecuted = true; //TODO this should be wrapper with some object
 					vm_chat.send({'isChannelReady':true});
-					vcan.myvid.init(true);
-					myVideo.toUser = myVideo.peerBrowser;
+					whBoard.gObj.video.init(true);
+					whBoard.gObj.video.toUser = whBoard.gObj.video.peerBrowser;
 				}
 			}else{
 				cthis.isStarted = false;
@@ -143,14 +137,14 @@ function (window){
 		},
 		
 		video : function (formUserId, id, msgVideo){
-			var video = vcan.myvid;
+			var video = whBoard.gObj.video;
     		if(typeof video != 'undefined'){
     			if(msgVideo == 'bye'){
     				if(formUserId != id){
-    					vcan.myvid.videoOnMsg(msgVideo, formUserId);
+    					whBoard.gObj.video.videoOnMsg(msgVideo, formUserId);
     				}
     			}else{
-    				vcan.myvid.videoOnMsg(msgVideo, formUserId);
+    				whBoard.gObj.video.videoOnMsg(msgVideo, formUserId);
     			}
     		}
 		},
@@ -186,7 +180,7 @@ function (window){
 		replayObj : function (repObj){
 			window.whBoard.vcan.main.replayObjs = [];
 			if(repObj.length > 0){
-				 if(vcan.renderedObjId + 1 == repObj[0].uid){
+				 if(whBoard.gObj.displayedObjId + 1 == repObj[0].uid){
 					 window.whBoard.vcan.main.replayObjs = repObj;
    					 whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
 				 }
@@ -197,14 +191,14 @@ function (window){
 			whBoard.bridge.handleMissedPackets(fromUser, id, repObj);
 		},
 		
-		//vcan.reachedItemId should be define into 
+		//whBoard.gObj.rcvdPackId should be define into 
 		//whBoard.reachedItemId
 		repObjForMissedPkts : function (msgRepObj){
-			if(vcan.reachedItemId != 0 || (whBoard.uid > 0 && vcan.reachedItemId == 0)){ //for handle very starting stage
+			if(whBoard.gObj.rcvdPackId != 0 || (whBoard.uid > 0 && whBoard.gObj.rcvdPackId == 0)){ //for handle very starting stage
 				if((typeof msgRepObj == 'object' ||  msgRepObj instanceof Array)){
 					 if(msgRepObj[0].hasOwnProperty('uid')){
-						 if((vcan.reachedItemId+1 != msgRepObj[0].uid ) && (!msgRepObj.hasOwnProperty('chunk')) ){
-							 if(Number(vcan.reachedItemId) < Number(msgRepObj[0].uid)){
+						 if((whBoard.gObj.rcvdPackId+1 != msgRepObj[0].uid ) && (!msgRepObj.hasOwnProperty('chunk')) ){
+							 if(Number(whBoard.gObj.rcvdPackId) < Number(msgRepObj[0].uid)){
 								 endPoint = msgRepObj[0].uid; //this should be store into global object
 								 whBoard.bridge.requestPackets(msgRepObj);
 							 }  

@@ -85,13 +85,14 @@ if(has_capability('mod/onetoone:editsessions', $context)){
 ?>
 	
 	<script type="text/javascript">
-	<?php echo "name='".$USER->firstname."';"; ?>
-	<?php echo "id='".$USER->id."';"; ?>
-	<?php echo "socketOn='1';"; ?>
-	<?php echo "dataInfo='1';"; ?>
-	<?php echo "room='".$course->id . "_" . $cm->id."_".$sid."';"; ?>
-	<?php echo "sid='".$sid."';"; ?>
-	<?php echo "role='".$r."';"; ?>
+		
+	<?php echo "wbUser.name='".$USER->firstname."';"; ?>
+	<?php echo "wbUser.id='".$USER->id."';"; ?>
+	<?php echo "wbUser.socketOn='1';"; ?>
+	<?php echo "wbUser.dataInfo='1';"; ?>
+	<?php echo "wbUser.room='".$course->id . "_" . $cm->id."_".$sid."';"; ?>
+	<?php echo "wbUser.sid='".$sid."';"; ?>
+	<?php echo "wbUser.role='".$r."';"; ?>
 	
 	window.vm_chat = vm_chat;
 	</script>
