@@ -156,9 +156,9 @@
 				}, 
 
 				maybeStart : function(fromUserId) {
-					if ((fromUserId != id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady) || 
-							(fromUserId == id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady || typeof cthis.byCommand != 'undefined') || 
-							(whBoard.joinUserId == id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady  && !cthis.isInitiator)) {
+					if ((fromUserId != wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady) || 
+							(fromUserId == wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady || typeof cthis.byCommand != 'undefined') || 
+							(whBoard.joinUserId == wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady  && !cthis.isInitiator)) {
 						if(cthis.pc.length > 0){
 							 cthis.cn++;
 						}
@@ -510,7 +510,7 @@
 		    // second browser would come or any browser refresh the 
 		    // after both browser come
 			isVideoFound : function (videoFound, fromUser){
-					if(fromUser != id){
+					if(fromUser != wbUser.id){
 						if(videoFound == false){
 							cthis.isInitiator = true;
 						}
@@ -535,7 +535,7 @@
 		}
 		
 		window.isVideoFound = function (videoFound, fromUser){
-			if(fromUser != id){
+			if(fromUser != wbUser.id){
 				if(videoFound == false){
 					cthis.isInitiator = true;
 				}

@@ -20,14 +20,14 @@ $.when(
     	
     	var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
     	
-    	if(whBoard.utility.chkValueInLocalStorage('reachedItemId')){
-    		vcan.reachedItemId = parseInt(localStorage.reachedItemId);
+    	if(whBoard.utility.chkValueInLocalStorage('rcvdPackId')){
+    		whBoard.gObj.rcvdPackId = parseInt(localStorage.rcvdPackId);
     	}else{
-    		vcan.reachedItemId = 0;
+    		whBoard.gObj.rcvdPackId = 0;
     	}
     	
-    	whBoard.currId = id;
-    	whBoard.currRole = role;
+    	whBoard.gObj.uid = wbUser.id;
+    	whBoard.gObj.uRole = wbUser.role;
     	whBoard.utility.displayCanvas();
   
 		window.addEventListener('click', function (){
@@ -40,7 +40,7 @@ $.when(
     	var storageHasTeacher = whBoard.utility.chkValueInLocalStorage('teacherId');
     	
     	whBoard.utility.setUserStatus(storageHasTeacher, storageHasReclaim);
-    	whBoard.utility.removeOtherUserExist(role);
+    	whBoard.utility.removeOtherUserExist(wbUser.role);
     	
     	if(storageHasReclaim){
     		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
@@ -50,18 +50,18 @@ $.when(
     		whBoard.utility.createReclaimButton(cmdToolsWrapper);
     	}
     	
-        var userobj={'userid':id,'name':name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
+        var userobj={'userid':wbUser.id,'name':wbUser.name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
         if(whBoard.system.webSocket){
          	vm_chat.init({
-                'userid':id,
-                'sid':sid,
-                'rid': path,
-                'authuser':auth_user,
-                'authpass':auth_pass,
+                'userid':wbUser.id,
+                'sid':wbUser.sid,
+                'rid': wbUser.path,
+                'authuser':wbUser.auth_user,
+                'authpass':wbUser.auth_pass,
                 'userobj': userobj,
                 'fastchat_lasttime':'0',
                 'fastchatroom_title':'fastchat',
-                'fastchatroom_name':room});
+                'fastchatroom_name':wbUser.room});
         }
        	
         
@@ -76,9 +76,9 @@ $.when(
 			
 		}, 1000);
     	
-		myVideo = new window.whBoard.vcan.videoChat(); // this shold be contain into global object
-		vcan.myvid = myVideo;
-		vcan.renderedObjId = 0;
+	//	myVideo = new window.whBoard.vcan.videoChat(); // this shold be contain into global object
+		whBoard.gObj.video = new window.whBoard.vcan.videoChat();
+		whBoard.gObj.displayedObjId = 0;
 		
 		$(document).on("user_logout", function(e){
 			removedMemberId = e.fromUser.userid;
@@ -107,24 +107,24 @@ $.when(
 		$(document).on("member_added", function(e){
 //			document.getElementById('clientLength').innerHTML = e.message.length;
 			whBoard.clientLen = e.message.length;
-			vm_chat.send({'checkUser' : {'role':role, 'id' : id, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
+			vm_chat.send({'checkUser' : {'role':wbUser.role, 'id' : wbUser.id, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});
 		
 		
 		whBoard.utility.crateCanvasDrawMesssage();
 		
-		vcan.tempArr = [];
-		virtualWindow = false;
-		var connectNum = 0;
+		whBoard.gObj.packQueue = [];
+		whBoard.gObj.virtualWindow = false;
+
 		$(document).on("newmessage", function(e){
 			if(e.message.hasOwnProperty('vidInit')){
-				whBoard.response.videoInit(e.fromUser.userid, id);
+				whBoard.response.videoInit(e.fromUser.userid, wbUser.id);
 				return;
 			}else if(e.message.hasOwnProperty('foundVideo')){
 				whBoard.response.foundVideo(e.message.foundVideo,  e.fromUser.userid);
 				return;
 			}else if(e.message.hasOwnProperty('checkUser')){
-				var disconnect = whBoard.response.checkUser(e, id, storageHasTeacher);
+				var disconnect = whBoard.response.checkUser(e, wbUser.id, storageHasTeacher);
 				if(typeof disconnect != 'undefined'){
 					 if(disconnect == 'diconnect'){
 						 	return;
@@ -134,20 +134,20 @@ $.when(
 				whBoard.view.virtualWindow.manupulation(e);
   				return;
   			}else if(e.message.hasOwnProperty('createPeerObj')){
-  				whBoard.response.createPeer(e.message.createPeerObj[0], e.message.createPeerObj[1], id);
+  				whBoard.response.createPeer(e.message.createPeerObj[0], e.message.createPeerObj[1], wbUser.id);
   			}else if(e.message.hasOwnProperty('isChannelReady')){
   				e.message.isChannelReady = true; 
-  				vcan.myvid.videoOnMsg(e.message, e.fromUser.userid);
+  				whBoard.gObj.video.videoOnMsg(e.message, e.fromUser.userid);
     		}else if(e.message.hasOwnProperty('video')){
-  				whBoard.response.video(e.fromUser.userid, id, e.message.video);
+  				whBoard.response.video(e.fromUser.userid, wbUser.id, e.message.video);
         	}else{
         		if(e.message.hasOwnProperty('reclaimRole')){
-        			whBoard.response.reclaimRole(e.fromUser.userid, id);
+        			whBoard.response.reclaimRole(e.fromUser.userid, wbUser.id);
             		return;
         		}
         			
         		if(e.message.hasOwnProperty('assignRole')){
-        			whBoard.response.assignRole(e.fromUser.userid , id, e.message.socket, e.message.toolHeight);
+        			whBoard.response.assignRole(e.fromUser.userid , wbUser.id, e.message.socket, e.message.toolHeight);
         			return;
         		}
         		
@@ -155,18 +155,18 @@ $.when(
         		whBoard.gObj.chunk = [];
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
-	    			whBoard.response.clearAll(e.fromUser.userid , id, e.message, orginalTeacherId);
+	    			whBoard.response.clearAll(e.fromUser.userid , wbUser.id, e.message, orginalTeacherId);
 				}
 	    		
-	    		if(e.fromUser.userid != id){
+	    		if(e.fromUser.userid != wbUser.id){
 	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
 	    					//whBoard.uid = e.message.repObj[0].uid;
 	    					//WARNING:- can be crtical 
 	    					whBoard.uid = e.message.repObj[e.message.repObj.length-1].uid;
 	    				}
-	    				//if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && vcan.reachedItemId != 0){
-	    				if( vcan.renderedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && vcan.reachedItemId != 0){	  
+	    				//if( whBoard.gObj.displayedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && whBoard.gObj.rcvdPackId != 0){
+	    				if( whBoard.gObj.displayedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && whBoard.gObj.rcvdPackId != 0){	  
 	    					whBoard.bridge.makeQueue(e);
     		    		}
 	        		}
@@ -176,13 +176,13 @@ $.when(
 	    	    	}
 	    		}
 	    		
-	    		if(e.fromUser.userid != id){
+	    		if(e.fromUser.userid != wbUser.id){
 	    			if(e.message.hasOwnProperty('getMsPckt')){
 	    				whBoard.bridge.sendPackets(e, whBoard.gObj.chunk);
 	        		}
 	    		}
 	    	
-	    		if(e.fromUser.userid != id){
+	    		if(e.fromUser.userid != wbUser.id){
 		    		if(e.message.hasOwnProperty('createArrow')){
 		    			whBoard.response.createArrow(e.message, orginalTeacherId);
 		    		}else{
@@ -198,10 +198,10 @@ $.when(
 	    		if(!e.message.hasOwnProperty('clearAll') && !e.message.hasOwnProperty('replayAll')){
 //	    			if(e.message.hasOwnProperty('repObj') && !e.message.hasOwnProperty('sentObj')){
 	    			if(e.message.hasOwnProperty('repObj')){
-	    				if(e.message.repObj.length > 1 && e.message.hasOwnProperty('chunk') && e.fromUser.userid == id){
+	    				if(e.message.repObj.length > 1 && e.message.hasOwnProperty('chunk') && e.fromUser.userid == wbUser.id){
 	    					//TODO this have to be simpliefied.
 	    				}else{
-	    					if(vcan.reachedItemId+ 1 == e.message.repObj[0].uid) {
+	    					if(whBoard.gObj.rcvdPackId+ 1 == e.message.repObj[0].uid) {
 								for (var i=0; i<e.message.repObj.length; i++){
 	    							 whBoard.gObj.replayObjs.push(e.message.repObj[i]);
 	    						}
@@ -209,31 +209,32 @@ $.when(
 
     						if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid') && !e.message.hasOwnProperty('chunk')){
-	        						vcan.reachedItemId = e.message.repObj[e.message.repObj.length-1].uid;
-	        						localStorage.reachedItemId = vcan.reachedItemId; 
+	        						whBoard.gObj.rcvdPackId = e.message.repObj[e.message.repObj.length-1].uid;
+	        						localStorage.rcvdPackId = whBoard.gObj.rcvdPackId; 
 	            				}
 	            				//missing one id
-	        					if(vcan.tempArr.length > 0 && !e.message.hasOwnProperty('chunk')){
-	        						vcan.reachedItemId = vcan.tempArr[vcan.tempArr.length-1].uid;
+	        					if(whBoard.gObj.packQueue.length > 0 && !e.message.hasOwnProperty('chunk')){
+	        						whBoard.gObj.rcvdPackId = whBoard.gObj.packQueue[whBoard.gObj.packQueue.length-1].uid;
 	        					}
 	        				}
     						
-    						if(e.fromUser.userid != id){
-    							localStorage.repObjs = JSON.stringify(whBoard.gObj.replayObjs);
+    						if(e.fromUser.userid != wbUser.id){
+    							//localStorage.repObjs = JSON.stringify(whBoard.gObj.replayObjs);
+    							localStorage.setItem('repObjs', JSON.stringify(whBoard.gObj.replayObjs));
     						}else{
-    							if(typeof vcan.reachedItemId != 'undefined'){
-    								vcan.renderedObjId = vcan.reachedItemId 
+    							if(typeof whBoard.gObj.rcvdPackId != 'undefined'){
+    								whBoard.gObj.displayedObjId = whBoard.gObj.rcvdPackId; 
     						    }
     						}
 	    				}
 	    				
-		    			if(e.message.hasOwnProperty('chunk') && e.fromUser.userid != id){
-		    					whBoard.response.chunk(e.fromUser.userid, id,  e.message.repObj);
+		    			if(e.message.hasOwnProperty('chunk') && e.fromUser.userid != wbUser.id){
+		    					whBoard.response.chunk(e.fromUser.userid, wbUser.id,  e.message.repObj);
 		    			}
 	    			}
 	    			
-	    		if(orginalTeacherId){
-	    				if(e.fromUser.userid != id ){
+	    			if(orginalTeacherId){
+	    				if(e.fromUser.userid != wbUser.id ){
 								if(e.message.hasOwnProperty('createArrow')){
 									whBoard.receivedPackets = whBoard.receivedPackets + (JSON.stringify(e.message).length);
 								}else if(!e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('checkUser') && !e.message.hasOwnProperty('videoInt')){
@@ -247,7 +248,7 @@ $.when(
 	    			}
 	    		}
 	    		
-	    		if(e.fromUser.userid != id){
+	    		if(e.fromUser.userid != wbUser.id){
 	    			if(e.message.hasOwnProperty('repObj')){
 	    				whBoard.response.replayObj(e.message.repObj);
 	    			}

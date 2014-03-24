@@ -39,7 +39,8 @@ function my_curl_request($url, $post_data)
 ?>
 
 <script type="text/javascript">
-<?php echo "auth_user='".$authusername."';"; ?>
-<?php echo "auth_pass='".$authpassword."';"; ?>
-<?php echo "path='".$rid."';";?>
+<?php echo "var wbUser = {};";?>
+<?php echo "wbUser.auth_user='".$authusername."';"; ?>
+<?php echo "wbUser.auth_pass='".$authpassword."';"; ?>
+<?php echo "wbUser.path='".$rid."';";?>
 </script>
