@@ -40,7 +40,9 @@
 						obj.borderColor = '#000'; 
 					}
 					
-
+					alert('suman bogati	');
+					//alert(obj.borderColor);
+					
 					obj.flipX = false;
 					obj.flipY = false;
 					obj.draggable = false;

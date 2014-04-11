@@ -34,9 +34,8 @@
 					var vcan = whBoard.vcan;
 						//if(vcan.main.freesvg == true){
 					   if(whBoard.obj.freeDrawObj.freesvg == true){
-						   	
 							  var ctx = vcan.main.canvas.getContext('2d');
-						  	//  borderColor = "red";
+						  	  //borderColor = "red";
 							  //this.fdObj = vcan.main.freeHandDrawing(ev, {borderColor: borderColor});
 						  	  this.fdObj = vcan.main.freeHandDrawing({borderColor: this.borderColor, lineWidth : this.freeDrawingLineWidth});
 						  	  this.fdObj.init();
@@ -61,34 +60,14 @@
 				},
 				
 				finalizeDraw : function (ev){
-
 					var vcan = whBoard.vcan;
 					//TODO this(finalizeDrawingPath) should be called over the object 
 					//prvObj =  vcan.main.freeDraw.finalizeDrawingPath();
 					
 					whBoard.prvObj =  this.fdObj.finalizeDrawingPath(whBoard.canvas);
-					
-					//var currTime = whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
-					//var tempObj =  vcan.extend({}, whBoard.prvObj);
-					
-					//whBoard.prvObj = vcan.extend(tempObj, {mdTime:currTime, func:'add', usrCurrAction : 'create'});
-					//whBoard.prvObj = vcan.extend(tempObj, {mt:currTime, func:'add', usrCurrAction : 'create'});
-					
 					var lastChild = vcan.main.children[vcan.main.children.length-1];
-					
-				//	lastChild.mdTime =  whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
 					lastChild.mt =  whBoard.utility.stringToNumber(whBoard.prvObj.path[whBoard.prvObj.path.length-1][3]);
-					//vcan.main.replayObjs.push(whBoard.prvObj);
-					
-					//localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
-					
-					//todo this should be enable when white board used for multi user
-					//var myres = [whBoard.prvObj];
-					//alert('suman');
-					//debugger;
-					
-					////console.log('fdId ' + whBoard.prvObj.id);
-					//vm_chat.send({'repObj': [whBoard.prvObj]});
+				
 			  		
 			  		/**** 
 			  		 *
@@ -96,7 +75,6 @@
 			  		 * whBoard.repObj.replayObjs.push(whBoard.prvObj);
 			  		 *
 			  		 ****/
-			  		
 				}
 			};
 		}

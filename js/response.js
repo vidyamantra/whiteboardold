@@ -9,26 +9,29 @@ function (window){
     				localStorage.removeItem('teacherId');
     			}
     			
-    			whBoard.utility.uniqueArrOfObjsToOther();
+    			whBoard.utility.uniqueArrOfObjsToStudent();
+    			
     			whBoard.view.disappearBox('Canvas');
         		whBoard.view.disappearBox('drawArea');
         		
         		var canvasWrapper = document.getElementById("vcanvas");
 				canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
-				canvasWrapper.className = 'student'
-				localStorage.setItem('canvasDrwMsg', true);
-//					localStorage.canvasDrwMsg = true;
 				
+				canvasWrapper.className = 'student';
+				localStorage.setItem('canvasDrwMsg', true);
+				
+//				localStorage.canvasDrwMsg = true;
 				if(!whBoard.utility.chkValueInLocalStorage('orginialTeacherId')){
 					whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
 				}
+				
 			}else{
 				if(whBoard.utility.chkValueInLocalStorage('orginialTeacherId')){
 					var toolHeight = localStorage.getItem('toolHeight');
 					whBoard.utility.setCommandToolHeights(toolHeight, 'increment');
-				}	
+				}
 				
-				whBoard.utility.uniqueArrOfObjsToSelf();
+				whBoard.utility.uniqueArrOfObjsToTeacher();
 				var canvasWrapper = document.getElementById("vcanvas");
 				canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
 				canvasWrapper.className = 'teacher';
@@ -42,14 +45,14 @@ function (window){
 				whBoard.socketOn = parseInt(socket);
 				whBoard.utility.setClass('vcanvas', 'socketon');
 				whBoard.utility.assignRole(id);
-    			whBoard.utility.uniqueArrOfObjsToSelf();
+    			whBoard.utility.uniqueArrOfObjsToTeacher();
     			
-//					if(typeof localStorage.canvasDrwMsg == 'undefined'){
+//				if(typeof localStorage.canvasDrwMsg == 'undefined'){
     			if(!whBoard.utility.chkValueInLocalStorage('canvasDrwMsg')){
     				window.whBoard.view.canvasDrawMsg('Canvas');
 					window.whBoard.view.drawLabel('drawArea');
 					localStorage.setItem('canvasDrwMsg', true);
-				}		
+				}	
     			
 				var canvasWrapper = document.getElementById("vcanvas");
 				canvasWrapper.className = canvasWrapper.className.replace(/\bstudent\b/, ' ');
@@ -62,7 +65,7 @@ function (window){
 				whBoard.utility.setStyleUserConnetion('coff', 'con', 'fromAssign');
 				
 			}else{
-				whBoard.utility.uniqueArrOfObjsToOther();
+				whBoard.utility.uniqueArrOfObjsToStudent();
 				if(!whBoard.utility.chkValueInLocalStorage('orginalTeacherId')){
 					var canvasWrapper = document.getElementById("vcanvas");
 					canvasWrapper.className = canvasWrapper.className.replace(/\bteacher\b/, ' ');
@@ -72,7 +75,7 @@ function (window){
 					whBoard.utility.setCommandToolHeights(toolHeight, 'decrement');
 				}
 				
-				localStorage.setItem('localStorage.canvasDrwMsg', true);
+				localStorage.setItem('canvasDrwMsg', true);
 			}
 		},
 		
@@ -119,7 +122,6 @@ function (window){
 		}, 
 		
 		createPeer : function (currObj, peerObj, id){
-			
 			whBoard.gObj.video.currBrowser =  currObj;
 			whBoard.gObj.video.peerBrowser =  peerObj;
 			
@@ -161,6 +163,8 @@ function (window){
 			}
 		},
 		
+		// TODO this is not used any more
+		// should be deleted
 		replayAll : function (){
 			window.whBoard.vcan.main.replayObjs =  whBoard.gObj.replayObjs;
 			whBoard.utility.clearAll(false);
@@ -182,7 +186,7 @@ function (window){
 			if(repObj.length > 0){
 				 if(whBoard.gObj.displayedObjId + 1 == repObj[0].uid){
 					 window.whBoard.vcan.main.replayObjs = repObj;
-   					 whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+   					 whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.dispQueuePacket);
 				 }
 			}
 		},
@@ -199,8 +203,9 @@ function (window){
 					 if(msgRepObj[0].hasOwnProperty('uid')){
 						 if((whBoard.gObj.rcvdPackId+1 != msgRepObj[0].uid ) && (!msgRepObj.hasOwnProperty('chunk')) ){
 							 if(Number(whBoard.gObj.rcvdPackId) < Number(msgRepObj[0].uid)){
-								 endPoint = msgRepObj[0].uid; //this should be store into global object
-								 whBoard.bridge.requestPackets(msgRepObj);
+//								 endPoint = msgRepObj[0].uid; //this should be store into global object
+								 var reqPacket = whBoard.bridge.requestPackets(msgRepObj);
+								 vm_chat.send({'getMsPckt' : reqPacket});
 							 }  
 						 }
 					 }

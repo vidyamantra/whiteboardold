@@ -32,31 +32,9 @@
 		    		    //attach event handler
 		    		    //TODO this variable should be localized	    
 		    			cthis = this; 
-		    		//	document.getElementById('videoOff').addEventListener('click', cthis.hangup);
-		    			
-		    			//document.getElementById('videoOn').addEventListener('click', cthis);
-		    			
-//		    			if(typeof vbool != 'undefined'){
-//		    				cthis.cn++;
-//			    			console.log('cna ' + ' ' + cthis.cn);
-//		    			}
-		    			
-		    			/*
-		    			var headingTag = document.createElement('h4');
-		    				headingTag.id = 'videoHeading';
-		    				headingTag.innerHTML  = "User Video";
-		    				var beforeAppend = document.getElementById('localVideo');
-		    				beforeAppend.parentNode.insertBefore(headingTag, beforeAppend); */
-		    			
+
 		    			vcan.oneExecuted = true;
-		    			
 		    			cthis.createMiniMizeButton();
-//		    			var  videoCmd = document.getElementById("videoMiniMize");
-//		    			videoCmd.addEventListener('click', cthis.miniMizeVideo);
-		    			
-		    			
-		    			//divCmd.addEventListener('click', cthis.resizeVideo);
-		    			
 			    		vcan.videoChat.localVideo = document.querySelector('#localVideo');
 			    		vcan.videoChat.remoteVideo = document.querySelector('#remoteVideo');
 			    		vcan.videoChat.remoteVideo2 = document.querySelector('#remoteVideo2');
@@ -77,26 +55,9 @@
 						  'OfferToReceiveVideo':true }
 						};		  
 						
-						/*
-						if(navigator.mozGetUserMedia){
-							//debugger;
-							//vm_chat.send({'create':true});
-							vm_chat.send({'video': {'create':true}})
-							//socket.emit('message', {'create':true});
-							console.log('creating room');
-						}else{
-							//vm_chat.send({'join':true});
-							//vm_chat.send({'join':true});
-							vm_chat.send({'video': {'join':true}});
-						} */
-						
 						this.constraints = {video: true, audio : true, cthis : this};
 						navigator.getUserMedia(this.constraints, this.handleUserMedia, this.handleUserMediaError);
-//						if(typeof localStorage.teacherId != 'undefined'){
-//							//alert("this is performing");
-//							whBoard.view.multiMediaMsg();
-//						}
-						//alert(whBoard.system.wbRtc.peerCon);
+
 						if(whBoard.system.wbRtc.peerCon){
 							if(typeof localStorage.wbrtcMsg == 'undefined'){
 								whBoard.view.multiMediaMsg('WebRtc');
@@ -110,8 +71,6 @@
 				
 				sendMessage : function(message){
 					console.log('Sending message: ', message);
-					//socket.emit('message', message);
-					//vm_chat.send(message);
 					if(arguments.length>1){
 						vm_chat.send({'video': message}, arguments[1]);
 					}else{
@@ -142,11 +101,6 @@
 					  if(whBoard.clientLen >= 2){
 						  vm_chat.send({'vidInit' : true})
 					  }
-	
-//					   // NOTE:- warning:- can be very critical
-//					  if(cthis.isInitiator) {
-//						  cthis.maybeStart();
-//					  }
 				}, 
 
 				handleUserMediaError : function (error){
@@ -213,31 +167,17 @@
 				handleRemoteStreamAdded : function(event) {
 					console.log('Remote stream added.');
 					
-					//reattachMediaStream(miniVideo, localVideo);
-					////alert('sumanbrother');
-					//debugger;
-					//for remote 1
 					if(cthis.cn == 0){
 						whBoard.attachMediaStream(vcan.videoChat.remoteVideo, event.stream);
 						cthis.remoteStream = event.stream;
-					//}else if(cthis.cn > 1 ){
 					}else if(cthis.pc.length > 1 ){
-						// for remote 2	
 						whBoard.attachMediaStream(vcan.videoChat.remoteVideo2, event.stream);
 						cthis.remoteStream = event.stream;
 					}
-					
-				//  waitForRemoteVideo();
 				}, 
 
 				doCall : function() {
-//					alert('do call');
-					console.log('Do Call');
-//					/alert("do call");
-				  ////alert(cthis.id);
-				  ////alert('hi hello');
 				  var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
-				  // temporary measure to remove Moz* constraints in Chrome
 				  if (window.webrtcDetectedBrowser === 'chrome') {
 				    for (var prop in constraints.mandatory) {
 				      if (prop.indexOf('Moz') !== -1) {
@@ -273,19 +213,6 @@
 				  // Set Opus as the preferred codec in SDP if Opus is present.
 				  sessionDescription.sdp =cthis.preferOpus(sessionDescription.sdp);
 				  cthis.pc[cthis.cn].setLocalDescription(sessionDescription);
-				  
-//				  if(typeof crtOffer != 'undefined'){
-//					  cthis.sendMessage(sessionDescription, 15);
-//					  crtAns = false;
-//				  }
-//				  
-//				  if(typeof crtAns != 'undefined'){
-//					  if(crtAns == true){
-//						  cthis.sendMessage(sessionDescription, 45);  
-//					  }
-//					  
-//				  }
-				  
 				  cthis.sendMessage(sessionDescription);
 				  
 				},
@@ -310,25 +237,11 @@
 				},
 				
 				transitionToWaiting : function() {
-						
-						vcan.videoChat.remoteVideo.src = '';
-					  //card.style.webkitTransform = 'rotateY(0deg)';
-//					  setTimeout(function() {
-//						  //  localVideo.src = miniVideo.src;
-//						  //  miniVideo.src = '';
-//						  
-//						//  vcan.videoChat.remoteVideo.src = '';
-//						  var tval = "";
-//					  }, 500);
-					  
+					vcan.videoChat.remoteVideo.src = '';
 				},
 
 				stop : function() {
 					  this.isStarted = false;
-					  // isAudioMuted = false;
-					  // isVideoMuted = false;
-					  //this.pc.close();
-					  //this.pc = null;
 					  this.pc[cthis.cn].close();
 					  this.pc[cthis.cn] = null;
 					  this.pc.splice(0, 1);
@@ -420,13 +333,9 @@
 				  console.log('Received message:', message);
 				  
 				  if (message === 'got user media') {
-//					  alert('just started suman');
-					//  cthis.bNotRender = true;
 					   cthis.maybeStart(fromUserId);
-					   
 				  }else if (message.type === 'offer'){
 				    if (!cthis.isInitiator && !cthis.isStarted) {
-//				    	cthis.maybeStart();
 				    	cthis.maybeStart(fromUserId);
 				    }
 				    
@@ -446,9 +355,6 @@
 						  cthis.handleRemoteHangup();
 					  }
 				  }
-//				  if(message === 'bye' && cthis.isStarted) {	
-//					  cthis.handleRemoteHangup();
-//				  }
 		    },
 		    
 		    hangUp : function (){
@@ -456,8 +362,6 @@
 		    }, 
 		    
 		    miniMizeVideo : function (){
-		    	//cthis.minButtonId = this.id;
-		    	//var currentId = this.id;
 		    	var toBeHideVideo = document.getElementById(cthis.videoControlId);
 		    	var parTag = toBeHideVideo.parentNode;
 		    	toBeHideVideo.style.display = 'none'

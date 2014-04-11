@@ -109,7 +109,6 @@ echo html_writer::start_tag('div',array('id'=>'vcanvas'));
 	    		echo  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		    	echo '<video id="localVideo" autoplay></video>	    		
 		    		 <video id="remoteVideo" class="remoteVideo" autoplay>
-	    			 	
 		    		 </video>';	    		 	
 	    		 
 	    		    	    

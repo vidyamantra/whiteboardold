@@ -50,19 +50,7 @@
 				 * @param obj would be drawn
 				 */
 				draw : function (ctx, obj, noTransform){
-					ctx.beginPath();
-					
-					//if(obj.dRoad == 'ltr'){ //TODO this condtion should be re thinkable
-					
-					/*
-					if(obj.sx < obj.sy){
-						  var widthBy2 = -obj.width / 2,
-					      heightBy2 = -obj.height / 2;
-					 }else{
-						//if user draw the object from right to left side
-						 var widthBy2 = obj.width / 2,
-					      heightBy2 = obj.height / 2;
-					 }*/
+					 ctx.beginPath();
 					
 					 if(obj.dRoad == 't2b'){  //TODO this condtion should be re thinkable
 						var widthBy2 = obj.width / 2,

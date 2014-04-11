@@ -48,12 +48,11 @@
 										vcan.main.currentTransform = "";
 							     }
 							     
-							    	if(whBoard.utility.clickOutSidebox(this.textWriteMode)){
+						    	if(whBoard.utility.clickOutSidebox(this.textWriteMode)){
 					     			whBoard.obj.drawTextObj.renderText(this.prvCurrTransform, this.prvModTextObj, ctx);
 								}
 									
 								if(this.currObject != undefined && this.currObject.type == 'text'){
-									
 									//the height and width shoudl be dyanamic
 									obj = {width:300, height: 100 , x: this.currObject['oCoords'].tl.x, y: this.currObject['oCoords'].tl.y, text:this.currObject.text};
 										this.prvModTextObj = {prvObjId : this.currObject.id, prvText : this.currObject.text, x : this.currObject.x,  y:this.currObject.y};
@@ -82,12 +81,8 @@
 								}
 									
 							}
-		
 						}
-						
 					},
-					
-					
 					
 					/**
 					 * It draws the textarea wrapper for draw the text inside it
@@ -104,19 +99,10 @@
 						var divNode  = document.createElement('div');
 						divNode.id = "box" + boxNumber;
 						divNode.className = "textBoxContainer";
-						
 						divNode.style.position = 'absolute';
 						
-						//alert('x' + vcan.main.offset.x + ", y" + vcan.main.offset.y);
-//						alert('x' + obj.x + ", y" + obj.y);
-						
-//						alert(obj.x + ' ' + obj.y);
-//						alert(obj.y);
 						divNode.style.left = (vcan.main.offset.x+obj.x) + "px";
-						//divNode.style.top =  (vcan.main.offset.y+obj.y) + "px";
 						divNode.style.top =  (obj.y) + "px";
-//						divNode.style.left = (whBoard.vcan.main.offset.x+obj.x) + "px";
-	//					divNode.style.top =  (whBoard.vcan.main.offset.y+obj.y) + "px";
 						
 						var textNode = document.createElement('textarea');
 						textNode.id = divNode.id+'textarea';
@@ -129,14 +115,8 @@
 						divNode.appendChild(textNode);
 						document.getElementById(this.boxContainer).appendChild(divNode);
 						
-						if(typeof mtext != 'undefined'){
-						//	alert('suman bogati');
-							//divNode.style.display = 'none'
-						}
-						
 						this.prevTextObj = divNode;
 						this.currTextObjWrapper =  obj;
-					//	this.prevTextObj.measure = {};
 						this.prevTextObj.measure = obj
 					},
 				
@@ -171,8 +151,6 @@
 								}else{
 									this.finalizeText(ctx, this.prevTextObj,  prvModTextObj);
 								}
-								
-								
 							}else{
 								if(typeof mtext != 'undefined'){
 									this.finalizeText(ctx, this.prevTextObj, undefined, mtext);
@@ -195,8 +173,7 @@
 					 * @returns nothing
 					 */
 					finalizeText : function (ctx, txtWrapper, prvModObj, mtext){
-						    
-							var vcan = whBoard.vcan;
+						    var vcan = whBoard.vcan;
 							var prvNode = document.getElementById(txtWrapper.id); 
 							var userText = "";
 							if(typeof mtext == 'undefined'){
@@ -210,8 +187,6 @@
 							}else {
 								userText = mtext;
 							}
-							
-							
 							
 							var fontSize = 20;
 							ctx.font = fontSize +'px Times New Roman';
@@ -228,7 +203,6 @@
 							}
 							
 							var textHalfWidth = maxWidth/2;
-							
 							var  currTime= new Date().getTime();
 							var textObj = {
 									type : 'text',
@@ -251,42 +225,18 @@
 								whBoard.utility.updateSentPackets(obj);
 						   }
 						   
+							var text = whBoard.canvas.readyObject(textObj);
+							var tempObj = text.coreObj;
+							whBoard.canvas.addObject(text);
 						   
-							
-						   var text = whBoard.canvas.readyObject(textObj);
-						   var tempObj = text.coreObj;
-						   whBoard.canvas.addObject(text);
-						   
-//						   tempObj = vcan.extend({}, tempObj);
-//						   
-//						    text = vcan.extend(tempObj, {textArr : this.keyTyped});
-//						   
-//						 //  	text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true });
-//						   	text = vcan.extend(tempObj, {textArr : this.keyTyped, mt:currTime, func:'add', usrCurrAction : 'create', lastElement:true });
-//						   	
-//						   	//TODO prvModObj that should be check through hasOwnProperty method
-//						   	
-//					  		if(prvModObj != undefined){
-//								if(prvModObj != ''){
-//									//text = vcan.extend(tempObj, {textArr : this.keyTyped, mdTime:currTime, func:'add', usrCurrAction : 'create', lastElement:true,
-//									 text = vcan.extend(tempObj, {textArr : this.keyTyped, mt:currTime, func:'add', usrCurrAction : 'create', lastElement:true,
-//										prvObj : prvModObj, pt : whBoard.obj.drawTextObj.prvTextObj});
-//									
-//								}
-//								
-//							}
-					  		
-					  		//var tarr = [];
-					  		
-					  		var lastTxtObj = vcan.main.children[vcan.main.children.length-1];
-					  		lastTxtObj.mt = currTime;
+							var lastTxtObj = vcan.main.children[vcan.main.children.length-1];
+							lastTxtObj.mt = currTime;
 							//this.keyTyped = [];  
 							prvNode.parentNode.removeChild(txtWrapper);
 							vcan.renderAll();
 							if(whBoard.sentPackets > 0) {
 								 document.getElementById(whBoard.sentPackDiv).innerHTML = whBoard.sentPackets;
 							}
-							
 					}
 			  }
 		}

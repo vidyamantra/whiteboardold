@@ -1,53 +1,40 @@
 (
 	function (window){
 		var whBoard = window.whBoard;
-		whBoard.bridge.requestPackets_Orginial  = function (e){
-			//more than one packets comes after connection on
-			if(e.message.repObj.length > 1){
-					whBoard.gObj.myArr = e.message.repObj;
-			}
-  			whBoard.sentReq = true;
-			var sp = whBoard.gObj.rcvdPackId;
-			var ep = e.message.repObj[0].uid;
-				console.log('sp ' + sp + ' ' + ' ep ' + ep);
-				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-				return;
-  		},
-  		
-  		whBoard.bridge.requestPackets  = function (msgRepObj){
+		
+		whBoard.bridge.requestPackets  = function (msgRepObj){
 			//more than one packets comes after connection on
 			if(msgRepObj.length > 1){
-					whBoard.gObj.myArr = msgRepObj;
+				//the name myArr should be change into repObjArr
+				whBoard.gObj.myArr = msgRepObj;
 			}
+			
   			whBoard.sentReq = true;
 			var sp = whBoard.gObj.rcvdPackId;
 			var ep = msgRepObj[0].uid;
-				console.log('sp ' + sp + ' ' + ' ep ' + ep);
-				vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
-				return;
+			
+			//vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
+			return [sp, ep];
   		}
 		
-		
-  		
 		whBoard.bridge.makeQueue = function(e){
 			if(whBoard.gObj.rcvdPackId != whBoard.gObj.displayedObjId){
-				for(var i=0; i<e.message.repObj.length; i++){
-					whBoard.gObj.packQueue.push(e.message.repObj[i]);
-				}
+					whBoard.gObj.packQueue = whBoard.gObj.packQueue.concat(e.message.repObj);
+				
+//				for(var i=0; i<e.message.repObj.length; i++){
+//					whBoard.gObj.packQueue.push(e.message.repObj[i]);
+//				}
 			}
 		}
   		
-		whBoard.bridge.sendPackets = function(e){
-//			alert('sss');
-//			debugger;
-//			whBoard.gObj.myrepObj = whBoard.vcan.getStates('replayObjs');
-//			whBoard.gObj.chunk = [];
-			chunk = [];
+		whBoard.bridge.sendPackets = function(e, chunk){
 			
+			//chunk = [];
 			if(e.message.getMsPckt[0] == 0){
 				var i = -1;
 			}else{
 				var fs = e.message.getMsPckt[0].uid;
+				//TODO myrepObj should be changed into another name 
 				for(var i=0; i<whBoard.gObj.myrepObj.length; i++){
     				if(e.message.getMsPckt[0] == whBoard.gObj.myrepObj[i].uid){
     					fs =  e.message.getMsPckt[0];
@@ -60,40 +47,76 @@
 				chunk.push(whBoard.gObj.myrepObj[j]);
 			}
 			console.log('fid' + chunk[0].uid + ' eid' + chunk[chunk.length-1].uid);
-			vm_chat.send({'repObj' : chunk, 'chunk' : true});
-			return;
+			return chunk;
+			
+ //			 vm_chat.send({'repObj' : chunk, 'chunk' : true});
+			//return;
   		},
   		
   		whBoard.bridge.handleMissedPackets = function (fromUserId, id, repObj){
-  			if(whBoard.gObj.myArr.length > 0){
-				if(repObj[repObj.length-1].uid == whBoard.gObj.myArr[0].uid){
-					for(var i=0; i< whBoard.gObj.myArr.length; i++){
-						console.log('mArr ' + whBoard.gObj.myArr[i].uid);
-					}
-					if(!whBoard.gObj.myArr[0].hasOwnProperty('cmd')){
-						whBoard.gObj.myArr.shift();
-					}
-				//	whBoard.gObj.myArr.shift(); //remove object if double id found
-				//	//alert("hi how are you");
-				}
-				repObj = repObj.concat(whBoard.gObj.myArr);
-				whBoard.gObj.myArr = [];
-			}
+  			
+//  			if(whBoard.gObj.myArr.length > 0){
+//				if(repObj[repObj.length-1].uid == whBoard.gObj.myArr[0].uid){
+//					if(!whBoard.gObj.myArr[0].hasOwnProperty('cmd')){
+//						whBoard.gObj.myArr.shift();
+//					}
+//				}
+//				repObj = repObj.concat(whBoard.gObj.myArr);
+//				whBoard.gObj.myArr = [];
+//			}
+  			
+  			var repObj = whBoard.bridge.removeDupObjs(repObj);
+  			
+  			whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.concat(repObj);
 			
-			whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.concat(repObj);
+			
 		
 			//TODO this should be removed later and above code should be enabled
 			// right now its doing sorting but above code should be enabled and object 
 			// should be stotred in sorted format
-			whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.sort(function(a, b){
-			    return a.uid - b.uid;
-			});
+			
+			whBoard.bridge.sortingReplyObjs();
+			
+//			whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.sort(function(a, b){
+//			    return a.uid - b.uid;
+//			});
 			
 			if(fromUserId != id){
 				localStorage.repObjs = JSON.stringify(whBoard.gObj.replayObjs);
 			}
 			
-			if(fromUserId != id && (whBoard.gObj.displayedObjId + 1 != repObj[0].uid)){
+//			if(fromUserId != id && (whBoard.gObj.displayedObjId + 1 != repObj[0].uid)){
+//				if(whBoard.gObj.packQueue.length > 0){
+//					if(repObj[repObj.length-1].uid == whBoard.gObj.packQueue[0].uid){
+//						alert('suman bogati');
+//						debugger;
+//						var fArr = repObj;
+//						whBoard.gObj.packQueue = fArr.concat(whBoard.gObj.packQueue);
+//					}
+//				}
+//			}
+			
+			whBoard.bridge.containsIfQueuePacks(fromUserId, id, whBoard.gObj.displayedObjId, repObj);
+	    }
+  		
+//  		whBoard.bridge.removeDuplicateObjs = function (){
+//  			
+//  		}
+  		whBoard.bridge.removeDupObjs = function (repObj){
+  			if(whBoard.gObj.myArr.length > 0){
+				if(repObj[repObj.length-1].uid == whBoard.gObj.myArr[0].uid){
+					if(!whBoard.gObj.myArr[0].hasOwnProperty('cmd')){
+						whBoard.gObj.myArr.shift();
+					}
+				}
+				repObj = repObj.concat(whBoard.gObj.myArr);
+				whBoard.gObj.myArr = [];
+			}
+  			return repObj;
+  		}
+  		
+  		whBoard.bridge.containsIfQueuePacks = function (fromUserId, id, dispId, repObj){
+  			if(fromUserId != id && (dispId + 1 != repObj[0].uid)){
 				if(whBoard.gObj.packQueue.length > 0){
 					if(repObj[repObj.length-1].uid == whBoard.gObj.packQueue[0].uid){
 						var fArr = repObj;
@@ -101,6 +124,13 @@
 					}
 				}
 			}
+  		},
+  		
+  		whBoard.bridge.sortingReplyObjs = function (){
+  			whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.sort(function(a, b){
+			    return a.uid - b.uid;
+			});
   		}
+  		
 	}
 )(window);

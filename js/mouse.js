@@ -17,23 +17,22 @@
 					
 					//TODO the types should be store into main/core funtion
 					// the place of this object should not be here
-					  var  types = {
-							  'mousedown' : 'mousedown',
-							  'mousemove' : 'mousemove',
-							  'mouseup' : 'mouseup'
+					
+					var  types = {
+						'mousedown' : 'mousedown',
+						'mousemove' : 'mousemove',
+						'mouseup' : 'mouseup'
+					}
+					  
+					for(type in types){  
+						if(type == 'mousedown'){
+							canvasElement.addEventListener(type, this.mousedown, false);
+						}else if (type == 'mousemove'){
+							canvasElement.addEventListener(type, this.mousemove, false);
+						}else if(type == 'mouseup'){
+							canvasElement.addEventListener(type, this.mouseup, false);
 						}
-					  
-					  
-					  for(type in types){  
-						  if(type == 'mousedown'){
-							  canvasElement.addEventListener(type, this.mousedown, false);
-						  }else if (type == 'mousemove'){
-							  canvasElement.addEventListener(type, this.mousemove, false);
-						  }else if(type == 'mouseup'){
-							  canvasElement.addEventListener(type, this.mouseup, false);
-						  }
-						  
-					  }
+					}
 				}, 
 				
 
@@ -217,7 +216,8 @@
 						        			  */
 						        			 
 						        			 //this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);
-						        			 vcan.main.starter_obj_id = obj.currentTransform.target.id;
+						        			 //can be critical if there is used
+						        			 //vcan.main.starter_obj_id = obj.currentTransform.target.id;
 						        			 obj.currentTransform.target.downObj = false;
 						        			 
 						        		 }
@@ -240,8 +240,9 @@
 								    
 							    	var  currAdTime = new Date().getTime();
 									 if(obj.currentTransform.target.downObj==true){
-										 //this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);	
-										 vcan.main.starter_obj_id = obj.currentTransform.target.id;
+										 //this.moveChunk = vcan.utility.setMoveChunk(this.moveChunk, currAdTime);
+										 //can be critical if there is used
+										 //	vcan.main.starter_obj_id = obj.currentTransform.target.id;
 										 obj.currentTransform.target.downObj = false;
 									 }
 									 var tempTarget =   vcan.extend({}, vcan.main.currentTransform.target); 
@@ -303,14 +304,6 @@
 						    	  	var currTime = new Date().getTime();
 						    	  	if(!e.detail.hasOwnProperty('cevent')){
 						    	  		vcan.calculatePackets(currTime, 'u', e.clientX, e.clientY);
-						    	  		
-//						    	  		var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
-//						    	  		whBoard.uid++;
-//						    	  		console.log('uid ' + whBoard.uid);
-//										obj.uid =whBoard.uid;
-//										vcan.main.replayObjs.push(obj);
-//										vm_chat.send({'repObj': [obj]});
-//										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 						    	  	}
 						    	  	
 						    	  	if(vcan.main.dragMode == true){
@@ -322,19 +315,11 @@
 						    	  	}
 	  						  }else{
 								  if(!e.detail.hasOwnProperty('cevent')){
-									    //alert('hello guys');
 									    vcan.calculatePackets(currTime, 'u', e.clientX, e.clientY);
-//									    var obj = {'mt' :  currTime, 'ac' : 'u', 'x' :  e.clientX, 'y' : e.clientY};
-//									    whBoard.uid++;
-//									    obj.uid = whBoard.uid;
-//									    vcan.main.replayObjs.push(obj);
-//										vm_chat.send({'repObj': [obj]});
-//										localStorage.repObjs = JSON.stringify(vcan.main.replayObjs);
 						    	  	}
 							  }
 						     
 						      vcan.wb.sentPack  = true;
-						      
 						}
 				 }
 			}

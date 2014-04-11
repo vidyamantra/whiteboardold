@@ -110,10 +110,10 @@
 					  */
 					 finalizeDrawingPath : function (mcanvas, crtMuser, pointer){
 						     var currTime = new Date().getTime();
-						 	  this.contextTop.closePath();
-						      this.isCurrentlyDrawing = false;
+						 	 this.contextTop.closePath();
+						     this.isCurrentlyDrawing = false;
 						      
-						      var minX = this.utility.min(this.freeDrawingXPoints),
+						     var minX = this.utility.min(this.freeDrawingXPoints),
 						          minY = this.utility.min(this.freeDrawingYPoints),
 						          maxX = this.utility.max(this.freeDrawingXPoints),
 						          maxY = this.utility.max(this.freeDrawingYPoints),
@@ -183,17 +183,13 @@
 						      resP =   vcan.utility.setVal(resP, "y", minY + (maxY - minY) / 2);
 					          resP.setCoords();
 					          
-					          
 					          if(typeof obj =='object'){
 					        	  this.contextTop.restore();
 					          }
 					          
-					          
 					          //vcan.myctx = 
 					          vcan.renderAll(this.contextTop);
-					          
 					          return resP;
-					          
 					          // this.fire('path:created', { path: p });
 					 },
 					 

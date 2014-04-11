@@ -50,21 +50,22 @@ $.when(
     		whBoard.utility.createReclaimButton(cmdToolsWrapper);
     	}
     	
+    	
         var userobj={'userid':wbUser.id,'name':wbUser.name,'img':"http://static.vidyamantra.com/cdnmt/images/quality-support.png"};
         if(whBoard.system.webSocket){
-         	vm_chat.init({
-                'userid':wbUser.id,
-                'sid':wbUser.sid,
-                'rid': wbUser.path,
-                'authuser':wbUser.auth_user,
-                'authpass':wbUser.auth_pass,
-                'userobj': userobj,
-                'fastchat_lasttime':'0',
-                'fastchatroom_title':'fastchat',
-                'fastchatroom_name':wbUser.room});
+        	vm_chat.init({
+	            'userid':wbUser.id,
+	            'sid':wbUser.sid,
+	            'rid': wbUser.path,
+	            'authuser':wbUser.auth_user,
+	            'authpass':wbUser.auth_pass,
+	            'userobj': userobj,
+	            'fastchat_lasttime':'0',
+	            'fastchatroom_title':'fastchat',
+	            'fastchatroom_name':wbUser.room
+	            });
         }
        	
-        
         whBoard.utility.replayFromLocalStroage();
         
  		var oldData2 = whBoard.receivedPackets;
@@ -73,7 +74,6 @@ $.when(
 				oldData2 = whBoard.utility.calcPsRecvdPackets(oldData2);
 				document.getElementById(whBoard.receivedPackDiv).innerHTML = whBoard.receivedPackets;
 			}
-			
 		}, 1000);
     	
 	//	myVideo = new window.whBoard.vcan.videoChat(); // this shold be contain into global object
@@ -117,6 +117,9 @@ $.when(
 		whBoard.gObj.virtualWindow = false;
 
 		$(document).on("newmessage", function(e){
+			if(e.message.hasOwnProperty('suman')){
+				alert('here this is being alerted');
+			}
 			if(e.message.hasOwnProperty('vidInit')){
 				whBoard.response.videoInit(e.fromUser.userid, wbUser.id);
 				return;
@@ -152,7 +155,7 @@ $.when(
         		}
         		
         		whBoard.gObj.myrepObj = whBoard.vcan.getStates('replayObjs');
-        		whBoard.gObj.chunk = [];
+//        		whBoard.gObj.chunk = [];
 	    		
 	    		if(e.message.hasOwnProperty('clearAll')){
 	    			whBoard.response.clearAll(e.fromUser.userid , wbUser.id, e.message, orginalTeacherId);
@@ -163,22 +166,25 @@ $.when(
 	    				if(e.message.repObj[0].hasOwnProperty('uid')){
 	    					//whBoard.uid = e.message.repObj[0].uid;
 	    					//WARNING:- can be crtical 
-	    					whBoard.uid = e.message.repObj[e.message.repObj.length-1].uid;
+	    					 whBoard.uid = e.message.repObj[e.message.repObj.length-1].uid;
 	    				}
+	    				
 	    				//if( whBoard.gObj.displayedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && whBoard.gObj.rcvdPackId != 0){
-	    				if( whBoard.gObj.displayedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && whBoard.gObj.rcvdPackId != 0){	  
-	    					whBoard.bridge.makeQueue(e);
+	    				if(whBoard.gObj.displayedObjId > 0 && !e.message.hasOwnProperty('getMsPckt') && !e.message.hasOwnProperty('chunk') && whBoard.gObj.rcvdPackId != 0){	  
+	    					 whBoard.bridge.makeQueue(e);
     		    		}
 	        		}
 	        		
 	    		   if(e.message.hasOwnProperty('repObj')){
 	    			   whBoard.response.repObjForMissedPkts(e.message.repObj); 
-	    	    	}
+	    	       }
 	    		}
 	    		
 	    		if(e.fromUser.userid != wbUser.id){
 	    			if(e.message.hasOwnProperty('getMsPckt')){
-	    				whBoard.bridge.sendPackets(e, whBoard.gObj.chunk);
+	    				whBoard.gObj.chunk =  [];
+	    				var chunk = whBoard.bridge.sendPackets(e, whBoard.gObj.chunk);
+	    				vm_chat.send({'repObj' : chunk, 'chunk' : true});
 	        		}
 	    		}
 	    	
@@ -210,7 +216,8 @@ $.when(
     						if(typeof e.message.repObj[e.message.repObj.length-1] == 'object' ){
 	        					if(e.message.repObj[e.message.repObj.length-1].hasOwnProperty('uid') && !e.message.hasOwnProperty('chunk')){
 	        						whBoard.gObj.rcvdPackId = e.message.repObj[e.message.repObj.length-1].uid;
-	        						localStorage.rcvdPackId = whBoard.gObj.rcvdPackId; 
+//	        						localStorage.rcvdPackId = whBoard.gObj.rcvdPackId; 
+	        						localStorage.setItem('rcvdPackId', whBoard.gObj.rcvdPackId);
 	            				}
 	            				//missing one id
 	        					if(whBoard.gObj.packQueue.length > 0 && !e.message.hasOwnProperty('chunk')){

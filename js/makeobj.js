@@ -12,10 +12,11 @@
 		 *  returns the object wrapped along with the properties  
 		 */
 		whBoard.makeobj = function(startPosX, startPosY, endPosX, endPosY, objType){
-			////console.log('startPos ' + startPosX + ' ' + startPosY  + '/' + 'endPos ' + endPosX + ' ' + endPosY);
-			////console.log('endPos ' + endPosX + ' ' + endPosY);
-			var obj = {};
-			 obj.mp = {};
+			//TODO this should be deleted
+			//there is no use of obj.mp object 
+			
+			var obj = {mp:{}};
+			// obj.mp = {};
 			 obj.mp.x = endPosX;
 			 obj.mp.y = endPosY;
 			//below code have been daibled during the unit testing

@@ -29,9 +29,6 @@ var vm_chat = {
 		} 
 		var scope = this;
 		this.sock.onopen = function(e) { 
-			
-			//alert(localStorage.repObjs);
-			//console.log("OPN : Connected to " + vm_chat.wsuri);
 			$.event.trigger({
 				type: "connectionopen"
 				//repObjs : localStorage.repObjs
@@ -76,9 +73,7 @@ var vm_chat = {
 						newuser:newuser
 					});		
 				}
-				if (r1.type =="broadcast"){
-					
-					
+				if(r1.type =="broadcast"){
 					var userto='';
 					if(r1.userto != undefined)userto=r1.userto;		
 					$.event.trigger({
@@ -120,12 +115,11 @@ var vm_chat = {
 //				return;
 //			} 
 		}
+		
 		this.sock.onerror = function(e) {
 			scope.error = e;
 		}	
 		this.sock.onclose = function(e) {
-			//alert('Connection Closed');
-		//	alert('hi subhams');
 			$.event.trigger({
 				type: "connectionclose",
 				message: e.reason
@@ -173,52 +167,32 @@ var vm_chat = {
 		 * this statement is need only for free drawing object
 		 * other objects than free drawing working well
 		 */
-		//var jobj = JSON.stringify(obj, vm_chat.functionReplacer);
-		var jobj = JSON.stringify(obj);
 		
-		if(!msg.hasOwnProperty('createArrow')){
-			//alert(jobj.length);
-			//whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-		}
+		var jobj = JSON.stringify(obj);
 		
 		// Case for createArrow LIMIT every 500ms
 		if (msg.hasOwnProperty('createArrow')) {
 			
 			if (typeof optimizObj == 'undefined'){
-				optimizObj = optimization();
+				optimizObj = optimization(); //new operand should be attached with optimization()
 			}else{
 				optimizObj.sendPacketWithOptimization(jobj, this.sock, 100);
 			} 
-			 
-			
-		}else {
+		}else{
 			whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-			
 			if(this.sock.readyState == 1){
-				//alert('hello g');
-//				if(typeof obj.arg.msg.repObj != 'undefined'){
-//					sentObj += obj.arg.msg.repObj.length;
-//					console.log('Send Packets  jobj' + ' ' + sentObj);
-//				}
-				
-				
 				this.sock.send(jobj);
 			}
 			
 			//TODO this should be enable
 			var tempObj = JSON.parse(jobj);
-//			alert('hi debugger');
-//			debugger;
 			if(tempObj.arg.msg.hasOwnProperty('repObj')){
 				vm_chat.updateSentInformation(jobj);
 			}
-			
-			//this.sock.send(jobj);
-			//	vm_chat.updateSentInformation(jobj);
 		}	
-		
 		localStorage.sentPackets = whBoard.sentPackets;
 	},
+	
 	disconnect:function(){ 
 		this.sock.onclose = function () {};
 		this.sock.close();
@@ -236,9 +210,7 @@ var vm_chat = {
 			var compMsg = "";
 			for(var key in msg){
 				compMsg += key +" : " + msg[key] + " <br />";
-				
 			}
-			
 			document.getElementById('sentMsgInfo').innerHTML = compMsg;
 		}
 	}

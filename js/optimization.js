@@ -17,7 +17,7 @@ var optimization = function (socket, time){
 			
 			this.presentarrowtime = new Date().getTime();
 			
-			if ((this.presentarrowtime-this.lastarrowtime)>=time) {
+			if((this.presentarrowtime-this.lastarrowtime)>=time) {
 				whBoard.sentPackets = whBoard.sentPackets + jobj.length;
 				if(socket.readyState == 1){
 					socket.send(jobj);
@@ -41,13 +41,13 @@ vcan.doOptiMize = function(e){
        
 		presentmousemovetime = new Date().getTime();
 		
-		if((presentmousemovetime-lastmousemovetime) >= 2000) {	 // Optimized
-			var currTime= new Date().getTime();
-			if(!e.detail.hasOwnProperty('cevent')){
-	       		vcan.calculatePackets(lastmousemovetime, 'm', e.clientX, e.clientY);	
-	       	}
-			vcan.calculatePackets(currTime, 'm',  e.clientX, e.clientY);
-	  		lastmousemovetime = new Date().getTime();
+	if((presentmousemovetime-lastmousemovetime) >= 2000) {	 // Optimized
+		var currTime= new Date().getTime();
+		if(!e.detail.hasOwnProperty('cevent')){
+       		vcan.calculatePackets(lastmousemovetime, 'm', e.clientX, e.clientY);	
+       	}
+		vcan.calculatePackets(currTime, 'm',  e.clientX, e.clientY);
+  		lastmousemovetime = new Date().getTime();
 	}
 }
 

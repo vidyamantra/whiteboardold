@@ -57,31 +57,20 @@
 						whBoard.system.wbRtc.peerCon = true;
 					}
 				}else{
-					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), browser, version);
-					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), 'errorWebRtc', 'error');
 					 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportGetUserMedia'), 'id':'errorGetUserMedia', 'className' : 'error'});
-
 				}
 			}else if(browser == 'Chrome' || browser == 'Safari'){
 				if(navigator.webkitGetUserMedia){
 					whBoard.system.wbRtc.userMedia  = true;
 					if(!window.webkitRTCPeerConnection){
-						//whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), browser, version);
-						//whBoard.view.displayMessage(whBoard.lang.getString('notSupportPeerConnect'), 'errorWebRtc', 'error');
 						 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportPeerConnect'), 'id':'errorPeerConnect', 'className' : 'error'});
 					}else{
 						whBoard.system.wbRtc.peerCon = true;
 					}
 				}else{
-					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), browser, version);
-					//whBoard.view.displayMessage(whBoard.lang.getString('notSupportGetUserMedia'), 'errorWebRtc', 'error');
 					 whBoard.error.push({'msg' : whBoard.lang.getString('notSupportGetUserMedia'), 'id':'errorGetUserMedia', 'className' : 'error'});
-
 				}
 			}else if(browser == 'MSIE' && version <= 9){
-				//alert('suman bogati');
-				//alert(whBoard.error.length);
-				//whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebRtc'), browser, version);
 				whBoard.error.push({'msg' : whBoard.lang.getString('notSupportWebRtc'), 'id':'errorWebRtc', 'className' : 'error'});
 			}
 	   }
@@ -91,7 +80,6 @@
 		   if(typeof window.WebSocket != 'undefined' && (typeof window.WebSocket == 'function' || typeof window.WebSocket == 'object')  && window.WebSocket.hasOwnProperty('OPEN')){
 			   whBoard.system.webSocket = true;
 		   }else{
-				//whBoard.view.displayMessage(whBoard.lang.getString('notSupportWebSocket'), browser, version);
 			   whBoard.error.push({'msg' : whBoard.lang.getString('notSupportWebSocket'), 'id':'errorWebSocket', 'className' : 'error'});
 		   }
 	   }
@@ -124,7 +112,6 @@
 	   }
 	   
 	   whBoard.system.getResoultion =  function (windowWidth){
-		   
 			var resolution = {};
 			if(windowWidth < 1280){
 				resolution.width = 1024;

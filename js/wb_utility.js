@@ -7,7 +7,8 @@
 			 * This function does check that passed object is existing into 
 			 * removeElements array or not
 			 * @param obj expects the object which have to be checked against removeElements
-			 * @returns that position if the object is existing into remove Elements 
+			 * @returns that position if the object is existing into remove Elements
+			 * TODO This function is not used any more can be removed from here 
 			 */
 			isObjExistRE : function (obj){
 				if(whBoard.replay.removeElements.length>=0){
@@ -17,7 +18,6 @@
 					}
 				}
 			}, 
-			
 			
 			/**
 			 *  This function checks that particular object has property or not
@@ -190,32 +190,6 @@
 						allTextBoxContainer[i].parentNode.removeChild(allTextBoxContainer[i]);
 					}
 				
-				
-				
-//				var vcan = whBoard.vcan;
-//				//vcan.main.children = [];
-//				
-//				vcan.main.children.splice(0, vcan.main.children.length);
-//				//vcan.main.replayObjs = [];
-//				if(delRpNode == true){
-//					/*****
-//					This would I have disbaled can be critical
-//					
-//					whBoard.repObj.replayObjs.splice(0, whBoard.repObj.replayObjs);
-//					*****/
-//					vcan.main.replayObjs.splice(0, vcan.main.replayObjs.length);
-//					
-//				}
-//				
-//				var canElem = vcan.main.canvas;
-//				var ctx = canElem.getContext('2d');
-//		        ctx.clearRect(0, 0, canElem.width, canElem.height);
-//				
-//				if(whBoard.replay != undefined){
-//					whBoard.replay.objNo = 0;
-//				}
-				
-				
 			},
 			
 			
@@ -384,12 +358,9 @@
 				whBoard.tool = "";
 				if(vcan.main.action == 'move'){
 					whBoard.utility.deActiveFrmDragDrop();
-//					delete vcan.main.action;
 				}
 				
-				
 				if(typeof studentId != 'undefined'){
-//					if(localStorage.hasOwnProperty('reclaim')){
 					if(localStorage.getItem('reclaim') != null){
 						var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
 						cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper);
@@ -397,59 +368,37 @@
 					}	
 					
 					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-					localStorage.teacherId = studentId;
+					localStorage.setItem('teacherId', studentId);
+					//localStorage.teacherId = studentId;
 					whBoard.utility.makeCanvasEnable();
-					
 				}else{
-					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-					while(cmdToolsWrapper.hasChildNodes()){
-						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
-					}
-			
 					
-//					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);
-//					cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper);
+					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);
+					if(cmdToolsWrapper != null){
+						while(cmdToolsWrapper.hasChildNodes()){
+							cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+						}
+					}
+					
 					whBoard.utility.makeCanvasDisable();
 					
 					if(typeof localStorage.orginalTeacherId != 'undefined'){
 						whBoard.utility.createReclaimButton(cmdToolsWrapper);
-						localStorage.reclaim = true;
+						//localStorage.reclaim = true;
+						localStorage.setItem('reclaim', true);	
 					}else{
 						if(cmdToolsWrapper != null){
-							//This is for student to assign the role for teacher
-							// in teacher case the reclaim button would be available
 							cmdToolsWrapper.parentNode.removeChild(cmdToolsWrapper); 
 						}
 					}
-					
 					localStorage.removeItem('teacherId');
 				}
-				
-				
-				
-//				if(typeof localStorage.orginalTeacherId != 'undefined'){
-//					var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-//					while(cmdToolsWrapper.hasChildNodes()){
-//						cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
-//					}
-//					whBoard.utility.makeCanvasDisable();
-//					
-//					whBoard.utility.createReclaimButton(cmdToolsWrapper);
-//					localStorage.reclaim = true;
-//					localStorage.removeItem('teacherId');
-//				}else{
-//					window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-//					localStorage.teacherId = vcan.studentId;
-//					whBoard.utility.makeCanvasEnable();
-//				}
-
 			}, 
 			
 			reclaimRole : function (){
 				whBoard.tool = "";
 				if(vcan.main.action == 'move'){
 					whBoard.utility.deActiveFrmDragDrop();
-//					delete vcan.main.action;
 				}
 				
 				whBoard.utility.removeToolBox();
@@ -459,7 +408,7 @@
 					localStorage.removeItem('reclaim');
 				}
 				whBoard.utility.makeCanvasEnable();
-				vm_chat.send({'reclaimRole': true});
+				//vm_chat.send({'reclaimRole': true});
 			},
 			
 			connectionOff : function (){
@@ -475,60 +424,38 @@
 				vm_chat.wsconnect();
 			},
 			
-			packetQueue : function (result){
+			dispQueuePacket : function (result){
 				if((localStorage.getItem('teacherId') != null) || 
 					(localStorage.getItem('orginalTeacherId') != null && whBoard.utility.chkValueInLocalStorage('reclaim'))){
 						whBoard.utility.toolWrapperEnable();
 				}
-//				alert(whBoard.user.connected)
-//				if(localStorage.getItem('teacherId') != null && whBoard.utility.isUserConnected(whBoard.clientLen)){
-
-// Enable code
-//				if(localStorage.getItem('otherRole') != null){
-//					whBoard.utility.isUserConnected(whBoard.clientLen, whBoard.utility.canvasEnabelWhenRefresh);
-//				}
-				
-				/////////////////////
-				//enable code should be enable, but there we can not check
-				//isUerConnected at very first becuse it's available only when the 
-				// member_added is invoked which means
-				//the problem of synhronous
-				/////////////////////
-				
 				
 				whBoard.utility.isUserConnected(whBoard.clientLen);
-			//	alert("this is out condition");
 				whBoard.drawMode = false;
 				if(localStorage.getItem('teacherId') != null && whBoard.user.connected){
 					whBoard.utility.makeCanvasEnable();
 				}
 
-//				if(localStorage.getItem('teacherId') != null){
-//					whBoard.utility.makeCanvasEnable();
-//				}
-				
-//				if(localStorage.getItem('teacherId') != null && whBoard.user.connected){
-//					whBoard.utility.makeCanvasEnable();
-//				}
-				
 				console.log("should come first");
 				if(whBoard.gObj.packQueue.length > 0){
+//					alert("this should be alter only once");
 					window.whBoard.vcan.main.replayObjs = whBoard.gObj.packQueue;
 					whBoard.gObj.packQueue = [];
-					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+					whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.dispQueuePacket);
 				}else{
 					return;
 				}
 			},
 			
 			 updateRcvdInformation : function (msg){
-				 
 				var receivedMsg = document.getElementById('rcvdMsgInfo');
 				if(receivedMsg != null){
 					var compMsg = "";
+					
 					for(var key in msg){
 						compMsg += key +" : " + msg[key] + " <br />";
 					}
+					
 					receivedMsg.innerHTML = compMsg;
 				}
 			},
@@ -567,16 +494,13 @@
 				}else{
 					return localStorage[property]; 
 				}
-				
-				
-//				if(typeof localStorage[property] != 'undefined'){
-//					return localStorage[property]; 
-//				}else{
-//					return false;
-//				}
 			},
 			
-			uniqueArrOfObjsToOther : function (){
+			
+			// the uniqueArrOfObjsToStudent and 
+			// uniqueArrOfObjsToTeacher can be into sign 
+			
+			uniqueArrOfObjsToStudent : function (){
 				var tempRepObjs = "";
 				whBoard.gObj.replayObjs = [];
 				for(var i=0; i<vcan.main.replayObjs.length; i++){
@@ -585,7 +509,7 @@
 				}
 			},
 			
-			uniqueArrOfObjsToSelf : function (){
+			uniqueArrOfObjsToTeacher : function (){
 				vcan.main.replayObjs = [];
 				var tempRepObjs = "";
 				for(var i=0; i<whBoard.gObj.replayObjs.length; i++){
@@ -597,6 +521,10 @@
 			makeDefaultValue : function (){
 	  			whBoard.gObj.myrepObj = [];
 				whBoard.gObj.replayObjs = [];
+				whBoard.gObj.rcvdPackId = 0;
+				whBoard.gObj.displayedObjId = 0;
+				whBoard.gObj.packQueue = [];
+				whBoard.uid  = 0;
 				
 				var teacherId = whBoard.utility.chkValueInLocalStorage('teacherId');
 				var orginalTeacherId = whBoard.utility.chkValueInLocalStorage('orginalTeacherId');
@@ -605,8 +533,8 @@
 				var toolHeight = whBoard.utility.chkValueInLocalStorage('toolHeight');
 
 	  			localStorage.clear();
+	  			
 				if(teacherId){
-					//localStorage.teacherId =  teacherId;
 					localStorage.setItem('teacherId', teacherId);
 				}
 				
@@ -629,43 +557,31 @@
 					localStorage.setItem('toolHeight', toolHeight);
 				}
 			
-				whBoard.gObj.rcvdPackId = 0;
-				whBoard.gObj.displayedObjId = 0;
-				whBoard.gObj.packQueue = [];
+			
 				if(typeof vcan.objTxt != 'undefined'){
 					vcan.objTxt.removeTextNode();
 				}
 				
-				whBoard.uid  = 0;
+				
 				if(typeof vcan.main.currentTransform != 'undefined'){
 					vcan.main.currentTransform = "";
 				}
 	  		}, 
 	  		
 	  		setOrginalTeacherContent : function (e){
-	  			//window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-				
-	  			//localStorage.teacherId = e.message[0].userid;
-	  			localStorage.teacherId = whBoard.gObj.uid;
-				window.whBoard.view.canvasDrawMsg('Canvas');
-				localStorage.canvasDrwMsg = true;
-				
+	  			//localStorage.teacherId = whBoard.gObj.uid;
+	  			localStorage.setItem('teacherId', whBoard.gObj.uid);
+	  			window.whBoard.view.canvasDrawMsg('Canvas');
+//				localStorage.canvasDrwMsg = true;
+				localStorage.setItem('canvasDrwMsg', true);
 				if(!whBoard.utility.alreadyExistPacketContainer()){
 					whBoard.createPacketContainer();
 					whBoard.createPacketInfoContainer();
 					whBoard.utility.initStoredPacketsNumbers();
 				}
-//				whBoard.createPacketContainer();
-//				whBoard.createPacketInfoContainer();
-//				whBoard.utility.initStoredPacketsNumbers();
-//				
-				//localStorage.orginalTeacherId = e.message[0].userid;
 				
-//				localStorage.orginalTeacherId = whBoard.gObj.uid;
 				localStorage.setItem('orginalTeacherId', whBoard.gObj.uid);
-				
-				
-	  		},
+			},
 	  		
 	  		isSystemCompatible : function (){
 	  			if(window.whBoard.error.length > 0){
@@ -675,65 +591,40 @@
 	  						whBoard.view.displayMessage(error.msg, error.id, error.className);
 	  					}
 	  				}
-	  				
-	  				//window.whBoard.error = [];
-	  				
 	  			}
 	  		}, 
 	  		
 	  		initDefaultInfo : function (e, role){
-	  			  //var clientNum = e.message.length;
-	  			  //var  clientNum= e.message.checkUser.clientNum;
-	  			  //var newuser =   e.message.checkUser.newUser;
-	  			    var  clientNum =  e.message.checkUser.e.clientLen;
-	  			    var newuser =   e.message.checkUser.e.newUser;
-	  			  if(role == 't'){
-//	  				  alert("suman bogati is hello");
-//	  				  debugger;
-		  				if(localStorage.getItem('orginalTeacherId') == null){
-							whBoard.utility.setOrginalTeacherContent(e);
-							//this may be set two attach function 
-							window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
-						}
-	  		//	  }else if(role == 's' && e.newuser == null){
-	  			 }else if(role == 's' && newuser == null){
-		  				vcan.studentId = wbUser.id;
-						//localStorage.studentId = id;
-//		  				if(localStorage.getItem('orginalTeacherId') != null){
-//		  					localStorage.removeItem('orginalTeacherId');
-//		  				}
-//		  				
-//		  				if(localStorage.getItem('teacherId') != null){
-//		  					localStorage.removeItem('teacherId');
-//		  				}
-		  				
-		  				
-		  				if(localStorage.getItem('studentId') ==  null){
-		  					localStorage.setItem('studentId', wbUser.id);
-		  				}
-	  			  }
-	  			  
-//	  			  alert('number ' +  clientNum);
-	  			  
-				  if(clientNum == 1){
-//						vcan.vid = whBoard.gObj.video.init();
-					    whBoard.gObj.video.init();
-						whBoard.gObj.video.isInitiator = true;
-						vcan.oneExecuted = false;
-				  }else if(clientNum >= 2 && newuser == null){
-					  console.log("browser number " + clientNum);
-				  	  if(clientNum > 2){
-				  		  alert("there may be the problem because of user is more than 2");
-				  	  }
-				  	
-				  	 vm_chat.send({'videoInt' : true});
-				  	 vm_chat.send({'isChannelReady' : true, 'memberAdded' : true});
-					 vcan.oneExecuted = false;
-					 
-//	  				 vcan.vid = whBoard.gObj.video.init(); //this(webRtc) is not supported by safari
-					 whBoard.gObj.video.init();
-		  		}
-			},
+				var  clientNum =  e.message.checkUser.e.clientLen;
+				var newuser =   e.message.checkUser.e.newUser;
+				if(role == 't'){
+					if(localStorage.getItem('orginalTeacherId') == null){
+						whBoard.utility.setOrginalTeacherContent(e);
+						window.whBoard.attachToolFunction(vcan.cmdWrapperDiv, true);
+					}
+				}else if(role == 's' && newuser == null){
+					vcan.studentId = wbUser.id;
+					if(localStorage.getItem('studentId') ==  null){
+						localStorage.setItem('studentId', wbUser.id);
+					}
+				}
+  
+			  if(clientNum == 1){
+				    whBoard.gObj.video.init();
+					whBoard.gObj.video.isInitiator = true;
+					vcan.oneExecuted = false;
+			  }else if(clientNum >= 2 && newuser == null){
+				  console.log("browser number " + clientNum);
+				  if(clientNum > 2){
+					   alert("there may be the problem because of user is more than 2");
+				  }
+
+				 vm_chat.send({'videoInt' : true});
+				 vm_chat.send({'isChannelReady' : true, 'memberAdded' : true});
+				 vcan.oneExecuted = false;
+				 whBoard.gObj.video.init();
+		   	}
+		},
 			
 			
 			checkWebRtcConnected : function(){
@@ -768,7 +659,7 @@
 					
 					if(localStorage.getItem('orginalTeacherId') !=  null){
 						div.style.height = (drawWhiteboard.height + toolHeight) + "px";
-
+	
 					}else{
 						
 						if(localStorage.getItem('teacherId') !=  null){
@@ -778,7 +669,7 @@
 						}
 					}
 					 		
-
+	
 					
 					var containerWhiteBoard = document.getElementById('containerWb');
 					containerWhiteBoard.insertBefore(div, containerWhiteBoard.firstChild);
@@ -845,17 +736,6 @@
 			}, 
 			
 			isUserConnected : function (userLength){
-				//debugger;
-				//ocalStorage.getItem('orginalTeacherId') != null is inserted for reclaim button
-			//	if(userLength > 1 && (localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null)
-			//  TODO there is need to roboust validation for check that user is connected 
-				//alert(userLength.);
-//				if(userLength > 1 || (userLength > 1 && localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null)	){
-//					whBoard.user.connected = true;
-//				}
-				
-				//if(userLength > 1 || (userLength > 1 && (localStorage.getItem('teacherId') != null || localStorage.getItem('orginalTeacherId') != null))){
-				//alert(localStorage.getItem('otherRole'));
 				if(userLength > 1 && localStorage.getItem('otherRole')){
 					whBoard.user.connected = true;
 				}
@@ -872,70 +752,6 @@
 				if(cdiv != null)
 					cdiv.setAttribute('class', newClass + ' controlCmd');
 			},
-			
-//			existUserLikeMe_devloping : function (e){
-//				//alert(e.fromUser.userid);
-//			 	if(e.fromUser.userid != id){
-//			 		if(e.message.checkUser.hasOwnProperty('role')){
-//			 			var role = e.message.checkUser.role;
-//			 			if(role){
-//			 				
-//			 				if(localStorage.getItem('otherRole') ==  null){
-//			 					var roles  = [];
-//		 						roles.push(role);
-//		 						//for now only roles are storing, ids need to store later perhaps
-//		 						localStorage.setItem('otherRole', JSON.stringify(roles));
-//			 				}else{
-//			 					roles = JSON.parse(localStorage.getItem('otherRole'));
-//			 					roles.push(role);
-//			 				}
-//			 				
-//			 				localStorage.setItem('otherRole', roles);
-//				 			console.log("Other Browser " + role + ' ' + e.fromUser.userid);
-//		  				}
-//			 		}
-//			 	}else{
-//			 		//var otherRole = localStorage.getItem('otherRole');
-//			 		
-//			 		var otherRoles = JSON.parse(localStorage.getItem('otherRole'));
-//			 		
-//			 		//alert(otherRoles[0]);
-//			 		if(otherRoles != null){
-//			 			for(var i=0; i<otherRoles.length; i++){
-//			 				if(whBoard.gObj.uRole == otherRoles[i]){
-//			 					return true;
-//			 				}
-//			 			}
-//			 			return false;
-//			 		}
-//			 		
-//			 		
-//			 		
-//			 		
-////			 		if(otherRole != null){
-////			 			if(otherRole != null){
-////				 			if(otherRole == whBoard.gObj.uRole){
-////				 				return true;
-////				 			}else{
-////								if(whBoard.gObj.uRole == 't'){
-////									if(otherRole == 't'){
-////					 					return true;
-////					 				}else{
-////					 					return false;
-////					 				}
-////								}else if(whBoard.gObj.uRole == 's'){
-////									if(otherRole == 's'){
-////					 					return true;
-////					 				}else{
-////					 					return false;
-////					 				}
-////								}
-////				 			}
-////				 		}
-////				 		return false;
-////			 		}
-//			 	}
-//			},
 			
 			existUserLikeMe : function (e){
 			 	if(e.fromUser.userid != wbUser.id){
@@ -992,32 +808,6 @@
 						return true;
 					}
 				}
-				
-				/*
-				if(e.fromUser.userid != id){
-			 		 if(localStorage.getItem('otherUserId') ==  null){
-						localStorage.setItem('otherUserId', myId);
-						return false;
-	 				}else{
-	 					var myId = JSON.parse(localStorage.getItem('otherUserId'));
-	 					if(myId == id){
-	 						return true;
-	 					}
-	 				}
-			 		return false;
-			 	}else{
-			 		this.userIdentifyTrackId++;
-			 		var myId = JSON.parse(localStorage.getItem('otherUserId'));
-			 		if(myId != null){
-			 			if(id == myId){
-			 		
-			 				return true;
-		 					
-		 				}
-			 		}
-			 		
-			 		return false;
-			 	}*/
 			}, 	
 			
 			makeUserAvailable : function (browerLength){
@@ -1029,7 +819,6 @@
 							whBoard.utility.makeCanvasEnable();
 						}
 					}
-					
 					whBoard.utility.setStyleUserConnetion('coff', 'con');
 				}
 			},
@@ -1062,7 +851,7 @@
 				if(rectDiv != null){
 					var allToolDivs = rectDiv.parentNode.getElementsByClassName('tool');
 					return (allToolDivs.length >= 8) ? true : false;
-				} 
+				}
 			},
 			
 
@@ -1078,13 +867,12 @@
 			},
 			
 			toolWrapperDisable : function (){
-				var commandToolWrapper = document.getElementById('commandToolsWrapper') ;
+				var commandToolWrapper = document.getElementById('commandToolsWrapper');
 				if(commandToolWrapper != null){
 					commandToolWrapper.style.position = "relative";
 					commandToolWrapper.style.zIndex = "-1000";
 				} 
 			},
-			
 			
 			//change the name with toolBoxEnable
 			toolWrapperEnable : function (){
@@ -1106,13 +894,13 @@
 						if(allRepObjs.length > 0){
 							whBoard.uid = allRepObjs[allRepObjs.length-1].uid;
 							whBoard.gObj.rcvdPackId = whBoard.uid;
-							whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.packetQueue);
+							whBoard.toolInit('t_replay', 'fromBrowser', true, whBoard.utility.dispQueuePacket);
 						}
 					}
 				}
 			},
 			
-			shareVideoInformation : function (e, storageHasTeacher) {
+			shareVideoInformation : function (e, storageHasTeacher){
 				whBoard.utility.isUserConnected(e.message.length);
 				if(whBoard.user.connected){
 					whBoard.utility.setStyleUserConnetion('coff', 'con');
@@ -1144,20 +932,21 @@
 			
 			crateCanvasDrawMesssage : function(){
 				if(typeof localStorage.teacherId != 'undefined'){
-					if(typeof localStorage.canvasDrwMsg == 'undefined'){
+					//if(typeof localStorage.canvasDrwMsg == 'undefined'){
+					if(localStorage.getItem('canvasDrwMsg') == null){
 						window.whBoard.view.canvasDrawMsg('Canvas');
 						window.whBoard.view.drawLabel('drawArea');
 						localStorage.canvasDrwMsg = true;
 					}
 				}
-			},
+		   },
 			
 		   removeOtherUserExist : function(role){
-			     if(role == 't'){
+			     if(role == 't'){ //If i am teacher
 						if(localStorage.getItem('studentId') != null){
 							localStorage.removeItem('studentId');
 						}
-				  }else if(role == 's'){
+				  }else if(role == 's'){ //If i am student	
 					    if(localStorage.getItem('orginalTeacherId') != null){
 							localStorage.removeItem('orginalTeacherId');
 							if(localStorage.getItem('teacherId') != null){
@@ -1168,14 +957,12 @@
 			},
 			
 			canvasEnabelWhenRefresh : function(){
-//				alert('not perform');
 				if(localStorage.getItem('teacherId') != null){
 					whBoard.utility.makeCanvasEnable();
 				}
 			},
 			
 			arrayContainsSameValue : function (val, ids){
-				
 				 for(var i = 0; i<ids.length; i++){
 		            if(ids[i] !== val){
 		            	return false;	
@@ -1184,7 +971,7 @@
 				return true;
 			}, 
 			
-		  actionAfterRemovedUser: function(){
+		  actionAfterRemovedUser : function(){
 				whBoard.utility.makeCanvasDisable();
 				whBoard.utility.setStyleUserConnetion('con', 'coff');
 
@@ -1201,32 +988,12 @@
 					  if(cthis.isStarted){
 						  cthis.handleRemoteHangup();
 					  }
-				  }
-			}
+				}
+			},
 			
-//			connectionOptimization : function (){
-//				if (typeof  lastarrowtime == 'undefined') {
-//					lastarrowtime = new Date().getTime();
-//					whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-//
-//					if(this.sock.readyState == 1){
-//						this.sock.send(jobj);
-//					}
-//					
-//					vm_chat.updateSentInformation(jobj, true);
-//				}
-//				
-//				presentarrowtime = new Date().getTime();
-//				if ((presentarrowtime-lastarrowtime)>=100) {
-//					whBoard.sentPackets = whBoard.sentPackets + jobj.length;
-//					//this.sock.send(jobj);
-//					if(this.sock.readyState == 1){
-//						this.sock.send(jobj);
-//					}
-//					vm_chat.updateSentInformation(jobj, true);
-//					lastarrowtime = new Date().getTime();
-//				}
-//			}
+			sendRequest : function (msg, value){
+				vm_chat.send({'reclaimRole': true});
+			}
 		};
 	}
 )(window);
