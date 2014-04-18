@@ -23,7 +23,6 @@ var optimization = function (socket, time){
 					socket.send(jobj);
 				}
 				
-				console.log("secondTime ");
 				vm_chat.updateSentInformation(jobj, true);
 				this.lastarrowtime = new Date().getTime();
 			}

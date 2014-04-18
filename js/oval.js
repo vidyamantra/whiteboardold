@@ -35,37 +35,43 @@
 					return obj;
 				},
 				
-				
-				/**
-				 * it draws the oval object 
-				 * @param ctx current context of canvas
-				 * @param obj contains the information eg: x, y, rx, ry
-				 */
+                                
+                                /**
+                                * it draws the oval object 
+                                * @param ctx current context of canvas
+                                * @param obj contains the information eg: x, y, rx, ry
+                                */
+                               
 				draw : function (ctx, obj, noTransform){
-					//debugger;
-					ctx.beginPath();
-					ctx.save();
-				    // move from center (of virtual box) to its left/top corner
-					var startingPoint = 0;
-					var endingPoint = 2 * Math.PI;
-					var counterClockWise = false;
-					
-					ctx.lineWidth = obj.lineWidth;
-					ctx.transform(1, 0, 0, obj.ry/obj.rx, 0, 0);
-					ctx.arc(noTransform ? obj.x : 0, noTransform ? obj.y : 0, obj.rx, 0, endingPoint, counterClockWise);
-					ctx.closePath();
-					
-					if(obj.fillStyle != undefined){
-						ctx.fillStyle = obj.fillStyle;
-						ctx.fill();
-					}
-					
-					if(obj.borderColor != undefined){
-						ctx.fillStyle = obj.borderColor;
-						ctx.stroke();
-					}
-				
-					ctx.restore();
+                                    ctx.beginPath();
+                                    ctx.save();
+                                // move from center (of virtual box) to its left/top corner
+                                    var startingPoint = 0;
+                                    var endingPoint = 2 * Math.PI;
+                                    var counterClockWise = false;
+
+                                    ctx.lineWidth = obj.lineWidth;
+
+//                                      this is handling for into linux for firefox
+                                    var rNumber = obj.ry/obj.rx;
+                                    rNumber = rNumber.toFixed(3);
+                                    if(rNumber == 0.00){
+                                        rNumber = 0.01;
+                                    }
+
+                                    ctx.transform(1, 0, 0, rNumber, 0, 0);
+                                    ctx.arc(noTransform ? obj.x : 0, noTransform ? obj.y : 0, obj.rx, 0, endingPoint, counterClockWise);
+                                    ctx.closePath();
+                                    if(obj.fillStyle != undefined){
+                                        ctx.fillStyle = obj.fillStyle;
+                                        ctx.fill();
+                                    }
+                                    if(obj.borderColor != undefined){
+                                        ctx.fillStyle = obj.borderColor;
+                                        ctx.stroke();
+                                    }
+                                    ctx.restore();
+
 				}
 			};
 		}
