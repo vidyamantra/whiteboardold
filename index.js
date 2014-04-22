@@ -30,10 +30,10 @@ $.when(
     	whBoard.gObj.uRole = wbUser.role;
     	whBoard.utility.displayCanvas();
   
-		window.addEventListener('click', function (){
-    		whBoard.view.disappearBox('WebRtc')
-    		whBoard.view.disappearBox('Canvas');
-    		whBoard.view.disappearBox('drawArea');
+        window.addEventListener('click', function (){
+            whBoard.view.disappearBox('WebRtc')
+            whBoard.view.disappearBox('Canvas');
+            whBoard.view.disappearBox('drawArea'); 
     	});
     	
     	var storageHasReclaim = whBoard.utility.chkValueInLocalStorage('reclaim');
@@ -44,9 +44,9 @@ $.when(
     	
     	if(storageHasReclaim){
     		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-			while(cmdToolsWrapper.hasChildNodes()){
-				cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
-			}
+                    while(cmdToolsWrapper.hasChildNodes()){
+                            cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+                    }
     		whBoard.utility.createReclaimButton(cmdToolsWrapper);
     	}
     	
