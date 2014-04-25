@@ -31,6 +31,7 @@ $.when(
     	whBoard.utility.displayCanvas();
   
         window.addEventListener('click', function (){
+            
             whBoard.view.disappearBox('WebRtc')
             whBoard.view.disappearBox('Canvas');
             whBoard.view.disappearBox('drawArea'); 
@@ -44,9 +45,9 @@ $.when(
     	
     	if(storageHasReclaim){
     		var cmdToolsWrapper = document.getElementById(whBoard.commandToolsWrapperId);	
-                    while(cmdToolsWrapper.hasChildNodes()){
-                            cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
-                    }
+			while(cmdToolsWrapper.hasChildNodes()){
+				cmdToolsWrapper.removeChild(cmdToolsWrapper.lastChild);
+			}
     		whBoard.utility.createReclaimButton(cmdToolsWrapper);
     	}
     	
@@ -110,16 +111,41 @@ $.when(
 			vm_chat.send({'checkUser' : {'role':wbUser.role, 'id' : wbUser.id, 'e' : {'clientLen' :e.message.length, 'newUser' : e.newuser }}, 'joinId' : e.message[e.message.length-1].userid});
   		});
 		
-		
 		whBoard.utility.crateCanvasDrawMesssage();
 		
 		whBoard.gObj.packQueue = [];
 		whBoard.gObj.virtualWindow = false;
 
-		$(document).on("newmessage", function(e){
-			if(e.message.hasOwnProperty('suman')){
-				alert('here this is being alerted');
-			}
+        $(document).on("newmessage", function(e){
+            //secnod browser
+            if(e.message.hasOwnProperty('videoDefault')){
+                if(e.fromUser.userid != wbUser.id){
+                    
+                    cthis.pc = [];
+                    cthis.isInitiator = false;
+                    cthis.isChannelReady = true;
+                    cthis.isStarted = false;
+                    cthis.sendMessage('got user media');
+
+                    return;     
+                }
+            }
+            
+            if(typeof cthis == 'object' && cthis.hasOwnProperty('pc')){
+                if(cthis.hasOwnProperty('pc') && typeof cthis.pc[0]  != 'undefined'){
+                    if(cthis.pc[0].iceConnectionState == 'disconnected'){
+                        //browser 1
+                        cthis.pc = [];
+                        cthis.isStarted = false;
+                        cthis.isInitiator = true;
+                        cthis.isChannelReady = true;
+                        vm_chat.send({'videoDefault' : true});
+                        //cthis.maybeStart(e.fromUser.userid);
+                        return;
+                    }
+                }
+            }
+            
 			if(e.message.hasOwnProperty('vidInit')){
 				whBoard.response.videoInit(e.fromUser.userid, wbUser.id);
 				return;
@@ -130,7 +156,7 @@ $.when(
 				var disconnect = whBoard.response.checkUser(e, wbUser.id, storageHasTeacher);
 				if(typeof disconnect != 'undefined'){
 					 if(disconnect == 'diconnect'){
-						 	return;
+                        return;
 					 }
 				 }
 			}else if(e.message.hasOwnProperty('virtualWindow')){

@@ -12,24 +12,16 @@
   			whBoard.sentReq = true;
 			var sp = whBoard.gObj.rcvdPackId;
 			var ep = msgRepObj[0].uid;
-			
-			//vm_chat.send({'getMsPckt' : [sp, ep]}); //will have to request to teacher
 			return [sp, ep];
   		}
 		
 		whBoard.bridge.makeQueue = function(e){
 			if(whBoard.gObj.rcvdPackId != whBoard.gObj.displayedObjId){
 					whBoard.gObj.packQueue = whBoard.gObj.packQueue.concat(e.message.repObj);
-				
-//				for(var i=0; i<e.message.repObj.length; i++){
-//					whBoard.gObj.packQueue.push(e.message.repObj[i]);
-//				}
 			}
 		}
   		
 		whBoard.bridge.sendPackets = function(e, chunk){
-			
-			//chunk = [];
 			if(e.message.getMsPckt[0] == 0){
 				var i = -1;
 			}else{
@@ -48,32 +40,12 @@
 			}
 			console.log('fid' + chunk[0].uid + ' eid' + chunk[chunk.length-1].uid);
 			return chunk;
-			
- //			 vm_chat.send({'repObj' : chunk, 'chunk' : true});
-			//return;
   		},
   		
   		whBoard.bridge.handleMissedPackets = function (fromUserId, id, repObj){
   			
-//  			if(whBoard.gObj.myArr.length > 0){
-//				if(repObj[repObj.length-1].uid == whBoard.gObj.myArr[0].uid){
-//					if(!whBoard.gObj.myArr[0].hasOwnProperty('cmd')){
-//						whBoard.gObj.myArr.shift();
-//					}
-//				}
-//				repObj = repObj.concat(whBoard.gObj.myArr);
-//				whBoard.gObj.myArr = [];
-//			}
-  			
   			var repObj = whBoard.bridge.removeDupObjs(repObj);
-  			
   			whBoard.gObj.replayObjs = whBoard.gObj.replayObjs.concat(repObj);
-			
-			
-		
-			//TODO this should be removed later and above code should be enabled
-			// right now its doing sorting but above code should be enabled and object 
-			// should be stotred in sorted format
 			
 			whBoard.bridge.sortingReplyObjs();
 			

@@ -110,7 +110,7 @@
 				}, 
 
 				maybeStart : function(fromUserId) {
-					if ((fromUserId != wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady) || 
+                   if ((fromUserId != wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady) || 
 							(fromUserId == wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady || typeof cthis.byCommand != 'undefined') || 
 							(whBoard.joinUserId == wbUser.id && !cthis.isStarted && cthis.localStream && cthis.isChannelReady  && !cthis.isInitiator)) {
 						if(cthis.pc.length > 0){
@@ -136,7 +136,7 @@
 					 cthis.pc[cthis.cn].onicecandidate = cthis.handleIceCandidate;
 					 				  //onclosedconnection
 					 cthis.pc[cthis.cn].onclosedconnection = function (){
-						 //alert("hello brother closeed");
+						 
 					 }
 					 console.log('Created RTCPeerConnnection with:\n' +
 				      '  config: \'' + JSON.stringify(this.pc_config) + '\';\n' +
@@ -189,15 +189,14 @@
 				  console.log('Sending offer to peer, with constraints: \n' +
 				    '  \'' + JSON.stringify(constraints) + '\'.');
 				  crtOffer = true;
-				  cthis.pc[cthis.cn].createOffer(this.setLocalAndSendMessage, responseErorr, constraints);
+                  cthis.pc[cthis.cn].createOffer(this.setLocalAndSendMessage, responseErorr, constraints);
 				  
 				}, 
 
 				doAnswer:  function () {
 				  console.log('Sending answer to peer.');
 				  crtAns = true;
-				  cthis.pc[cthis.cn].createAnswer(this.setLocalAndSendMessage, responseErorr, this.sdpConstraints);
-				  
+                  cthis.pc[cthis.cn].createAnswer(this.setLocalAndSendMessage, responseErorr, this.sdpConstraints);
 				},
 
 				mergeConstraints : function(cons1, cons2) {
@@ -210,6 +209,12 @@
 				}, 
 
 				 setLocalAndSendMessage : function(sessionDescription) {
+                  
+                  /*
+                  alert("I am there for you guys");
+                  debugger;
+                  
+                  */
 				  // Set Opus as the preferred codec in SDP if Opus is present.
 				  sessionDescription.sdp =cthis.preferOpus(sessionDescription.sdp);
 				  cthis.pc[cthis.cn].setLocalDescription(sessionDescription);
