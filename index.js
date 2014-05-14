@@ -120,13 +120,11 @@ $.when(
             //secnod browser
             if(e.message.hasOwnProperty('videoDefault')){
                 if(e.fromUser.userid != wbUser.id){
-                    
                     cthis.pc = [];
                     cthis.isInitiator = false;
                     cthis.isChannelReady = true;
                     cthis.isStarted = false;
                     cthis.sendMessage('got user media');
-
                     return;     
                 }
             }
