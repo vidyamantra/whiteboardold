@@ -115,9 +115,7 @@ $.when(
 		
 		whBoard.gObj.packQueue = [];
 		whBoard.gObj.virtualWindow = false;
-
         $(document).on("newmessage", function(e){
-            //secnod browser
             if(e.message.hasOwnProperty('videoDefault')){
                 if(e.fromUser.userid != wbUser.id){
                     cthis.pc = [];
@@ -131,8 +129,8 @@ $.when(
             
             if(typeof cthis == 'object' && cthis.hasOwnProperty('pc')){
                 if(cthis.hasOwnProperty('pc') && typeof cthis.pc[0]  != 'undefined'){
-                    if(cthis.pc[0].iceConnectionState == 'disconnected'){
-                        //browser 1
+                 //   if(cthis.pc[0].iceConnectionState == 'disconnected' && e.fromUser.userid != wbUser.id){
+                 if(cthis.pc[0].iceConnectionState == 'disconnected' && e.fromUser.userid != wbUser.id){
                         cthis.pc = [];
                         cthis.isStarted = false;
                         cthis.isInitiator = true;

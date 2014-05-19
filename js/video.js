@@ -321,9 +321,8 @@
                         if (!cthis.isInitiator && !cthis.isStarted) {
                             cthis.maybeStart(fromUserId);
                         }
-
+                        
                         cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
-
                         cthis.doAnswer();
                     } else if (message.type === 'answer' && cthis.isStarted) {
                         cthis.pc[cthis.cn].setRemoteDescription(new whBoard.RTCSessionDescription(message));
