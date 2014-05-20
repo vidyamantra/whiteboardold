@@ -395,6 +395,25 @@
                         alert('this is chrome');
                         cthis.sendMessage('got user media');
                     }
+                },
+                
+                settingsForSecondBrowser : function (){
+                    if(e.fromUser.userid != wbUser.id){
+                        cthis.pc = [];
+                        cthis.isInitiator = false;
+                        cthis.isChannelReady = true;
+                        cthis.isStarted = false;
+                        cthis.sendMessage('got user media');
+                        return;     
+                    }
+                },
+                
+                makeInitBrowser : function (){
+                    cthis.pc = [];
+                    cthis.isStarted = false;
+                    cthis.isInitiator = true;
+                    cthis.isChannelReady = true;
+                    vm_chat.send({'videoDefault' : true});
                 }
             }
         }
@@ -420,6 +439,8 @@
                 cthis.sendMessage('got user media');
             }
         }
+        
+        
     }
 
 )(window);

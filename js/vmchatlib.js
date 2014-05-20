@@ -42,7 +42,7 @@ var vm_chat = {
         this.sock.onmessage = function(e) {
 
             //console.log("MSG : Connected to " + vm_chat.wsuri);
-            //try{
+            try{
 
             //var r1 = JSON.parse(e.data, vm_chat.functionReviver);
             var r1 = JSON.parse(e.data);
@@ -110,10 +110,10 @@ var vm_chat = {
                 console.log("Unauthenticated user");
                 //alert('Unauthenticated user');		
             }
-//			}catch(e){
-//				console.log("Error   : "+e);
-//				return;
-//			} 
+			}catch(e){
+				console.log("Error   : "+e);
+				return;
+			} 
         }
 
         this.sock.onerror = function(e) {
@@ -182,6 +182,7 @@ var vm_chat = {
         } else {
             whBoard.sentPackets = whBoard.sentPackets + jobj.length;
             if (this.sock.readyState == 1) {
+                //console.log("sending  the data to server");
                 this.sock.send(jobj);
             }
 

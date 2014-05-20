@@ -125,18 +125,23 @@ $.when(
                     cthis.sendMessage('got user media');
                     return;     
                 }
+                
+//                whBoard.gObj.video.settingsForSecondBrowser();
+         //       return;
             }
             
             if(typeof cthis == 'object' && cthis.hasOwnProperty('pc')){
                 if(cthis.hasOwnProperty('pc') && typeof cthis.pc[0]  != 'undefined'){
                  //   if(cthis.pc[0].iceConnectionState == 'disconnected' && e.fromUser.userid != wbUser.id){
                  if(cthis.pc[0].iceConnectionState == 'disconnected' && e.fromUser.userid != wbUser.id){
+                        //makeInitiatorBrowser  
+//                        whBoard.gObj.video.makeInitBrowser();
+                        
                         cthis.pc = [];
                         cthis.isStarted = false;
                         cthis.isInitiator = true;
                         cthis.isChannelReady = true;
                         vm_chat.send({'videoDefault' : true});
-                        //cthis.maybeStart(e.fromUser.userid);
                         return;
                     }
                 }
